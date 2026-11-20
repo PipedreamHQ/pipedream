@@ -4,7 +4,7 @@ export default {
   key: "mailchimp-list-store-id-options",
   name: "List Store Id Options",
   description: "Retrieves available options for the Store Id field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

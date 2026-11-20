@@ -278,6 +278,30 @@ export default {
       }
     }
   `,
+  issueMutationResult: `
+    fragment IssueMutationResult on Issue {
+      id
+      identifier
+      title
+      url
+      state {
+        id
+        name
+      }
+    }
+  `,
+  commentMutationResult: `
+    fragment CommentMutationResult on Comment {
+      id
+      body
+      url
+      issue {
+        id
+        identifier
+        url
+      }
+    }
+  `,
   documentMutationResult: `
     fragment DocumentMutationResult on Document {
       id

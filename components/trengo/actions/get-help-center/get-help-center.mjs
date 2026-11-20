@@ -4,7 +4,7 @@ export default {
   key: "trengo-get-help-center",
   name: "Get Help Center",
   description: "Get a specific help center. [See the documentation](https://developers.trengo.com/reference/get-a-help-center)",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   annotations: {
     destructiveHint: false,
