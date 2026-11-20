@@ -5,27 +5,40 @@ export default {
   key: "microsoft_excel-get-spreadsheet",
   name: "Get Spreadsheet",
   description: "Get the values of a specified Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/range-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.1.1",
+  version: "0.2.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -33,8 +46,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "worksheet",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },
@@ -56,12 +72,14 @@ export default {
     const response = this.range
       ? await this.microsoftExcel.getRange({
         $,
+        driveId: this.driveId,
         sheetId: this.sheetId,
         worksheet: this.worksheet,
         range: `${this.range}`,
       })
       : await this.microsoftExcel.getUsedRange({
         $,
+        driveId: this.driveId,
         sheetId: this.sheetId,
         worksheet: this.worksheet,
       });

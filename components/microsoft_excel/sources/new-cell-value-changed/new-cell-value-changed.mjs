@@ -5,7 +5,7 @@ export default {
   key: "microsoft_excel-new-cell-value-changed",
   name: "New Cell Value Changed",
   description: "Emit new event when a specific cell's value changes in an Excel worksheet",
-  version: "0.0.5",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -37,6 +37,7 @@ export default {
     const previousCellValue = this._getCellValue();
 
     const response = await this.microsoftExcel.getRange({
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
       range: `${this.cell}:${this.cell}`,

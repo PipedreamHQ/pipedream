@@ -4,27 +4,40 @@ export default {
   key: "microsoft_excel-update-cell",
   name: "Update Cell",
   description: "Update the value of a specific cell in an Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/range-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.6",
+  version: "0.1.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -32,8 +45,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "worksheet",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },
@@ -51,6 +67,7 @@ export default {
   async run({ $ }) {
     const response = await this.microsoftExcel.updateRange({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
       range: `${this.cell}:${this.cell}`,

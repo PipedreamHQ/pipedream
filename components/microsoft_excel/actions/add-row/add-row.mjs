@@ -5,27 +5,40 @@ export default {
   key: "microsoft_excel-add-row",
   name: "Add Row",
   description: "Insert a new row into a specified Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/range-insert?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.6",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -33,8 +46,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "worksheet",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },
@@ -77,6 +93,7 @@ export default {
       address, columnCount,
     } = await this.microsoftExcel.getUsedRange({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
     });
@@ -91,6 +108,7 @@ export default {
     // insert range
     await this.microsoftExcel.insertRange({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
       range,
@@ -102,6 +120,7 @@ export default {
     // update range
     const response = await this.microsoftExcel.updateRange({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
       range,

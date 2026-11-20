@@ -5,19 +5,29 @@ export default {
   key: "microsoft_excel-create-worksheet",
   name: "Create Worksheet",
   description: "Add a new worksheet (tab) to an existing Excel workbook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/worksheetcollection-add?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
       optional: true,
       description: "Optional. Only narrows the **Workbook** list below to one folder — it is NOT needed to add the worksheet. If you already have the workbook's item ID (e.g. from **Create Workbook**), skip this and pass it directly as **Workbook**. Use **List Folder ID Options** to find a folder ID (the `value` field). E.g. `01BYE5RZ6QN3ZWBTRWFNG2FOD7ONP4JLHU`",
@@ -26,8 +36,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId: folderId || ROOT_FOLDER_ID,
+          driveId,
         }),
       ],
       label: "Workbook",
@@ -43,6 +56,7 @@ export default {
   async run({ $ }) {
     const response = await this.microsoftExcel.addWorksheet({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       data: this.name
         ? {

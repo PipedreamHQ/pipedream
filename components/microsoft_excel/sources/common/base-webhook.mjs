@@ -9,10 +9,19 @@ export default {
       type: "$.interface.http",
       customResponse: true,
     },
+    driveId: {
+      propDefinition: [
+        common.props.microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         common.props.microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
       description: "The ID of the folder to watch for changes",
     },
@@ -23,7 +32,7 @@ export default {
         data: {
           changeType: "updated",
           notificationUrl: this.http.endpoint,
-          resource: "me/drive/root",
+          resource: this.driveRootResource(),
           expirationDateTime: moment().add(30, "days"),
         },
       });
@@ -63,16 +72,24 @@ export default {
         data: {
           changeType: "updated",
           notificationUrl: this.http.endpoint,
-          resource: "me/drive/root",
+          resource: this.driveRootResource(),
           expirationDateTime: moment().add(30, "days"),
         },
       });
       this._setHookId(id);
     },
+    drivePath() {
+      return this.driveId
+        ? `drives/${this.driveId}`
+        : "me/drive";
+    },
+    driveRootResource() {
+      return `${this.drivePath()}/root`;
+    },
     path() {
       return this.folderId === "root"
-        ? "me/drive/root"
-        : `me/drive/items/${this.folderId}`;
+        ? this.driveRootResource()
+        : `${this.drivePath()}/items/${this.folderId}`;
     },
     async getDeltaValues(path, token) {
       const delta = await this.microsoftExcel.getDelta({

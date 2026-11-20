@@ -4,28 +4,41 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "microsoft_excel-update-worksheet-tablerow",
   name: "Update Worksheet Tablerow",
-  version: "0.0.10",
+  version: "0.1.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   description: "Update the properties of tablerow object. `(Only for work or school account)` [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerow-update?view=graph-rest-1.0&tabs=http)",
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -33,8 +46,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "tableId",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },
@@ -43,10 +59,11 @@ export default {
         microsoftExcel,
         "tableRowId",
         ({
-          sheetId, tableId,
+          sheetId, tableId, driveId,
         }) => ({
           sheetId,
           tableId,
+          driveId,
         }),
       ],
     },
@@ -69,6 +86,7 @@ export default {
 
     const response = await microsoftExcel.updateTableRow({
       $,
+      driveId: this.driveId,
       sheetId,
       tableId,
       rowId,

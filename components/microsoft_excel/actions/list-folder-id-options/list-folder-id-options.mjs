@@ -4,8 +4,9 @@ export default {
   key: "microsoft_excel-list-folder-id-options",
   name: "List Folder ID Options",
   description: "Retrieves available options for the Folder ID field.",
-  version: "0.0.3",
+  version: "0.1.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,10 +14,18 @@ export default {
   },
   props: {
     microsoft_excel,
+    driveId: {
+      propDefinition: [
+        microsoft_excel,
+        "driveId",
+      ],
+    },
   },
   async run({ $ }) {
     const options = await microsoft_excel.propDefinitions.folderId.options
-      .call(this.microsoft_excel);
+      .call(this.microsoft_excel, {
+        driveId: this.driveId,
+      });
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);
