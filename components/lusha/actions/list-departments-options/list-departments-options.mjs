@@ -3,9 +3,10 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-list-departments-options",
   name: "List Contact Departments Options",
-  description: "Retrieves available options for the Contact Departments field.",
-  version: "0.0.1",
+  description: "List the departments Lusha accepts in the `Contact Departments` filter of **Search Contacts** and **Search and Enrich Contacts**. Pass an option's `value` (e.g. `Sales`). Does not use credits. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-contacts)",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,7 +16,9 @@ export default {
     lusha,
   },
   async run({ $ }) {
-    const options = await lusha.propDefinitions.departments.options.call(this.lusha);
+    const options = await this.lusha.listDepartmentOptions({
+      $,
+    });
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);
