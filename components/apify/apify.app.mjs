@@ -130,6 +130,12 @@ export default {
       default: 0,
       optional: true,
     },
+    maxTotalChargeUsd: {
+      type: "string",
+      label: "Max Total Charge USD",
+      description: "Specifies the maximum cost of the Actor run, as a string representing a USD amount, e.g. `0.50`. This parameter is useful for pay-per-event Actors, as it allows you to limit the amount charged to your subscription. You can access the maximum cost in your Actor by using the ACTOR_MAX_TOTAL_CHARGE_USD environment variable.",
+      optional: true,
+    },
   },
   methods: {
     _client() {

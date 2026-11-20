@@ -10,13 +10,14 @@ export default {
   key: "apify-search-uspto-trademarks",
   name: "Search USPTO Trademarks",
   description: "Search U.S. federal trademarks in the official USPTO database by wordmark, owner, class, status, or filing date, using the USPTO Trademark Search Actor. [See the documentation](https://apify.com/magnova/uspto-trademark-search)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     apify,
     wordmark: {
@@ -40,7 +41,7 @@ export default {
     status: {
       type: "string",
       label: "Mark Status",
-      description: "Live marks are active; dead marks are abandoned, cancelled or expired.",
+      description: "Live marks are active; dead marks are abandoned, cancelled or expired, e.g. `live`.",
       options: [
         {
           label: "Live only",
@@ -67,13 +68,13 @@ export default {
     filedBefore: {
       type: "string",
       label: "Filed Before",
-      description: "Only marks filed on or before this date. Format `YYYY-MM-DD`.",
+      description: "Only marks filed on or before this date. Format `YYYY-MM-DD`, e.g. `2026-12-31`.",
       optional: true,
     },
     serialNumber: {
       type: "string",
       label: "Serial Number",
-      description: "Look up one specific mark by its 8-digit serial number, e.g. `97054561`.",
+      description: "Look up one specific mark by its 8-digit serial number, e.g. `97054561`. Use **Search USPTO Trademarks** to find a serial number (the `serialNumber` field of each returned trademark record).",
       optional: true,
     },
     query: {
@@ -85,17 +86,17 @@ export default {
     maxResults: {
       type: "integer",
       label: "Max Results",
-      description: "Maximum number of trademark records to return. The Actor charges per record returned, at its Apify Store pay-per-event price.",
+      description: "Maximum number of trademark records to return, e.g. `10`. The Actor charges per record returned, at its Apify Store pay-per-event price.",
       min: 1,
       max: 5000,
       default: 10,
       optional: true,
     },
     maxTotalChargeUsd: {
-      type: "string",
-      label: "Max Total Charge USD",
-      description: "Specifies the maximum cost of the Actor run. This parameter is useful for pay-per-event Actors, as it allows you to limit the amount charged to your Apify account.",
-      optional: true,
+      propDefinition: [
+        apify,
+        "maxTotalChargeUsd",
+      ],
     },
   },
   async run({ $ }) {
