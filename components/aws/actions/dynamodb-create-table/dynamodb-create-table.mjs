@@ -23,7 +23,7 @@ export default {
     tableName: {
       type: common.props.tableName.type,
       label: common.props.tableName.label,
-      description: common.props.tableName.description,
+      description: "The name for the new table, e.g. `Orders`. It must not already exist in this region, and can be 3 to 255 characters of letters, numbers, underscores, hyphens and dots.",
     },
     keyPrimaryAttributeName: common.props.keyPrimaryAttributeName,
     keyPrimaryAttributeType: common.props.keyPrimaryAttributeType,
