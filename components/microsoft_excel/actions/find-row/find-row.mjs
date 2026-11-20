@@ -4,7 +4,7 @@ export default {
   key: "microsoft_excel-find-row",
   name: "Find Row",
   description: "Find a row by column and value in an Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/range-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,18 +13,30 @@ export default {
   type: "action",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -32,8 +44,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "worksheet",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },
@@ -53,6 +68,7 @@ export default {
       rowCount, address,
     } = await this.microsoftExcel.getUsedRange({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
     });
@@ -60,6 +76,7 @@ export default {
 
     const { values: rangeValues } = await this.microsoftExcel.getRange({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
       range: `${this.column}1:${this.column}${rowCount}`,
@@ -78,6 +95,7 @@ export default {
     const row = index + 1;
     const response = await this.microsoftExcel.getRange({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
       range: `A${row}:${lastColumn}${row}`,

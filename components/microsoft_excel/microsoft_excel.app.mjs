@@ -9,12 +9,23 @@ export default {
   type: "app",
   app: "microsoft_excel",
   propDefinitions: {
+    driveId: {
+      type: "string",
+      label: "Drive ID",
+      description: "The drive (document library) that holds the workbook. Leave empty to use your own OneDrive. Select a SharePoint document library, or enter a drive ID, e.g. `b!x3Q2...`. [See the documentation](https://learn.microsoft.com/en-us/graph/api/resources/drive?view=graph-rest-1.0)",
+      optional: true,
+      async options() {
+        return this.listDriveOptions();
+      },
+    },
     folderId: {
       type: "string",
       label: "Folder ID",
       description: "The ID of the folder where the item is located",
-      async options() {
-        const folders = await this.listFolderOptions();
+      async options({ driveId }) {
+        const folders = await this.listFolderOptions({
+          driveId,
+        });
         return [
           {
             label: "Root",
@@ -28,9 +39,12 @@ export default {
       type: "string",
       label: "Sheet ID",
       description: "The ID of the spreadsheet you want to use",
-      async options({ folderId }) {
+      async options({
+        folderId, driveId,
+      }) {
         const { value } = await this.listItems({
           folderId,
+          driveId,
         });
         return value.filter(
           (item) => item.file?.mimeType === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -47,11 +61,12 @@ export default {
       label: "Worksheet",
       description: "The name of the worksheet to use",
       async options({
-        sheetId, page,
+        sheetId, driveId, page,
       }) {
         const limit = DEFAULT_LIMIT;
         const { value } = await this.listWorksheets({
           sheetId,
+          driveId,
           params: {
             $top: limit,
             $skip: limit * page,
@@ -65,11 +80,12 @@ export default {
       label: "Row ID",
       description: "The ID of the row you want to use",
       async options({
-        sheetId, tableId,
+        sheetId, tableId, driveId,
       }) {
         const { value } = await this.listTableRows({
           sheetId,
           tableId,
+          driveId,
         });
         return value.map(({
           index: value, values,
@@ -83,9 +99,12 @@ export default {
       type: "string",
       label: "Table ID",
       description: "The ID of the table you want to use",
-      async options({ sheetId }) {
+      async options({
+        sheetId, driveId,
+      }) {
         const { value } = await this.listTables({
           sheetId,
+          driveId,
         });
         return value.map(({
           id: value, name: label,
@@ -102,6 +121,16 @@ export default {
     },
   },
   methods: {
+    _drivePath(driveId) {
+      return driveId
+        ? `/drives/${driveId}`
+        : "/me/drive";
+    },
+    _folderChildrenPath(folderId, driveId) {
+      return (!folderId || folderId === ROOT_FOLDER_ID)
+        ? `${this._drivePath(driveId)}/root/children`
+        : `${this._drivePath(driveId)}/items/${folderId}/children`;
+    },
     client() {
       return Client.init({
         authProvider: (done) => {
@@ -110,26 +139,24 @@ export default {
       });
     },
     addTableRow({
-      sheetId, tableId, tableName, data = {},
+      sheetId, tableId, tableName, driveId, data = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables/${tableId || tableName}/rows/add`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/tables/${tableId || tableName}/rows/add`)
         .post(data);
     },
     createItem({
-      folderId, data = {},
+      folderId, driveId, data = {},
     } = {}) {
-      return this.client().api((!folderId || folderId === ROOT_FOLDER_ID)
-        ? "/me/drive/root/children"
-        : `/me/drive/items/${folderId}/children`)
+      return this.client().api(this._folderChildrenPath(folderId, driveId))
         .post(data);
     },
     addWorksheet({
-      sheetId, data = {},
+      sheetId, driveId, data = {},
     } = {}) {
       // Use the documented worksheetCollection: add action, matching addTableRow's
       // `/rows/add` pattern above. (A plain POST to the collection also works, but this
       // is the canonical endpoint.)
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/add`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/worksheets/add`)
         .post(data);
     },
     createHook({ data = {} } = {}) {
@@ -141,36 +168,34 @@ export default {
         .delete();
     },
     listItems({
-      folderId, params = {},
+      folderId, driveId, params = {},
     } = {}) {
-      return this.client().api((folderId === ROOT_FOLDER_ID)
-        ? "/me/drive/root/children"
-        : `/me/drive/items/${folderId}/children`)
+      return this.client().api(this._folderChildrenPath(folderId, driveId))
         .get(params);
     },
     listTableRows({
-      sheetId, tableId,
+      sheetId, tableId, driveId,
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables/${tableId}/rows`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/tables/${tableId}/rows`)
         .get();
     },
     // List tables endpoint is not supported for personal accounts
     listTables({
-      sheetId, params = {},
+      sheetId, driveId, params = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/tables`)
         .get(params);
     },
     listWorksheets({
-      sheetId, params = {},
+      sheetId, driveId, params = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/worksheets`)
         .get(params);
     },
     updateTableRow({
-      sheetId, tableId, rowId, data = {},
+      sheetId, tableId, rowId, driveId, data = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/tables/${tableId}/rows/ItemAt(index=${rowId})`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/tables/${tableId}/rows/ItemAt(index=${rowId})`)
         .patch(data);
     },
     updateSubscription({
@@ -184,9 +209,9 @@ export default {
         .post(data);
     },
     getDriveItem({
-      itemId, params = {},
+      itemId, driveId, params = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${itemId}`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${itemId}`)
         .get(params);
     },
     getDelta({
@@ -196,31 +221,53 @@ export default {
         .get(params);
     },
     getRange({
-      sheetId, worksheet, range, params = {},
+      sheetId, worksheet, range, driveId, params = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`)
         .get(params);
     },
     getUsedRange({
-      sheetId, worksheet, params = {},
+      sheetId, worksheet, driveId, params = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/usedRange`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/worksheets/${worksheet}/usedRange`)
         .get(params);
     },
     insertRange({
-      sheetId, worksheet, range, data = {},
+      sheetId, worksheet, range, driveId, data = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')/insert`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')/insert`)
         .post(data);
     },
     updateRange({
-      sheetId, worksheet, range, data = {},
+      sheetId, worksheet, range, driveId, data = {},
     } = {}) {
-      return this.client().api(`/me/drive/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`)
+      return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`)
         .patch(data);
     },
+    async listDriveOptions() {
+      const options = [];
+      let sites = [];
+      try {
+        ({ value: sites = [] } = await this.client().api("/me/followedSites")
+          .get());
+      } catch {
+        // Listing sites needs Sites.Read.All; without it the Drive ID can still be entered by hand
+        return options;
+      }
+      for (const site of sites) {
+        const { value: drives = [] } = await this.client().api(`/sites/${site.id}/drives`)
+          .get();
+        drives.forEach(({
+          id: value, name,
+        }) => options.push({
+          label: `${site.displayName || site.name} / ${name}`,
+          value,
+        }));
+      }
+      return options;
+    },
     async listFolderOptions({
-      folderId = null, prefix = "", batchLimit = 20,
+      folderId = null, driveId, prefix = "", batchLimit = 20,
     } = {}) {
       const options = [];
       const stack = [
@@ -252,9 +299,7 @@ export default {
           currentBatch.push({
             id,
             method: "GET",
-            url: url || (folderId
-              ? `/me/drive/items/${folderId}/children`
-              : "/me/drive/root/children"),
+            url: url || this._folderChildrenPath(folderId, driveId),
           });
         }
 

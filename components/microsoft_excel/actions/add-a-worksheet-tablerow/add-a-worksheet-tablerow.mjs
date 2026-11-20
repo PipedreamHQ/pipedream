@@ -4,7 +4,7 @@ import microsoftExcel from "../../microsoft_excel.app.mjs";
 export default {
   key: "microsoft_excel-add-a-worksheet-tablerow",
   name: "Add a Worksheet Tablerow",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -14,18 +14,30 @@ export default {
   type: "action",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
       reloadProps: true,
@@ -34,8 +46,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "tableId",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
       hidden: true,
@@ -57,6 +72,7 @@ export default {
     if (this.sheetId) {
       try {
         await this.microsoftExcel.listTables({
+          driveId: this.driveId,
           sheetId: this.sheetId,
         });
       } catch {
@@ -78,6 +94,7 @@ export default {
 
     const response = await microsoftExcel.addTableRow({
       $,
+      driveId: this.driveId,
       sheetId,
       tableId,
       tableName,

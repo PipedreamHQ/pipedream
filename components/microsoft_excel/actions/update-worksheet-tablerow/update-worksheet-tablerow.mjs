@@ -4,7 +4,7 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "microsoft_excel-update-worksheet-tablerow",
   name: "Update Worksheet Tablerow",
-  version: "0.0.10",
+  version: "0.0.11",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -14,18 +14,30 @@ export default {
   type: "action",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -33,8 +45,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "tableId",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },
@@ -43,10 +58,11 @@ export default {
         microsoftExcel,
         "tableRowId",
         ({
-          sheetId, tableId,
+          sheetId, tableId, driveId,
         }) => ({
           sheetId,
           tableId,
+          driveId,
         }),
       ],
     },
@@ -69,6 +85,7 @@ export default {
 
     const response = await microsoftExcel.updateTableRow({
       $,
+      driveId: this.driveId,
       sheetId,
       tableId,
       rowId,

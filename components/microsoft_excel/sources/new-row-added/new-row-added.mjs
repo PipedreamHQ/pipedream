@@ -5,7 +5,7 @@ export default {
   key: "microsoft_excel-new-row-added",
   name: "New Row Added",
   description: "Emit new event when a new row is added to an Excel worksheet",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "source",
   dedupe: "unique",
   methods: {
@@ -29,6 +29,7 @@ export default {
     const previousRowCount = this._getRowCount();
 
     const response = await this.microsoftExcel.getUsedRange({
+      driveId: this.driveId,
       sheetId: this.sheetId,
       worksheet: this.worksheet,
     });
