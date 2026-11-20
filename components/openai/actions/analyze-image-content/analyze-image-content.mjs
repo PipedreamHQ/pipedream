@@ -8,13 +8,14 @@ export default {
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
   description: "Send a message or question about an image and receive a response. [See the documentation](https://developers.openai.com/api/reference/resources/responses/methods/create)",
-  version: "1.2.0",
+  version: "1.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     openai,
     modelId: {
@@ -73,7 +74,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      model: this.modelId,
+      model: this.modelId ?? openai.propDefinitions.responsesModelId.default,
       input: [
         {
           role: "user",
@@ -135,12 +136,17 @@ export default {
       messages: data.input,
     };
 
-    if (run.output.length) {
-      const content = run.output[0]?.content?.find((c) => c.text);
+    const message = run.output.find(({
+      type, role,
+    }) => type === "message" && role === "assistant");
+    if (message) {
+      const content = message.content?.find(({
+        type, text,
+      }) => type === "output_text" && text);
       returnData.response = content?.text;
       returnData.messages.push({
-        role: run.output[0].role,
-        content: content,
+        role: message.role,
+        content,
       });
     }
 
