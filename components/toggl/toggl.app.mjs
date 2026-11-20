@@ -71,15 +71,24 @@ export default {
       label: "Project ID",
       description: "The Toggl Track project ID, e.g. `123456789`. Use **List Workspace Projects** to find it. The project must belong to the selected workspace.",
       type: "integer",
-      async options({ workspaceId }) {
-        const projects = await this.getAllProjects({
+      async options({
+        workspaceId, page = 0,
+      }) {
+        const response = await this.getProjects({
           workspaceId,
+          params: {
+            page: page + 1,
+            per_page: PROJECT_PAGE_SIZE,
+          },
         });
+        const projects = unwrapItems(response === null
+          ? []
+          : response, "workspace projects");
 
-        return projects?.map((project) => ({
+        return projects.map((project) => ({
           label: project.name,
           value: project.id,
-        })) || [];
+        }));
       },
     },
     clientName: {
@@ -388,6 +397,8 @@ export default {
           },
           $,
         });
+        if (response === null) return projects;
+
         const pageProjects = unwrapItems(response, "workspace projects");
 
         projects.push(...pageProjects);

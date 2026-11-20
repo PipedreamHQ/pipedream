@@ -272,7 +272,10 @@ export default {
           $,
         });
 
-        taskResponses.push(unwrapItems(response, "project tasks").map((task) => ({
+        const tasks = unwrapItems(response === null
+          ? []
+          : response, "project tasks");
+        taskResponses.push(tasks.map((task) => ({
           ...task,
           project_id: task.project_id ?? project.id,
         })));
@@ -381,6 +384,10 @@ export default {
     }
 
     const seenEntryIds = new Set((continuation?.lastEntryIds || []).map(String));
+    if (seenEntryIds.size !== progress.sourceEntryCount) {
+      throw new ConfigurationError("Continuation is missing entry IDs from earlier segments. Start again without Continuation to validate the full report.");
+    }
+
     const data = {
       ...baseFilters,
       page_size: PAGE_SIZE,
@@ -396,7 +403,6 @@ export default {
     let sourceSegmentBillableSeconds = 0;
     let expectedFirstRowNumber = initialCursor?.firstRowNumber ?? 1;
     let nextCursor = null;
-    let lastPageEntryIds = [];
     let requestCount = 0;
 
     do {
@@ -449,7 +455,6 @@ export default {
       ).length;
       expectedFirstRowNumber = pageStats.nextExpectedRowNumber;
       nextCursor = getNextCursor(response.headers);
-      lastPageEntryIds = normalizedEntries.map((entry) => entry.entryId);
       requestCount++;
 
       if (!page.length && nextCursor) {
@@ -498,7 +503,9 @@ export default {
         cursor: nextCursor,
         segmentIndex: segmentIndex + 1,
         progress,
-        lastEntryIds: lastPageEntryIds,
+        lastEntryIds: [
+          ...seenEntryIds,
+        ],
       }
       : null;
     const result = {

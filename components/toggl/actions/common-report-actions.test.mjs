@@ -209,6 +209,7 @@ test("detailed search preserves a continuation when a single row is requested", 
 test("detailed search resumes by row number without claiming a full report", async (context) => {
   context.mock.method(globalThis, "setTimeout", (callback) => callback());
 
+  let summary;
   const result = await searchAction.run.call({
     ...searchAction,
     toggl: {
@@ -250,9 +251,14 @@ test("detailed search resumes by row number without claiming a full report", asy
       firstRowNumber: "3",
     },
   }, {
-    $: executionContext(),
+    $: {
+      export(key, value) {
+        if (key === "$summary") summary = value;
+      },
+    },
   });
 
+  assert.match(summary, /no pages remain; earlier segments are excluded/);
   assert.equal(result.returnedCount, 1);
   assert.equal(result.complete, false);
   assert.equal(result.hasMore, false);
@@ -560,24 +566,136 @@ test("project activity continuation preserves progress and filters descriptions 
   }), /integrity check/);
 });
 
-test("workspace project pagination retrieves every page", async () => {
+test("project activity rejects a zero-second entry repeated from an earlier segment", async (context) => {
+  context.mock.method(globalThis, "setTimeout", (callback) => callback());
+
+  const action = {
+    ...activityAction,
+    toggl: {
+      async getAllProjects() {
+        return [
+          {
+            id: 10,
+            name: "Internal Finance",
+          },
+        ];
+      },
+      async searchDetailedTimeEntries({ data }) {
+        const rowNumber = data.first_row_number ?? 1;
+        return {
+          data: [
+            reportRow({
+              rowNumber,
+              id: rowNumber === 2
+                ? 102
+                : 101,
+              seconds: 0,
+              billable: false,
+            }),
+          ],
+          headers: rowNumber < 3
+            ? {
+              "x-next-row-number": String(rowNumber + 1),
+            }
+            : {},
+        };
+      },
+      async getDetailedTimeEntryTotals() {
+        return {
+          data: {
+            seconds: 0,
+            rates: [],
+          },
+        };
+      },
+    },
+    workspaceId: 1,
+    projectIds: [
+      10,
+    ],
+    startDate: "2026-01-01",
+    endDate: "2026-01-31",
+    maxApiRequests: 1,
+  };
+  const $ = executionContext();
+  const first = await activityAction.run.call(action, {
+    $,
+  });
+  const second = await activityAction.run.call({
+    ...action,
+    continuation: first.continuation,
+  }, {
+    $,
+  });
+  await assert.rejects(activityAction.run.call({
+    ...action,
+    continuation: second.continuation,
+  }, {
+    $,
+  }), /duplicate time entry ID 101/);
+});
+
+test("project options load only the requested page", async () => {
+  const requests = [];
+  const app = {
+    async getProjects({
+      workspaceId, params,
+    }) {
+      assert.equal(workspaceId, 1);
+      requests.push(params);
+      return params.page === 2
+        ? {
+          items: [
+            {
+              id: 201,
+              name: "Page two project",
+            },
+          ],
+        }
+        : null;
+    },
+  };
+  const options = togglApp.propDefinitions.projectId.options;
+
+  assert.deepEqual(await options.call(app, {
+    workspaceId: 1,
+    page: 1,
+  }), [
+    {
+      label: "Page two project",
+      value: 201,
+    },
+  ]);
+  assert.deepEqual(await options.call(app, {
+    workspaceId: 1,
+    page: 2,
+  }), []);
+  assert.deepEqual(requests, [
+    {
+      page: 2,
+      per_page: 200,
+    },
+    {
+      page: 3,
+      per_page: 200,
+    },
+  ]);
+});
+
+test("workspace project pagination retrieves full pages and stops on an empty page", async () => {
   const requests = [];
   const projects = await togglApp.methods.getAllProjects.call({
     async getProjects({ params }) {
       requests.push(params);
 
+      if (params.page === 3) return null;
+
       return {
-        items: params.page === 1
-          ? Array.from({
-            length: 200,
-          }, (_, index) => ({
-            id: index + 1,
-          }))
-          : [
-            {
-              id: 201,
-            },
-          ],
+        items: Array.from({
+          length: 200,
+        }, (_, index) => ({
+          id: (params.page - 1) * 200 + index + 1,
+        })),
       };
     },
   }, {
@@ -588,7 +706,8 @@ test("workspace project pagination retrieves every page", async () => {
     $: executionContext(),
   });
 
-  assert.equal(projects.length, 201);
+  assert.equal(projects.length, 400);
+  assert.equal(projects.at(-1).id, 400);
   assert.deepEqual(requests, [
     {
       active: "both",
@@ -600,7 +719,37 @@ test("workspace project pagination retrieves every page", async () => {
       page: 2,
       per_page: 200,
     },
+    {
+      active: "both",
+      page: 3,
+      per_page: 200,
+    },
   ]);
+});
+
+test("project tasks accepts null as empty but rejects a malformed body", async () => {
+  let response = null;
+  const action = {
+    ...tasksAction,
+    toggl: {
+      async getProjectTasks() {
+        return response;
+      },
+    },
+    workspaceId: 1,
+    projectId: 10,
+  };
+  const $ = executionContext();
+  const result = await tasksAction.run.call(action, {
+    $,
+  });
+
+  assert.equal(result.complete, true);
+  assert.deepEqual(result.tasks, []);
+  response = {};
+  await assert.rejects(tasksAction.run.call(action, {
+    $,
+  }), /invalid project tasks response/);
 });
 
 test("workspace projects and project tasks return compact validated resources", async () => {

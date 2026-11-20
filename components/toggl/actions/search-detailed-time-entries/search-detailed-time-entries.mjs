@@ -461,11 +461,16 @@ export default {
       },
     };
 
+    let summarySuffix = " with provider-computed totals";
+    if (hasMore) {
+      summarySuffix = " (incomplete; continue with nextCursor)";
+    } else if (initialCursor) {
+      summarySuffix = " (no pages remain; earlier segments are excluded)";
+    }
+
     $.export("$summary", `Successfully retrieved ${result.returnedCount} time ${result.returnedCount === 1
       ? "entry"
-      : "entries"}${complete
-      ? " with provider-computed totals"
-      : " (incomplete; continue with nextCursor)"}`);
+      : "entries"}${summarySuffix}`);
 
     return result;
   },

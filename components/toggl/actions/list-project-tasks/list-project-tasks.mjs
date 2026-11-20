@@ -105,7 +105,9 @@ export default {
       $,
     });
     const tasks = filterProjectTasks(
-      unwrapItems(response, "project tasks"),
+      unwrapItems(response === null
+        ? []
+        : response, "project tasks"),
       this.query,
     );
     const taskIds = new Set();
