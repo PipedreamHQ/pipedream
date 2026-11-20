@@ -1,6 +1,6 @@
 import common from "../../common/common-eventbridge.mjs";
 import {
-  props, collectPages, listResult, listSummary,
+  collectPages, listResult, listSummary,
 } from "../../common/list-paging.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
@@ -13,7 +13,7 @@ export default {
     Use it to find the \`eventBusName\` for **EventBridge - Send Event**.
     Check \`truncated\` first: when it is \`true\`, call again with \`nextToken\` set to the returned \`nextToken\`.
     Example result: \`{ "truncated": false, "nextToken": null, "count": 1, "eventBuses": [{ "name": "default", "arn": "arn:aws:events:us-east-1:123456789012:event-bus/default" }] }\`.
-    [See docs](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ListEventBuses.html)
+    [See the documentation](https://docs.aws.amazon.com/eventbridge/latest/APIReference/API_ListEventBuses.html)
   `),
   version: "0.0.1",
   type: "action",
@@ -29,11 +29,21 @@ export default {
     namePrefix: {
       type: "string",
       label: "Name Prefix",
-      description: "Only list event buses whose name starts with this prefix. Leave empty to list all event buses.",
+      description: "Only list event buses whose name starts with this prefix, e.g. `orders-`. Leave empty to list all event buses.",
       optional: true,
     },
-    maxItems: props.maxItems,
-    nextToken: props.nextToken,
+    maxItems: {
+      propDefinition: [
+        common.props.aws,
+        "maxItems",
+      ],
+    },
+    nextToken: {
+      propDefinition: [
+        common.props.aws,
+        "nextToken",
+      ],
+    },
   },
   async run({ $ }) {
     const result = await collectPages(async (token) => {

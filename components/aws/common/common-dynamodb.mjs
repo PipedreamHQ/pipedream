@@ -27,7 +27,7 @@ export default {
     tableName: {
       type: "string",
       label: "Table Name",
-      description: "The name of the table. Run **DynamoDB - List Tables** to find table names.",
+      description: "The name of the table, e.g. `Orders`. Run **DynamoDB - List Tables** to find table names.",
     },
     keyPrimaryAttributeName: {
       type: "string",
@@ -175,7 +175,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of items DynamoDB reads per request (the page size), before any filter expression is applied. It does not cap the total returned: use `Max Items` for that. When omitted, DynamoDB reads up to 1 MB per request.",
+      description: "The maximum number of items DynamoDB reads per request (the page size), e.g. `100`, before any filter expression is applied. It does not cap the total returned: use `Max Items` for that. When omitted, DynamoDB reads up to 1 MB per request.",
       optional: true,
     },
     maxItems: {
@@ -194,13 +194,13 @@ export default {
     indexName: {
       type: "string",
       label: "Index Name",
-      description: "The name of a local or global secondary index to query instead of the table itself. The key condition then applies to that index's keys. Leave empty to query the table.",
+      description: "The name of a local or global secondary index to query instead of the table itself, e.g. `customerId-index`. Run **DynamoDB - Describe Table** to find the table's index names (`globalSecondaryIndexes` and `localSecondaryIndexes` in its result). The key condition then applies to that index's keys. Leave empty to query the table.",
       optional: true,
     },
     nextToken: {
       type: "string",
       label: "Next Token",
-      description: "The `nextToken` from the previous result of a `SELECT` statement. Leave empty to start from the beginning.",
+      description: "The `nextToken` from the previous result of a `SELECT` statement. It is an opaque string, e.g. `AAEAAdZ3c2FtcGxl`: copy it unchanged from the previous result. Leave empty to start from the beginning.",
       optional: true,
     },
   },

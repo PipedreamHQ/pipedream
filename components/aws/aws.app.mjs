@@ -16,6 +16,7 @@ import {
   ListTablesCommand,
   DescribeTableCommand,
 } from "@aws-sdk/client-redshift-data";
+import constants from "./common/constants.mjs";
 import {
   regions,
   defaultRegion,
@@ -37,7 +38,7 @@ export default {
     workgroupName: {
       type: "string",
       label: "Workgroup Name",
-      description: "The name of the serverless workgroup. Required if Cluster Identifier is not provided. Run **Redshift - List Workgroups** to find workgroup names.",
+      description: "The name of the serverless workgroup, e.g. `default-workgroup`. Required if Cluster Identifier is not provided. Run **Redshift - List Workgroups** to find workgroup names.",
       async options({ region }) {
         const { workgroups } = await this.listWorkgroups(region);
         return workgroups.map((workgroup) => workgroup.workgroupName);
@@ -46,7 +47,7 @@ export default {
     database: {
       type: "string",
       label: "Database Name",
-      description: "The name of the database to connect to. Run **Redshift - List Databases** to find database names.",
+      description: "The name of the database to connect to, e.g. `dev`. Run **Redshift - List Databases** to find database names.",
       async options({
         region,
         database = "dev",
@@ -66,7 +67,7 @@ export default {
     schema: {
       type: "string",
       label: "Schema",
-      description: "The schema to perform the action on. Run **Redshift - List Schemas** to find schema names.",
+      description: "The schema to perform the action on, e.g. `public`. Run **Redshift - List Schemas** to find schema names.",
       async options({
         region,
         database = "dev",
@@ -86,7 +87,7 @@ export default {
     table: {
       type: "string",
       label: "Table",
-      description: "The table to perform the action on. Run **Redshift - List Tables** to find table names.",
+      description: "The table to perform the action on, e.g. `orders`. Run **Redshift - List Tables** to find table names.",
       async options({
         region,
         workgroupName,
@@ -106,6 +107,27 @@ export default {
           .filter((table) => table.type === "TABLE" && table.schema === schema)
           .map(({ name }) => name);
       },
+    },
+    maxItems: {
+      type: "integer",
+      label: "Max Items",
+      description: `Return at least this many items if they exist, e.g. \`100\` (1-${constants.listPaging.MAX_ITEMS}). Defaults to ${constants.listPaging.DEFAULT_MAX_ITEMS}. Whole pages are returned, so slightly more can come back. When more remain, \`truncated\` is \`true\` and \`nextToken\` is set.`,
+      optional: true,
+      default: constants.listPaging.DEFAULT_MAX_ITEMS,
+      min: 1,
+      max: constants.listPaging.MAX_ITEMS,
+    },
+    nextToken: {
+      type: "string",
+      label: "Next Token",
+      description: "The `nextToken` from the previous result, to read the next page. It is an opaque string, e.g. `AAEAAdZ3c2FtcGxl`: copy it unchanged from the previous result. Leave empty to start from the beginning.",
+      optional: true,
+    },
+    schemaPattern: {
+      type: "string",
+      label: "Schema Pattern",
+      description: "Only list schemas matching this name or SQL `LIKE` pattern, e.g. `public` or `sales%`. Leave empty to list all schemas.",
+      optional: true,
     },
     uniqueColumn: {
       type: "string",

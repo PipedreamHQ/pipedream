@@ -10,8 +10,9 @@ export default {
   key: "aws-dynamodb-scan",
   name: "DynamoDB - Scan",
   description: toSingleLineString(`
-    Reads items from a DynamoDB table by scanning it in key order, optionally filtered.
+    Reads items from a DynamoDB table by scanning it, optionally filtered. Items come back in no guaranteed order.
     Returns every matching item unless you set \`maxItems\`; set it (e.g. 100) when you only need a sample or the table may be large, so the result stays small.
+    \`maxItems\` returns an arbitrary sample, not the first items by key: use **DynamoDB - Query** when you need items in sort-key order.
     Check \`truncated\` first: when it is \`true\`, more items exist (the \`maxItems\` cap was reached, or the call hit its request limit), so call
     this action again with the same inputs and \`continuationKey\` set to \`nextContinuationKey\` to read the next page,
     and repeat until \`truncated\` is \`false\`.
@@ -22,7 +23,7 @@ export default {
     \`expressionAttributeNames\`, e.g. \`{ "#s": "status" }\` with \`#s = :v\`.
     If the filter is very selective, a single call stops after ${constants.dynamodb.MAX_REQUESTS} requests and returns \`truncated: true\` with a key to resume from.
     Example with \`maxItems\` 100 on a bigger table: \`{ "truncated": true, "nextContinuationKey": { "id": { "S": "42" } }, "Count": 100, "ScannedCount": 100, "Items": [{ "id": { "S": "1" } }] }\`.
-    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/scancommand.html)
+    [See the documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/scancommand.html)
   `),
   version: "0.3.0",
   annotations: {

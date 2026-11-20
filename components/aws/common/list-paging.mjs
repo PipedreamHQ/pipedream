@@ -1,25 +1,7 @@
-// Shared paging for the "List ..." actions: inputs, the read loop and the result shape.
+// Shared paging for the "List ..." actions: the read loop and the result shape.
+// The `maxItems` and `nextToken` inputs live in the app's propDefinitions.
 
-const DEFAULT_MAX_ITEMS = 100;
-const MAX_ITEMS = 1000;
-
-const props = {
-  maxItems: {
-    type: "integer",
-    label: "Max Items",
-    description: `Return at least this many items if they exist (1-${MAX_ITEMS}). Defaults to ${DEFAULT_MAX_ITEMS}. Whole pages are returned, so slightly more can come back. When more remain, \`truncated\` is \`true\` and \`nextToken\` is set.`,
-    optional: true,
-    default: DEFAULT_MAX_ITEMS,
-    min: 1,
-    max: MAX_ITEMS,
-  },
-  nextToken: {
-    type: "string",
-    label: "Next Token",
-    description: "The `nextToken` from the previous result, to read the next page. Leave empty to start from the beginning.",
-    optional: true,
-  },
-};
+import constants from "./constants.mjs";
 
 /**
  * Reads pages until at least `maxItems` items are collected or the data runs out.
@@ -30,7 +12,11 @@ const props = {
  * @returns {Promise<{ items: Array, nextToken: (string|null) }>} `nextToken` is
  * set whenever more items may remain
  */
-async function collectPages(fetchPage, maxItems = DEFAULT_MAX_ITEMS, startToken) {
+async function collectPages(
+  fetchPage,
+  maxItems = constants.listPaging.DEFAULT_MAX_ITEMS,
+  startToken,
+) {
   const items = [];
   let token = startToken || undefined;
   do {
@@ -70,7 +56,6 @@ function listSummary(noun, {
 }
 
 export {
-  props,
   collectPages,
   listResult,
   listSummary,

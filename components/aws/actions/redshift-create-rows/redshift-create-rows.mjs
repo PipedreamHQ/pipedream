@@ -15,7 +15,7 @@ export default {
     The call waits for Redshift to finish, so it takes at least a few seconds. It returns the statement's \`Status\` and \`ResultRows\`, the number of rows inserted.
     Example: \`schema\` \`public\`, \`table\` \`orders\`, \`columns\` \`["id", "status"]\`, \`rows\` \`[[1, "open"], [2, "paid"]]\` returns
     \`{ "Id": "b2c4-91", "Status": "FINISHED", "HasResultSet": false, "ResultRows": 2 }\`.
-    [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)
+    [See the documentation](https://docs.aws.amazon.com/redshift-data/latest/APIReference/API_ExecuteStatement.html)
   `),
   type: "action",
   ai: "optimized",

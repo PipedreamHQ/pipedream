@@ -1,6 +1,6 @@
 import app from "../../aws.app.mjs";
 import {
-  props, collectPages, listResult, listSummary,
+  collectPages, listResult, listSummary,
 } from "../../common/list-paging.mjs";
 
 export default {
@@ -39,8 +39,18 @@ export default {
       optional: true,
       default: "dev",
     },
-    maxItems: props.maxItems,
-    nextToken: props.nextToken,
+    maxItems: {
+      propDefinition: [
+        app,
+        "maxItems",
+      ],
+    },
+    nextToken: {
+      propDefinition: [
+        app,
+        "nextToken",
+      ],
+    },
   },
   async run({ $ }) {
     const result = await collectPages(async (token) => {

@@ -38,14 +38,14 @@ export default {
     recursive: {
       type: "boolean",
       label: "Recursive",
-      description: "When on, lists every object below the prefix, however deeply nested. When off (the default), lists only the objects directly under the prefix and returns the subfolders in `folders`.",
+      description: "Set to `true` to list every object below the prefix, however deeply nested. When `false` (the default), lists only the objects directly under the prefix and returns the subfolders in `folders`.",
       optional: true,
       default: false,
     },
     maxKeys: {
       type: "integer",
       label: "Max Keys",
-      description: "The maximum number of objects to return in this page (1-1000). Defaults to 100. Set it to 1000 when you need to read a whole bucket or folder, to take the fewest calls. More may exist: check `truncated` in the result.",
+      description: "The maximum number of objects to return in this page (1-1000), e.g. `100`. Defaults to 100. Set it to 1000 when you need to read a whole bucket or folder, to take the fewest calls. More may exist: check `truncated` in the result.",
       optional: true,
       default: 100,
       min: 1,
@@ -54,7 +54,7 @@ export default {
     continuationToken: {
       type: "string",
       label: "Continuation Token",
-      description: "The `nextContinuationToken` from the previous page of results. Leave empty for the first page.",
+      description: "The `nextContinuationToken` returned by the previous run of **S3 - List Objects**, e.g. `1ueGcxLPRx1Tr/XYExHnhbYLgveDs2J/wm36Hy4vbOwM=`. It is an opaque string: copy it unchanged. Leave empty for the first page.",
       optional: true,
     },
   },
@@ -73,9 +73,12 @@ export default {
       ContinuationToken: continuationToken || undefined,
     });
 
-    // Zero-byte "folder" placeholders (keys ending in `/`) are not files
+    // Zero-byte "folder" placeholders (keys ending in `/`) are not files. S3 keys are
+    // flat, so a `/`-suffixed key that holds data is a real object and stays.
     const objects = (response.Contents ?? [])
-      .filter(({ Key: key }) => !key.endsWith("/"))
+      .filter(({
+        Key: key, Size: size,
+      }) => !(key.endsWith("/") && size === 0))
       .map(({
         Key: key, Size: size, LastModified: lastModified,
       }) => ({

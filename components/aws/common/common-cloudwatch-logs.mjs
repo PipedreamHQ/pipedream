@@ -20,7 +20,7 @@ export default {
     logGroupName: {
       type: "string",
       label: "CloudWatch Log Groups",
-      description: "The name of the log group. Run **CloudWatch Logs - List Log Groups** to find log group names.",
+      description: "The name of the log group, e.g. `/aws/lambda/order-handler`. Run **CloudWatch Logs - List Log Groups** to find log group names.",
       async options({ prevContext }) {
         const {
           logGroups,
@@ -43,7 +43,7 @@ export default {
     logStreamName: {
       type: "string",
       label: "CloudWatch Log Streams",
-      description: "The name of the log stream for the chosen log group. Run **CloudWatch Logs - List Log Streams** to find log stream names.",
+      description: "The name of the log stream, e.g. `2025/01/15/[$LATEST]abc123`. It must belong to the chosen log group (`logGroupName`). Run **CloudWatch Logs - List Log Streams** to find log stream names.",
     },
   },
   methods: {

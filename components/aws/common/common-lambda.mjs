@@ -38,7 +38,7 @@ export default {
     lambdaFunction: {
       type: "string",
       label: "Function Name",
-      description: "The name of your Lambda function. Also accepts a function ARN. Run **Lambda - List Functions** to find function names.",
+      description: "The name of your Lambda function, e.g. `order-handler`. Also accepts a function ARN. Run **Lambda - List Functions** to find function names.",
     },
     eventData: {
       propDefinition: [

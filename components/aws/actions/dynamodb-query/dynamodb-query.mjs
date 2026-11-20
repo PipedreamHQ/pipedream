@@ -12,6 +12,7 @@ export default {
   description: toSingleLineString(`
     Finds items in a DynamoDB table (or one of its secondary indexes, via \`indexName\`) by primary key values,
     optionally narrowed with a \`filterExpression\`.
+    Run **DynamoDB - Describe Table** first to find the key attribute names for \`keyConditionExpression\` and any index names.
     Attribute names that are DynamoDB reserved words (e.g. \`status\`, \`name\`, \`total\`, \`data\`, \`timestamp\`, \`size\`) can't be written
     directly in \`keyConditionExpression\`, \`filterExpression\` or \`projectionExpression\`: use a placeholder such as \`#s\` and define it in
     \`expressionAttributeNames\`, e.g. \`{ "#s": "status" }\` with \`#s = :v\`.
@@ -23,7 +24,7 @@ export default {
     it has \`maxItems\` matches (a few more with a filter), the data runs out, or it has made ${constants.dynamodb.MAX_REQUESTS} requests (then \`truncated\` is \`true\` with a key to resume from).
     Example: \`keyConditionExpression\` \`customerId = :c\`, \`expressionAttributeValues\` \`{ ":c": { "S": "c-1" } }\` returns
     \`{ "truncated": false, "nextContinuationKey": null, "Count": 1, "ScannedCount": 1, "Items": [{ "customerId": { "S": "c-1" }, "total": { "N": "42" } }] }\`.
-    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/querycommand.html)
+    [See the documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/querycommand.html)
   `),
   version: "0.6.0",
   annotations: {

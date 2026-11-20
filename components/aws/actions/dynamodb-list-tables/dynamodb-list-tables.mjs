@@ -1,6 +1,6 @@
 import common from "../../common/common-dynamodb.mjs";
 import {
-  props, collectPages, listResult, listSummary,
+  collectPages, listResult, listSummary,
 } from "../../common/list-paging.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
@@ -13,7 +13,7 @@ export default {
     **DynamoDB - Get Item**, **DynamoDB - Put Item**, **DynamoDB - Update Item** and **DynamoDB - Update Table**.
     Check \`truncated\` first: when it is \`true\`, call again with \`nextToken\` set to the returned \`nextToken\`.
     Example result: \`{ "truncated": false, "nextToken": null, "count": 2, "tables": ["Orders", "Customers"] }\`.
-    [See docs](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ListTables.html)
+    [See the documentation](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_ListTables.html)
   `),
   version: "0.0.1",
   type: "action",
@@ -26,8 +26,18 @@ export default {
   props: {
     aws: common.props.aws,
     region: common.props.region,
-    maxItems: props.maxItems,
-    nextToken: props.nextToken,
+    maxItems: {
+      propDefinition: [
+        common.props.aws,
+        "maxItems",
+      ],
+    },
+    nextToken: {
+      propDefinition: [
+        common.props.aws,
+        "nextToken",
+      ],
+    },
   },
   async run({ $ }) {
     const result = await collectPages(async (token) => {

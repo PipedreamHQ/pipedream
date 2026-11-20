@@ -24,9 +24,12 @@ export default {
     },
   },
   async run({ $ }) {
-    // A presigned URL is bound to the bucket's region, which isn't discovered
-    // by redirect (no request is sent), so look it up when `region` is empty.
-    const client = await this._getS3Client(this.bucket);
+    // A presigned URL is bound to the bucket's region, which isn't discovered by
+    // redirect (no request is sent), so use the `region` prop or a region S3 actually
+    // reported: signing for a guessed region would return a URL that doesn't work.
+    const client = await this._getS3Client(this.bucket, {
+      requireVerified: true,
+    });
     const command = new GetObjectCommand({
       Bucket: this.bucket,
       Key: this.key,

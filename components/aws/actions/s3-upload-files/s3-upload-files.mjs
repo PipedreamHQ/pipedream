@@ -10,8 +10,8 @@ export default {
   ...common,
   key: "aws-s3-upload-files",
   name: "S3 - Upload Files",
-  description: "Upload files to S3. Accepts either a file URL, a local file path, or a directory path. Always returns `{ bucket, count, keys, files }`, where `keys` lists the S3 keys written and each `files` entry has `filePath`, `s3Key` and `status`, whether one file or a whole directory was uploaded. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
-  version: "0.1.0",
+  description: "Upload files to S3. Accepts either a file URL, a local file path, or a directory path. Always returns `{ bucket, count, keys, files }`, where `keys` lists the S3 keys written and each `files` entry has `filePath`, `s3Key`, `status`, `eTag`, `versionId` and `location`, whether one file or a whole directory was uploaded. A single file's result also keeps the S3 upload response fields (`ETag`, `VersionId`, `Location`, ...) at the top level. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -59,6 +59,15 @@ export default {
         stream.on("error", reject);
       });
     },
+    // What S3 returned for one object, so a later step can identify what was written
+    // (`versionId` is the only way to pick out the object in a versioned bucket)
+    uploadDetails(response) {
+      return {
+        eTag: response?.ETag,
+        versionId: response?.VersionId,
+        location: response?.Location,
+      };
+    },
     // One result shape for a single file and for a folder
     formatResult(files) {
       return {
@@ -97,7 +106,7 @@ export default {
         const relativePath = filePath.substring(folderPath.length + 1);
         const s3Key = join(prefix, relativePath);
 
-        await uploadFile({
+        const response = await uploadFile({
           Bucket: bucket,
           Key: s3Key,
           Body: stream,
@@ -108,6 +117,7 @@ export default {
           filePath,
           s3Key,
           status: "uploaded",
+          ...this.uploadDetails(response),
         };
       }));
       $.export("$summary", `Uploaded ${response.length} file${response.length === 1
@@ -135,7 +145,7 @@ export default {
       // stream yields the decompressed bytes, so declaring that length truncated
       // the body and S3 rejected it (XAmzContentSHA256Mismatch). The uploader
       // streams without a declared length.
-      await uploadFile({
+      const response = await uploadFile({
         Bucket: bucket,
         Key: s3Key,
         Body: stream,
@@ -143,13 +153,19 @@ export default {
       });
 
       $.export("$summary", `Uploaded file ${filename} to S3`);
-      return this.formatResult([
-        {
-          filePath,
-          s3Key,
-          status: "uploaded",
-        },
-      ]);
+      // The upload response (`ETag`, `VersionId`, `Location`, ...) stays at the top
+      // level for a single file, as it was before the shared result shape
+      return {
+        ...response,
+        ...this.formatResult([
+          {
+            filePath,
+            s3Key,
+            status: "uploaded",
+            ...this.uploadDetails(response),
+          },
+        ]),
+      };
     },
   },
   async run({ $ }) {

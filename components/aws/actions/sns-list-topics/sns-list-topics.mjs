@@ -1,6 +1,6 @@
 import common from "../../common/common-sns.mjs";
 import {
-  props, collectPages, listResult, listSummary,
+  collectPages, listResult, listSummary,
 } from "../../common/list-paging.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
@@ -13,7 +13,7 @@ export default {
     Use it to find the topic ARN for **SNS - Send Message**.
     Check \`truncated\` first: when it is \`true\`, call again with \`nextToken\` set to the returned \`nextToken\`.
     Example result: \`{ "truncated": false, "nextToken": null, "count": 1, "topics": [{ "arn": "arn:aws:sns:us-east-1:123456789012:alerts", "name": "alerts" }] }\`.
-    [See docs](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html)
+    [See the documentation](https://docs.aws.amazon.com/sns/latest/api/API_ListTopics.html)
   `),
   version: "0.0.1",
   type: "action",
@@ -26,8 +26,18 @@ export default {
   props: {
     aws: common.props.aws,
     region: common.props.region,
-    maxItems: props.maxItems,
-    nextToken: props.nextToken,
+    maxItems: {
+      propDefinition: [
+        common.props.aws,
+        "maxItems",
+      ],
+    },
+    nextToken: {
+      propDefinition: [
+        common.props.aws,
+        "nextToken",
+      ],
+    },
   },
   async run({ $ }) {
     const result = await collectPages(async (token) => {

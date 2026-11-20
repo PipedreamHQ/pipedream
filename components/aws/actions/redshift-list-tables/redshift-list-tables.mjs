@@ -1,6 +1,6 @@
 import app from "../../aws.app.mjs";
 import {
-  props, collectPages, listResult, listSummary,
+  collectPages, listResult, listSummary,
 } from "../../common/list-paging.mjs";
 
 export default {
@@ -45,10 +45,11 @@ export default {
       ],
     },
     schemaPattern: {
-      type: "string",
-      label: "Schema",
+      propDefinition: [
+        app,
+        "schemaPattern",
+      ],
       description: "Only list tables in schemas matching this name or SQL `LIKE` pattern, e.g. `public`. Leave empty to list tables in all schemas.",
-      optional: true,
     },
     tablePattern: {
       type: "string",
@@ -56,8 +57,18 @@ export default {
       description: "Only list tables matching this SQL `LIKE` pattern, e.g. `order%`. Leave empty to list all tables.",
       optional: true,
     },
-    maxItems: props.maxItems,
-    nextToken: props.nextToken,
+    maxItems: {
+      propDefinition: [
+        app,
+        "maxItems",
+      ],
+    },
+    nextToken: {
+      propDefinition: [
+        app,
+        "nextToken",
+      ],
+    },
   },
   async run({ $ }) {
     const result = await collectPages(async (token) => {

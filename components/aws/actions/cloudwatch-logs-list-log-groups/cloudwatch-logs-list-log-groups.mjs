@@ -1,6 +1,6 @@
 import common from "../../common/common-cloudwatch-logs.mjs";
 import {
-  props, collectPages, listResult, listSummary,
+  collectPages, listResult, listSummary,
 } from "../../common/list-paging.mjs";
 import { toSingleLineString } from "../../common/utils.mjs";
 
@@ -13,7 +13,7 @@ export default {
     Use it to find the \`logGroupName\` for **CloudWatch Logs - Put Log Event** and **CloudWatch Logs - List Log Streams**.
     Check \`truncated\` first: when it is \`true\`, call again with \`nextToken\` set to the returned \`nextToken\`.
     Example result: \`{ "truncated": false, "nextToken": null, "count": 1, "logGroups": [{ "name": "/aws/lambda/resize-image", "arn": "arn:aws:logs:us-east-1:123456789012:log-group:/aws/lambda/resize-image:*", "storedBytes": 20480 }] }\`.
-    [See docs](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html)
+    [See the documentation](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html)
   `),
   version: "0.0.1",
   type: "action",
@@ -32,8 +32,18 @@ export default {
       description: "Only list log groups whose name starts with this prefix, e.g. `/aws/lambda/`. Leave empty to list all log groups.",
       optional: true,
     },
-    maxItems: props.maxItems,
-    nextToken: props.nextToken,
+    maxItems: {
+      propDefinition: [
+        common.props.aws,
+        "maxItems",
+      ],
+    },
+    nextToken: {
+      propDefinition: [
+        common.props.aws,
+        "nextToken",
+      ],
+    },
   },
   async run({ $ }) {
     const result = await collectPages(async (token) => {

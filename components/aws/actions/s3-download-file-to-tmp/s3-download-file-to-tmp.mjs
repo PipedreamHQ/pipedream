@@ -22,7 +22,7 @@ export default {
     instead of one action call per file. Each key is saved under its own path, e.g. \`reports/2025/summary.pdf\`
     is saved to \`/tmp/__stash/reports/2025/summary.pdf\`, unless \`filePath\` is set (single file only).
     Returns one entry per key in \`files\` with \`status\` (\`success\` or \`error\`), \`filePath\`, \`size\`, \`stashed\` and, on failure, \`error\`;
-    a file that could not be saved counts as failed. Keys ending in \`/\` are folder placeholders, not files, and are reported as errors.
+    a file that could not be saved counts as failed. Zero-byte keys ending in \`/\` are folder placeholders, not files, and are reported as errors.
     A file's size is checked before it downloads, and files over 2 GB (the \`/tmp\` limit) are skipped. To find keys, run **S3 - List Objects**;
     it pages through large buckets, so don't assume one call shows every file.
     Example: \`objectKeys\` \`["invoices/jan.pdf", "invoices/feb.pdf"]\` returns
@@ -50,7 +50,7 @@ export default {
     objectKey: {
       type: "string",
       label: "Key",
-      description: "A single object key to download. Kept for backwards compatibility: prefer `Keys` for new configurations. Run **S3 - List Objects** to find keys. If both are set, this key is downloaded along with the ones in `Keys`.",
+      description: "A single object key to download, e.g. `invoices/jan.pdf`. Kept for backwards compatibility: prefer `Keys` for new configurations. Run **S3 - List Objects** to find keys (the `key` field of each entry). If both are set, this key is downloaded along with the ones in `Keys`.",
       optional: true,
     },
     filePath: {
@@ -100,10 +100,13 @@ export default {
     const stashDir = path.resolve(process.env.STASH_DIR || "/tmp");
     const isStashed = (target) => {
       const relative = path.relative(stashDir, target);
-      return Boolean(relative) && !relative.startsWith("..") && !path.isAbsolute(relative);
+      // Only a leading `..` segment leaves the stash: a name like `..data.csv` is inside it
+      return Boolean(relative)
+        && relative.split(path.sep)[0] !== ".."
+        && !path.isAbsolute(relative);
     };
 
-    // Resolve each key's destination up front so two keys never share a path
+    // Reserve each key's destination so two keys never share a path
     const usedPaths = new Set();
     const reservePath = (key) => {
       const target = filePath
@@ -119,25 +122,21 @@ export default {
       usedPaths.add(candidate);
       return candidate;
     };
-    // A key ending in `/` is a folder placeholder, not a file: saving it would
-    // create a file that blocks the folder real files need
-    const isPlaceholder = (key) => key.endsWith("/");
-    const targets = keys.map((key) => isPlaceholder(key)
-      ? null
-      : reservePath(key));
-
     // 1. Check every object's size before downloading anything
     const heads = await mapWithConcurrency(keys, DOWNLOAD_CONCURRENCY, async (key) => {
-      if (isPlaceholder(key)) {
-        return {
-          error: `\`${key}\` is a folder placeholder, not a file. Run **S3 - List Objects** with \`recursive\` on to find the files inside it.`,
-        };
-      }
       try {
         const { ContentLength: size } = await this.headObject({
           Bucket: bucket,
           Key: key,
         });
+        // A zero-byte key ending in `/` is a folder placeholder, not a file: saving
+        // it would create a file that blocks the folder real files need. (S3 keys are
+        // flat, so a `/`-suffixed key that holds data is a real object.)
+        if (key.endsWith("/") && size === 0) {
+          return {
+            error: `\`${key}\` is a folder placeholder, not a file. Run **S3 - List Objects** with \`recursive\` on to find the files inside it.`,
+          };
+        }
         return {
           size,
         };
@@ -154,13 +153,14 @@ export default {
     let plannedBytes = 0;
     const plan = keys.map((key, i) => {
       const head = heads[i];
-      const target = targets[i];
       if (head.error) {
         return {
           key,
           error: head.error,
         };
       }
+      // Reserved only for keys that will be saved, so a skipped key never takes a path
+      const target = reservePath(key);
       if (head.size > MAX_DOWNLOAD_SIZE_BYTES) {
         return {
           key,

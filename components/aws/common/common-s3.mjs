@@ -15,7 +15,9 @@ import {
   PutBucketNotificationConfigurationCommand,
 } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
-import { axios } from "@pipedream/platform";
+import {
+  axios, ConfigurationError,
+} from "@pipedream/platform";
 import { defaultRegion } from "./regions.mjs";
 
 // Bucket regions never change, so remember lookups for the life of the process.
@@ -25,28 +27,36 @@ export default {
   props: {
     aws,
     region: {
-      type: "string",
-      label: "AWS Region",
+      propDefinition: [
+        aws,
+        "region",
+      ],
       description: "The AWS region of the bucket, e.g. `us-east-1` or `us-west-2`. Optional: when omitted, the bucket's region is looked up automatically. Run **List AWS Region Options** to see the available regions, or **S3 - List Buckets** to see each bucket's region.",
       optional: true,
-      async options() {
-        return this.aws.listRegionNames();
-      },
+      // no default: an empty region means "look the bucket's region up"
+      default: undefined,
     },
     bucket: {
       type: "string",
       label: "S3 Bucket Name",
-      description: "The S3 Bucket Name. Run **S3 - List Buckets** to see the buckets this account can access, with their regions.",
-      async options() {
-        const response = await this.listBuckets();
-        return response.Buckets.map(({
-          Name: name, BucketRegion: bucketRegion,
-        }) => ({
-          label: bucketRegion
-            ? `${name} (${bucketRegion})`
-            : name,
-          value: name,
-        }));
+      description: "The S3 Bucket Name, e.g. `acme-docs`. Run **S3 - List Buckets** to see the buckets this account can access, with their regions.",
+      async options({ prevContext }) {
+        const response = await this.listBuckets({
+          ContinuationToken: prevContext?.continuationToken,
+        });
+        return {
+          options: (response.Buckets ?? []).map(({
+            Name: name, BucketRegion: bucketRegion,
+          }) => ({
+            label: bucketRegion
+              ? `${name} (${bucketRegion})`
+              : name,
+            value: name,
+          })),
+          context: {
+            continuationToken: response.ContinuationToken,
+          },
+        };
       },
     },
     fileUrl: {
@@ -83,8 +93,14 @@ export default {
      * `ownRegion` skips the `region` prop, for a bucket the prop doesn't describe
      * (e.g. the source bucket of a cross-region move, where `region` is the
      * destination's).
+     *
+     * `requireVerified` throws instead of falling back to the default region. Use
+     * it where no request is sent that could follow a redirect (e.g. signing a URL),
+     * since a guessed region would produce a URL that doesn't work.
      */
-    async getBucketRegion(bucket, { ownRegion = false } = {}) {
+    async getBucketRegion(bucket, {
+      ownRegion = false, requireVerified = false,
+    } = {}) {
       if (this.region && !ownRegion) {
         return this.region;
       }
@@ -118,6 +134,9 @@ export default {
         }
       }
       if (!region) {
+        if (requireVerified) {
+          throw new ConfigurationError(`Could not determine the region of bucket \`${bucket}\`. Set \`Region\` (run **S3 - List Buckets** to see each bucket's region) and try again.`);
+        }
         return defaultRegion;
       }
       bucketRegions.set(bucket, region);
@@ -182,8 +201,8 @@ export default {
       const client = await this._getS3Client(params.Bucket);
       return client.send(new GetObjectCommand(params));
     },
-    async headObject(params) {
-      const client = await this._getS3Client(params.Bucket);
+    async headObject(params, options) {
+      const client = await this._getS3Client(params.Bucket, options);
       return client.send(new HeadObjectCommand(params));
     },
     /**

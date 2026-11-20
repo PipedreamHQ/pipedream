@@ -20,7 +20,8 @@ export default {
   type: "action",
   ai: "optimized",
   annotations: {
-    destructiveHint: false,
+    // with `overwrite` on, an existing object at the destination is replaced
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
@@ -33,7 +34,7 @@ export default {
     bucket: {
       ...common.props.bucket,
       label: "Source Bucket",
-      description: "The bucket that holds the object to copy. Run **S3 - List Buckets** to see the buckets this account can access.",
+      description: "The bucket that holds the object to copy, e.g. `acme-docs`. Run **S3 - List Buckets** to see the buckets this account can access.",
     },
     key: {
       ...common.props.key,
@@ -43,7 +44,7 @@ export default {
     destinationBucket: {
       ...common.props.bucket,
       label: "Destination Bucket",
-      description: "The bucket to copy the object into. Defaults to the source bucket. Run **S3 - List Buckets** to see the buckets this account can access, with their regions.",
+      description: "The bucket to copy the object into, e.g. `acme-archive`. Defaults to the source bucket. Run **S3 - List Buckets** to see the buckets this account can access, with their regions.",
       optional: true,
     },
     destinationKey: {
@@ -54,7 +55,7 @@ export default {
     overwrite: {
       type: "boolean",
       label: "Overwrite",
-      description: "Replace an object that already exists at the destination key. When off (the default), the copy fails instead.",
+      description: "Set to `true` to replace an object that already exists at the destination key. When `false` (the default), the copy fails instead, and S3 itself refuses to overwrite even if another writer creates the destination during the copy.",
       optional: true,
       default: false,
     },
@@ -64,7 +65,7 @@ export default {
     /**
      * Validates and performs the copy; shared with the move action.
      */
-    async copyObjectChecked() {
+    async copyObjectChecked({ sourceEtag } = {}) {
       const {
         bucket, key, destinationKey, overwrite,
       } = this;
@@ -77,12 +78,44 @@ export default {
         throw new ConfigurationError(`An object already exists at \`${destinationBucket}/${destinationKey}\`. Turn on \`Overwrite\` to replace it, or choose a different \`Destination Key\`.`);
       }
 
-      const response = await this.copyObject({
-        sourceBucket: bucket,
-        sourceKey: key,
-        destinationBucket,
-        destinationKey,
-      });
+      let response;
+      try {
+        response = await this.copyObject({
+          sourceBucket: bucket,
+          sourceKey: key,
+          destinationBucket,
+          destinationKey,
+          // The check above can be outrun by another writer, so without `overwrite`
+          // S3 itself refuses to replace an object that already exists
+          ...(!overwrite && {
+            IfNoneMatch: "*",
+          }),
+          // Move passes the source's ETag, so only that exact version is copied
+          ...(sourceEtag && {
+            CopySourceIfMatch: sourceEtag,
+          }),
+        });
+      } catch (err) {
+        const status = err?.$metadata?.httpStatusCode;
+        if (status === 412) {
+          // Either precondition answers 412, so tell them apart by looking at the destination
+          let destinationExists = !overwrite;
+          if (destinationExists && sourceEtag) {
+            destinationExists = await this.objectExists(destinationBucket, destinationKey)
+              .catch(() => false);
+          }
+          if (destinationExists) {
+            throw new ConfigurationError(`An object already exists at \`${destinationBucket}/${destinationKey}\`. Turn on \`Overwrite\` to replace it, or choose a different \`Destination Key\`.`);
+          }
+          if (sourceEtag) {
+            throw new Error(`\`${bucket}/${key}\` changed while the move was starting, so nothing was copied or deleted. Try again.`);
+          }
+        }
+        if (!overwrite && status === 409) {
+          throw new Error(`Another write to \`${destinationBucket}/${destinationKey}\` is in progress, so the copy was not made. Try again.`);
+        }
+        throw err;
+      }
       return {
         source: {
           bucket,

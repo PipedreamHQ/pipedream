@@ -23,7 +23,7 @@ export default {
     topic: {
       type: "string",
       label: "SNS Topic",
-      description: "The ARN of the SNS Topic. Run **SNS - List Topics** to find topic ARNs.",
+      description: "The ARN of the SNS Topic, e.g. `arn:aws:sns:us-east-1:123456789012:orders`. Run **SNS - List Topics** to find topic ARNs.",
       async options({ prevContext }) {
         const response = await this.snsListTopics({
           NextToken: prevContext.nextToken,

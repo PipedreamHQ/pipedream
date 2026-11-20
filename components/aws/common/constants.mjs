@@ -50,7 +50,14 @@ const s3 = {
   DOWNLOAD_CONCURRENCY: 10,
 };
 
+// Shared by the "List ..." actions (see list-paging.mjs and the app's maxItems prop)
+const listPaging = {
+  DEFAULT_MAX_ITEMS: 100,
+  MAX_ITEMS: 1000,
+};
+
 export default {
   dynamodb,
+  listPaging,
   s3,
 };

@@ -8,12 +8,13 @@ export default {
   name: "Redshift - Delete Rows",
   description: toSingleLineString(`
     Permanently deletes every row of a Redshift table that matches \`where\`. Use it to remove specific rows; it never drops the table itself.
-    Deleted rows can't be recovered, and a \`where\` that matches too much deletes all of it. Preview the rows first with **Redshift - Query Database**, using the same \`where\` and \`sqlParameters\`.
+    Deleted rows can't be recovered, and a \`where\` that matches too much deletes all of it. Preview the rows first with **Redshift - Query Database**, using the same \`where\` and \`sqlParameters\`:
+    it returns only 10 rows by default and reports more through \`truncated\`, so check \`truncated\` (raise \`limit\`, or pass \`columns\` \`["COUNT(*)"]\` to count) to see everything the delete would remove.
     Find the \`schema\` and \`table\` with **Redshift - List Schemas** and **Redshift - List Tables**; run **Redshift - List Workgroups** and **Redshift - List Databases** before those.
     The call waits for Redshift to finish, so it takes at least a few seconds. It returns the statement's \`Status\` and \`ResultRows\`, the number of rows deleted (0 means \`where\` matched nothing).
     Example: \`schema\` \`public\`, \`table\` \`orders\`, \`where\` \`id = :id\`, \`sqlParameters\` \`{ "id": 42 }\` returns
     \`{ "Id": "b2c4-93", "Status": "FINISHED", "HasResultSet": false, "ResultRows": 1 }\`.
-    [See the documentation](https://docs.aws.amazon.com/redshift/latest/APIReference/API_ExecuteStatement.html)
+    [See the documentation](https://docs.aws.amazon.com/redshift-data/latest/APIReference/API_ExecuteStatement.html)
   `),
   type: "action",
   ai: "optimized",

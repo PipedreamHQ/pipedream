@@ -16,7 +16,7 @@ export default {
     To read one table, prefer **DynamoDB - Query** or **DynamoDB - Scan**.
     Example: \`statement\` \`SELECT * FROM "Orders" WHERE customerId = ?\`, \`parameters\` \`[{"S": "c-1"}]\` returns
     \`{ "truncated": false, "nextToken": null, "Count": 1, "Items": [{ "customerId": { "S": "c-1" } }] }\`.
-    [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/executestatementcommand.html)
+    [See the documentation](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/executestatementcommand.html)
   `),
   version: "0.3.0",
   annotations: {
@@ -55,6 +55,7 @@ export default {
         nextToken: null,
         Count: items.length,
         Items: items,
+        $metadata: response.$metadata,
       };
     }
 
