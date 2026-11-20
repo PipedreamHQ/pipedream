@@ -10,7 +10,7 @@ export default {
   key: "google_docs-set-table-column-width",
   name: "Set Table Column Width",
   description: `Set the width of one or more table columns in a Google Doc. This is the only column property the Docs API exposes, so it does not style column text - use **Format Table Cell** for backgrounds, borders and padding. Identify the table with **Find Table Text**, **Table Index**, or leave both blank when the document has only one table. \`${FIT_TO_CONTENT}\` sizes each column to its content (estimated from the longest line in its cells, since the API has no auto-fit), \`${FIXED_WIDTH}\` applies **Width** to each selected column, and \`${EVENLY_DISTRIBUTED}\` resets them to equal widths. Use **Find Document** to resolve a document's name to its ID. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#UpdateTableColumnPropertiesRequest)`,
-  version: "0.0.1",
+  version: "0.0.2",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

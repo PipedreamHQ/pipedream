@@ -75,9 +75,53 @@ async function streamIterator(stream) {
   return resources;
 }
 
+// Gong sentence offsets are ms from call start, not wall-clock
+function millisToTimestamp(millis) {
+  const totalSeconds = Number.isFinite(millis)
+    ? Math.floor(millis / 1000)
+    : 0;
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  return [
+    hours,
+    minutes,
+    seconds,
+  ]
+    .map((part) => part.toString().padStart(2, "0"))
+    .join(":");
+}
+
+function toExposedFields(allowedFields, selectedFields) {
+  const selected = new Set(selectedFields || []);
+  return Object.fromEntries(allowedFields.map(({ value }) => [
+    value,
+    selected.has(value),
+  ]));
+}
+
+function assertKnownValues(label, allowedFields, selectedFields) {
+  const allowed = allowedFields.map(({ value }) => value);
+  const unknown = (selectedFields || []).filter((value) => !allowed.includes(value));
+  if (unknown.length) {
+    throw new ConfigurationError(`Unknown \`${label}\` values: ${unknown.join(", ")}. Allowed values: ${allowed.join(", ")}`);
+  }
+}
+
+function pluralize(count, singular, plural = `${singular}s`) {
+  return `${count} ${count === 1
+    ? singular
+    : plural}`;
+}
+
 export default {
   parseArray,
   parseObject,
   parse,
   streamIterator,
+  millisToTimestamp,
+  toExposedFields,
+  assertKnownValues,
+  pluralize,
 };

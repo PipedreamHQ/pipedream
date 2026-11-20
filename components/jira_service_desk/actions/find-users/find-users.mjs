@@ -18,7 +18,7 @@ export default {
     + " `accountId` is the only field guaranteed present: Atlassian's profile visibility rules hide `emailAddress` on users who have not made it public, so match on `displayName` and never require an email to be returned."
     + " An empty `users` list means either nobody matched or the connected account lacks the \"Browse users and groups\" global permission, which Atlassian reports as zero results rather than as an error."
     + " [See the documentation](https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-user-search/#api-rest-api-3-user-search-get)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

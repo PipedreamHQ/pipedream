@@ -5,7 +5,7 @@ export default {
   key: "toggl-list-workspace-projects",
   name: "List Workspace Projects",
   description: "List projects visible to the connected Toggl Track account and optionally search by project or client name. Use the returned project IDs with project activity and report actions. Results follow the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/api/projects/)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -18,7 +18,7 @@ export default {
     workspaceId: {
       propDefinition: [
         toggl,
-        "workspaceId",
+        "workspaceIdStatic",
       ],
     },
     query: {

@@ -4,8 +4,10 @@ import {
   getNextCursor,
   parseCursorInput,
   parseProviderTotals,
+  projectTimeEntryFields,
   resolveDateRange,
   resolveWorkspaceUser,
+  sleep,
 } from "../../common/utils.mjs";
 import { validateDetailedPage } from "../../common/report-utils.mjs";
 
@@ -20,45 +22,10 @@ const DEFAULT_FIELDS = [
   "project_name",
   "billable",
 ];
-const NESTED_TIME_ENTRY_FIELDS = new Set([
-  "id",
-  "start",
-  "stop",
-  "seconds",
-  "at",
-]);
-
-const projectFields = (value, fields) => {
-  if (fields.includes(ALL_FIELDS)) return value;
-
-  const projected = {};
-
-  for (const field of fields) {
-    if (!NESTED_TIME_ENTRY_FIELDS.has(field) && Object.hasOwn(value, field)) {
-      projected[field] = value[field];
-    }
-  }
-
-  const nestedFields = fields.filter((field) => NESTED_TIME_ENTRY_FIELDS.has(field));
-
-  if (nestedFields.length && Array.isArray(value.time_entries)) {
-    projected.time_entries = value.time_entries.map((entry) => Object.fromEntries(
-      nestedFields
-        .filter((field) => Object.hasOwn(entry, field))
-        .map((field) => [
-          field,
-          entry[field],
-        ]),
-    ));
-  }
-
-  return projected;
-};
-
 export default {
   key: "toggl-search-detailed-time-entries",
   name: "Search Detailed Time Entries",
-  description: "Search workspace-wide Toggl Track time entries with structured filters and provider-computed totals. Follows Toggl Reports API cursors up to an explicit cap, validates row continuity and duplicate IDs, and returns deterministic JSON without model rewriting. Only present the entries as a complete report when `complete` is true. For description-rich client updates or historical project analysis, prefer **Get Project Activity**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
+  description: "Search workspace-wide Toggl Track time entries with structured filters and provider-computed totals. Follows Toggl Reports API cursors up to an explicit cap, validates row continuity and duplicate IDs, and returns deterministic JSON without model rewriting. Only present the entries as a complete report when `complete` is true. For time per task on one project, use **Get Project Task Time Summary**. For description-rich client updates or historical project analysis, prefer **Get Project Activity**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
   version: "2.0.0",
   type: "action",
   ai: "optimized",
@@ -152,7 +119,7 @@ export default {
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Number of rows requested from Toggl per API call, e.g. `50`.",
+      description: "Number of rows requested from Toggl per API call, e.g. `50`. Toggl returns no continuation cursor for single-row pages, so the action requests at least 2 rows per call (the last page may take the total one row past Maximum Results).",
       min: 1,
       max: 50,
       default: 50,
@@ -168,7 +135,7 @@ export default {
     cursor: {
       type: "object",
       label: "Cursor",
-      description: "Optional `nextCursor` object returned by a previous run, e.g. `{\"firstId\": 123, \"firstRowNumber\": 51}`. Header values are preserved for diagnostics; continuation uses Toggl's First Row Number as documented.",
+      description: "Optional `nextCursor` object returned by a previous run, e.g. `{\"firstId\": 123, \"firstRowNumber\": 51}`. Header values are preserved for diagnostics; paging uses only First Row Number. Keep the same filters and ordering as the previous run.",
       optional: true,
     },
     fields: {
@@ -363,10 +330,12 @@ export default {
       order_dir: this.orderDirection,
       enrich_response: needsEnrichment,
       grouped: false,
+      // first_id is an exclusive ID filter and can skip backdated entries.
+      // Use only the row number for pagination.
       first_row_number: initialCursor?.firstRowNumber,
     };
     const timeEntries = [];
-    const seenCursors = new Set();
+    let lastRowNumber = initialCursor?.firstRowNumber ?? 0;
     const seenEntryIds = new Set();
     let nextCursor = null;
     let quotaRemaining;
@@ -376,12 +345,9 @@ export default {
     let billableSeconds = 0;
     let expectedFirstRowNumber = initialCursor?.firstRowNumber ?? 1;
 
-    if (initialCursor) {
-      seenCursors.add(String(initialCursor.firstRowNumber));
-    }
-
     do {
-      data.page_size = Math.min(this.pageSize, this.maxResults - timeEntries.length);
+      // At least 2: Toggl returns no continuation cursor for a single-row page.
+      data.page_size = Math.max(2, Math.min(this.pageSize, this.maxResults - timeEntries.length));
 
       const response = await this.toggl.searchDetailedTimeEntries({
         workspaceId: this.workspaceId,
@@ -414,25 +380,23 @@ export default {
         throw new Error(`Toggl returned a non-contiguous pagination cursor. Expected row ${expectedFirstRowNumber}, received ${nextCursor.firstRowNumber}.`);
       }
 
-      timeEntries.push(...page.map((entry) => projectFields(entry, fields)));
+      timeEntries.push(...page.map((entry) => projectTimeEntryFields(entry, fields)));
       quotaRemaining = response.headers?.["x-toggl-quota-remaining"];
       quotaResetsIn = response.headers?.["x-toggl-quota-resets-in"];
 
       if (!nextCursor) break;
 
-      const cursorKey = String(nextCursor.firstRowNumber);
+      const { firstRowNumber } = parseCursorInput(nextCursor);
 
-      if (seenCursors.has(cursorKey)) {
-        throw new Error("Toggl returned a repeated pagination cursor, so the report cannot continue safely.");
+      if (!(firstRowNumber > lastRowNumber)) {
+        throw new Error("Toggl returned a repeated or non-advancing pagination cursor, so the report cannot continue safely.");
       }
 
-      seenCursors.add(cursorKey);
-
-      const apiCursor = parseCursorInput(nextCursor);
-      data.first_row_number = apiCursor.firstRowNumber;
+      lastRowNumber = firstRowNumber;
+      data.first_row_number = firstRowNumber;
 
       if (timeEntries.length < this.maxResults) {
-        await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
+        await sleep(REQUEST_INTERVAL_MS);
       }
     } while (timeEntries.length < this.maxResults);
 
@@ -447,7 +411,7 @@ export default {
       capHit && "result_cap",
     ].filter(Boolean);
 
-    await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
+    await sleep(REQUEST_INTERVAL_MS);
 
     const totalsResponse = await this.toggl.getDetailedTimeEntryTotals({
       workspaceId: this.workspaceId,

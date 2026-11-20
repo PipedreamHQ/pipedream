@@ -123,6 +123,145 @@ test("detailed search continues with first_row_number only", async (context) => 
   });
 });
 
+test("detailed search preserves a continuation when a single row is requested", async (context) => {
+  context.mock.method(globalThis, "setTimeout", (callback) => callback());
+
+  const action = {
+    ...searchAction,
+    toggl: {
+      async searchDetailedTimeEntries({ data }) {
+        assert.equal(data.page_size, 2);
+        assert.equal(Object.hasOwn(data, "first_id"), false);
+
+        return {
+          data: [
+            reportRow({
+              rowNumber: 1,
+              id: 102,
+              seconds: 60,
+              billable: true,
+            }),
+            reportRow({
+              rowNumber: 2,
+              id: 101,
+              seconds: 30,
+              billable: false,
+            }),
+          ],
+          headers: {
+            "x-next-id": "99",
+            "x-next-row-number": "3",
+          },
+        };
+      },
+      async getDetailedTimeEntryTotals() {
+        return {
+          data: {
+            seconds: 180,
+            billable_seconds: 60,
+          },
+        };
+      },
+    },
+    workspaceId: 1,
+    startDate: "2026-10-05",
+    endDate: "2026-10-05",
+    pageSize: 1,
+    maxResults: 1,
+    fields: [
+      "user_id",
+      "seconds",
+    ],
+  };
+  const result = await searchAction.run.call(action, {
+    $: executionContext(),
+  });
+
+  assert.equal(result.returnedCount, 2);
+  assert.equal(result.complete, false);
+  assert.equal(result.capHit, true);
+  assert.equal(result.hasMore, true);
+  assert.equal(result.totalCount, null);
+  assert.deepEqual(result.nextCursor, {
+    firstId: "99",
+    firstRowNumber: "3",
+  });
+  assert.deepEqual(result.timeEntries, [
+    {
+      user_id: 1,
+      time_entries: [
+        {
+          seconds: 60,
+        },
+      ],
+    },
+    {
+      user_id: 1,
+      time_entries: [
+        {
+          seconds: 30,
+        },
+      ],
+    },
+  ]);
+});
+
+test("detailed search resumes by row number without claiming a full report", async (context) => {
+  context.mock.method(globalThis, "setTimeout", (callback) => callback());
+
+  const result = await searchAction.run.call({
+    ...searchAction,
+    toggl: {
+      async searchDetailedTimeEntries({ data }) {
+        assert.equal(data.first_row_number, 3);
+        assert.equal(Object.hasOwn(data, "first_id"), false);
+
+        return {
+          data: [
+            reportRow({
+              rowNumber: 3,
+              id: 99,
+              seconds: 90,
+              billable: false,
+            }),
+          ],
+          headers: {},
+        };
+      },
+      async getDetailedTimeEntryTotals() {
+        return {
+          data: {
+            seconds: 180,
+            billable_seconds: 60,
+          },
+        };
+      },
+    },
+    workspaceId: 1,
+    startDate: "2026-10-05",
+    endDate: "2026-10-05",
+    pageSize: 50,
+    maxResults: 1000,
+    fields: [
+      "seconds",
+    ],
+    cursor: {
+      firstId: "99",
+      firstRowNumber: "3",
+    },
+  }, {
+    $: executionContext(),
+  });
+
+  assert.equal(result.returnedCount, 1);
+  assert.equal(result.complete, false);
+  assert.equal(result.hasMore, false);
+  assert.equal(result.nextCursor, null);
+  assert.deepEqual(result.incompleteReasons, [
+    "initial_cursor",
+  ]);
+});
+
 test("summary action returns compact reconciled groups", async (context) => {
   context.mock.method(globalThis, "setTimeout", (callback) => callback());
 

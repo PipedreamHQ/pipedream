@@ -10,7 +10,7 @@ export default {
   key: "toggl-list-project-tasks",
   name: "List Project Tasks",
   description: "List tasks for one accessible Toggl Track project and optionally search by task name. The project can be supplied by ID or an unambiguous name. Results follow the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/api/tasks/)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -23,7 +23,7 @@ export default {
     workspaceId: {
       propDefinition: [
         toggl,
-        "workspaceId",
+        "workspaceIdStatic",
       ],
     },
     projectId: {

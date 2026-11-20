@@ -6,8 +6,8 @@ import hubspot from "../../hubspot.app.mjs";
 export default {
   key: "hubspot-batch-upsert-companies",
   name: "Batch Upsert Companies",
-  description: "Upsert a batch of companies in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/objects/companies#post-%2Fcrm%2Fv3%2Fobjects%2Fcompanies%2Fbatch%2Fupsert)",
-  version: "0.0.17",
+  description: "Upsert a batch of companies in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/objects/companies#post-%2Fcrm%2Fv3%2Fobjects%2Fcompanies%2Fbatch%2Fupsert)",
+  version: "0.0.18",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -20,7 +20,7 @@ export default {
       type: "alert",
       alertType: "info",
       content:
-        "Create or update companies identified by a unique property value as specified by the `idProperty` query parameter. `idProperty` query param refers to a property whose values are unique for the object. To manage properties in Hubspot, navigate to your Settings -> Data Management -> Properties.",
+        "Create or update companies identified by a unique property value as specified by the `idProperty` query parameter. `idProperty` query param refers to a property whose values are unique for the object. To manage properties in HubSpot, navigate to your Settings -> Data Management -> Properties.",
     },
     inputs: {
       type: "string[]",

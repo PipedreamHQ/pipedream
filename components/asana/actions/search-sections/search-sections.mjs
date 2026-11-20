@@ -4,7 +4,7 @@ export default {
   key: "asana-search-sections",
   name: "Search Sections",
   description: "Searches for sections by name within an Asana project. Use this to find section GIDs before calling **Add Task to Section** or when filtering tasks by section. The `sectionName` filter is a client-side substring match. Returns section records with `gid` and `name`. Example: call with `project: '1204567890123456'`, `sectionName: 'In Progress'` → returns `[{gid: '1203456789012345', name: 'In Progress'}]`. [See the documentation](https://developers.asana.com/docs/get-sections-in-a-project)",
-  version: "1.0.0",
+  version: "1.0.1",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

@@ -12,7 +12,7 @@ export default {
     + " for subsequent **Update Rows** calls)."
     + " For simple reads without filtering, use **Read Rows**"
     + " instead.",
-  version: "0.0.5",
+  version: "0.0.6",
   type: "action",
   ai: "optimized",
   annotations: {

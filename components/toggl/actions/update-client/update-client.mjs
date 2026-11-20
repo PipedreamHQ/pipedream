@@ -6,7 +6,7 @@ export default {
   description: "Updates an existing client in Toggl. [See the documentation](https://engineering.toggl.com/docs/api/clients#put-change-client)",
   version: "0.0.4",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },

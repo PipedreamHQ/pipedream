@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import { prepareMediaUpload } from "../../common/utils.mjs";
 import wordpress from "../../wordpress_com.app.mjs";
 
@@ -5,7 +6,7 @@ export default {
   key: "wordpress_com-upload-media",
   name: "Upload Media",
   description: "Uploads a media file from a URL to the specified WordPress.com site. [See the documentation](https://developer.wordpress.com/docs/api/1.1/post/sites/%24site/media/new/)",
-  version: "0.0.4",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,9 +22,9 @@ export default {
       ],
     },
     media: {
-      type: "any",
+      type: "string",
       label: "Media URL",
-      description: "A direct media URL, or a FormData object with the file attached under the field name 'media[]'.",
+      description: "A direct HTTPS URL to the media file to upload, e.g. `https://example.com/image.jpg`. The URL must point at the file itself, not at a page containing it.",
     },
     title: {
       type: "string",
@@ -45,24 +46,24 @@ export default {
     },
   },
   async run({ $ }) {
+    const {
+      wordpress,
+      site,
+      media,
+      ...fields
+    } = this;
 
-    const
-      {
-        wordpress,
-        site,
-        media,
-        ...fields
-      } = this;
-
-    let form;
-
-    // If not form data
-    if (wordpress.isFormData(media)) {
-      form = media;
-
-    } else {
-      form = await prepareMediaUpload(media, fields, $);
+    let mediaUrl;
+    try {
+      mediaUrl = new URL(media);
+    } catch {
+      throw new ConfigurationError(`**Media URL** must be a direct HTTPS URL to the file, e.g. \`https://example.com/image.jpg\`. Received: \`${media}\``);
     }
+    if (mediaUrl.protocol !== "https:") {
+      throw new ConfigurationError(`**Media URL** must use the \`https\` protocol. Received: \`${media}\``);
+    }
+
+    const form = await prepareMediaUpload(media, fields);
 
     const response = await wordpress.uploadWordpressMedia({
       $,

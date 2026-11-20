@@ -5,7 +5,7 @@ export default {
   key: "sendfox_personal_access_token-create-contact",
   name: "Create contact",
   description: "Creates new contact",
-  version: "0.1.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -29,7 +29,9 @@ export default {
       optional: true,
     },
     lists: {
-      type: "any",
+      type: "integer[]",
+      label: "Lists",
+      description: "IDs of the SendFox lists to add the contact to, as integers, e.g. `[123, 456]`. Get a list ID from the `id` field of `GET https://api.sendfox.com/lists`, or from the numeric segment of the list's URL in the SendFox dashboard.",
       optional: true,
     },
   },

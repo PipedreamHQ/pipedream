@@ -88,6 +88,23 @@ export default {
     setLatestDateCovered(latestDateCovered) {
       this.db.set("latestDateCovered", latestDateCovered);
     },
+    getLatestIdCovered() {
+      return this.db.get("latestIdCovered");
+    },
+    setLatestIdCovered(latestIdCovered) {
+      this.db.set("latestIdCovered", latestIdCovered);
+    },
+    // Advances the polling cursor to the last emitted record. Records are paged in
+    // ascending (date, Id) order, so the next tick resumes right after it.
+    setPollingCursor(records, dateFieldName) {
+      const lastRecord = records[records.length - 1];
+      const lastDate = new Date(lastRecord?.[dateFieldName]);
+      if (!lastRecord?.Id || isNaN(lastDate.getTime())) {
+        return;
+      }
+      this.setLatestDateCovered(lastDate.toISOString());
+      this.setLatestIdCovered(lastRecord.Id);
+    },
     getNameField() {
       // Cache in memory for the lifetime of this execution. The deploy hook emits
       // up to DEPLOY_HISTORICAL_LIMIT historical events, each building meta via
@@ -124,42 +141,78 @@ export default {
     },
     queryObjects({
       objectType, columns,
-      startTimestamp, endTimestamp,
+      startTimestamp, startId, endTimestamp,
       dateFieldName = constants.FIELD_NAME.CREATED_DATE,
-      limit = 100, offset = 0, ...args
+      extraConditions = "",
+      limit = constants.POLLING_PAGE_SIZE, ...args
     } = {}) {
+      // The cursor fields must always be selected, whatever columns the user picked
+      const selectedColumns = [
+        ...new Set([
+          "Id",
+          dateFieldName,
+          ...columns,
+        ]),
+      ];
+      // Records sharing the cursor's timestamp are told apart by Id, so a page
+      // boundary that splits them neither skips nor repeats any
+      const afterCursor = startId
+        ? `(${dateFieldName} > ${startTimestamp} OR (${dateFieldName} = ${startTimestamp} AND Id > '${startId}'))`
+        : `${dateFieldName} > ${startTimestamp}`;
       return this.query({
         query: `
-          SELECT ${columns.join(", ")}
+          SELECT ${selectedColumns.join(", ")}
             FROM ${objectType}
-              WHERE ${dateFieldName} > ${startTimestamp} AND ${dateFieldName} <= ${endTimestamp}
-              ORDER BY ${dateFieldName} DESC
-              LIMIT ${limit} OFFSET ${offset}
+              WHERE ${afterCursor}
+              AND ${dateFieldName} <= ${endTimestamp}
+              ${extraConditions}
+              ORDER BY ${dateFieldName} ASC, Id ASC
+              LIMIT ${limit}
         `,
         ...args,
       });
     },
     async paginate({
-      fn = this.queryObjects, limit = 100, offset = 0, maxRecords = 4000, ...args
+      startTimestamp, startId,
+      dateFieldName = constants.FIELD_NAME.CREATED_DATE,
+      limit = constants.POLLING_PAGE_SIZE,
+      maxRecords = constants.POLLING_MAX_RECORDS,
+      ...args
     } = {}) {
-      let records = [];
+      const records = [];
       let nextRecords = [];
+      let cursor = {
+        startTimestamp,
+        startId,
+      };
 
       do {
-        ({ records: nextRecords } =
-          await fn({
+        try {
+          ({ records: nextRecords } = await this.queryObjects({
             ...args,
-            offset,
+            ...cursor,
+            dateFieldName,
             limit,
           }));
+        } catch (err) {
+          // Keep the pages already fetched so the caller can emit them and move
+          // the cursor forward; the next tick resumes from there
+          if (!records.length) {
+            throw err;
+          }
+          console.log(`Error fetching the next page after ${records.length} record(s), resuming on the next run:`, err);
+          break;
+        }
 
-        records = [
-          ...records,
-          ...nextRecords,
-        ];
+        records.push(...nextRecords);
 
-        offset += limit;
-
+        const lastRecord = nextRecords[nextRecords.length - 1];
+        if (lastRecord) {
+          cursor = {
+            startTimestamp: new Date(lastRecord[dateFieldName]).toISOString(),
+            startId: lastRecord.Id,
+          };
+        }
       } while (records.length < maxRecords && nextRecords.length === limit);
 
       return records;
@@ -194,6 +247,7 @@ export default {
 
       await this.processTimerEvent({
         startTimestamp,
+        startId: this.getLatestIdCovered(),
         endTimestamp,
       });
     }

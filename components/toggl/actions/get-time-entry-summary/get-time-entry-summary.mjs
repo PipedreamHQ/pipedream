@@ -3,6 +3,7 @@ import {
   parseProviderTotals,
   resolveDateRange,
   resolveWorkspaceUser,
+  sleep,
   unwrapItems,
 } from "../../common/utils.mjs";
 import { compactSummaryReport } from "../../common/report-utils.mjs";
@@ -12,7 +13,7 @@ const REQUEST_INTERVAL_MS = 1000;
 export default {
   key: "toggl-get-time-entry-summary",
   name: "Get Time Entry Summary",
-  description: "Return compact Toggl-computed summary groups and totals by user, client, or project. The action validates that every returned group reconciles with the provider totals and omits the large nested provider payload. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
+  description: "Return compact Toggl-computed summary groups and totals by user, client, or project. The action validates that every returned group reconciles with the provider totals and omits the large nested provider payload. For time per task on one project, use **Get Project Task Time Summary**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
   version: "1.0.0",
   type: "action",
   ai: "optimized",
@@ -219,7 +220,7 @@ export default {
       };
     });
 
-    await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
+    await sleep(REQUEST_INTERVAL_MS);
 
     const totalsResponse = await this.toggl.getDetailedTimeEntryTotals({
       workspaceId: this.workspaceId,
