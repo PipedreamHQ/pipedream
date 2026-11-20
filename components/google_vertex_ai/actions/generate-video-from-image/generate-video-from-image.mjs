@@ -19,7 +19,14 @@ export default {
     image: {
       type: "string",
       label: "Image Path Or URL",
+      format: "file-ref",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/image.jpg`). Supported formats: JPEG, PNG. For best quality, use 720p or higher (1280 x 720 pixels) with 16:9 or 9:16 aspect ratio.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
