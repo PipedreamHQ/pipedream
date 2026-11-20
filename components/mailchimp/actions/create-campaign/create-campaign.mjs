@@ -8,7 +8,7 @@ export default {
   key: "mailchimp-create-campaign",
   name: "Create Campaign",
   description: "Creates a new campaign draft. [See the documentation](https://mailchimp.com/developer/marketing/api/campaigns/add-campaign/)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -261,7 +261,7 @@ export default {
         "fb_comments": this.fbComments,
         "template_id": this.templateId,
       },
-      "tracking:": {
+      "tracking": {
         "opens": this.opens,
         "html_clicks": this.htmlClicks,
         "text_clicks": this.textClicks,

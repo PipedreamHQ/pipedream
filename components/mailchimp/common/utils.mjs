@@ -57,7 +57,7 @@ const formatArrayStrings = (objectArray, ALLOWED_KEYS, fieldName, allowedValues 
                 `${fieldName}[${i}] error: ${key} is not present or allowed in object. Allowed keys are ${ALLOWED_KEYS.join(",")}`,
               );
             }
-            if (allowedValues[key] && !allowedValues[key].includes(value)) {
+            if (allowedValues?.[key] && !allowedValues[key].includes(value)) {
               errors.push(
                 `${fieldName}[${i}] error: value ${value} is not present or allowed in key ${key}.`,
               );
