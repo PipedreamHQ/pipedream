@@ -1,43 +1,19 @@
 import toggl from "../../toggl.app.mjs";
 import {
+  collectTimeEntryIds,
   parseProviderTotals,
   resolveDateRange,
   resolveWorkspaceUser,
+  sleep,
 } from "../../common/utils.mjs";
 
 const REQUEST_INTERVAL_MS = 1000;
 
-const collectTimeEntryIds = (value, ids = new Set()) => {
-  if (Array.isArray(value)) {
-    value.forEach((item) => collectTimeEntryIds(item, ids));
-    return ids;
-  }
-
-  if (!value || typeof value !== "object") return ids;
-
-  for (const [
-    key,
-    nestedValue,
-  ] of Object.entries(value)) {
-    if ([
-      "ids",
-      "time_entry_ids",
-      "timeEntryIds",
-    ].includes(key) && Array.isArray(nestedValue)) {
-      nestedValue.forEach((id) => ids.add(id));
-    } else {
-      collectTimeEntryIds(nestedValue, ids);
-    }
-  }
-
-  return ids;
-};
-
 export default {
   key: "toggl-get-time-entry-summary",
   name: "Get Time Entry Summary",
-  description: "Return Toggl-computed summary report groups and totals by user, client, or project. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
-  version: "0.0.1",
+  description: "Return Toggl-computed summary report groups and totals by user, client, or project. For time per task on one project, use **Get Project Task Time Summary**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -194,7 +170,7 @@ export default {
       throw new Error("Toggl returned an invalid summary report response.");
     }
 
-    await new Promise((resolve) => setTimeout(resolve, REQUEST_INTERVAL_MS));
+    await sleep(REQUEST_INTERVAL_MS);
 
     const totalsResponse = await this.toggl.getDetailedTimeEntryTotals({
       workspaceId: this.workspaceId,
