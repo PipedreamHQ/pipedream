@@ -39,7 +39,7 @@ export default {
     durationSeconds: {
       type: "integer",
       label: "Duration (seconds)",
-      description: "The length of the video in seconds.",
+      description: "The length of the video in seconds, e.g. `8`.",
       options: [
         4,
         6,
