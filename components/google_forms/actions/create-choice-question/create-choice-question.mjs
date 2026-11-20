@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleForms from "../../google_forms.app.mjs";
 
 export default {
@@ -88,10 +89,10 @@ export default {
   },
   async run({ $ }) {
     if (!this.options?.length) {
-      throw new Error("`options` must contain at least one choice.");
+      throw new ConfigurationError("`options` must contain at least one choice.");
     }
     if (this.includeOther && this.type === "DROP_DOWN") {
-      throw new Error("`includeOther` is only valid with `RADIO` or `CHECKBOX`, not `DROP_DOWN`.");
+      throw new ConfigurationError("`includeOther` is only valid with `RADIO` or `CHECKBOX`, not `DROP_DOWN`.");
     }
 
     let index = this.index;
@@ -117,45 +118,37 @@ export default {
       });
     }
 
-    let response;
-    try {
-      response = await this.googleForms.updateForm({
-        $,
-        formId: this.formId,
-        data: {
-          includeFormInResponse: false,
-          writeControl,
-          requests: [
-            {
-              createItem: {
-                item: {
-                  title: this.title,
-                  description: this.description,
-                  questionItem: {
-                    question: {
-                      required: this.required ?? false,
-                      choiceQuestion: {
-                        type: this.type,
-                        options: choices,
-                        shuffle: this.shuffle ?? false,
-                      },
+    const response = await this.googleForms.updateForm({
+      $,
+      formId: this.formId,
+      data: {
+        includeFormInResponse: false,
+        writeControl,
+        requests: [
+          {
+            createItem: {
+              item: {
+                title: this.title,
+                description: this.description,
+                questionItem: {
+                  question: {
+                    required: this.required ?? false,
+                    choiceQuestion: {
+                      type: this.type,
+                      options: choices,
+                      shuffle: this.shuffle ?? false,
                     },
                   },
                 },
-                location: {
-                  index,
-                },
+              },
+              location: {
+                index,
               },
             },
-          ],
-        },
-      });
-    } catch (err) {
-      if (writeControl && /revision/i.test(JSON.stringify(err?.response?.data ?? err?.message ?? ""))) {
-        throw new Error("The form changed while the question was being appended, so nothing was added. Call this tool again to append to the updated form.");
-      }
-      throw err;
-    }
+          },
+        ],
+      },
+    });
 
     const created = response?.replies?.[0]?.createItem ?? {};
     $.export("$summary", `Added ${this.type} question "${this.title}" at position ${index}`);

@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import googleForms from "../../google_forms.app.mjs";
 
 export default {
@@ -42,38 +43,31 @@ export default {
     const items = form.items || [];
     const index = items.findIndex(({ itemId }) => itemId === this.itemId);
     if (index === -1) {
-      throw new Error(`Item ${this.itemId} was not found in form ${this.formId}. Use **Get Form** to list valid item IDs.`);
+      throw new ConfigurationError(`Item ${this.itemId} was not found in form ${this.formId}. Use **Get Form** to list valid item IDs.`);
     }
     const title = items[index].title;
 
-    try {
-      await this.googleForms.updateForm({
-        $,
-        formId: this.formId,
-        data: {
-          includeFormInResponse: false,
-          // The API deletes by position: pin the revision the index was read from,
-          // so a concurrent edit fails the call instead of deleting another item.
-          writeControl: {
-            requiredRevisionId: form.revisionId,
-          },
-          requests: [
-            {
-              deleteItem: {
-                location: {
-                  index,
-                },
+    await this.googleForms.updateForm({
+      $,
+      formId: this.formId,
+      data: {
+        includeFormInResponse: false,
+        // The API deletes by position: pin the revision the index was read from,
+        // so a concurrent edit fails the call instead of deleting another item.
+        writeControl: {
+          requiredRevisionId: form.revisionId,
+        },
+        requests: [
+          {
+            deleteItem: {
+              location: {
+                index,
               },
             },
-          ],
-        },
-      });
-    } catch (err) {
-      if (/revision/i.test(JSON.stringify(err?.response?.data ?? err?.message ?? ""))) {
-        throw new Error(`Form ${this.formId} changed while item ${this.itemId} was being deleted, so nothing was deleted. Call this tool again.`);
-      }
-      throw err;
-    }
+          },
+        ],
+      },
+    });
 
     $.export("$summary", `Deleted item ${this.itemId}${title
       ? ` ("${title}")`
