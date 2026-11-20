@@ -1,5 +1,9 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common-assistants.mjs";
+import {
+  DEFAULT_RESPONSES_VISION_MODEL,
+  getResponsesVisionModelIds,
+} from "../common/responses-vision-model.mjs";
 import FormData from "form-data";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 
@@ -8,7 +12,7 @@ export default {
   key: "openai-analyze-image-content",
   name: "Analyze Image Content",
   description: "Send a message or question about an image and receive a response. [See the documentation](https://developers.openai.com/api/reference/resources/responses/methods/create)",
-  version: "1.2.0",
+  version: "1.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -18,10 +22,13 @@ export default {
   props: {
     openai,
     modelId: {
-      propDefinition: [
-        openai,
-        "responsesModelId",
-      ],
+      type: "string",
+      label: "Model",
+      description: "The vision-capable OpenAI model to use with the Responses API",
+      default: DEFAULT_RESPONSES_VISION_MODEL,
+      async options() {
+        return getResponsesVisionModelIds(this.openai);
+      },
     },
     message: {
       type: "string",
@@ -73,7 +80,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      model: this.modelId,
+      model: this.modelId ?? DEFAULT_RESPONSES_VISION_MODEL,
       input: [
         {
           role: "user",
@@ -135,12 +142,17 @@ export default {
       messages: data.input,
     };
 
-    if (run.output.length) {
-      const content = run.output[0]?.content?.find((c) => c.text);
+    const message = run.output.find(({
+      type, role,
+    }) => type === "message" && role === "assistant");
+    if (message) {
+      const content = message.content?.find(({
+        type, text,
+      }) => type === "output_text" && text);
       returnData.response = content?.text;
       returnData.messages.push({
-        role: run.output[0].role,
-        content: content,
+        role: message.role,
+        content,
       });
     }
 
