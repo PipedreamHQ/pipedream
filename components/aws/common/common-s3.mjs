@@ -33,8 +33,10 @@ export default {
       ],
       description: "The AWS region of the bucket, e.g. `us-east-1` or `us-west-2`. Optional: when omitted, the bucket's region is looked up automatically. Run **List AWS Region Options** to see the available regions, or **S3 - List Buckets** to see each bucket's region.",
       optional: true,
-      // no default: an empty region means "look the bucket's region up"
-      default: undefined,
+      // The app's region has a default, which would make every call skip the
+      // lookup. An empty default means "look the bucket's region up" (the
+      // platform rejects `default: undefined`).
+      default: "",
     },
     bucket: {
       type: "string",

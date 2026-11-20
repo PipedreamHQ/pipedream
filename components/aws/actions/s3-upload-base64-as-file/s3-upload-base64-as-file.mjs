@@ -1,4 +1,5 @@
 import common from "../../common/common-s3.mjs";
+import { formatUploadDetails } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -43,9 +44,7 @@ export default {
         {
           s3Key: this.filename,
           status: "uploaded",
-          eTag: response?.ETag,
-          versionId: response?.VersionId,
-          location: response?.Location,
+          ...formatUploadDetails(response),
         },
       ],
     };

@@ -74,7 +74,12 @@ export default {
       if (destinationBucket === bucket && destinationKey === key) {
         throw new ConfigurationError("The source and destination are the same object. Choose a different `Destination Key` or `Destination Bucket`.");
       }
-      if (!overwrite && await this.objectExists(destinationBucket, destinationKey)) {
+      // This early check only gives a clear message. A failed lookup (e.g. no
+      // permission to read the destination) means "unknown", not "stop": the
+      // IfNoneMatch condition below still keeps S3 from replacing an existing object.
+      const destinationExists = !overwrite
+        && await this.objectExists(destinationBucket, destinationKey).catch(() => false);
+      if (destinationExists) {
         throw new ConfigurationError(`An object already exists at \`${destinationBucket}/${destinationKey}\`. Turn on \`Overwrite\` to replace it, or choose a different \`Destination Key\`.`);
       }
 
@@ -99,12 +104,12 @@ export default {
         const status = err?.$metadata?.httpStatusCode;
         if (status === 412) {
           // Either precondition answers 412, so tell them apart by looking at the destination
-          let destinationExists = !overwrite;
-          if (destinationExists && sourceEtag) {
-            destinationExists = await this.objectExists(destinationBucket, destinationKey)
+          let created = !overwrite;
+          if (created && sourceEtag) {
+            created = await this.objectExists(destinationBucket, destinationKey)
               .catch(() => false);
           }
-          if (destinationExists) {
+          if (created) {
             throw new ConfigurationError(`An object already exists at \`${destinationBucket}/${destinationKey}\`. Turn on \`Overwrite\` to replace it, or choose a different \`Destination Key\`.`);
           }
           if (sourceEtag) {

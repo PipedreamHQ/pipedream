@@ -5,6 +5,7 @@ import {
 import fs from "fs";
 import { join } from "path";
 import common from "../../common/common-s3.mjs";
+import { formatUploadDetails } from "../../common/utils.mjs";
 
 export default {
   ...common,
@@ -59,15 +60,6 @@ export default {
         stream.on("error", reject);
       });
     },
-    // What S3 returned for one object, so a later step can identify what was written
-    // (`versionId` is the only way to pick out the object in a versioned bucket)
-    uploadDetails(response) {
-      return {
-        eTag: response?.ETag,
-        versionId: response?.VersionId,
-        location: response?.Location,
-      };
-    },
     // One result shape for a single file and for a folder
     formatResult(files) {
       return {
@@ -117,7 +109,7 @@ export default {
           filePath,
           s3Key,
           status: "uploaded",
-          ...this.uploadDetails(response),
+          ...formatUploadDetails(response),
         };
       }));
       $.export("$summary", `Uploaded ${response.length} file${response.length === 1
@@ -162,7 +154,7 @@ export default {
             filePath,
             s3Key,
             status: "uploaded",
-            ...this.uploadDetails(response),
+            ...formatUploadDetails(response),
           },
         ]),
       };

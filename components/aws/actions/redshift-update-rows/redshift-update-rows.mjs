@@ -1,11 +1,10 @@
 import app from "../../aws.app.mjs";
-import { ConfigurationError } from "@pipedream/platform";
 import {
   parseJson, toSingleLineString,
 } from "../../common/utils.mjs";
 
-// New column values are bound as `pd_set_<column>`, a prefix a caller's own
-// `sqlParameters` are unlikely to use, so they can't replace a `where` parameter
+// New column values are bound as `pd_set_<n>` (renamed if the caller already uses
+// that name), so they never replace a parameter used by `where`
 const SET_PREFIX = "pd_set_";
 
 export default {
@@ -127,21 +126,6 @@ export default {
       sqlParameters,
     } = this;
 
-    const setClause = Object.keys(updates)
-      .map((key) => `${key} = :${SET_PREFIX}${key}`)
-      .join(", ");
-
-    const sql = `UPDATE ${schema}.${table} SET ${setClause} WHERE ${where}`;
-
-    const updateParameters = Object.entries(parseJson(updates) || {})
-      .map(([
-        name,
-        value,
-      ]) => ({
-        name: `${SET_PREFIX}${name}`,
-        value: String(value),
-      }));
-
     const whereParameters = Object.entries(parseJson(sqlParameters) || {})
       .map(([
         name,
@@ -151,11 +135,32 @@ export default {
         value: String(value),
       }));
 
-    const taken = new Set(updateParameters.map(({ name }) => name));
-    const clash = whereParameters.find(({ name }) => taken.has(name));
-    if (clash) {
-      throw new ConfigurationError(`The parameter name \`${clash.name}\` in \`sqlParameters\` is reserved for a column being updated. Use a different name.`);
-    }
+    // Name each new column value so it can never replace a parameter the caller
+    // uses: skip every name that is a placeholder in `where` or a key in
+    // `sqlParameters`. The caller's own names are never changed.
+    const inUse = new Set([
+      ...(where.match(/:(\w+)/g) ?? []).map((placeholder) => placeholder.slice(1)),
+      ...whereParameters.map(({ name }) => name),
+    ]);
+    const updateEntries = Object.entries(parseJson(updates) || {});
+    const setNames = updateEntries.map((_, index) => {
+      let name = `${SET_PREFIX}${index}`;
+      for (let attempt = 2; inUse.has(name); attempt++) {
+        name = `${SET_PREFIX}${index}_${attempt}`;
+      }
+      inUse.add(name);
+      return name;
+    });
+
+    const setClause = updateEntries
+      .map((entry, index) => `${entry[0]} = :${setNames[index]}`)
+      .join(", ");
+    const sql = `UPDATE ${schema}.${table} SET ${setClause} WHERE ${where}`;
+
+    const updateParameters = updateEntries.map((entry, index) => ({
+      name: setNames[index],
+      value: String(entry[1]),
+    }));
 
     const response = await this.app.executeStatement({
       region,

@@ -177,6 +177,21 @@ function keyToRelativePath(key) {
     .join("/");
 }
 
+/**
+ * What S3 returned for one uploaded object, so a later step can identify what was
+ * written (`versionId` is the only way to pick out the object in a versioned bucket).
+ *
+ * @param {object} response the result of an S3 upload
+ * @returns {{ eTag: string, versionId: string, location: string }} the identifiers
+ */
+function formatUploadDetails(response) {
+  return {
+    eTag: response?.ETag,
+    versionId: response?.VersionId,
+    location: response?.Location,
+  };
+}
+
 export {
   generateRandomUniqueName,
   toSingleLineString,
@@ -185,4 +200,5 @@ export {
   parseArray,
   mapWithConcurrency,
   keyToRelativePath,
+  formatUploadDetails,
 };
