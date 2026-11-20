@@ -1,14 +1,20 @@
 import { defineAction } from "@pipedream/types";
 import app from "../../app/google_my_business.app";
 import { BatchGetReviewsParams } from "../../common/requestParams";
+import { REVIEWS_PAGE_SIZE } from "../../common/constants";
 
-const DOCS_LINK = "https://developers.google.com/my-business/content/review-data#get_reviews_from_multiple_locations";
+const DOCS_LINK = "https://developers.google.com/my-business/reference/rest/v4/accounts.locations/batchGetReviews";
 
 export default defineAction({
   key: "google_my_business-get-reviews-multiple-locations",
   name: "Get Reviews from Multiple Locations",
-  description: `Get reviews from multiple locations at once. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.5",
+  description: "Get reviews from several locations of the same account in one request, for example to monitor recent reviews across all branches."
+    + ` Each page holds up to \`Page Size\` reviews (max ${REVIEWS_PAGE_SIZE}). When more reviews remain, the output includes a \`nextPageToken\`;`
+    + " run the action again with that token in `Page Token` (and the same locations and `Order By`) to get the next page."
+    + " Each item in `locationReviews` carries the location `name` and the `review`."
+    + " To page through a single location's full history, use **List All Reviews** instead."
+    + ` [See the documentation](${DOCS_LINK})`,
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -38,22 +44,22 @@ export default defineAction({
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "The number of reviews to return per location (max 50)",
+      description: `The number of reviews to return in this page (max ${REVIEWS_PAGE_SIZE}). Use \`Page Token\` to get the next page.`,
       optional: true,
-      default: 50,
+      default: REVIEWS_PAGE_SIZE,
       min: 1,
-      max: 50,
+      max: REVIEWS_PAGE_SIZE,
     },
     orderBy: {
-      type: "string",
-      label: "Order By",
-      description: "How to order the reviews: by createTime or updateTime, and ascending or descending",
-      optional: true,
-      options: [
-        "createTime desc",
-        "createTime asc",
-        "updateTime desc",
-        "updateTime asc",
+      propDefinition: [
+        app,
+        "reviewOrderBy",
+      ],
+    },
+    pageToken: {
+      propDefinition: [
+        app,
+        "pageToken",
       ],
     },
     ignoreRatingOnlyReviews: {
@@ -66,18 +72,17 @@ export default defineAction({
   },
   async run({ $ }) {
     const {
-      account, locationNames, pageSize, orderBy, ignoreRatingOnlyReviews,
+      account, locationNames, pageSize, orderBy, pageToken, ignoreRatingOnlyReviews,
     } = this;
 
-    const accountId = this.app.getCleanName(account);
-
+    // The app method builds the full `accounts/{id}/locations/{id}` names
     const params: BatchGetReviewsParams = {
       $,
-      account: accountId,
+      account,
       data: {
-        locationNames: locationNames?.map((locationName: string) =>
-          `accounts/${accountId}/locations/${this.app.getCleanName(locationName)}`),
+        locationNames,
         pageSize,
+        pageToken,
         orderBy,
         ignoreRatingOnlyReviews,
       },
@@ -85,7 +90,14 @@ export default defineAction({
 
     const response = await this.app.batchGetReviews(params);
 
-    $.export("$summary", `Successfully retrieved reviews from ${locationNames.length} locations`);
+    const count = response?.locationReviews?.length ?? 0;
+    $.export("$summary", `Successfully retrieved ${count} review${count === 1
+      ? ""
+      : "s"} from ${locationNames.length} location${locationNames.length === 1
+      ? ""
+      : "s"}${response?.nextPageToken
+      ? " (more reviews are available, see `nextPageToken`)"
+      : ""}`);
 
     return response;
   },

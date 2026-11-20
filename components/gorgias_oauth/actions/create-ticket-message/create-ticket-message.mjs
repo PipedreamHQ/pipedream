@@ -6,13 +6,14 @@ export default {
   key: "gorgias_oauth-create-ticket-message",
   name: "Create Ticket Message",
   description: "Create a message or internal note on a Gorgias ticket. Use **List Tickets** to find the ticket ID and its customer, and **List Integrations** for the Integration ID. Set From Agent to `true` for a reply from your team (From User + To Customer) or `false` for a customer message (From Customer + To User). Returns the created message. [See the documentation](https://developers.gorgias.com/reference/create-ticket-message)",
-  version: "0.4.0",
+  version: "0.4.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     gorgiasOauth,
     ticketId: {

@@ -21,7 +21,7 @@ export default {
   key: "servicenow_service_account-get-table-ui-policies",
   name: "Get Table UI Policies",
   description: "Retrieve the form UI policies of a ServiceNow table (for example `incident`) from `sys_ui_policy`, each with its field rules from `sys_ui_policy_action` under `actions`: which fields become visible, mandatory, read-only, or cleared and under which `conditions`. Only policies defined directly on the table return, so for an extended table (for example `incident` extends `task`) query the parent table as well. Use this before **Create Table Record** or **Update Table Record** to learn which fields a form requires or hides. For catalog items use **Get Catalog UI Policies** instead. Pair with **Get Table Data Policies**, which the server enforces on API writes. Returns up to `limit` rows (default 100); if exactly `limit` rows come back, call again with `offset` raised by `limit` to get the rest. Example: table `incident` returns each active incident UI policy with `actions` such as `{\"field\": \"close_notes\", \"mandatory\": \"true\"}` for the rule that requires close notes. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

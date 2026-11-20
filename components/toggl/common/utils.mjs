@@ -1,4 +1,5 @@
 import { ConfigurationError } from "@pipedream/platform";
+import constants from "./constants.mjs";
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -276,4 +277,74 @@ export const resolveWorkspaceUser = (users, query) => {
     .map((user) => `${user.name} (${user.userId})`)
     .join(", ");
   throw new ConfigurationError(`User Name is ambiguous. Use a full name, email, or User ID. Matches: ${choices}`);
+};
+
+/** Waits `ms` milliseconds, e.g. between Reports API calls to stay under Toggl's rate limit. */
+export const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Fields that live on each row's nested `time_entries` items rather than on the row itself.
+const NESTED_TIME_ENTRY_FIELDS = new Set([
+  "id",
+  "start",
+  "stop",
+  "seconds",
+  "at",
+]);
+
+/**
+ * Keeps only the requested fields of a detailed-report row, including the nested
+ * `time_entries` fields. Returns the row unchanged when All Fields is selected.
+ */
+export const projectTimeEntryFields = (row, fields) => {
+  if (fields.includes(constants.ALL_FIELDS)) return row;
+
+  const projected = {};
+
+  for (const field of fields) {
+    if (!NESTED_TIME_ENTRY_FIELDS.has(field) && Object.hasOwn(row, field)) {
+      projected[field] = row[field];
+    }
+  }
+
+  const nestedFields = fields.filter((field) => NESTED_TIME_ENTRY_FIELDS.has(field));
+
+  if (nestedFields.length && Array.isArray(row.time_entries)) {
+    projected.time_entries = row.time_entries.map((entry) => Object.fromEntries(
+      nestedFields
+        .filter((field) => Object.hasOwn(entry, field))
+        .map((field) => [
+          field,
+          entry[field],
+        ]),
+    ));
+  }
+
+  return projected;
+};
+
+/** Collects every time entry ID found under `ids`/`time_entry_ids` keys of a summary report. */
+export const collectTimeEntryIds = (value, ids = new Set()) => {
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectTimeEntryIds(item, ids));
+    return ids;
+  }
+
+  if (!value || typeof value !== "object") return ids;
+
+  for (const [
+    key,
+    nestedValue,
+  ] of Object.entries(value)) {
+    if ([
+      "ids",
+      "time_entry_ids",
+      "timeEntryIds",
+    ].includes(key) && Array.isArray(nestedValue)) {
+      nestedValue.forEach((id) => ids.add(id));
+    } else {
+      collectTimeEntryIds(nestedValue, ids);
+    }
+  }
+
+  return ids;
 };

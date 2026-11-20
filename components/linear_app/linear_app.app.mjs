@@ -5,6 +5,7 @@ import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
 import queries from "./common/queries.mjs";
+import mutations from "./common/mutations.mjs";
 
 export default {
   type: "app",
@@ -142,6 +143,29 @@ export default {
       label: "Document ID",
       description: "The UUID or slugId of the document. A UUID looks like `a1b2c3d4-0000-0000-0000-000000000001`; a slugId is the short alphanumeric code at the end of the document URL (e.g. `10b5bc2940c7`). Use **Search Documents** to find document IDs.",
     },
+    documentTitle: {
+      type: "string",
+      label: "Title",
+      description: "The title of the document. Example: `Q3 Hiring Plan`.",
+    },
+    documentContent: {
+      type: "string",
+      label: "Content",
+      description: "The document body in markdown. Example: `# Goals\\n\\n- Hire two engineers`.",
+      optional: true,
+    },
+    documentIcon: {
+      type: "string",
+      label: "Icon",
+      description: "The document icon, as an emoji shortcode. Raw emoji such as `📄` are rejected. Example: `:page_facing_up:`.",
+      optional: true,
+    },
+    documentColor: {
+      type: "string",
+      label: "Color",
+      description: "The color of the document icon, as a hex code. Example: `#5e6ad2`.",
+      optional: true,
+    },
     orderBy: {
       type: "string",
       label: "Order By",
@@ -239,11 +263,33 @@ export default {
     async deleteWebhook(id) {
       return this.client().deleteWebhook(id);
     },
-    async createIssue(input) {
-      return this.client().createIssue(input);
+    async createIssue({
+      $, input,
+    }) {
+      const { data: { issueCreate } } = await this.post({
+        $,
+        data: {
+          query: mutations.createIssue,
+          variables: {
+            input,
+          },
+        },
+      });
+      return issueCreate;
     },
-    async createComment(input) {
-      return this.client().createComment(input);
+    async createComment({
+      $, input,
+    }) {
+      const { data: { commentCreate } } = await this.post({
+        $,
+        data: {
+          query: mutations.createComment,
+          variables: {
+            input,
+          },
+        },
+      });
+      return commentCreate;
     },
     async createInitiative(input) {
       return this.client().createInitiative(input);
@@ -257,13 +303,35 @@ export default {
     async updateInitiative(initiativeId, input) {
       return this.client().updateInitiative(initiativeId, input);
     },
-    async removeLabelFromIssue(issueId, labelId) {
-      return this.client().issueRemoveLabel(issueId, labelId);
+    async removeLabelFromIssue({
+      $, issueId, labelId,
+    }) {
+      const { data: { issueRemoveLabel } } = await this.post({
+        $,
+        data: {
+          query: mutations.removeLabelFromIssue,
+          variables: {
+            id: issueId,
+            labelId,
+          },
+        },
+      });
+      return issueRemoveLabel;
     },
     async updateIssue({
-      issueId, input,
+      $, issueId, input,
     }) {
-      return this.client().updateIssue(issueId, input);
+      const { data: { issueUpdate } } = await this.post({
+        $,
+        data: {
+          query: mutations.updateIssue,
+          variables: {
+            id: issueId,
+            input,
+          },
+        },
+      });
+      return issueUpdate;
     },
     async listIssues(variables) {
       const { data: { issues } } = await this.post({
@@ -395,8 +463,11 @@ export default {
       });
       return document;
     },
-    async getDocumentForHistory(variables) {
+    async getDocumentForHistory({
+      $, ...variables
+    }) {
       const { data: { document } } = await this.post({
+        $,
         data: {
           query: queries.getDocumentForHistory,
           variables,
@@ -421,6 +492,59 @@ export default {
         },
       });
       return documents;
+    },
+    async listDocumentComments({
+      $, ...variables
+    }) {
+      const { data: { document } } = await this.post({
+        $,
+        data: {
+          query: queries.listDocumentComments,
+          variables,
+        },
+      });
+      return document;
+    },
+    async createDocumentComment({
+      $, ...variables
+    }) {
+      const { data: { commentCreate } } = await this.post({
+        $,
+        data: {
+          query: queries.createDocumentComment,
+          variables,
+        },
+      });
+      return commentCreate;
+    },
+    async createDocument({
+      $, input,
+    }) {
+      const { data: { documentCreate } } = await this.post({
+        $,
+        data: {
+          query: mutations.createDocument,
+          variables: {
+            input,
+          },
+        },
+      });
+      return documentCreate;
+    },
+    async updateDocument({
+      $, documentId, input,
+    }) {
+      const { data: { documentUpdate } } = await this.post({
+        $,
+        data: {
+          query: mutations.updateDocument,
+          variables: {
+            id: documentId,
+            input,
+          },
+        },
+      });
+      return documentUpdate;
     },
     async getDocumentContentHistory(variables) {
       const { data: { documentContentHistory } } = await this.post({
