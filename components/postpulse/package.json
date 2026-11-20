@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/postpulse",
+  "version": "0.1.0",
+  "description": "Pipedream PostPulse Components",
+  "main": "postpulse.app.mjs",
+  "keywords": [
+    "pipedream",
+    "postpulse"
+  ],
+  "homepage": "https://pipedream.com/apps/postpulse",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
