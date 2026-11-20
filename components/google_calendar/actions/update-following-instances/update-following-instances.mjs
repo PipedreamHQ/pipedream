@@ -91,22 +91,26 @@ export default {
       options: Object.keys(constants.REPEAT_FREQUENCIES),
     },
     repeatInterval: {
-      type: "integer",
-      label: "Repeat Interval",
+      propDefinition: [
+        googleCalendar,
+        "repeatInterval",
+      ],
       description: "Enter 1 to repeat every period of `New Repeat Frequency` (e.g. every week), 2 to repeat every other period, etc. Defaults to 1. Requires `New Repeat Frequency`.",
-      optional: true,
     },
     repeatUntil: {
-      type: "string",
-      label: "Repeat Until",
+      propDefinition: [
+        googleCalendar,
+        "repeatUntil",
+      ],
       description: "The new series will repeat only until this date, e.g. `2026-12-31`. Requires `New Repeat Frequency`; only one of `Repeat Until` or `Number of Occurrences` may be entered.",
-      optional: true,
     },
     repeatTimes: {
-      type: "integer",
+      propDefinition: [
+        googleCalendar,
+        "repeatTimes",
+      ],
       label: "Number of Occurrences",
       description: "Limit the number of times the new series will occur, e.g. `5`. Requires `New Repeat Frequency`; only one of `Repeat Until` or `Number of Occurrences` may be entered.",
-      optional: true,
     },
     colorId: {
       propDefinition: [
@@ -251,6 +255,12 @@ export default {
   async run({ $ }) {
     this.validateDateInput("Event Start Date", this.eventStartDate);
     this.validateDateInput("Event End Date", this.eventEndDate);
+    if (this.repeatInterval !== undefined && !utils.isPositiveInteger(this.repeatInterval)) {
+      throw new ConfigurationError("`Repeat Interval` must be a positive integer.");
+    }
+    if (this.repeatTimes !== undefined && !utils.isPositiveInteger(this.repeatTimes)) {
+      throw new ConfigurationError("`Number of Occurrences` must be a positive integer.");
+    }
     if (!this.repeatFrequency && (this.repeatInterval || this.repeatUntil || this.repeatTimes)) {
       throw new ConfigurationError("`New Repeat Frequency` is required when `Repeat Interval`, `Repeat Until` or `Number of Occurrences` is entered.");
     }

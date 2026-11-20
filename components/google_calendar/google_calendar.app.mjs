@@ -250,6 +250,26 @@ export default {
         "none",
       ],
     },
+    repeatInterval: {
+      type: "integer",
+      label: "Repeat Interval",
+      description: "Enter 1 to \"repeat every day\", enter 2 to \"repeat every other day\", etc. Defaults to 1.",
+      optional: true,
+      min: 1,
+    },
+    repeatUntil: {
+      type: "string",
+      label: "Repeat Until",
+      description: "The event will repeat only until this date, if set. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
+      optional: true,
+    },
+    repeatTimes: {
+      type: "integer",
+      label: "Repeat How Many Times?",
+      description: "Limit the number of times this event will occur. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
+      optional: true,
+      min: 1,
+    },
     transparency: {
       label: "Show As",
       type: "string",
