@@ -11,7 +11,7 @@
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
   "dependencies": {
     "@pipedream/platform": "^1.6.8",
-    "qs": "^6.16.0"
+    "qs": "^6.16.1"
   },
   "publishConfig": {
     "access": "public"
