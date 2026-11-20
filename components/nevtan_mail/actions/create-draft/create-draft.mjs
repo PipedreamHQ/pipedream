@@ -1,0 +1,72 @@
+import app from "../../nevtan_mail.app.mjs";
+
+export default {
+  key: "nevtan_mail-create-draft",
+  name: "Create Draft",
+  description: "Save a draft email in your NevTan Mail mailbox without sending it. Use **Send Email** to send immediately. The draft is not threaded, so quote the original message in the body if the reader needs context. [See the documentation](https://mail.nevtan.com/docs/mail-api)",
+  version: "0.0.1",
+  type: "action",
+  ai: "optimized",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: false,
+  },
+  props: {
+    app,
+    to: {
+      propDefinition: [
+        app,
+        "to",
+      ],
+      optional: true,
+    },
+    subject: {
+      propDefinition: [
+        app,
+        "subject",
+      ],
+      optional: true,
+    },
+    body: {
+      propDefinition: [
+        app,
+        "body",
+      ],
+      optional: true,
+    },
+    cc: {
+      propDefinition: [
+        app,
+        "cc",
+      ],
+    },
+    bcc: {
+      propDefinition: [
+        app,
+        "bcc",
+      ],
+    },
+    isHtml: {
+      propDefinition: [
+        app,
+        "isHtml",
+      ],
+    },
+  },
+  async run({ $ }) {
+    const response = await this.app.createDraft({
+      $,
+      data: {
+        to: this.to,
+        cc: this.cc,
+        bcc: this.bcc,
+        subject: this.subject,
+        body: this.body,
+        is_html: this.isHtml,
+      },
+    });
+    $.export("$summary", `Created draft ${response.id} successfully`);
+    return response;
+  },
+};
