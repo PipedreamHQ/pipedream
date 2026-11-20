@@ -7,7 +7,7 @@ export default {
   key: "apify-run-actor",
   name: "Run Actor",
   description: "Performs an execution of a selected Actor in Apify. [See the documentation](https://docs.apify.com/api/v2#/reference/actors/run-collection/run-actor)",
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -80,10 +80,10 @@ export default {
       optional: true,
     },
     maxTotalChargeUsd: {
-      type: "string",
-      label: "Max Total Charge USD",
-      description: "Specifies the maximum cost of the Actor run. This parameter is useful for pay-per-event Actors, as it allows you to limit the amount charged to your subscription. You can access the maximum cost in your Actor by using the ACTOR_MAX_TOTAL_CHARGE_USD environment variable.",
-      optional: true,
+      propDefinition: [
+        apify,
+        "maxTotalChargeUsd",
+      ],
     },
     webhook: {
       type: "string",
