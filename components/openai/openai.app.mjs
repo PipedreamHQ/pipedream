@@ -6,6 +6,8 @@ import {
   FINE_TUNING_MODEL_OPTIONS, TTS_MODELS,
 } from "./common/models.mjs";
 
+const DEFAULT_RESPONSES_VISION_MODEL = "gpt-6-luna";
+
 export default {
   type: "app",
   app: "openai",
@@ -30,12 +32,15 @@ export default {
     },
     responsesModelId: {
       label: "Model",
-      description: "The ID of the vision-capable model to use with the Responses API (e.g. `gpt-4o`, `gpt-4.1`, `gpt-4.1-mini`, `gpt-5`)",
+      description: "The vision-capable model ID, e.g. `gpt-6-luna`. Use **List Model Options** to find available IDs.",
       type: "string",
       async options() {
-        return (await this.getChatCompletionModels({})).map((model) => model.id);
+        const models = await this.models({});
+        return models
+          .map(({ id }) => id)
+          .filter((id) => id === DEFAULT_RESPONSES_VISION_MODEL || /4o|o[1-9]|4\.1|gpt-5/i.test(id));
       },
-      default: "gpt-4o",
+      default: DEFAULT_RESPONSES_VISION_MODEL,
     },
     embeddingsModelId: {
       label: "Model",

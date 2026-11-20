@@ -1,5 +1,4 @@
 import openai from "../../openai.app.mjs";
-import { getResponsesVisionModelIds } from "../common/responses-vision-model.mjs";
 
 export default {
   key: "openai-list-responses-model-id-options",
@@ -7,6 +6,7 @@ export default {
   description: "Retrieves available options for the Model field.",
   version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +16,7 @@ export default {
     openai,
   },
   async run({ $ }) {
-    const options = await getResponsesVisionModelIds(this.openai, $);
+    const options = await openai.propDefinitions.responsesModelId.options.call(this.openai);
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);

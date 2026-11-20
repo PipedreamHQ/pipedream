@@ -1,9 +1,5 @@
 import openai from "../../openai.app.mjs";
 import common from "../common/common-assistants.mjs";
-import {
-  DEFAULT_RESPONSES_VISION_MODEL,
-  getResponsesVisionModelIds,
-} from "../common/responses-vision-model.mjs";
 import FormData from "form-data";
 import { getFileStreamAndMetadata } from "@pipedream/platform";
 
@@ -19,16 +15,14 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     openai,
     modelId: {
-      type: "string",
-      label: "Model",
-      description: "The vision-capable OpenAI model to use with the Responses API",
-      default: DEFAULT_RESPONSES_VISION_MODEL,
-      async options() {
-        return getResponsesVisionModelIds(this.openai);
-      },
+      propDefinition: [
+        openai,
+        "responsesModelId",
+      ],
     },
     message: {
       type: "string",
@@ -80,7 +74,7 @@ export default {
   },
   async run({ $ }) {
     const data = {
-      model: this.modelId ?? DEFAULT_RESPONSES_VISION_MODEL,
+      model: this.modelId ?? openai.propDefinitions.responsesModelId.default,
       input: [
         {
           role: "user",

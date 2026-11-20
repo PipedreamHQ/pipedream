@@ -45,11 +45,15 @@ function runImageAction(modelId, output) {
 }
 
 test("the image action defaults to Luna and finds text after a reasoning item", async () => {
+  assert.equal(action.ai, "optimized");
+  assert.equal(listAction.ai, "optimized");
   const text = {
     type: "output_text",
     text: "A small red square.",
   };
-  assert.equal(action.props.modelId.default, "gpt-6-luna");
+  assert.equal(action.props.modelId.propDefinition[0], openai);
+  assert.equal(action.props.modelId.propDefinition[1], "responsesModelId");
+  assert.equal(openai.propDefinitions.responsesModelId.default, "gpt-6-luna");
   const result = await runImageAction(undefined, [
     {
       type: "reasoning",
@@ -138,10 +142,17 @@ test("the action and its option-list companion both expose Luna when available",
     "gpt-6-luna",
     "gpt-4o",
   ];
-  assert.deepEqual(await action.props.modelId.options.call(context), expected);
+  const modelProp = openai.propDefinitions.responsesModelId;
+  const options = await modelProp.options.call(context.openai);
+  assert.deepEqual(options, expected);
   assert.deepEqual(await listAction.run.call(context, {
     $: {
       export() {},
     },
   }), expected);
+  const chatProp = openai.propDefinitions.chatCompletionModelId;
+  const chatOptions = await chatProp.options.call(context.openai);
+  assert.deepEqual(chatOptions, [
+    "gpt-4o",
+  ]);
 });
