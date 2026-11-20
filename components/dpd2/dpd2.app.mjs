@@ -1,7 +1,9 @@
 import {
   axios, ConfigurationError,
 } from "@pipedream/platform";
-import constants from "./common/constants.mjs";
+
+// The API returns lists oldest first, 100 to a page
+const PER_PAGE = 100;
 
 export default {
   type: "app",
@@ -9,10 +11,14 @@ export default {
   propDefinitions: {
     storefrontId: {
       type: "string",
-      label: "Storefront ID",
-      description: "The ID of a storefront",
+      label: "Store",
+      description: "The ID of one of your DPD stores, e.g. `14056`. Use **List Storefront ID Options** to find store IDs (the `value` field).",
       optional: true,
-      async options() {
+      async options({ page = 0 } = {}) {
+        // The API returns the whole list at once
+        if (page) {
+          return [];
+        }
         const storefronts = await this.listStorefronts();
         return storefronts?.map(({
           id: value, name: label,
@@ -22,12 +28,37 @@ export default {
         })) || [];
       },
     },
+    subscriptionStorefrontId: {
+      type: "string",
+      label: "Subscription Store",
+      description: "The ID of one of your DPD subscription (membership) stores, e.g. `47210`. Use **List Storefront ID Options** to find store IDs (the `value` field).",
+      async options({ page = 0 } = {}) {
+        // The API returns the whole list at once
+        if (page) {
+          return [];
+        }
+        const storefronts = await this.listStorefronts();
+        return storefronts?.filter(({ type }) => type === "subscription")
+          .map(({
+            id: value, name: label,
+          }) => ({
+            label,
+            value,
+          })) || [];
+      },
+    },
     productId: {
       type: "string",
       label: "Product ID",
-      description: "The ID of the product being purchased",
+      description: "The ID of a product, e.g. `22537`. Use **Find Product** to look up a product's ID (the `id` field).",
       optional: true,
-      async options({ storefrontId }) {
+      async options({
+        storefrontId, page = 0,
+      } = {}) {
+        // The API returns the whole list at once
+        if (page) {
+          return [];
+        }
         const products = await this.listProducts({
           params: {
             storefront_id: storefrontId,
@@ -44,44 +75,54 @@ export default {
     customerId: {
       type: "string",
       label: "Customer ID",
-      description: "The ID of a customer",
+      description: "The ID of a customer, e.g. `9437584`. Use **Find Customer** or **List Customer ID Options** to find customer IDs.",
       optional: true,
-      async options() {
-        const customers = await this.listCustomers();
+      async options({ page = 0 } = {}) {
+        const customers = await this.listCustomers({
+          params: {
+            page: page + 1,
+          },
+        });
         return customers?.map(({
-          id: value, firstname, lastname,
+          id: value, first_name: firstName, last_name: lastName, email,
         }) => ({
-          label: (`${firstname} ${lastname}`).trim(),
+          label: [
+            firstName,
+            lastName,
+          ].filter(Boolean).join(" ") || email,
           value,
         })) || [];
       },
     },
-    subscriberId: {
+    purchaseId: {
       type: "string",
-      label: "Subscriber ID",
-      description: "The ID of a subscriber",
-      optional: true,
-      async options({ storefrontId }) {
-        if (!storefrontId) {
+      label: "Purchase ID",
+      description: "The ID of a purchase, e.g. `18937181`. The list shows the last 90 days' purchases, newest first. For older purchases, use **Find Purchase** with **Buyer's Email** to find the ID (the `id` field).",
+      async options({ page = 0 } = {}) {
+        // One list of the last 90 days, read in full
+        if (page) {
           return [];
         }
-        const subscribers = await this.listSubscribers({
-          storefrontId,
+        const purchases = await this.listAll({
+          fn: this.listPurchases,
+          params: {
+            date_min: this.toIsoDate(Date.now() / 1000 - 90 * 86400),
+          },
+          maxPages: 5,
         });
-        return subscribers?.map(({
-          id: value, username: label,
-        }) => ({
-          label,
-          value,
-        })) || [];
+        return this.newestFirst(purchases).map((p) => ({
+          label: [
+            `#${p.id}`,
+            [
+              p.buyer_firstname,
+              p.buyer_lastname,
+            ].filter(Boolean).join(" ") || p.buyer_email,
+            `${p.total} ${p.currency}`,
+            this.toIsoDate(p.created_at).slice(0, 10),
+          ].join(" · "),
+          value: p.id,
+        }));
       },
-    },
-    status: {
-      type: "string",
-      label: "Status",
-      description: "Filter purchases by status",
-      optional: true,
-      options: constants.PURCHASE_STATUSES,
     },
   },
   methods: {
@@ -94,31 +135,45 @@ export default {
         password: this.$auth.api_password,
       };
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this,
-        path,
-        method = "GET",
-        ...otherOpts
-      } = opts;
+    /**
+     * A request to the DPD API
+     * @params {Object} opts - `path`, plus any axios config
+     * @returns {Promise<*>} The response's data, or null for a 404, which DPD
+     * returns both for a missing record and for an empty list or search
+     */
+    async _makeRequest({
+      $ = this, path, ...opts
+    }) {
       try {
-        return await axios($, {
-          ...otherOpts,
-          method,
+        // A 404 isn't treated as an error, so empty lists don't log one
+        const response = await axios($, {
+          ...opts,
           url: `${this._baseUrl()}${path}`,
           auth: this._auth(),
+          returnFullResponse: true,
+          validateStatus: (status) => (status >= 200 && status < 300) || status === 404,
         });
-      } catch (e) {
-        if (method === "GET") {
-          console.log(`No ${path.split("/").pop()} found`);
-        } else {
-          throw new ConfigurationError(JSON.stringify(e));
+        return response.status === 404
+          ? null
+          : response.data;
+      } catch (err) {
+        if (err.response?.status === 401) {
+          throw new ConfigurationError("DPD didn't accept that username and API key. They're under API credentials on your DPD profile page.");
         }
+        throw err;
       }
     },
     listStorefronts(opts = {}) {
       return this._makeRequest({
         path: "/storefronts",
+        ...opts,
+      });
+    },
+    getStorefront({
+      storefrontId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/storefronts/${encodeURIComponent(storefrontId)}`,
         ...opts,
       });
     },
@@ -134,6 +189,23 @@ export default {
         ...opts,
       });
     },
+    getPurchase({
+      purchaseId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/purchases/${encodeURIComponent(purchaseId)}`,
+        ...opts,
+      });
+    },
+    reactivatePurchase({
+      purchaseId, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `/purchases/${encodeURIComponent(purchaseId)}/reactivate`,
+        ...opts,
+      });
+    },
     listCustomers(opts = {}) {
       return this._makeRequest({
         path: "/customers",
@@ -144,9 +216,68 @@ export default {
       storefrontId, ...opts
     }) {
       return this._makeRequest({
-        path: `/storefronts/${storefrontId}/subscribers`,
+        path: `/storefronts/${encodeURIComponent(storefrontId)}/subscribers`,
         ...opts,
       });
+    },
+    /**
+     * Every page of a paged list (purchases or customers), oldest first
+     * @params {Object} opts
+     * @params {Function} opts.fn - `listPurchases` or `listCustomers`
+     * @params {Object} [opts.params={}] - The API's filters
+     * @params {number} [opts.maxPages=10] - Stop after this many pages of 100
+     * @returns {Promise<Object[]>}
+     */
+    async listAll({
+      fn, params = {}, maxPages = 10, ...opts
+    }) {
+      const records = [];
+      for (let page = 1; page <= maxPages; page++) {
+        const batch = await fn.call(this, {
+          ...opts,
+          params: {
+            ...params,
+            page,
+          },
+        });
+        if (!Array.isArray(batch) || !batch.length) {
+          break;
+        }
+        records.push(...batch);
+        if (batch.length < PER_PAGE) {
+          break;
+        }
+      }
+      return records;
+    },
+    /**
+     * Records newest first. The API can't sort.
+     * @params {Object[]} records
+     * @returns {Object[]}
+     */
+    newestFirst(records) {
+      return [
+        ...records,
+      ].sort((a, b) => Number(b.created_at) - Number(a.created_at) || b.id - a.id);
+    },
+    /**
+     * An ISO 8601 date and time from one of the API's UNIX timestamps. The
+     * `date_min` filters need this: they don't accept UNIX timestamps.
+     * @params {number|string} timestamp - Seconds
+     * @returns {string}
+     */
+    toIsoDate(timestamp) {
+      return new Date(Number(timestamp) * 1000).toISOString();
+    },
+    /**
+     * Whether two email addresses match. The API's email filters match the
+     * start of an address, so searches keep only exact matches.
+     * @returns {boolean}
+     */
+    sameEmail(a, b) {
+      return String(a || "").trim()
+        .toLowerCase() === String(b || "").trim()
+        .toLowerCase();
     },
   },
 };
