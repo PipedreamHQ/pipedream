@@ -50,13 +50,11 @@ export default {
 
     const { rowCount } = response;
 
-    this._setRowCount(rowCount);
-
-    if (!previousRowCount || rowCount <= previousRowCount) {
-      return;
+    if (previousRowCount && rowCount > previousRowCount) {
+      response.numRowsAdded = rowCount - previousRowCount;
+      this.emitEvent(response);
     }
 
-    response.numRowsAdded = rowCount - previousRowCount;
-    this.emitEvent(response);
+    this._setRowCount(rowCount);
   },
 };
