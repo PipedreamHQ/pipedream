@@ -15,18 +15,20 @@ export default {
     },
     _getRowCount() {
       const rowCount = this.db.get(this._rowCountKey());
-      if (rowCount !== undefined || this.driveId) {
+      if (rowCount !== undefined && rowCount !== null) {
         return rowCount;
       }
-      // Baseline stored before it was keyed by drive, workbook and worksheet; consumed once
-      const legacyRowCount = this.db.get("rowCount");
-      if (legacyRowCount !== undefined) {
-        this.db.set("rowCount", undefined);
-      }
-      return legacyRowCount;
+      // Pre-upgrade baseline (one key for every file); only the default drive inherits it
+      return this.driveId
+        ? rowCount
+        : this.db.get("rowCount");
     },
     _setRowCount(value) {
       this.db.set(this._rowCountKey(), value);
+      const legacyRowCount = this.db.get("rowCount");
+      if (!this.driveId && legacyRowCount !== undefined && legacyRowCount !== null) {
+        this.db.set("rowCount", null);
+      }
     },
     generateMeta(item) {
       const ts = Date.now();
