@@ -4,7 +4,7 @@ export default {
   key: "toggl-list-workspace-id-options",
   name: "List Workspace ID Options",
   description: "Retrieves available options for the Workspace ID field.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   ai: "optimized",
   annotations: {

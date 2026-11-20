@@ -4,7 +4,7 @@ export default {
   key: "toggl-create-client",
   name: "Create Client",
   description: "Create a new client in Toggl. [See the documentation](https://engineering.toggl.com/docs/api/clients#post-create-client)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

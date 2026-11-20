@@ -5,7 +5,7 @@ export default {
   key: "toggl-get-project-task-time-summary",
   name: "Get Project Task Time Summary",
   description: "Get how much time was tracked on each task of one Toggl Track project over a date range, with task names, plus the time tracked on the project without a task. Use it when a user asks how much time each task of a project took, e.g. \"how long did each task on Website Redesign take last week?\". Use **List Workspace Projects** first to get the project ID. For per-user or per-project totals use **Get Time Entry Summary**, and for the individual time entries use **Search Detailed Time Entries**; both accept a project filter. A date range is required: either a Date Preset (resolved in the connected user's Toggl timezone and first day of week) or both Start Date and End Date. Returns `dateRange`, `totalSeconds`, `tasks` (each with `taskId`, `taskName` and `seconds`, most time first) and `untaskedSeconds`. Example: workspaceId=1234567, projectId=123456789, datePreset=\"last_week\" → each task's tracked seconds for last week. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
