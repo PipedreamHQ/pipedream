@@ -5,7 +5,7 @@ export default {
   key: "google_vertex_ai-generate-video-from-text",
   name: "Generate Video from Text",
   description: "Generate a video from a text prompt using Google Vertex AI Veo models. [See the documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/veo-video-generation)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

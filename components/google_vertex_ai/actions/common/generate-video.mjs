@@ -30,7 +30,7 @@ export default {
           value: "16:9",
         },
         {
-          label: "9:16 (Portrait) - Veo 2 only",
+          label: "9:16 (Portrait)",
           value: "9:16",
         },
       ],
@@ -39,10 +39,13 @@ export default {
     durationSeconds: {
       type: "integer",
       label: "Duration (seconds)",
-      description: "The length of the video in seconds. Veo 2: 5-8 seconds, Veo 3: 8 seconds",
+      description: "The length of the video in seconds.",
+      options: [
+        4,
+        6,
+        8,
+      ],
       default: 8,
-      min: 5,
-      max: 8,
     },
     enhancePrompt: {
       type: "boolean",
