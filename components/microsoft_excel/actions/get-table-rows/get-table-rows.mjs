@@ -4,13 +4,14 @@ export default {
   key: "microsoft_excel-get-table-rows",
   name: "Get Table Rows",
   description: "Retrieve rows from a specified table in an Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerow-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.7",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
     driveId: {

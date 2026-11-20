@@ -4,8 +4,9 @@ export default {
   key: "microsoft_excel-list-folder-id-options",
   name: "List Folder ID Options",
   description: "Retrieves available options for the Folder ID field.",
-  version: "0.0.4",
+  version: "0.1.0",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

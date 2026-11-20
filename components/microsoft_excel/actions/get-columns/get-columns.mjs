@@ -5,13 +5,14 @@ export default {
   key: "microsoft_excel-get-columns",
   name: "Get Columns",
   description: "Get the values of the specified columns in an Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/range-get?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.7",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
     driveId: {

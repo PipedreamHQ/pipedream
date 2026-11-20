@@ -5,13 +5,14 @@ export default {
   key: "microsoft_excel-create-worksheet",
   name: "Create Worksheet",
   description: "Add a new worksheet (tab) to an existing Excel workbook. [See the documentation](https://learn.microsoft.com/en-us/graph/api/worksheetcollection-add?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.2",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
     driveId: {

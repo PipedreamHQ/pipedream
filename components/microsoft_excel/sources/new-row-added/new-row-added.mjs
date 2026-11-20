@@ -5,16 +5,19 @@ export default {
   key: "microsoft_excel-new-row-added",
   name: "New Row Added",
   description: "Emit new event when a new row is added to an Excel worksheet",
-  version: "0.0.6",
+  version: "0.1.0",
   type: "source",
   dedupe: "unique",
   methods: {
     ...common.methods,
+    _rowCountKey() {
+      return `rowCount:${this.driveId || "me"}:${this.sheetId}:${this.worksheet}`;
+    },
     _getRowCount() {
-      return this.db.get("rowCount");
+      return this.db.get(this._rowCountKey());
     },
     _setRowCount(value) {
-      this.db.set("rowCount", value);
+      this.db.set(this._rowCountKey(), value);
     },
     generateMeta(item) {
       const ts = Date.now();

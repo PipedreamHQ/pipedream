@@ -4,14 +4,15 @@ import { parseObject } from "../../common/utils.mjs";
 export default {
   key: "microsoft_excel-update-worksheet-tablerow",
   name: "Update Worksheet Tablerow",
-  version: "0.0.11",
+  version: "0.1.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   description: "Update the properties of tablerow object. `(Only for work or school account)` [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerow-update?view=graph-rest-1.0&tabs=http)",
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
     driveId: {

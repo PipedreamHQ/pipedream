@@ -4,7 +4,7 @@ import microsoftExcel from "../../microsoft_excel.app.mjs";
 export default {
   key: "microsoft_excel-add-a-worksheet-tablerow",
   name: "Add a Worksheet Tablerow",
-  version: "0.0.11",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -12,6 +12,7 @@ export default {
   },
   description: "Adds rows to the end of specific table. [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerowcollection-add?view=graph-rest-1.0&tabs=http)",
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
     driveId: {

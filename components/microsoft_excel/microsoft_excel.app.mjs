@@ -12,7 +12,7 @@ export default {
     driveId: {
       type: "string",
       label: "Drive ID",
-      description: "The drive (document library) that holds the workbook. Leave empty to use your own OneDrive. Select a SharePoint document library, or enter a drive ID, e.g. `b!x3Q2...`. [See the documentation](https://learn.microsoft.com/en-us/graph/api/resources/drive?view=graph-rest-1.0)",
+      description: "The drive (document library) that holds the workbook. Leave empty to use your own OneDrive. To use a workbook stored in a SharePoint site, select its document library or pass a drive ID returned by **List Drive ID Options** (the `value` field). E.g. `b!-RIj2DuyvEyV1T4NlOaMHk8XkS_I8MdFlUCq1BlcjgmhRfAj3-Z8RY2VpuvV_tpd`",
       optional: true,
       async options() {
         return this.listDriveOptions();
@@ -21,7 +21,7 @@ export default {
     folderId: {
       type: "string",
       label: "Folder ID",
-      description: "The ID of the folder where the item is located",
+      description: "The ID of the folder where the item is located, in the selected drive. Use **List Folder ID Options** to find a folder ID (the `value` field), or `root` for the top of the drive. E.g. `01BYE5RZ6QN3ZWBTRWFNG2FOD7ONP4JLHU`",
       async options({ driveId }) {
         const folders = await this.listFolderOptions({
           driveId,
@@ -38,7 +38,7 @@ export default {
     sheetId: {
       type: "string",
       label: "Sheet ID",
-      description: "The ID of the spreadsheet you want to use",
+      description: "The drive-item ID of the workbook (`.xlsx` file) you want to use, in the selected drive. Select it from the list, or pass the `id` returned by **Create Workbook**. E.g. `01BYE5RZ3JBLZSHHU2GBBJIVKZGW3P6ABE`",
       async options({
         folderId, driveId,
       }) {
@@ -59,7 +59,7 @@ export default {
     worksheet: {
       type: "string",
       label: "Worksheet",
-      description: "The name of the worksheet to use",
+      description: "The name of the worksheet (tab) in the workbook. Select it from the list, or pass the name exactly as it appears on the tab. E.g. `Sheet1`",
       async options({
         sheetId, driveId, page,
       }) {
@@ -78,7 +78,7 @@ export default {
     tableRowId: {
       type: "string",
       label: "Row ID",
-      description: "The ID of the row you want to use",
+      description: "The zero-based index of the row in the table, not counting the header row. Select it from the list, or use the `index` of a row returned by **Get Table Rows**. E.g. `0`",
       async options({
         sheetId, tableId, driveId,
       }) {
@@ -98,7 +98,7 @@ export default {
     tableId: {
       type: "string",
       label: "Table ID",
-      description: "The ID of the table you want to use",
+      description: "The ID of the table in the workbook. Select it from the list, which shows each table's name. E.g. `{9F3C4A1B-2D7E-4F60-8B1A-5C2E3D4F6A7B}`",
       async options({
         sheetId, driveId,
       }) {
@@ -244,19 +244,28 @@ export default {
       return this.client().api(`${this._drivePath(driveId)}/items/${sheetId}/workbook/worksheets/${worksheet}/range(address='${range}')`)
         .patch(data);
     },
+    async listAllPages(path) {
+      const items = [];
+      let next = path;
+      while (next) {
+        const response = await this.client().api(next)
+          .get();
+        items.push(...(response.value || []));
+        next = response["@odata.nextLink"];
+      }
+      return items;
+    },
     async listDriveOptions() {
       const options = [];
       let sites = [];
       try {
-        ({ value: sites = [] } = await this.client().api("/me/followedSites")
-          .get());
+        sites = await this.listAllPages("/me/followedSites");
       } catch {
         // Listing sites needs Sites.Read.All; without it the Drive ID can still be entered by hand
         return options;
       }
       for (const site of sites) {
-        const { value: drives = [] } = await this.client().api(`/sites/${site.id}/drives`)
-          .get();
+        const drives = await this.listAllPages(`/sites/${site.id}/drives`);
         drives.forEach(({
           id: value, name,
         }) => options.push({

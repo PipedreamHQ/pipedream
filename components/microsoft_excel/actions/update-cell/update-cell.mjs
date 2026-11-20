@@ -4,13 +4,14 @@ export default {
   key: "microsoft_excel-update-cell",
   name: "Update Cell",
   description: "Update the value of a specific cell in an Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/range-update?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.7",
+  version: "0.1.0",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
     driveId: {
