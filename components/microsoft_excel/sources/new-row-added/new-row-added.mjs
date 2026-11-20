@@ -14,7 +14,16 @@ export default {
       return `rowCount:${this.driveId || "me"}:${this.sheetId}:${this.worksheet}`;
     },
     _getRowCount() {
-      return this.db.get(this._rowCountKey());
+      const rowCount = this.db.get(this._rowCountKey());
+      if (rowCount !== undefined || this.driveId) {
+        return rowCount;
+      }
+      // Baseline stored before it was keyed by drive, workbook and worksheet; consumed once
+      const legacyRowCount = this.db.get("rowCount");
+      if (legacyRowCount !== undefined) {
+        this.db.set("rowCount", undefined);
+      }
+      return legacyRowCount;
     },
     _setRowCount(value) {
       this.db.set(this._rowCountKey(), value);
