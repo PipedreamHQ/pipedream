@@ -51,7 +51,7 @@ export default {
   key: "servicenow-get-catalog-ui-policies",
   name: "Get Catalog UI Policies",
   description: "Retrieve catalog UI policy actions for a ServiceNow catalog item from `catalog_ui_policy_action` (visibility, mandatory, and read-only rules), including the policies of the variable sets the item uses. Each action includes its parent `catalog_ui_policy` record, including `catalog_conditions`; a policy from a variable set has `variable_set` set instead of `catalog_item`. If the item's variable sets can't be read, it returns the item's own policies and the summary says variable-set policies were not checked. Run **Search Catalog Items** first to obtain the item `sys_id`. Use with **Get Catalog Item Variables** when building a form, then **Add Item to Cart** or **Checkout Order Guide**. [See the documentation](https://www.servicenow.com/docs/r/zurich/api-reference/rest-apis/c_TableAPI.html)",
-  version: "0.1.0",
+  version: "0.1.1",
   type: "action",
   ai: "optimized",
   annotations: {
