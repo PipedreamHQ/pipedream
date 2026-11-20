@@ -5,7 +5,7 @@ export default {
   key: "google_forms-new-form-answer-update",
   name: "New Form Answer Update",
   description: "Emit a new event when an answer is sent or updated. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms.responses/list)",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "last",
   type: "source",
   methods: {
