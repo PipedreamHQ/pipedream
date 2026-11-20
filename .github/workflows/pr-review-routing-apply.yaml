@@ -1,0 +1,53 @@
+name: PR Review Routing (apply review)
+
+# Privileged follow-up to "PR Review Routing (capture review)". Runs from the
+# default branch with secrets. The artifact may come from a fork, so it is treated
+# as untrusted: only the PR number is read, and the review state is re-fetched.
+on:
+  workflow_run:
+    workflows: ["PR Review Routing (capture review)"]
+    types: [completed]
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  apply:
+    name: Move card to Requires changes
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pr-review-routing-apply-${{ github.event.workflow_run.id }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 20
+
+      - uses: actions/download-artifact@v7
+        with:
+          name: review-event
+          path: ${{ runner.temp }}/review-event
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
+      - name: Apply
+        run: node .github/scripts/pr-review-routing/index.mjs
+        env:
+          MODE: review
+          REVIEW_EVENT_FILE: ${{ runner.temp }}/review-event/review-event.json
+          GH_TOKEN: ${{ secrets.REVIEW_ROUTING_TOKEN }}
+          DRY_RUN: ${{ vars.DRY_RUN }}
+          REVIEWER_EMAILS: ${{ vars.REVIEWER_EMAILS }}
+          PD_CLIENT_ID: ${{ secrets.PD_CLIENT_ID }}
+          PD_CLIENT_SECRET: ${{ secrets.PD_CLIENT_SECRET }}
+          PD_PROJECT_ID: ${{ vars.PD_PROJECT_ID }}
+          PD_ENVIRONMENT: ${{ vars.PD_ENVIRONMENT }}
+          PD_EXTERNAL_USER_ID: ${{ vars.PD_EXTERNAL_USER_ID }}
+          PD_SLACK_ACCOUNT_ID: ${{ vars.PD_SLACK_ACCOUNT_ID }}
+          PD_GMAIL_ACCOUNT_ID: ${{ vars.PD_GMAIL_ACCOUNT_ID }}
