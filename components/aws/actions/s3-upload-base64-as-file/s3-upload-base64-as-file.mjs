@@ -1,11 +1,12 @@
 import common from "../../common/common-s3.mjs";
+import { formatUploadDetails } from "../../common/utils.mjs";
 
 export default {
   ...common,
   key: "aws-s3-upload-base64-as-file",
   name: "S3 - Upload Base64 As File",
-  description: "Accepts a base64-encoded string and a filename, then uploads as a file to S3. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
-  version: "0.0.3",
+  description: "Accepts a base64-encoded string and a filename, then uploads as a file to S3. Returns `{ bucket, count, keys, files }`, where each `files` entry has `s3Key`, `status`, `eTag`, `versionId` and `location`, plus the S3 upload response fields (`ETag`, `VersionId`, `Location`, ...) at the top level. [See the documentation](https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -30,6 +31,22 @@ export default {
       Body: Buffer.from(this.data, "base64"),
     });
     $.export("$summary", `Uploaded file ${this.filename} to S3`);
-    return response;
+    // Same shape as S3 - Upload Files. The upload response (`ETag`, `VersionId`,
+    // `Location`, ...) stays at the top level, as it was before the shared shape.
+    return {
+      ...response,
+      bucket: this.bucket,
+      count: 1,
+      keys: [
+        this.filename,
+      ],
+      files: [
+        {
+          s3Key: this.filename,
+          status: "uploaded",
+          ...formatUploadDetails(response),
+        },
+      ],
+    };
   },
 };

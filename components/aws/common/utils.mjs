@@ -119,10 +119,86 @@ function parseArray (input, maxDepth = 100) {
   return input;
 }
 
+/**
+ * Runs `worker` over `items` with at most `limit` calls in flight and returns
+ * the results in input order. `worker` should handle its own errors. If one
+ * still throws, the remaining items are processed anyway and the first error is
+ * thrown once all of them have finished, so a failure never leaves part of the
+ * list silently unprocessed.
+ *
+ * @param {Array} items the items to process
+ * @param {number} limit the max number of concurrent `worker` calls
+ * @param {Function} worker async function invoked as `worker(item, index)`
+ * @returns {Promise<Array>} the results, in the same order as `items`
+ */
+async function mapWithConcurrency(items, limit, worker) {
+  const results = new Array(items.length);
+  const errors = [];
+  let cursor = 0;
+  const runNext = async () => {
+    while (cursor < items.length) {
+      const index = cursor++;
+      try {
+        results[index] = await worker(items[index], index);
+      } catch (err) {
+        errors.push(err);
+      }
+    }
+  };
+  await Promise.all(
+    Array.from({
+      length: Math.min(limit, items.length),
+    }, runNext),
+  );
+  if (errors.length) {
+    throw errors[0];
+  }
+  return results;
+}
+
+/**
+ * Turns an S3 object key into a relative path that is safe to join onto a
+ * directory: keeps the folder structure, drops empty, `.` and `..` segments and
+ * control characters, so a key can never point outside that directory.
+ *
+ * @example
+ * // returns "reports/2025/summary.pdf"
+ * keyToRelativePath("/reports//2025/../2025/summary.pdf");
+ *
+ * @param {string} key an S3 object key
+ * @returns {string} a relative path, or an empty string when nothing is left
+ */
+function keyToRelativePath(key) {
+  return String(key)
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\0-\x1f\\]/g, "_")
+    .split("/")
+    .filter((segment) => segment && segment !== "." && segment !== "..")
+    .join("/");
+}
+
+/**
+ * What S3 returned for one uploaded object, so a later step can identify what was
+ * written (`versionId` is the only way to pick out the object in a versioned bucket).
+ *
+ * @param {object} response the result of an S3 upload
+ * @returns {{ eTag: string, versionId: string, location: string }} the identifiers
+ */
+function formatUploadDetails(response) {
+  return {
+    eTag: response?.ETag,
+    versionId: response?.VersionId,
+    location: response?.Location,
+  };
+}
+
 export {
   generateRandomUniqueName,
   toSingleLineString,
   attemptToParseJSON,
   parseJson,
   parseArray,
+  mapWithConcurrency,
+  keyToRelativePath,
+  formatUploadDetails,
 };
