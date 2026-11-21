@@ -11,6 +11,9 @@ on:
       - master
   workflow_dispatch:  # Allows manual triggering from Actions tab
 
+permissions:
+  contents: read
+
 jobs:
   spellcheck:
     name: Spellcheck
@@ -77,6 +80,9 @@ jobs:
         uses: Ana06/get-changed-files@v2.3.0
         with:
           format: 'space-delimited'
+      - name: Run Algenta regression tests
+        if: ${{ contains(steps.changed_files_space.outputs.added_modified, 'components/algenta/') || contains(steps.changed_files_space.outputs.renamed, 'components/algenta/') }}
+        run: node --test components/algenta/common/tests/*.test.mjs
       - name: Lint changed files
         run: pnpm exec eslint ${{ steps.changed_files_space.outputs.added_modified }} ${{ steps.changed_files_space.outputs.renamed }}
       - name: Get Changed Files (comma-separated)
