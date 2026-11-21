@@ -17617,6 +17617,8 @@ importers:
         specifier: ^1.6.8
         version: 1.6.8
 
+  components/wafly: {}
+
   components/wafrow: {}
 
   components/waitless: {}

@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/wafly",
+  "version": "0.0.1",
+  "description": "Pipedream Wafly Components",
+  "main": "wafly.app.mjs",
+  "keywords": [
+    "pipedream",
+    "wafly"
+  ],
+  "homepage": "https://pipedream.com/apps/wafly",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}
