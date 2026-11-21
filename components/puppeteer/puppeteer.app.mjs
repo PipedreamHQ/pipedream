@@ -1,8 +1,19 @@
 // Table for Chromium <> Puppeteer version support here: https://pptr.dev/chromium-support
-// @note: this is locked to an old chromium version
-//  because there's an unfulfilled promise bug in later version of puppeteer-core
 import puppeteer from "puppeteer-core";
 import chromium from "@sparticuz/chromium";
+
+// Viewport for new pages: a 1920x1080 landscape desktop. @sparticuz/chromium
+// originally provided this as its default viewport; keeping it means existing
+// usage (screenshot sizes, responsive page layouts) doesn't change. Pass
+// `defaultViewport` in launch() options to override it.
+const DEFAULT_VIEWPORT = {
+  deviceScaleFactor: 1,
+  hasTouch: false,
+  height: 1080,
+  isLandscape: true,
+  isMobile: false,
+  width: 1920,
+};
 
 export default {
   type: "app",
@@ -20,16 +31,19 @@ export default {
     async launch(opts = {}) {
       const browser = await puppeteer.launch({
         executablePath: await chromium.executablePath(),
-        headless: chromium.headless,
+        headless: "shell",
         cacheDirectory: "/tmp",
-        ignoreHTTPSErrors: true,
-        defaultViewport: chromium.defaultViewport,
-        args: [
-          ...chromium.args,
-          "--hide-scrollbars",
-          "--disable-web-security",
-          "--font-render-hinting=none",
-        ],
+        acceptInsecureCerts: true,
+        defaultViewport: DEFAULT_VIEWPORT,
+        args: puppeteer.defaultArgs({
+          args: [
+            ...chromium.args,
+            "--hide-scrollbars",
+            "--disable-web-security",
+            "--font-render-hinting=none",
+          ],
+          headless: "shell",
+        }),
         protocolTimeout: 240000,
         ...opts,
       });
