@@ -3,40 +3,108 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "whatsable",
+
   propDefinitions: {
-    phoneNumber: {
+    api_key: {
       type: "string",
-      label: "Phone Number",
-      description: "The phone number to send the message to, in E164 format (e.g., +34677327718). Hyphens will be removed if included.",
-    },
-    message: {
-      type: "string",
-      label: "Message",
-      description: "The message to send to the phone number.",
+      label: "API Key",
+      description: "Your Whatsable API key",
+      secret: true,
     },
   },
+
   methods: {
     _baseUrl() {
-      return "https://dashboard.whatsable.app/api";
+      return "https://api.whatsable.app/v1";
     },
-    async _makeRequest(opts = {}) {
-      const {
-        $ = this, path = "/", headers, ...otherOpts
-      } = opts;
+
+    async _makeRequest({
+      $,
+      path = "",
+      method = "GET",
+      headers = {},
+      ...opts
+    } = {}) {
       return axios($, {
-        ...otherOpts,
-        url: this._baseUrl() + path,
+        ...opts,
+        method,
+        url: `${this._baseUrl()}${path}`,
         headers: {
           ...headers,
-          "Authorization": this.$auth.api_key,
+          Authorization: `Bearer ${this.$auth.api_key}`,
         },
       });
     },
+
+    async testConnection($) {
+      return this._makeRequest({
+        $,
+        method: "GET",
+        path: "/me",
+      });
+    },
+
     async sendMessage(args = {}) {
       return this._makeRequest({
-        path: "/whatsapp/messages/send",
-        method: "post",
         ...args,
+        method: "POST",
+        path: "/messages",
+      });
+    },
+
+    async listMessages(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "GET",
+        path: "/messages",
+      });
+    },
+
+    async getMessage(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "GET",
+        path: `/messages/${args.id}`,
+      });
+    },
+
+    async listTemplates(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "GET",
+        path: "/templates",
+      });
+    },
+
+    async listContacts(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "GET",
+        path: "/contacts",
+      });
+    },
+
+    async createContact(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "POST",
+        path: "/contacts",
+      });
+    },
+
+    async listNumbers(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "GET",
+        path: "/numbers",
+      });
+    },
+
+    async listConversations(args = {}) {
+      return this._makeRequest({
+        ...args,
+        method: "GET",
+        path: "/conversations",
       });
     },
   },
