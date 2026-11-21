@@ -2,9 +2,9 @@ import whatsable from "../../whatsable.app.mjs";
 
 export default {
   name: "List Messages",
-  description: "Retrieve messages from Whatsable",
+  description: "Retrieve Whatsable messages with cursor pagination",
   key: "whatsable-list-messages",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -12,36 +12,31 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-
   props: {
     whatsable,
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of messages to retrieve",
-      default: 100,
+      description: "Maximum messages (1–100)",
+      default: 25,
       optional: true,
     },
-    page: {
-      type: "integer",
-      label: "Page",
-      description: "Page number for pagination",
-      default: 1,
+    cursor: {
+      type: "string",
+      label: "Cursor",
+      description: "Cursor from previous response's next_cursor",
       optional: true,
     },
   },
-
   async run({ $ }) {
     const response = await this.whatsable.listMessages({
       $,
       params: {
         limit: this.limit,
-        page: this.page,
+        cursor: this.cursor,
       },
     });
-
     $.export("$summary", "Retrieved Whatsable messages");
-
     return response;
   },
 };

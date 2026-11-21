@@ -1,58 +1,41 @@
 import { createHash } from "crypto";
 
 export default {
-  name: "New Incoming Message",
-  description: "Emit new events when Whatsable receives incoming WhatsApp messages",
+  name: "New Incoming WhatsApp Message",
+  description: "Emit new Whatsable incoming message events.",
   key: "whatsable-new-message",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
-
   props: {
     http: "$.interface.http",
   },
-
   async run(event) {
     const payload = event.body;
-
-    if (!payload || typeof payload !== "object") {
-      throw new Error("Invalid Whatsable webhook payload");
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new Error("Invalid Whatsable webhook payload: expected an object.");
     }
-
-    // Ignore explicitly outgoing messages.
-    if (payload.incoming_message === false) {
-      return;
-    }
-
+    // Configure this source with an incoming-only webhook in Whatsable.
+    // Payloads may omit a message ID; phone + documented message timestamp is the fallback.
     const phone = payload.phone_number || "unknown";
-    const messageId =
-      payload.message_id ||
-      payload.id ||
-      payload.user_last_message_id;
-
-    const timestamp =
-      payload.user_last_message_time ||
-      payload.timestamp ||
-      payload.created_at;
-
-    // Use a stable identifier for deduplication.
-    const eventIdentifier = messageId
-      ? String(messageId)
-      : `${phone}-${timestamp || "unknown"}`;
-
-    const id = createHash("sha256")
-      .update(eventIdentifier)
-      .digest("hex")
-      .slice(0, 64);
-
-    const ts = timestamp
-      ? new Date(timestamp).getTime()
-      : Date.now();
-
+    const timestamp = payload.user_last_message_time ?? payload.timestamp ?? payload.created_at;
+    const eventIdentifier = `${phone}-${timestamp ?? "unknown"}`;
+    const id = createHash("sha256").update(eventIdentifier)
+      .digest("hex");
+    const timestampNumber = Number(timestamp);
+    const ts = Number.isFinite(timestampNumber)
+      ? (timestampNumber > 1e12
+        ? timestampNumber
+        : timestampNumber * 1000)
+      : (timestamp
+        ? new Date(timestamp).getTime()
+        : Date.now());
     this.$emit(payload, {
       id,
-      summary: `New WhatsApp message from ${payload.recipient_name || phone}`,
-      ts,
+      summary: `Incoming WhatsApp message from ${payload.recipient_name || phone}`,
+      ts: Number.isFinite(ts)
+        ? ts
+        : Date.now(),
     });
   },
 };

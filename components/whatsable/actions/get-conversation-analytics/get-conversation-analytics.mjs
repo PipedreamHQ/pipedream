@@ -35,6 +35,7 @@ export default {
     number_id: {
       type: "string",
       label: "Number ID",
+      description: "Whatsable phone number ID to filter analytics for.",
       optional: true,
     },
   },

@@ -1,10 +1,10 @@
 import whatsable from "../../whatsable.app.mjs";
 
 export default {
-  name: "Create Contact",
-  description: "Create a new contact in Whatsable",
+  name: "Create or Find Contact",
+  description: "Find a contact by phone or WhatsApp user ID, or create one with an optional name",
   key: "whatsable-create-contact",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -12,48 +12,50 @@ export default {
     openWorldHint: true,
     readOnlyHint: false,
   },
-
   props: {
     whatsable,
     phone: {
       type: "string",
       label: "Phone Number",
-      description: "Contact phone number in international format",
+      description: "Phone in international format. Use phone or WhatsApp user ID.",
+      optional: true,
+    },
+    wa_user_id: {
+      type: "string",
+      label: "WhatsApp User ID",
+      description: "Business-scoped WhatsApp user ID. Use phone or this ID.",
+      optional: true,
     },
     name: {
       type: "string",
       label: "Contact Name",
-      description: "The contact's display name, e.g. `John Smith`.",
-      optional: true,
-    },
-    email: {
-      type: "string",
-      label: "Email",
-      description: "The contact's email address, e.g. `john@example.com`.",
+      description: "Name set on a newly created contact",
       optional: true,
     },
   },
-
   async run({ $ }) {
+    if (!this.phone && !this.wa_user_id) throw new Error("Provide either Phone Number or WhatsApp User ID.");
     const response = await this.whatsable.createContact({
       $,
       data: {
-        phone: this.phone,
+        ...(this.phone
+          ? {
+            phone: this.phone,
+          }
+          : {}),
+        ...(this.wa_user_id
+          ? {
+            wa_user_id: this.wa_user_id,
+          }
+          : {}),
         ...(this.name
           ? {
             name: this.name,
           }
           : {}),
-        ...(this.email
-          ? {
-            email: this.email,
-          }
-          : {}),
       },
     });
-
-    $.export("$summary", `Created contact ${this.phone}`);
-
+    $.export("$summary", "Found or created Whatsable contact");
     return response;
   },
 };
