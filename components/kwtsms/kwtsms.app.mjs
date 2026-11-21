@@ -19,33 +19,10 @@ export default {
       label: "Mobile",
       description: "List of mobile numbers separated by `,` commas. Characters like `+`, `00`, `.` or space in numbers are not allowed.",
     },
-    lang: {
-      type: "integer",
-      label: "Language",
-      description: "Language of the SMS message.",
-      options: [
-        {
-          label: "English (ASCII)",
-          value: 1,
-        },
-        {
-          label: "Arabic (CP1256)",
-          value: 2,
-        },
-        {
-          label: "Arabic (UTF-8)",
-          value: 3,
-        },
-        {
-          label: "Unicode",
-          value: 4,
-        },
-      ],
-    },
     message: {
       type: "string",
       label: "Message",
-      description: "The content of the SMS message to send. Spaces must be converted to `+` sign (do not encode), use `\n` for new lines.",
+      description: "The content of the SMS message. English and Arabic are detected automatically. Use `\n` for new lines. No HTML or emoji. e.g. `Your order is ready.`",
     },
   },
   methods: {
