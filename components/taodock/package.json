@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/taodock",
+  "version": "0.0.1",
+  "description": "Pipedream Taodock Components",
+  "main": "taodock.app.mjs",
+  "keywords": [
+    "pipedream",
+    "taodock",
+    "ai",
+    "image-generation",
+    "video-generation"
+  ],
+  "homepage": "https://pipedream.com/apps/taodock",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
+  }
+}
