@@ -1,0 +1,19 @@
+{
+  "name": "@pipedream/desearch",
+  "version": "0.0.1",
+  "description": "Pipedream Desearch Components",
+  "main": "desearch.app.mjs",
+  "keywords": ["pipedream", "desearch"],
+  "homepage": "https://pipedream.com/apps/desearch",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "node --experimental-vm-modules --disable-warning=ExperimentalWarning --test test/web-search.test.mjs",
+    "live_check": "node --experimental-vm-modules --disable-warning=ExperimentalWarning test/live_check.mjs"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
