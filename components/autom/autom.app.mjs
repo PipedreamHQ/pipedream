@@ -7,26 +7,38 @@ export default {
     query: {
       type: "string",
       label: "Search Query",
-      description: "The query you want to search.",
+      description: "The query to search for, e.g. `best electric cars`.",
     },
     page: {
       type: "integer",
       label: "Page Number",
-      description: "Defines the result offset for pagination.",
+      description: "Page of results to return, starting at 1, e.g. `2`. Defaults to `1`.",
       default: 1,
       min: 1,
     },
     googleDomain: {
       type: "string",
       label: "Google Domain",
-      description: "The Google domain to use for the search. See the [Google domains page](https://docs.autom.dev/api-reference/google/google-domains) for a full list of supported Google domains.",
+      description: "The Google domain to search on, e.g. `google.fr`. Defaults to `google.com`. See the [Google domains page](https://docs.autom.dev/api-reference/google/google-domains) for the full list.",
       default: "google.com",
+      optional: true,
+    },
+    country: {
+      type: "string",
+      label: "Country",
+      description: "Two-letter country code to search from, e.g. `us`.",
+      optional: true,
+    },
+    language: {
+      type: "string",
+      label: "Language",
+      description: "Two-letter language code of the results, e.g. `en`.",
       optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "https://autom.dev/api/v1";
+      return "https://api.autom.dev/v1";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -48,22 +60,61 @@ export default {
     },
     async searchGoogle(args = {}) {
       return this._makeRequest({
-        method: "POST",
         path: "/google/search",
+        ...args,
+      });
+    },
+    async searchGoogleLight(args = {}) {
+      return this._makeRequest({
+        path: "/google/search/light",
+        ...args,
+      });
+    },
+    async searchGoogleNews(args = {}) {
+      return this._makeRequest({
+        path: "/google/news",
+        ...args,
+      });
+    },
+    async searchGoogleMaps(args = {}) {
+      return this._makeRequest({
+        path: "/google/maps",
+        ...args,
+      });
+    },
+    async getGoogleAutocomplete(args = {}) {
+      return this._makeRequest({
+        path: "/google/search/autocomplete",
         ...args,
       });
     },
     async searchBing(args = {}) {
       return this._makeRequest({
-        method: "POST",
         path: "/bing/search",
         ...args,
       });
     },
     async searchBrave(args = {}) {
       return this._makeRequest({
-        method: "POST",
         path: "/brave/search",
+        ...args,
+      });
+    },
+    async searchDuckDuckGo(args = {}) {
+      return this._makeRequest({
+        path: "/duckduckgo/search",
+        ...args,
+      });
+    },
+    async searchYahoo(args = {}) {
+      return this._makeRequest({
+        path: "/yahoo/search",
+        ...args,
+      });
+    },
+    async findGoogleLocations(args = {}) {
+      return this._makeRequest({
+        path: "/finder/google-locations",
         ...args,
       });
     },
