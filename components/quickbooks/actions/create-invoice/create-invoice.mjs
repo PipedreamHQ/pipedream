@@ -6,13 +6,14 @@ export default {
   key: "quickbooks-create-invoice",
   name: "Create Invoice",
   description: "Creates an invoice. [See the documentation](https://developer.intuit.com/app/developer/qbo/docs/api/accounting/all-entities/invoice#create-an-invoice)",
-  version: "0.2.7",
+  version: "0.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     quickbooks,
     customerRefValue: {
@@ -25,6 +26,12 @@ export default {
       type: "string",
       label: "Bill Email",
       description: "Email address where the invoice should be sent",
+      optional: true,
+    },
+    transactionDate: {
+      type: "string",
+      label: "Transaction Date",
+      description: "The invoice posting date, e.g. `2026-11-21` (YYYY-MM-DD). If omitted, QuickBooks uses its current date.",
       optional: true,
     },
     dueDate: {
@@ -192,6 +199,10 @@ export default {
       PrivateNote: this.privateNote,
     };
 
+    if (this.transactionDate) {
+      data.TxnDate = this.transactionDate;
+    }
+
     if (this.billEmail) {
       params.include = "invoiceLink";
       data.BillEmail = {
@@ -216,7 +227,9 @@ export default {
     });
 
     if (response) {
-      $.export("summary", `Successfully created invoice with ID ${response.Invoice.Id}`);
+      const summary = `Successfully created invoice with ID ${response.Invoice.Id}`;
+      $.export("summary", summary);
+      $.export("$summary", summary);
     }
 
     return response;
