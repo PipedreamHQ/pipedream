@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/popnow",
+  "version": "0.1.0",
+  "description": "Pipedream PopNow Components",
+  "main": "popnow.app.mjs",
+  "keywords": [
+    "pipedream",
+    "popnow"
+  ],
+  "homepage": "https://pipedream.com/apps/popnow",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.2.5"
+  }
+}
