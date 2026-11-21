@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/jobspipe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Pipedream JobsPipe Components",
   "main": "jobspipe.app.mjs",
   "keywords": [

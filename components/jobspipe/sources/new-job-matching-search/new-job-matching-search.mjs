@@ -4,8 +4,8 @@ export default {
   ...common,
   key: "jobspipe-new-job-matching-search",
   name: "New Job Matching Search",
-  description: "Emit new event when a job posting matches your search criteria. Polls the JobsPipe search endpoint on a schedule and emits only new postings.",
-  version: "0.0.1",
+  description: "Emit new event when a job posting matches your search criteria. Polls the JobsPipe search endpoint on a schedule and emits only new postings. [See the documentation](https://docs.jobspipe.dev/api-reference/jobs-search).",
+  version: "0.0.2",
   type: "source",
   dedupe: "unique",
   props: {
@@ -87,7 +87,7 @@ export default {
         common.props.jobspipe,
         "postedAtMaxAgeDays",
       ],
-      description: "Only check postings newer than this many days. Recommended: set this to match your polling interval to avoid missing new jobs.",
+      description: "Only check postings newer than this many days (e.g. `1` for the last 24 hours). Recommended: set this to match your polling interval to avoid missing new jobs.",
       default: 1,
     },
     minSalaryUsd: {
@@ -100,11 +100,14 @@ export default {
   methods: {
     ...common.methods,
     generateMeta(item) {
+      const postedAt = item.date_posted
+        ? Date.parse(item.date_posted)
+        : NaN;
       return {
         id: item.id,
-        summary: `New job: ${item.title} at ${item.company}`,
-        ts: item.posted_at
-          ? new Date(item.posted_at).getTime()
+        summary: `New job: ${item.job_title} at ${item.company}`,
+        ts: Number.isFinite(postedAt)
+          ? postedAt
           : Date.now(),
       };
     },
@@ -157,21 +160,65 @@ export default {
       limit: 100,
     };
 
-    const response = await this.jobspipe.searchJobs({
-      data,
-    });
+    const lastJobIds = this._getLastJobIds().map(String);
+    const isFirstRun = lastJobIds.length === 0;
+    const seen = new Set(lastJobIds);
+    const collectedIds = [];
+    const newJobs = [];
+    let firstPageJobs = [];
+    let cursor;
+    let pageCount = 0;
+    const maxPages = isFirstRun
+      ? 1
+      : 50;
 
-    const jobs = response?.data || [];
-    const lastJobIds = this._getLastJobIds();
-    const newJobIds = [];
+    do {
+      const response = await this.jobspipe.searchJobs({
+        data: {
+          ...data,
+          ...(cursor && {
+            cursor,
+          }),
+        },
+      });
 
-    for (const job of jobs) {
-      if (!lastJobIds.includes(job.id)) {
-        this.emitEvent(job);
+      const jobs = response?.data || [];
+      if (pageCount === 0) {
+        firstPageJobs = jobs;
       }
-      newJobIds.push(job.id);
+
+      let reachedKnownJob = false;
+      for (const job of jobs) {
+        const id = String(job.id);
+        collectedIds.push(id);
+        if (seen.has(id)) {
+          reachedKnownJob = true;
+        } else if (!isFirstRun) {
+          newJobs.push(job);
+        }
+      }
+
+      cursor = response?.metadata?.next_cursor;
+      pageCount++;
+
+      if (isFirstRun || reachedKnownJob || !cursor || pageCount >= maxPages) {
+        break;
+      }
+    } while (cursor);
+
+    const jobsToEmit = isFirstRun
+      ? firstPageJobs.slice(0, 25)
+      : newJobs.slice().reverse();
+
+    for (const job of jobsToEmit) {
+      this.emitEvent(job);
     }
 
-    this._setLastJobIds(newJobIds.slice(0, 200));
+    const collected = new Set(collectedIds);
+    const mergedIds = [
+      ...collectedIds,
+      ...lastJobIds.filter((id) => !collected.has(id)),
+    ].slice(0, 200);
+    this._setLastJobIds(mergedIds);
   },
 };

@@ -4,7 +4,7 @@ export default {
   key: "jobspipe-get-company",
   name: "Get Company",
   description: "Look up one company by domain, careers URL, email, or name. Returns enriched company data including headcount, location, LinkedIn, and more. [See the documentation](https://docs.jobspipe.dev/).",
-  version: "0.0.1",
+  version: "0.0.2",
   ai: "optimized",
   annotations: {
     destructiveHint: false,

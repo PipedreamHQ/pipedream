@@ -168,7 +168,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `/v1/companies/${key}`,
+        path: `/v1/companies/${encodeURIComponent(key)}`,
         ...opts,
       });
     },
@@ -177,7 +177,7 @@ export default {
     }) {
       return this._makeRequest({
         method: "GET",
-        path: `/v1/jobs/companies/${key}`,
+        path: `/v1/jobs/companies/${encodeURIComponent(key)}`,
         params,
         ...opts,
       });
