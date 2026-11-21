@@ -5,7 +5,7 @@ export default {
   name: "SSL Lookup",
   description:
     "Retrieve details about a domain's SSL certificate (e.g. google.com). Note that this action accepts JSON or XML format values, always requests the full certificate chain (chain=true), and suppresses the raw OpenSSL response (sslRaw=false) for cleaner outputs. [See the documentation](https://whoisfreaks.com/documentation/ssl-certificate-api)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
