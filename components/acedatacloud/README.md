@@ -1,8 +1,8 @@
 # Overview
 
-**Suno music, Seedance and HappyHorse video, GPT Image and Nano Banana images, plus AI chat — through Ace Data Cloud.** Connect one Ace API key, choose an individual action and configure native fields. No custom HTTP URL, Authorization header or request JSON is needed for these actions.
+**ACE Music and Suno music, Seedance and HappyHorse video, GPT Image and Nano Banana images, plus AI chat — through Ace Data Cloud.** Connect one Ace API key, choose an individual action and configure native fields. No custom HTTP URL, Authorization header or request JSON is needed for these actions.
 
-This contribution contains **26 actions**: the original 24 media/search actions plus **List Chat Models** and **Chat With Model**. Search by the service name rather than guessing a generic API action. Ace Data Cloud supplies this integration and API credential; it is not the first-party Suno, OpenAI, or Google app.
+This contribution contains **31 actions**: the original 24 media/search actions, five scoped ACE Music submission actions, plus **List Chat Models** and **Chat With Model**. Search by the service name rather than guessing a generic API action. Ace Data Cloud supplies this integration and API credential; it is not the first-party Suno, OpenAI, or Google app.
 
 **Release status:** [official App registration](https://github.com/PipedreamHQ/pipedream/issues/22155) and [component review](https://github.com/PipedreamHQ/pipedream/pull/22156) are pending. The intended [official AceDataCloud app page](https://pipedream.com/apps/acedatacloud) is not yet a working installation route. Do not interpret this README or a passing test as official publication.
 
@@ -10,6 +10,7 @@ This contribution contains **26 actions**: the original 24 media/search actions 
 
 | Search terms | Individual action | Result |
 |---|---|---|
+| ACE Music | Generate from an idea or custom lyrics, import MP3, cover, blend tracks | One original task ID; no task-query action |
 | Suno, music | Generate Suno Music | One `task_id`, `state: submitted` |
 | Seedance, video | Generate Seedance Video | One `task_id`, `state: submitted` |
 | HappyHorse, Happy Horse, video | Generate HappyHorse Video | One `task_id`, `state: submitted` |
