@@ -23,7 +23,12 @@ export default {
   },
   methods: {
     async poll(limit = 100) {
-      const { faxes } = await this.faxtofax.listFaxes({ args: { direction: "inbound", limit } });
+      const { faxes } = await this.faxtofax.listFaxes({
+        params: {
+          direction: "inbound",
+          limit,
+        },
+      });
       const seen = this.db.get("seen") || {};
       const ready = faxes.filter((f) => true && !seen[f.fax_id]).reverse();
       for (const f of ready) {

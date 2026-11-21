@@ -60,13 +60,17 @@ export default {
     };
     if (this.filePath?.startsWith("https://")) {
       const name = decodeURIComponent(new URL(this.filePath).pathname.split("/").pop() || "document.pdf");
-      args.document_file = { download_url: this.filePath, file_id: "pipedream", file_name: name };
+      args.document_url = this.filePath;
+      args.document_filename = name;
     } else if (this.filePath) {
-      const path = this.filePath.startsWith("/tmp") ? this.filePath : `/tmp/${this.filePath}`;
+      const path = this.filePath.startsWith("/") ? this.filePath : `/tmp/${this.filePath}`;
       args.document_base64 = fs.readFileSync(path).toString("base64");
       args.document_filename = path.split("/").pop();
     }
-    const response = await this.faxtofax.sendFax({ $, args });
+    const response = await this.faxtofax.sendFax({
+      $,
+      data: args,
+    });
     $.export("$summary", `Fax queued to ${response.to} (${response.pages} page${response.pages === 1 ? "" : "s"})`);
     return response;
   },

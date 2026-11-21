@@ -31,7 +31,14 @@ export default {
     },
   },
   async run({ $ }) {
-    const { faxes } = await this.faxtofax.listFaxes({ $, args: { direction: this.direction, query: this.query, limit: this.limit } });
+    const { faxes } = await this.faxtofax.listFaxes({
+      $,
+      params: {
+        direction: this.direction,
+        query: this.query,
+        limit: this.limit,
+      },
+    });
     $.export("$summary", `Found ${faxes.length} fax${faxes.length === 1 ? "" : "es"}`);
     return faxes;
   },

@@ -12,7 +12,10 @@ export default {
     faxId: { propDefinition: [faxtofax, "faxId"] },
   },
   async run({ $ }) {
-    const response = await this.faxtofax.getFax({ $, args: { fax_id: this.faxId } });
+    const response = await this.faxtofax.getFax({
+      $,
+      faxId: this.faxId,
+    });
     $.export("$summary", `Fax ${this.faxId} is ${response.status}`);
     return response;
   },
