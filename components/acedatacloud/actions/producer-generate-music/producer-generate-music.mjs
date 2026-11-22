@@ -3,6 +3,7 @@ import { requiredText } from "../../common/utils.mjs";
 import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
+  version: "0.0.1",
   acedatacloud,
   key: "acedatacloud-producer-generate-music",
   name: "Generate Producer Music",

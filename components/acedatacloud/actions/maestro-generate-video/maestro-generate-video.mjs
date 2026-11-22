@@ -5,6 +5,7 @@ import {
 import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
+  version: "0.0.1",
   acedatacloud,
   key: "acedatacloud-maestro-generate-video",
   name: "Generate Maestro Video",

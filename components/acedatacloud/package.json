@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/acedatacloud",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ace Data Cloud chat, image, video, music, speech and embedding actions for Pipedream Connect and MCP",
   "main": "acedatacloud.app.mjs",
   "keywords": [
