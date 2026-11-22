@@ -17229,6 +17229,12 @@ importers:
         specifier: ^6.16.0
         version: 6.16.0
 
+  components/urlchart:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+
   components/urltopdf: {}
 
   components/uscreen:
