@@ -72,3 +72,54 @@ export const REVIEWS_PAGE_SIZE = 50;
 // Max `pageSize` accepted by localPosts.list
 // https://developers.google.com/my-business/reference/rest/v4/accounts.locations.localPosts/list
 export const POSTS_PAGE_SIZE = 100;
+
+// https://developers.google.com/my-business/reference/performance/rest/v1/DailyMetric
+// BUSINESS_CONVERSATIONS and BUSINESS_FOOD_ORDERS are deprecated and left out.
+export const DAILY_METRIC_OPTIONS = [
+  {
+    label: "Profile views on Google Maps, desktop",
+    value: "BUSINESS_IMPRESSIONS_DESKTOP_MAPS",
+  },
+  {
+    label: "Profile views on Google Search, desktop",
+    value: "BUSINESS_IMPRESSIONS_DESKTOP_SEARCH",
+  },
+  {
+    label: "Profile views on Google Maps, mobile",
+    value: "BUSINESS_IMPRESSIONS_MOBILE_MAPS",
+  },
+  {
+    label: "Profile views on Google Search, mobile",
+    value: "BUSINESS_IMPRESSIONS_MOBILE_SEARCH",
+  },
+  {
+    label: "Direction requests",
+    value: "BUSINESS_DIRECTION_REQUESTS",
+  },
+  {
+    label: "Call button clicks",
+    value: "CALL_CLICKS",
+  },
+  {
+    label: "Website clicks",
+    value: "WEBSITE_CLICKS",
+  },
+  {
+    label: "Messaging button clicks (e.g. WhatsApp)",
+    value: "MESSAGING_CLICKS",
+  },
+  {
+    label: "Bookings made via Reserve with Google",
+    value: "BUSINESS_BOOKINGS",
+  },
+  {
+    label: "Menu clicks",
+    value: "BUSINESS_FOOD_MENU_CLICKS",
+  },
+];
+
+export const PERFORMANCE_API_URL = "https://businessprofileperformance.googleapis.com/v1";
+
+// Max `pageSize` accepted by searchkeywords.impressions.monthly.list
+// https://developers.google.com/my-business/reference/performance/rest/v1/locations.searchkeywords.impressions.monthly/list
+export const KEYWORDS_PAGE_SIZE = 100;
