@@ -576,6 +576,25 @@ export default {
         id: labelId,
       });
     },
+    async createFilter(requestBody) {
+      const { data } = await this._client().users.settings.filters.create({
+        userId: constants.USER_ID,
+        requestBody,
+      });
+      return data;
+    },
+    async listFilters() {
+      const { data } = await this._client().users.settings.filters.list({
+        userId: constants.USER_ID,
+      });
+      return data;
+    },
+    async deleteFilter(filterId) {
+      return this._client().users.settings.filters.delete({
+        userId: constants.USER_ID,
+        id: filterId,
+      });
+    },
     async listDelegates() {
       const { data } = await this._client().users.settings.delegates.list({
         userId: constants.USER_ID,

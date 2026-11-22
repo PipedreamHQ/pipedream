@@ -16,7 +16,7 @@ export default {
     objectId: {
       type: "string",
       label: "Object ID",
-      description: "Hubspot's internal ID for the object",
+      description: "The HubSpot record ID for this object (the `id` field, e.g. `12345678901`). Find it with **Search CRM Objects** for the matching object type and copy the `id` from the matching result.",
       useQuery: true,
       async options(opts) {
         return this.hubspot.createOptions(this.getObjectType(), opts);

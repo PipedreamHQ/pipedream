@@ -5,7 +5,7 @@ export default {
   key: "microsoft_excel-new-cell-value-changed",
   name: "New Cell Value Changed",
   description: "Emit new event when a specific cell's value changes in an Excel worksheet",
-  version: "0.0.3",
+  version: "0.0.5",
   type: "source",
   dedupe: "unique",
   props: {

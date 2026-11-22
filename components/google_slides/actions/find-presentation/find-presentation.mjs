@@ -4,7 +4,7 @@ export default {
   key: "google_slides-find-presentation",
   name: "Find a Presentation",
   description: "Search for a Google Slides presentation by name. Returns matching presentations with their `id`, `name`, and `url`. Use this first to resolve a presentation's name to its ID, then pass the `id` to **Get Presentation** or other Slides tools. [See the documentation](https://developers.google.com/drive/api/v3/search-files)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

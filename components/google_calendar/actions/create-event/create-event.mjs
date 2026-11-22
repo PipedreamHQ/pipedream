@@ -7,7 +7,7 @@ export default {
   key: "google_calendar-create-event",
   name: "Create Event",
   description: "Create a new event on a Google Calendar — a single or recurring appointment at a specific date/time (optionally with attendees, location, and description). Use this whenever the user wants to add something to their calendar. This creates calendar EVENTS only: it cannot configure calendar settings, working hours, availability, or default preferences, and it cannot create a new calendar. Do not represent any of those requests as an event — creating an event named after the request does not fulfill it. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "1.1.2",
+  version: "1.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -99,6 +99,12 @@ export default {
       ],
       optional: true,
     },
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
+      ],
+    },
     repeatFrequency: {
       type: "string",
       label: "Repeat Frequency",
@@ -168,7 +174,7 @@ export default {
 
     const data = {
       calendarId: this.calendarId,
-      sendUpdates: this.sendUpdates,
+      sendUpdates: this.sendUpdates || undefined,
       resource: {
         summary: this.summary,
         location: this.location,
@@ -193,8 +199,9 @@ export default {
         },
         recurrence,
         attendees,
-        colorId: this.colorId,
-        visibility: this.visibility,
+        colorId: this.colorId || undefined,
+        visibility: this.visibility || undefined,
+        transparency: this.transparency || undefined,
       },
     };
 

@@ -124,9 +124,22 @@ const DAYS_OF_WEEK = [
   },
 ];
 
+// https://developers.google.com/calendar/api/v3/reference/events#transparency
+const TRANSPARENCY_OPTIONS = [
+  {
+    label: "Busy",
+    value: "opaque",
+  },
+  {
+    label: "Free",
+    value: "transparent",
+  },
+];
+
 export default {
   API,
   REPEAT_FREQUENCIES,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
   DAYS_OF_WEEK,
+  TRANSPARENCY_OPTIONS,
 };

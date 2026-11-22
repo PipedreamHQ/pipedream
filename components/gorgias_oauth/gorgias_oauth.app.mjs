@@ -132,6 +132,19 @@ export default {
       options: constants.sourceTypes,
       optional: true,
     },
+    integrationId: {
+      type: "integer",
+      label: "Integration ID",
+      description: "The integration to send the message through, e.g. `123456`. Run the **List Integrations** action to get the ID. If omitted, Gorgias uses the ticket's integration",
+      optional: true,
+      min: 1,
+    },
+    bodyText: {
+      type: "string",
+      label: "Body Text",
+      description: "Plain-text version of the message, e.g. `Thanks, your order has shipped.`",
+      optional: true,
+    },
     externalId: {
       type: "string",
       label: "External ID",
@@ -465,6 +478,35 @@ export default {
         path: "/users",
         ...opts,
       });
+    },
+    listIntegrations(opts = {}) {
+      return this._makeRequest({
+        path: "/integrations",
+        ...opts,
+      });
+    },
+    async getCustomerChannelAddress({
+      $, ticketId, channel, customerId,
+    }) {
+      const messages = this.paginate({
+        $,
+        fn: this.listMessages,
+        params: {
+          ticket_id: ticketId,
+          order_by: constants.MESSAGES_ORDER_NEWEST_FIRST,
+          limit: constants.MESSAGES_LIMIT_MAX,
+        },
+      });
+      for await (const message of messages) {
+        if (
+          !message.from_agent
+          && message.channel === channel
+          && message.sender?.id === customerId
+          && message.source?.from?.address
+        ) {
+          return message.source.from.address;
+        }
+      }
     },
     listTeams(opts = {}) {
       return this._makeRequest({

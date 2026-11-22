@@ -4,11 +4,11 @@ export default {
   key: "linkedin-retrieve-comments-shares",
   name: "Retrieve Comments On Shares",
   description: "Retrieve comments on shares given the share urn. [See the docs here](https://docs.microsoft.com/en-us/linkedin/marketing/integrations/community-management/shares/network-update-social-actions#retrieve-comments-on-shares)",
-  version: "0.1.14",
+  version: "0.1.15",
   annotations: {
-    destructiveHint: true,
+    destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: false,
+    readOnlyHint: true,
   },
   type: "action",
   props: {

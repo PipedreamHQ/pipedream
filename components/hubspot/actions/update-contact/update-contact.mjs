@@ -8,7 +8,7 @@ export default {
   name: "Update Contact",
   description:
     "Update a contact in HubSpot by id. Set **Object ID** and put the fields to change in **Object Properties** as HubSpot internal names (only the fields you pass are modified). If you don't have the id, look it up first with **Search CRM** (by email, or by name). Example: Object ID `123`, Object Properties `{ \"jobtitle\": \"Chief Paleontologist\" }`. Returns the updated contact. [See the documentation](https://developers.hubspot.com/docs/api/crm/contacts#endpoint?spec=PATCH-/crm/v3/objects/contacts/{contactId})",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -1,12 +1,15 @@
+import { ConfigurationError } from "@pipedream/platform";
 import mailchimp from "../../mailchimp.app.mjs";
-import { removeNullEntries } from "../../common/utils.mjs";
+import {
+  md5Hash, removeNullEntries,
+} from "../../common/utils.mjs";
 import constants from "../../common/constants.mjs";
 
 export default {
   key: "mailchimp-add-or-update-subscriber",
   name: "Add or Update Subscriber",
   description: "Adds a new subscriber to an audience or updates existing subscriber. [See docs here](https://mailchimp.com/developer/marketing/api/list-members/add-or-update-list-member/)",
-  version: "0.2.5",
+  version: "0.2.7",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -25,13 +28,10 @@ export default {
       description: "The unique ID of the list",
     },
     subscriberHash: {
-      propDefinition: [
-        mailchimp,
-        "subscriberHash",
-        (c) => ({
-          listId: c.listId,
-        }),
-      ],
+      type: "string",
+      label: "Subscriber hash",
+      description: "The MD5 hash of the lowercase version of the list member's email address, e.g. `55502f40dc8b7c769880b10874abc9d0`. Leave empty to have it calculated from **Email address**.",
+      optional: true,
     },
     emailAddress: {
       label: "Email address",
@@ -138,10 +138,14 @@ export default {
     },
   },
   async run({ $ }) {
+    const isSet = (value) => value !== undefined && value !== null && value !== "";
+    if (isSet(this.marketingPermissionsEnabled) && !this.marketingPermissionId) {
+      throw new ConfigurationError("**Marketing permission ID** is required when **Marketing permissions enabled** is set.");
+    }
 
     const payload = removeNullEntries({
       listId: this.listId,
-      subscriberHash: this.subscriberHash,
+      subscriberHash: this.subscriberHash || md5Hash(this.emailAddress.toLowerCase()),
       data: {
         email_address: this.emailAddress,
         status_if_new: this.statusIfNew,
@@ -151,16 +155,15 @@ export default {
         interests: this.interests,
         language: this.language,
         vip: this.vip,
-        location: {
-          latitude: this.latitude && Number(this.latitude),
-          longitude: this.longitude && Number(this.longitude),
-        },
-        marketing_permissions: [
-          {
-            marketing_permission_id: this.marketingPermissionId,
-            enabled: this.marketingPermissionsEnabled,
-          },
-        ],
+        // Mailchimp rejects empty marketing_permissions entries
+        marketing_permissions: this.marketingPermissionId
+          ? [
+            {
+              marketing_permission_id: this.marketingPermissionId,
+              enabled: this.marketingPermissionsEnabled,
+            },
+          ]
+          : undefined,
         ip_signup: this.ipSignup,
         timestamp_signup: this.timestampSignup,
         ip_opt: this.ipOpt,
@@ -170,6 +173,14 @@ export default {
         skip_merge_validation: this.skipMergeValidation,
       },
     });
+    // Added after cleanup: removeNullEntries drops numeric 0, which is a valid coordinate
+    const location = {};
+    if (isSet(this.latitude)) location.latitude = Number(this.latitude);
+    if (isSet(this.longitude)) location.longitude = Number(this.longitude);
+    if (Object.keys(location).length) {
+      payload.data.location = location;
+    }
+
     const response = await this.mailchimp.addOrUpdateListMember($, payload);
     response && $.export("$summary", "Successful");
     return response;

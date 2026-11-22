@@ -7,7 +7,7 @@ export default {
     + " Use this instead of **Retrieve Conversation** when you need the conversation's full message and event history rather than its top-level metadata."
     + " Returns a flat array in a single response with no pagination; each item carries a `type` field identifying which kind of event it is."
     + " [See the documentation](https://developers.belco.io/reference/get_conversations-conversationid-items)",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

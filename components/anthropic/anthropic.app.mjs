@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 
-const DEFAULT_MODEL = "claude-sonnet-4-5-20250929";
+const DEFAULT_MODEL = "claude-sonnet-5-5";
 
 export default {
   type: "app",

@@ -1,27 +1,26 @@
 import {
-  USER_LIST_TYPES, USER_LIST_TYPE_OPTIONS,
+  USER_LIST_TYPES, USER_LIST_TYPE_OPTIONS, USER_LIST_TYPE_PROPS,
 } from "./common-constants.mjs";
 import {
   parseObject, parseStringObject,
 } from "../../common/utils.mjs";
 import common from "../common/common.mjs";
-import {
-  getAdditionalFields, getListTypeInfo,
-} from "../common/props.mjs";
+import { getAdditionalFields } from "../common/props.mjs";
 import { ConfigurationError } from "@pipedream/platform";
 
 export default {
   ...common,
   key: "google_ads-create-customer-list",
   name: "Create Customer List",
-  description: "Create a new customer list in Google Ads. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/UserList)",
-  version: "0.0.14",
+  description: "Create a new customer list in Google Ads. Use **List User Lists** to check existing lists or find seed list IDs for a Lookalike list. Set **List Type**, then fill in the props marked for that type; props marked for other types are ignored. Returns the new list ID and resource name. [See the documentation](https://developers.google.com/google-ads/api/reference/rpc/v25/UserList)",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     name: {
@@ -45,7 +44,12 @@ export default {
         label,
         value,
       })),
-      reloadProps: true,
+    },
+    ...USER_LIST_TYPE_PROPS,
+    additionalFields: {
+      ...getAdditionalFields(),
+      label: "Additional Fields",
+      description: "Additional [UserList](https://developers.google.com/google-ads/api/reference/rpc/v25/UserList) fields to set. Values will be parsed as JSON where applicable. Example: `{ \"membershipLifeSpan\": 30 }`",
     },
   },
   methods: {
@@ -64,9 +68,9 @@ export default {
         break;
 
       case USER_LIST_TYPES.LOGICAL: {
-        let { rules } = obj;
+        const { rules } = obj;
         if (rules) {
-          rules = rules.map?.((rule) => parseStringObject(rule)) ?? parseStringObject(rules);
+          obj.rules = rules.map?.((rule) => parseStringObject(rule)) ?? parseStringObject(rules);
         }
         break;
       }
@@ -95,34 +99,6 @@ export default {
       return obj;
     },
   },
-  additionalProps() {
-    const { listType } = this;
-
-    if (!listType) {
-      return {};
-    }
-
-    const option = USER_LIST_TYPE_OPTIONS.find(
-      ({ value }) => value === listType,
-    );
-    if (!option) {
-      throw new ConfigurationError("Select a valid List Type to proceed.");
-    }
-
-    const {
-      docsLink, props,
-    } = option;
-
-    const newProps = {
-      listTypeInfo: getListTypeInfo(docsLink),
-    };
-
-    Object.assign(newProps, props);
-
-    newProps.additionalFields = getAdditionalFields(docsLink);
-
-    return newProps;
-  },
   async run({ $ }) {
     const {
       googleAds,
@@ -132,8 +108,42 @@ export default {
       description,
       listType,
       additionalFields,
-      ...data
     } = this;
+
+    const option = USER_LIST_TYPE_OPTIONS.find(
+      ({ value }) => value === listType,
+    );
+    if (!option) {
+      throw new ConfigurationError("Select a valid List Type to proceed.");
+    }
+
+    const typeProps = Object.entries(option.props);
+    const missing = typeProps
+      .filter(([
+        key,
+        { optional },
+      ]) => !optional && !this[key]?.length)
+      .map(([
+        ,
+        { label },
+      ]) => label);
+    if (missing.length) {
+      throw new ConfigurationError(`${missing.join(", ")} required for the ${option.shortLabel} List Type`);
+    }
+
+    const data = Object.fromEntries(
+      typeProps
+        .filter(([
+          key,
+        ]) => this[key])
+        .map(([
+          key,
+        ]) => [
+          key,
+          this[key],
+        ]),
+    );
+
     const { results: { [0]: response } } = await googleAds.createUserList({
       $,
       accountId,

@@ -3,11 +3,15 @@ import { parseObject } from "../../common/utils.mjs";
 import etrusted from "../../etrusted.app.mjs";
 import sampleEmit from "./test-event.mjs";
 
+const HOUR_MS = 60 * 60 * 1000;
+const DEFAULT_LOOKBACK_HOURS = 1;
+const MAX_LOOKBACK_HOURS = 72;
+
 export default {
   key: "etrusted-new-review",
   name: "New Review",
   description: "Emit new event when a new review is submitted on an eTrusted channel. [See the documentation](https://developers.etrusted.com/reference/getreviews)",
-  version: "0.0.1",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -55,6 +59,17 @@ export default {
         etrusted,
         "ignoreStatements",
       ],
+      description: "Filters the list to ignore [statements](https://developers.etrusted.com/docs/glossory#statement) (reviews missing the comment, the star rating, or both). This source defaults to `false` so rating-only reviews are emitted; set it to `true` to emit only reviews carrying both a star rating and a comment. e.g. `false`",
+      default: false,
+      optional: true,
+    },
+    lookbackHours: {
+      type: "integer",
+      label: "Lookback Window (hours)",
+      description: "How far back past the newest processed review to keep polling, in hours (0-72, default `1`). Reviews can appear in the API minutes after their `submittedAt` timestamp; reviews re-fetched within this window are deduplicated by review id, so late-indexed reviews are still emitted exactly once. e.g. `6`",
+      min: 0,
+      max: MAX_LOOKBACK_HOURS,
+      default: DEFAULT_LOOKBACK_HOURS,
       optional: true,
     },
   },
@@ -67,6 +82,15 @@ export default {
     },
     _setCursor(cursor) {
       this.db.set("cursor", cursor);
+    },
+    _getGraceMs() {
+      return (this.lookbackHours ?? DEFAULT_LOOKBACK_HOURS) * HOUR_MS;
+    },
+    _getSeen() {
+      return this.db.get("seen") ?? {};
+    },
+    _setSeen(seen) {
+      this.db.set("seen", seen);
     },
     _toCsv(value) {
       const parsed = parseObject(value);
@@ -120,7 +144,8 @@ export default {
         return undefined;
       }
 
-      return new Date(Date.parse(cursor.submittedAt) - 1).toISOString();
+      // submittedAfter is exclusive, so step back 1ms to keep same-timestamp reviews fetchable.
+      return new Date(Date.parse(cursor.submittedAt) - this._getGraceMs() - 1).toISOString();
     },
     async _getReviews({
       maxResults,
@@ -141,7 +166,10 @@ export default {
       }
       return reviews;
     },
-    _isNewReview(review, cursor) {
+    _isNewReview(review, cursor, seen) {
+      if (review.id && seen?.[review.id]) {
+        return false;
+      }
       if (!cursor?.submittedAt) {
         return true;
       }
@@ -156,7 +184,8 @@ export default {
       if (reviewTs > cursorTs) {
         return true;
       }
-      if (reviewTs < cursorTs) {
+      // Older than the lookback window: no longer fetchable, treat as processed.
+      if (reviewTs < cursorTs - this._getGraceMs()) {
         return false;
       }
 
@@ -177,6 +206,14 @@ export default {
           ? submittedAt
           : max;
       }, null);
+
+      // The cursor only moves forward: a review that stops matching the filters (moderation,
+      // veto, deletion) must not drag it back and widen later queries into history.
+      const cursorTs = Date.parse(cursor?.submittedAt);
+      if (!Number.isNaN(cursorTs) && Date.parse(newestSubmittedAt) < cursorTs) {
+        return cursor;
+      }
+
       const ids = withSubmittedAt
         .filter((review) => this._getSubmittedAt(review) === newestSubmittedAt)
         .map((review) => review.id);
@@ -198,12 +235,45 @@ export default {
       }
 
       const cursor = this._getCursor();
-      const newReviews = reviews.filter((review) => this._isNewReview(review, cursor));
+      const seen = this._getSeen();
+      // Seed from the legacy cursor on first run after upgrade. It only holds ids at the
+      // newest timestamp, so an older pre-upgrade review in the window can replay once.
+      const legacyTs = Date.parse(cursor?.submittedAt);
+      if (!Number.isNaN(legacyTs) && !Object.keys(seen).length && cursor.ids?.length) {
+        for (const id of cursor.ids) {
+          seen[id] = legacyTs;
+        }
+      }
+      const newReviews = reviews.filter((review) => this._isNewReview(review, cursor, seen));
       const nextCursor = this._getNextCursor(reviews, cursor);
 
       for (const review of this._sortBySubmittedAt(newReviews)) {
         this._emitReview(review);
       }
+
+      // Retain every fetched id, not just emitted ones, so a review already treated as
+      // processed cannot resurface as new.
+      for (const review of reviews) {
+        if (review.id) {
+          seen[review.id] = this._getTs(review);
+        }
+      }
+
+      // Pruned at the maximum lookback, not the configured one, so raising lookbackHours
+      // later cannot re-emit ids that were already processed.
+      const anchorTs = Date.parse(nextCursor?.submittedAt ?? cursor?.submittedAt);
+      if (!Number.isNaN(anchorTs)) {
+        const cutoff = anchorTs - (MAX_LOOKBACK_HOURS * HOUR_MS);
+        for (const [
+          id,
+          ts,
+        ] of Object.entries(seen)) {
+          if (ts < cutoff) {
+            delete seen[id];
+          }
+        }
+      }
+      this._setSeen(seen);
 
       if (nextCursor?.submittedAt) {
         this._setCursor(nextCursor);

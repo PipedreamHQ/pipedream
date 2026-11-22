@@ -4,7 +4,7 @@ export default {
   key: "anchor_browser-create-profile",
   name: "Create Profile",
   description: "Creates a new profile from a session. A Profile stores cookies, local storage, and cache. [See the documentation](https://docs.anchorbrowser.io/api-reference/profiles/create-profile).",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

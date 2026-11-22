@@ -176,6 +176,7 @@ export default {
     async processTimerEvent(eventData) {
       const {
         startTimestamp,
+        startId,
         endTimestamp,
       } = eventData;
 
@@ -191,40 +192,23 @@ export default {
       const objectType = this.getObjectType();
       const dateFieldName = FIELD_NAME.CREATED_DATE;
 
+      // Oldest first, so emitting in order keeps events chronological
       const events = await this.paginate({
-        fn: ({
-          limit,
-          offset,
-        }) => this.query({
-          query: `
-            SELECT ${columns.join(", ")}
-              FROM ${objectType}
-                WHERE ${dateFieldName} > ${startTimestamp}
-                AND ${dateFieldName} <= ${endTimestamp}
-                ${extraConditions}
-                ORDER BY ${dateFieldName} DESC
-                LIMIT ${limit} OFFSET ${offset}
-          `,
-        }),
+        objectType,
+        startTimestamp,
+        startId,
+        endTimestamp,
+        columns,
+        dateFieldName,
+        extraConditions,
       });
 
-      const [
-        latestEvent,
-      ] = events;
+      this.setPollingCursor(events, dateFieldName);
 
-      let latestDateCovered = new Date(latestEvent?.CreatedDate || endTimestamp);
-      if (isNaN(latestDateCovered.getMilliseconds())) {
-        latestDateCovered = new Date();
-      }
-      latestDateCovered.setSeconds(0);
-      this.setLatestDateCovered(latestDateCovered.toISOString());
-
-      Array.from(events)
-        .reverse()
-        .forEach((item) => {
-          const meta = this.generateTimerMeta(item, fieldName);
-          this.$emit(item, meta);
-        });
+      events.forEach((item) => {
+        const meta = this.generateTimerMeta(item, fieldName);
+        this.$emit(item, meta);
+      });
     },
     async timerActivateHook() {
       let columns;

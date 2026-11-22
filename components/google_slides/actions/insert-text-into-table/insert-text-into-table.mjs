@@ -4,7 +4,7 @@ export default {
   key: "google_slides-insert-text-into-table",
   name: "Insert Text into Table",
   description: "Insert text into a table cell. [See the documentation](https://developers.google.com/workspace/slides/api/reference/rest/v1/presentations/request#InsertTextRequest)",
-  version: "0.0.6",
+  version: "0.0.7",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

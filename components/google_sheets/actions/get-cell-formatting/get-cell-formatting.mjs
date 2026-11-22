@@ -120,7 +120,7 @@ export default {
     + " horizontalAlignment: \"CENTER\"}` alongside"
     + " `{frozenRowCount: 1, mergedRanges: []}`."
     + " [See the documentation](https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets/cells)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   ai: "optimized",
   annotations: {

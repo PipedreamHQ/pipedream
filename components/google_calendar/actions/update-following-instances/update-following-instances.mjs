@@ -5,8 +5,9 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "google_calendar-update-following-instances",
   name: "Update Following Event Instances",
-  description: "Update all instances of a recurring event following a specific instance. This creates a new recurring event starting from the selected instance. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
-  version: "0.0.8",
+  description: "Update all instances of a recurring event following a specific instance. This trims the original series to end before the selected instance and creates a new recurring event starting from it; fields left empty (including `Show As`) are copied from the original series. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
+  version: "0.1.1",
+  ai: "optimized",
   type: "action",
   annotations: {
     destructiveHint: true,
@@ -115,6 +116,12 @@ export default {
         "colorId",
       ],
     },
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
+      ],
+    },
     timeZone: {
       propDefinition: [
         googleCalendar,
@@ -199,7 +206,7 @@ export default {
     await this.googleCalendar.deleteEvent({
       calendarId: this.calendarId,
       eventId: this.instanceId,
-      sendUpdates: this.sendUpdates,
+      sendUpdates: this.sendUpdates || undefined,
     });
 
     // Steps 4 & 5 are wrapped in a try/catch: the delete above is irreversible,
@@ -218,7 +225,7 @@ export default {
       await this.googleCalendar.updateEvent({
         calendarId: this.calendarId,
         eventId: this.recurringEventId,
-        sendUpdates: this.sendUpdates,
+        sendUpdates: this.sendUpdates || undefined,
         requestBody: {
           ...originalEvent,
           recurrence: trimmedRecurrence,
@@ -252,7 +259,7 @@ export default {
 
       const newEvent = await this.googleCalendar.createEvent({
         calendarId: this.calendarId,
-        sendUpdates: this.sendUpdates,
+        sendUpdates: this.sendUpdates || undefined,
         resource: {
           summary: this.summary || originalEvent.summary,
           location: this.location || originalEvent.location,
@@ -268,6 +275,7 @@ export default {
           recurrence: newRecurrence,
           attendees,
           colorId: this.colorId || originalEvent.colorId,
+          transparency: this.transparency || originalEvent.transparency,
         },
       });
 
@@ -287,7 +295,7 @@ export default {
         await this.googleCalendar.updateEvent({
           calendarId: this.calendarId,
           eventId: this.instanceId,
-          sendUpdates: this.sendUpdates,
+          sendUpdates: this.sendUpdates || undefined,
           requestBody: {
             ...targetInstance,
             status: "confirmed",

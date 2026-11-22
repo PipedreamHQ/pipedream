@@ -13,7 +13,7 @@ export default {
     + " Optionally specify a range in A1 notation (e.g.,"
     + " `A2:D10`) to read a subset."
     + " For searching rows by value, use **Find Rows** instead.",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   ai: "optimized",
   annotations: {

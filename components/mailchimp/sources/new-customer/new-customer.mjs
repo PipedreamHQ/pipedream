@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-customer",
   name: "New Customer",
   description: "Emit new event when a new customer is added to a selected store.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   props: {

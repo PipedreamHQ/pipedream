@@ -5,7 +5,7 @@ export default {
   key: "mailchimp-create-list",
   name: "Create List",
   description: "Creates a new list. [See docs here](https://mailchimp.com/developer/marketing/api/lists/add-list/)",
-  version: "0.0.3",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

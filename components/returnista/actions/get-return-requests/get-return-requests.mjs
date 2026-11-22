@@ -4,7 +4,7 @@ export default {
   key: "returnista-get-return-requests",
   name: "Get Return Requests",
   description: "Gets a list of return requests for the given account. [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/account/-accountId-/return-requests)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -13,12 +13,6 @@ export default {
   type: "action",
   props: {
     returnista,
-    accountId: {
-      propDefinition: [
-        returnista,
-        "accountId",
-      ],
-    },
     limit: {
       propDefinition: [
         returnista,
@@ -41,7 +35,6 @@ export default {
   async run({ $ }) {
     const { data: response } = await this.returnista.getReturnRequests({
       $,
-      accountId: this.accountId,
       params: {
         limit: this.limit,
         page: this.page,

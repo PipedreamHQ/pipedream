@@ -13,7 +13,7 @@ export default {
     + " Returns Zoom's meeting transcript when there is one, otherwise the meeting's cloud recording audio transcript."
     + " Fetches the VTT file server-side using your OAuth token and returns speaker-attributed plain text, the original authenticated URL, and the transcript `source` (`meeting_transcript` or `cloud_recording`)."
     + " [See the documentation](https://developers.zoom.us/docs/api/meetings/#tag/meeting-transcript/get/meetings/{meetingId}/transcript)",
-  version: "0.2.0",
+  version: "0.2.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
