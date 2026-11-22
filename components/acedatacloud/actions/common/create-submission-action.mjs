@@ -14,6 +14,7 @@ export const createSubmissionAction = ({
   path,
   props,
   buildData,
+  buildHeaders,
   modelChoices = false,
   version = "0.0.1",
 }) => ({
@@ -42,11 +43,15 @@ export const createSubmissionAction = ({
   },
   async run({ $ }) {
     const data = buildData(this);
+    const headers = buildHeaders?.(this);
     let response;
     try {
       response = await this.acedatacloud.request({
         $,
         path,
+        ...(headers && {
+          headers,
+        }),
         data: {
           ...data,
           async: true,

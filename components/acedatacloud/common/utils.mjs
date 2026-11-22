@@ -97,11 +97,17 @@ export const apiError = (error, submitting = false) => {
  * @returns {Object} Options for Pipedream's axios helper.
  */
 export const requestOptions = ({
-  apiKey, path, data, method = "POST", params,
+  apiKey, path, data, method = "POST", params, headers = {},
 }) => ({
   method,
   url: `https://api.acedata.cloud${path}`,
   headers: {
+    ...Object.fromEntries(Object.entries(headers).filter(([
+      name,
+    ]) => ![
+      "authorization",
+      "content-type",
+    ].includes(name.toLowerCase()))),
     "Authorization": `Bearer ${apiKey}`,
     "Content-Type": "application/json",
   },

@@ -131,6 +131,12 @@ export const operationModelIds = (api) => {
       for (const child of node[key] || []) visit(child, seen);
     }
   };
+  for (const input of operation?.parameters || []) {
+    if (input.name !== parameter) continue;
+    for (const id of resolve(input.schema).enum || []) {
+      if (typeof id === "string" && id) ids.add(id);
+    }
+  }
   for (const content of Object.values(resolve(operation?.requestBody).content || {})) {
     visit(content.schema);
   }

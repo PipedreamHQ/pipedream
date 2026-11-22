@@ -9,8 +9,47 @@ import {
 } from "../utils.mjs";
 import generateImage from "../../actions/generate-image/generate-image.mjs";
 import editImage from "../../actions/edit-image/edit-image.mjs";
+import fish from "../../actions/fish-audio-synthesize/fish-audio-synthesize.mjs";
 
 const model = "doubao-seedream-5-0-lite-260128";
+
+test("Fish speech sends the selected model in the API header while keeping account auth", async () => {
+  for (const model of [
+    "s1",
+    "s2-pro",
+    "s2.1-pro",
+  ]) {
+    let observed;
+    await fish.run.call({
+      model,
+      text: "Hello",
+      acedatacloud: {
+        async request(args) { observed = args; return {
+          task_id: "fish-fixture",
+        }; },
+      },
+    }, {
+      $: {
+        export() {},
+      },
+    });
+    assert.deepEqual(observed.headers, {
+      model,
+    });
+    assert.equal(observed.data.model, undefined);
+    const request = requestOptions({
+      apiKey: "fixture-key",
+      ...observed,
+      headers: {
+        ...observed.headers,
+        authorization: "other",
+      },
+    });
+    assert.equal(request.headers.model, model);
+    assert.equal(request.headers.Authorization, "Bearer fixture-key");
+    assert.equal(request.headers.authorization, undefined);
+  }
+});
 
 test("published Seedream 4.x models are accepted without inventing model-specific limits", () => {
   const id = "doubao-seedream-4-5-251128";

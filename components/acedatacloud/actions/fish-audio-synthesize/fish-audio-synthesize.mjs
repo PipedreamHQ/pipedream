@@ -32,10 +32,12 @@ export default createSubmissionAction({
   },
   buildData: (step) => ({
     text: requiredText(step.text, "Text"),
-    model: requiredText(step.model ?? "s2-pro", "Model"),
     format: "mp3",
     ...(step.referenceId && {
       reference_id: step.referenceId,
     }),
+  }),
+  buildHeaders: (step) => ({
+    model: requiredText(step.model ?? "s2-pro", "Model"),
   }),
 });

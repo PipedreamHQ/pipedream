@@ -479,3 +479,36 @@ test("operation enums include compatible aliases absent from canonical model ent
     "compatible-alias",
   ]);
 });
+
+test("model discovery also reads the declared request header enum", () => {
+  const api = {
+    path: "/fish/tts",
+    method: "POST",
+    definition: {
+      paths: {
+        "/fish/tts": {
+          post: {
+            parameters: [
+              {
+                in: "header",
+                name: "model",
+                schema: {
+                  enum: [
+                    "s1",
+                    "s2-pro",
+                    "s2.1-pro",
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
+    },
+  };
+  assert.deepEqual(operationModelIds(api), [
+    "s1",
+    "s2-pro",
+    "s2.1-pro",
+  ]);
+});

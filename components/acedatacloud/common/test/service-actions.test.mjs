@@ -100,7 +100,6 @@ const submissionCases = {
     path: "/fish/tts",
     body: {
       text: "Hello world",
-      model: "s2-pro",
       format: "mp3",
       async,
     },

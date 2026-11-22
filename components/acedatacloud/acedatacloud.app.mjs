@@ -118,7 +118,7 @@ export default {
      * @returns {Promise<Object>} API response.
      */
     request({
-      $, path, data, method, params,
+      $, path, data, method, params, headers,
     }) {
       return axios($, requestOptions({
         apiKey: this.$auth.api_key,
@@ -126,6 +126,7 @@ export default {
         data,
         method,
         params,
+        headers,
       }));
     },
     /**
