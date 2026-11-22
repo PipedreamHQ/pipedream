@@ -2,7 +2,7 @@
 
 **ACE Music and Suno music, Seedance and HappyHorse video, GPT Image and Nano Banana images, plus AI chat — through Ace Data Cloud.** Connect one Ace API key, choose an individual action and configure native fields. No custom HTTP URL, Authorization header or request JSON is needed for these actions.
 
-This contribution contains **31 actions**: the original 24 media/search actions, five scoped ACE Music submission actions, plus **List Chat Models** and **Chat With Model**. Search by the service name rather than guessing a generic API action. Ace Data Cloud supplies this integration and API credential; it is not the first-party Suno, OpenAI, or Google app.
+This contribution contains **41 actions** covering AI chat, images, video, music, speech, transcription, embeddings, search and face tools. Search by the service name rather than guessing a generic API action. Ace Data Cloud supplies this integration and API credential; it is not the first-party Suno, OpenAI, or Google app.
 
 **Release status:** [official App registration](https://github.com/PipedreamHQ/pipedream/issues/22155) and [component review](https://github.com/PipedreamHQ/pipedream/pull/22156) are pending. The intended [official AceDataCloud app page](https://pipedream.com/apps/acedatacloud) is not yet a working installation route. Do not interpret this README or a passing test as official publication.
 
@@ -10,6 +10,16 @@ This contribution contains **31 actions**: the original 24 media/search actions,
 
 | Search terms | Individual action | Result |
 |---|---|---|
+| OpenAI speech, TTS | Synthesize OpenAI Speech | Audio file path and byte count |
+| Whisper, transcription | Transcribe OpenAI Audio | JSON or text transcription |
+| Embeddings | Create Text Embeddings | Vectors with usage |
+| Digital Human, lip sync | Generate Digital Human Video | One original task ID |
+| Dreamina, OmniHuman | Generate Dreamina Video | One original task ID |
+| Omni Flash | Generate Omni Flash Video | One original task ID |
+| Maestro | Generate Maestro Video | One original task ID |
+| Hailuo, image-to-video | Generate Hailuo Video | One original task ID |
+| Luma, first/last frames | Generate Luma Video | One original task ID |
+| Producer, FUZZ, music | Generate Producer Music | One original task ID |
 | ACE Music | Generate from an idea or custom lyrics, import MP3, cover, blend tracks | One original task ID; no task-query action |
 | Suno, music | Generate Suno Music | One `task_id`, `state: submitted` |
 | Seedance, video | Generate Seedance Video | One `task_id`, `state: submitted` |
@@ -81,9 +91,9 @@ Examples describe the submitted source defaults, not guaranteed entitlements or 
 
 ## 5. Read the result without resubmitting
 
-Generation/synthesis returns only `task_id` and `state: submitted`. This means **accepted, still pending**, not finished media. Save that same ID durably. Use your own approved Ace account task history to inspect the original task until terminal. The current contribution intentionally has **no task lookup actions** until each relevant server endpoint enforces authenticated ownership and controlled cross-account tests pass. It also does not expose a callback URL field; do not configure an invented callback control.
+Video, image, music and Fish speech submission actions return `task_id` and `state: submitted`. This means **accepted, still pending**, not finished media. Save that same ID durably. Use your own approved Ace account task history to inspect the original task until terminal. The current contribution intentionally has **no task lookup actions** until each relevant server endpoint enforces authenticated ownership and controlled cross-account tests pass. It also does not expose a callback URL field; do not configure an invented callback control.
 
-A completed task has the generation result under its `response`; check `response.success`, all media entries and per-item errors. Save returned media promptly. A final `cost` field can be absent; verify the matching task/trace usage row rather than treating missing cost as free. Re-running the submission creates another potential paid task. For chat, preserve the full `choices`/`usage` response; it is synchronous and does not create a polling task through this action.
+A completed task has the generation result under its `response`; check `response.success`, all media entries and per-item errors. Save returned media promptly. A final `cost` field can be absent; verify the matching task/trace usage row rather than treating missing cost as free. Re-running the submission creates another potential paid task. Chat returns its native Chat Completions, Messages or Responses object with available usage. Embeddings and transcription return their synchronous response. OpenAI speech saves the binary response to the synchronized output directory and returns its path; it does not return a task ID.
 
 No real connected Pipedream run, terminal media, unique billing record, new registration or paid conversion is claimed by this guide.
 
@@ -110,8 +120,10 @@ Run `npm test --prefix components/acedatacloud` after installing dependencies. S
 
 ## Current model choices
 
-Chat choices include every model family in the authenticated and public typed catalogs, including models that use native Messages. Each request follows its published protocol. GPT Image and Seedream Model dropdowns read the models bound to that action’s API from the public catalog, so defaults and examples do not limit the choices. Seedream 4.x remains selectable alongside 5.0. Protocol metadata is supplied by the platform; a missing protocol stops a chat request before submission.
+Chat choices include every model family in the authenticated and public typed catalogs, including models that use native Messages. Each request follows its published protocol. Media, speech, transcription and embedding Model dropdowns read the request model enums bound to that action’s exact public API, so defaults and examples do not limit the choices. Seedream 4.x remains selectable alongside 5.0. Protocol metadata is supplied by the platform; a missing protocol stops a chat request before submission.
 
 ## Image and reference video inputs
 
 Veo, Kling, Wan, HappyHorse, and Seedance expose native frame/reference controls for the image, reference, and editing model families. Choose the matching Generation Mode and provide its required references. Existing text-generation defaults remain unchanged; missing references and incompatible selections are rejected before submission. Reference-video and editing usage follow the service's actual input/output billing rules. Fish Audio now also exposes its published speech model choices.
+
+The Digital Human, Dreamina, Omni Flash, Maestro, OpenAI speech and transcription APIs are currently Beta. Their visibility does not grant account entitlement. Service entries without a model parameter, such as Luma, Digital Human and Maestro, do not invent model choices. Transcription uses a native multipart file upload capped at 25 MB; no connected API key is forwarded to the source file URL.

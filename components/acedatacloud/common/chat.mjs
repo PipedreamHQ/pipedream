@@ -102,10 +102,10 @@ export const confirmedChatResponse = (response, protocol) => {
 };
 
 /** Read the selected operation's request enum; response examples are not an inventory. */
-export const operationModelIds = (api) => {
+export const operationModelIds = (api, modelParameter) => {
   const definition = api?.definition;
   const operation = definition?.paths?.[api.path]?.[(api.method || "POST").toLowerCase()];
-  const parameter = api.metadata?.catalog?.model_parameter || "model";
+  const parameter = modelParameter || api.metadata?.catalog?.model_parameter || "model";
   const ids = new Set();
   const resolve = (value, seen = new Set()) => {
     if (!value?.$ref?.startsWith("#/") || seen.has(value.$ref)) return value || {};
@@ -144,6 +144,24 @@ export const operationModelIds = (api) => {
   return [
     ...ids,
   ];
+};
+
+/** Keep active POST operations, including legacy rows whose method column is null. */
+export const publishedOperationModels = (result, operation, modelParameter) => {
+  if (!Array.isArray(result?.items) || result.count > result.items.length) {
+    throw new Error("The public API lookup returned an incomplete result.");
+  }
+  const apis = result.items.filter((api) => (api.path === operation || api.path2 === operation)
+    && (api.method || "POST").toUpperCase() === "POST"
+    && api.definition?.paths?.[api.path]?.post
+    && api.stage !== "Deprecated");
+  if (!apis.length) throw new Error("No active published API matches this operation.");
+  return [
+    ...new Set(apis.flatMap((api) => operationModelIds(api, modelParameter))),
+  ].map((id) => ({
+    id,
+    label: id,
+  }));
 };
 
 /**

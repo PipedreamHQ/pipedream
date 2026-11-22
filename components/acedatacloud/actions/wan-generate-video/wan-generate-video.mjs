@@ -32,33 +32,48 @@ export default createSubmissionAction({
       optional: true,
     },
     firstFrameUrl: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       label: "First Frame URL",
-      description: "Required for Image to Video; select a matching image model or Wan 3.",
+      description: "Required for Image to Video; select a matching image model or Wan 3. Example: `https://example.com/image.png`.",
       optional: true,
     },
     lastFrameUrl: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       label: "Last Frame URL",
-      description: "Wan 3 only; requires a first frame.",
+      description: "Wan 3 only; requires a first frame. Example: `https://example.com/image.png`.",
       optional: true,
     },
     referenceImageUrls: {
-      type: "string[]",
+      propDefinition: [
+        acedatacloud,
+        "imageUrls",
+      ],
       label: "Reference Images",
-      description: "Wan 3 reference mode only.",
+      description: "Wan 3 reference mode only. Example: `[\"https://example.com/image.png\"]`.",
       optional: true,
     },
     referenceVideoUrls: {
-      type: "string[]",
+      propDefinition: [
+        acedatacloud,
+        "videoUrls",
+      ],
       label: "Reference Videos",
-      description: "For wan2.6-r2v or Wan 3 reference mode. Reference-video input seconds also contribute to usage.",
+      description: "For wan2.6-r2v or Wan 3 reference mode. Reference-video input seconds also contribute to usage. Example: `[\"https://example.com/video.mp4\"]`.",
       optional: true,
     },
     referenceAudioUrls: {
-      type: "string[]",
+      propDefinition: [
+        acedatacloud,
+        "audioUrls",
+      ],
       label: "Reference Audio",
-      description: "Wan 3 reference mode only. Wan 3 accepts at most 10 media references in total.",
+      description: "Wan 3 reference mode only. Wan 3 accepts at most 10 media references in total. Example: `[\"https://example.com/audio.mp3\"]`.",
       optional: true,
     },
     prompt: {

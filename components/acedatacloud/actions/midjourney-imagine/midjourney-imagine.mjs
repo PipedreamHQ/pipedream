@@ -1,10 +1,11 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
 import { requiredText } from "../../common/utils.mjs";
+import { chatModelOptions } from "../../common/chat.mjs";
 import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.2",
+  version: "0.1.0",
   key: "acedatacloud-midjourney-imagine",
   name: "Imagine Midjourney Image",
   description: "Imagine an image with Midjourney and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/midjourney-imagine)",
@@ -22,6 +23,9 @@ export default createSubmissionAction({
       label: "Version",
       description: "Public Midjourney version, e.g. `8.2`.",
       default: "8.2",
+      async options() {
+        return chatModelOptions(await this.acedatacloud.listModelsForOperation("/midjourney/imagine", "version"));
+      },
     },
   },
   buildData: (step) => ({

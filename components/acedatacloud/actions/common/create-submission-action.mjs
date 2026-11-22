@@ -16,6 +16,7 @@ export const createSubmissionAction = ({
   buildData,
   buildHeaders,
   modelChoices = false,
+  asyncMode = true,
   version = "0.0.1",
 }) => ({
   key,
@@ -54,7 +55,9 @@ export const createSubmissionAction = ({
         }),
         data: {
           ...data,
-          async: true,
+          ...(asyncMode && {
+            async: true,
+          }),
         },
       });
     } catch (error) {

@@ -36,21 +36,30 @@ export default createSubmissionAction({
       optional: true,
     },
     firstFrameUrl: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       label: "First Frame URL",
-      description: "Required for an i2v model in Image to Video mode.",
+      description: "Required for an i2v model in Image to Video mode. Example: `https://example.com/image.png`.",
       optional: true,
     },
     referenceImageUrls: {
-      type: "string[]",
+      propDefinition: [
+        acedatacloud,
+        "imageUrls",
+      ],
       label: "Reference Images",
-      description: "Use 1–9 images for an r2v model, or up to 5 optional images for video editing.",
+      description: "Use 1–9 images for an r2v model, or up to 5 optional images for video editing. Example: `[\"https://example.com/image.png\"]`.",
       optional: true,
     },
     videoUrl: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "videoUrl",
+      ],
       label: "Video to Edit",
-      description: "Required for the video-edit model. Output duration follows the input; input and output video seconds are billed.",
+      description: "Required for the video-edit model. Output duration follows the input; input and output video seconds are billed. Example: `https://example.com/video.mp4`.",
       optional: true,
     },
     prompt: {

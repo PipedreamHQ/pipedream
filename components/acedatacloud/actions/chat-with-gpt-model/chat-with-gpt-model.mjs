@@ -25,7 +25,10 @@ export default {
       ],
     },
     prompt: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "prompt",
+      ],
       label: "Prompt",
       description: "Text to send to the model, e.g. `Summarize this release note in one sentence.`.",
     },

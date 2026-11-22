@@ -1,7 +1,7 @@
 {
   "name": "@pipedream/acedatacloud",
-  "version": "0.0.4",
-  "description": "Ace Data Cloud AI chat, ACE Music, Suno music, Seedance, HappyHorse, GPT Image and Nano Banana actions for Pipedream Connect and MCP",
+  "version": "0.1.0",
+  "description": "Ace Data Cloud chat, image, video, music, speech and embedding actions for Pipedream Connect and MCP",
   "main": "acedatacloud.app.mjs",
   "keywords": [
     "pipedream",
@@ -17,7 +17,10 @@
     "image",
     "video",
     "audio",
-    "acemusic"
+    "acemusic",
+    "hailuo",
+    "luma",
+    "producer"
   ],
   "homepage": "https://pipedream.com/apps/acedatacloud",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -25,7 +28,8 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.1"
+    "@pipedream/platform": "^3.1.1",
+    "form-data": "^4.0.4"
   },
   "scripts": {
     "test": "node --test common/test/*.test.mjs"

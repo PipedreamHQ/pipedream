@@ -1,40 +1,48 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { musicModel, musicText } from "../../common/acemusic.mjs";
+import {
+  musicModel, musicText,
+} from "../../common/acemusic.mjs";
 import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
   key: "acedatacloud-acemusic-generate-custom-song",
   name: "ACE Music: Create song from lyrics",
-  description: "Submit one paid song generation with your own lyrics, style and title. Uses ACE Music through Ace Data Cloud. [API documentation](https://github.com/AceDataCloud/ACEMusicAPI)",
+  description: "Submit one paid song generation with your own lyrics, style and title. Uses ACE Music through Ace Data Cloud. [See the documentation](https://github.com/AceDataCloud/ACEMusicAPI)",
   path: "/acemusic/audios",
+  modelChoices: true,
   props: {
     "lyric": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "lyrics",
+      ],
       "label": "Lyrics",
-      "description": "Lyrics."
+      "description": "Lyrics. Example: `A new day begins`.",
     },
     "style": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "musicStyle",
+      ],
       "label": "Musical style",
-      "description": "Musical style."
+      "description": "Musical style. Example: `folk`.",
     },
     "title": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "songTitle",
+      ],
       "label": "Title",
-      "description": "Title."
+      "description": "Title. Example: `Sunrise`.",
     },
     "model": {
       "type": "string",
       "label": "Model",
-      "description": "Model.",
+      "description": "Model. Example: `acemusic-v1.1`.",
       "optional": true,
-      "options": [
-        "acemusic-v1.1",
-        "acemusic-v1"
-      ],
-      "default": "acemusic-v1.1"
-    }
+      "default": "acemusic-v1.1",
+    },
   },
   buildData: (component) => ({
     action: "generate",

@@ -6,11 +6,12 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.2",
+  version: "0.1.0",
   key: "acedatacloud-flux-edit-image",
   name: "Edit Flux Image",
   description: "Edit an image with Flux and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/flux-images)",
   path: "/flux/images",
+  modelChoices: true,
   props: {
     model: {
       type: "string",

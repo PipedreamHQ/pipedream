@@ -4,12 +4,19 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.2",
+  version: "0.1.0",
   key: "acedatacloud-minimax-generate-video",
   name: "Generate MiniMax Video",
   description: "Generate a MiniMax video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/minimax-videos)",
   path: "/minimax/videos",
+  modelChoices: true,
   props: {
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Published model from the current MiniMax video API. Example: `MiniMax-H3`.",
+      default: "MiniMax-H3",
+    },
     prompt: {
       propDefinition: [
         acedatacloud,
@@ -19,7 +26,7 @@ export default createSubmissionAction({
     },
   },
   buildData: (step) => ({
-    model: "MiniMax-H3",
+    model: requiredText(step.model, "Model"),
     content: [
       {
         type: "text",

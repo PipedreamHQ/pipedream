@@ -1,50 +1,69 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { musicText, influence } from "../../common/acemusic.mjs";
+import {
+  musicText, influence,
+} from "../../common/acemusic.mjs";
 import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
   key: "acedatacloud-acemusic-cover-track",
   name: "ACE Music: Cover a track",
-  description: "Submit one paid cover using a caller-owned track ID and new lyrics and style. Uses ACE Music through Ace Data Cloud. [API documentation](https://github.com/AceDataCloud/ACEMusicAPI)",
+  description: "Submit one paid cover using a caller-owned track ID and new lyrics and style. Uses ACE Music through Ace Data Cloud. [See the documentation](https://github.com/AceDataCloud/ACEMusicAPI)",
   path: "/acemusic/audios",
   props: {
-    "audio_id": {
-      "type": "string",
+    "audioId": {
+      "propDefinition": [
+        acedatacloud,
+        "trackId",
+      ],
       "label": "Owned track ID",
-      "description": "Owned track ID."
+      "description": "Owned track ID. Example: `550e8400-e29b-41d4-a716-446655440000`. Use an owned, completed track from your Ace task history, not the submission task_id. See [ACE Music API](https://github.com/AceDataCloud/ACEMusicAPI).",
     },
     "lyric": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "lyrics",
+      ],
       "label": "Lyrics",
-      "description": "Lyrics."
+      "description": "Lyrics. Example: `A new day begins`.",
     },
     "style": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "musicStyle",
+      ],
       "label": "Musical style",
-      "description": "Musical style."
+      "description": "Musical style. Example: `folk`.",
     },
     "title": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "songTitle",
+      ],
       "label": "Title",
-      "description": "Title.",
-      "optional": true
-    },
-    "audio_influence": {
-      "type": "integer",
-      "label": "Audio influence (1–100)",
-      "description": "Audio influence (1–100).",
+      "description": "Title. Example: `Sunrise`.",
       "optional": true,
-      "default": 60
-    }
+    },
+    "audioInfluence": {
+      "propDefinition": [
+        acedatacloud,
+        "audioInfluence",
+      ],
+      "label": "Audio influence (1–100)",
+      "description": "Audio influence (1–100). Example: `60`.",
+      "optional": true,
+      "default": 60,
+    },
   },
   buildData: (component) => ({
     action: "cover",
     model: "acemusic-v1.1",
-    audio_id: musicText(component.audio_id, "Owned track ID"),
+    audio_id: musicText(component.audioId, "Owned track ID"),
     lyric: musicText(component.lyric, "Lyrics"),
     style: musicText(component.style, "Musical style"),
-    title: component.title ? musicText(component.title, "Title") : undefined,
-    audio_influence: influence(component.audio_influence),
+    title: component.title
+      ? musicText(component.title, "Title")
+      : undefined,
+    audio_influence: influence(component.audioInfluence),
   }),
 });

@@ -16,7 +16,10 @@ export default {
   props: {
     acedatacloud,
     title: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "songTitle",
+      ],
       label: "Voice Title",
       description: "Filter voice titles, e.g. `calm narrator`.",
       optional: true,

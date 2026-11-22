@@ -97,25 +97,32 @@ export const apiError = (error, submitting = false) => {
  * @returns {Object} Options for Pipedream's axios helper.
  */
 export const requestOptions = ({
-  apiKey, path, data, method = "POST", params, headers = {},
+  apiKey, path, data, method = "POST", params, headers = {}, responseType,
 }) => ({
   method,
   url: `https://api.acedata.cloud${path}`,
   headers: {
+    "content-type": "application/json",
     ...Object.fromEntries(Object.entries(headers).filter(([
       name,
-    ]) => ![
-      "authorization",
-      "content-type",
-    ].includes(name.toLowerCase()))),
+    ]) => name.toLowerCase() !== "authorization")
+      .map(([
+        name,
+        value,
+      ]) => [
+        name.toLowerCase(),
+        value,
+      ])),
     "Authorization": `Bearer ${apiKey}`,
-    "Content-Type": "application/json",
   },
   ...(data !== undefined && {
     data,
   }),
   ...(params && {
     params,
+  }),
+  ...(responseType && {
+    responseType,
   }),
   timeout: 20000,
   maxRedirects: 0,
@@ -167,4 +174,11 @@ export const structuredInput = (value, label) => {
     throw new Error(`${label} must be a nonempty JSON object or array.`);
   }
   return parsed;
+};
+
+/** Preserve definite API errors without retrying an ambiguous metered operation. */
+export const meteredRequestError = (error, label) => {
+  const status = error?.response?.status || error?.status;
+  if (status >= 400 && status < 500 && status !== 408) return error;
+  return new Error(`${label} did not return a confirmed response. The request may have incurred usage. Check request history before retrying.`);
 };

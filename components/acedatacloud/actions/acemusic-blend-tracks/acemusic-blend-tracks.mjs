@@ -1,55 +1,77 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
-import { musicText, influence, twoTracks } from "../../common/acemusic.mjs";
+import {
+  musicText, influence, twoTracks,
+} from "../../common/acemusic.mjs";
 import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
   key: "acedatacloud-acemusic-blend-tracks",
   name: "ACE Music: Blend two tracks",
-  description: "Submit one paid mashup with two distinct, compatible caller-owned track IDs. Uses ACE Music through Ace Data Cloud. [API documentation](https://github.com/AceDataCloud/ACEMusicAPI)",
+  description: "Submit one paid mashup with two distinct, compatible caller-owned track IDs. Uses ACE Music through Ace Data Cloud. [See the documentation](https://github.com/AceDataCloud/ACEMusicAPI)",
   path: "/acemusic/audios",
   props: {
-    "first_audio_id": {
-      "type": "string",
+    "firstAudioId": {
+      "propDefinition": [
+        acedatacloud,
+        "trackId",
+      ],
       "label": "First owned track ID",
-      "description": "First owned track ID."
+      "description": "First owned track ID. Example: `550e8400-e29b-41d4-a716-446655440000`. Use an owned, completed track from your Ace task history, not the submission task_id. See [ACE Music API](https://github.com/AceDataCloud/ACEMusicAPI).",
     },
-    "second_audio_id": {
-      "type": "string",
+    "secondAudioId": {
+      "propDefinition": [
+        acedatacloud,
+        "trackId",
+      ],
       "label": "Second owned track ID",
-      "description": "Second owned track ID."
+      "description": "Second owned track ID. Example: `550e8400-e29b-41d4-a716-446655440000`. Use an owned, completed track from your Ace task history, not the submission task_id. See [ACE Music API](https://github.com/AceDataCloud/ACEMusicAPI).",
     },
     "lyric": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "lyrics",
+      ],
       "label": "Lyrics",
-      "description": "Lyrics."
+      "description": "Lyrics. Example: `A new day begins`.",
     },
     "style": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "musicStyle",
+      ],
       "label": "Musical style",
-      "description": "Musical style."
+      "description": "Musical style. Example: `folk`.",
     },
     "title": {
-      "type": "string",
+      "propDefinition": [
+        acedatacloud,
+        "songTitle",
+      ],
       "label": "Title",
-      "description": "Title.",
-      "optional": true
-    },
-    "audio_influence": {
-      "type": "integer",
-      "label": "Audio influence (1–100)",
-      "description": "Audio influence (1–100).",
+      "description": "Title. Example: `Sunrise`.",
       "optional": true,
-      "default": 60
-    }
+    },
+    "audioInfluence": {
+      "propDefinition": [
+        acedatacloud,
+        "audioInfluence",
+      ],
+      "label": "Audio influence (1–100)",
+      "description": "Audio influence (1–100). Example: `60`.",
+      "optional": true,
+      "default": 60,
+    },
   },
   buildData: (component) => ({
     action: "mashup",
     model: "acemusic-v1.1",
-    mashup_audio_ids: twoTracks(component.first_audio_id, component.second_audio_id),
+    mashup_audio_ids: twoTracks(component.firstAudioId, component.secondAudioId),
     lyric: musicText(component.lyric, "Lyrics"),
     style: musicText(component.style, "Musical style"),
-    title: component.title ? musicText(component.title, "Title") : undefined,
-    audio_influence: influence(component.audio_influence),
+    title: component.title
+      ? musicText(component.title, "Title")
+      : undefined,
+    audio_influence: influence(component.audioInfluence),
   }),
 });

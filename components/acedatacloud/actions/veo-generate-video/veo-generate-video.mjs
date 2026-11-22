@@ -32,9 +32,12 @@ export default createSubmissionAction({
       optional: true,
     },
     imageUrls: {
-      type: "string[]",
+      propDefinition: [
+        acedatacloud,
+        "imageUrls",
+      ],
       label: "Reference Images",
-      description: "Use 1–2 first/last frame URLs for Image to Video, or 1–3 reference URLs with veo31-fast-ingredients.",
+      description: "Use 1–2 first/last frame URLs for Image to Video, or 1–3 reference URLs with veo31-fast-ingredients. Example: `[\"https://example.com/image.png\"]`.",
       optional: true,
     },
     prompt: {

@@ -14,7 +14,7 @@ export default createSubmissionAction({
     model: {
       type: "string",
       label: "Model",
-      description: "Published Fish Audio speech model. The existing default remains s2-pro.",
+      description: "Published Fish Audio speech model. The existing default remains s2-pro. Example: `s2-pro`.",
       default: "s2-pro",
       optional: true,
     },

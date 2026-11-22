@@ -39,27 +39,39 @@ export default createSubmissionAction({
       optional: true,
     },
     firstFrameUrl: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       label: "First Frame URL",
-      description: "Public first-frame image URL for Image to Video.",
+      description: "Public first-frame image URL for Image to Video. Example: `https://example.com/image.png`.",
       optional: true,
     },
     lastFrameUrl: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "imageUrl",
+      ],
       label: "Last Frame URL",
-      description: "Requires a first frame and a supported model/mode; some legacy models require Pro.",
+      description: "Requires a first frame and a supported model/mode; some legacy models require Pro. Example: `https://example.com/image.png`.",
       optional: true,
     },
     referenceImageUrls: {
-      type: "string[]",
+      propDefinition: [
+        acedatacloud,
+        "imageUrls",
+      ],
       label: "Omni Reference Images",
-      description: "For kling-o1 or kling-v3-omni. Refer to each image in Prompt with <<<image_N>>>. Up to 7 images, or 4 with a video reference.",
+      description: "For kling-o1 or kling-v3-omni. Refer to each image in Prompt with <<<image_N>>>. Up to 7 images, or 4 with a video reference. Example: `[\"https://example.com/image.png\"]`.",
       optional: true,
     },
     referenceVideoUrl: {
-      type: "string",
+      propDefinition: [
+        acedatacloud,
+        "videoUrl",
+      ],
       label: "Omni Reference Video",
-      description: "For an Omni model. Use <<<video_1>>> in Prompt; reference-video pricing applies.",
+      description: "For an Omni model. Use <<<video_1>>> in Prompt; reference-video pricing applies. Example: `https://example.com/video.mp4`.",
       optional: true,
     },
     videoReferenceType: {
@@ -75,13 +87,13 @@ export default createSubmissionAction({
     keepOriginalSound: {
       type: "boolean",
       label: "Keep Original Sound",
-      description: "Keep audio from the reference video.",
+      description: "Keep audio from the reference video. Example: `false`.",
       optional: true,
     },
     generateAudio: {
       type: "boolean",
       label: "Generate Audio",
-      description: "Must be off when using a reference video.",
+      description: "Must be off when using a reference video. Example: `false`.",
       optional: true,
     },
     prompt: {
