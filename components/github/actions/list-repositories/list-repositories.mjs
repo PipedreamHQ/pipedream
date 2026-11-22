@@ -6,7 +6,7 @@ export default {
   key: "github-list-repositories",
   name: "List Repositories",
   description: "List repositories the authenticated user can access, or — when `org` is provided — the repositories of a specific organization. Use this to discover a repo's `owner/repo` name before calling **Get Repository**, **Get Repository Content**, or **List Commits**. To find repos by name, set the `name` substring filter. [See the documentation](https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#list-repositories-for-the-authenticated-user)",
-  version: "1.0.4",
+  version: "1.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -95,9 +95,8 @@ export default {
       throw new ConfigurationError(`\`type\` \`${this.type}\` contradicts \`visibility\` \`${this.visibility}\`.`);
     }
 
-    // When a name filter forces a full scan, use the max page size to minimize
-    // round-trips; maxResults is applied after filtering. Otherwise size the page
-    // to maxResults so a single page usually suffices.
+    // Use the largest page when filtering by name to find matches with fewer
+    // requests. Otherwise size the page to maxResults so one page usually suffices.
     const perPage = this.name
       ? constants.PER_PAGE_MAX
       : Math.min(this.maxResults || constants.PER_PAGE_MAX, constants.PER_PAGE_MAX);
@@ -119,19 +118,21 @@ export default {
         per_page: perPage,
       };
 
-    // Stop paginating once we have enough results. When a name filter is set we
-    // must walk every page, since a match can appear on any page.
+    const nameLower = this.name
+      ? this.name.toLowerCase()
+      : undefined;
+    const hasLimit = nameLower
+      ? this.maxResults > 0
+      : this.maxResults;
+    // Filter in upstream order so a bounded lookup can stop once enough repos match.
     let repos = [];
     for await (const { data } of this.github._client().paginate.iterator(endpoint, params)) {
-      repos.push(...data);
-      if (!this.name && this.maxResults && repos.length >= this.maxResults) {
+      repos.push(...(nameLower
+        ? data.filter((repo) => repo.name.toLowerCase().includes(nameLower))
+        : data));
+      if (hasLimit && repos.length >= this.maxResults) {
         break;
       }
-    }
-
-    if (this.name) {
-      const nameLower = this.name.toLowerCase();
-      repos = repos.filter((repo) => repo.name.toLowerCase().includes(nameLower));
     }
 
     if (this.maxResults && repos.length > this.maxResults) {
