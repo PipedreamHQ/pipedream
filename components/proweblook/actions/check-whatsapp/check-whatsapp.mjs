@@ -1,7 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
 import app from "../../proweblook.app.mjs";
 
-const E164_PHONE_REGEX = /^\+[1-9]\d{5,15}$/;
+const E164_PHONE_REGEX = /^\+[1-9]\d{5,14}$/;
 
 export default {
   key: "proweblook-check-whatsapp",
@@ -17,7 +17,7 @@ export default {
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     app,
