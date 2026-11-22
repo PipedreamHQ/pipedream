@@ -9,6 +9,7 @@ export default {
   name: "Update Cell",
   description: "Update a cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
   version: "0.1.21",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -59,7 +60,7 @@ export default {
       description: "The new cell value",
     },
   },
-  async run() {
+  async run({ $ }) {
     const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
     const title = worksheet?.properties?.title;
     if (!title) {
@@ -78,6 +79,8 @@ export default {
         ],
       },
     };
-    return await this.googleSheets.updateSpreadsheet(request);
+    const response = await this.googleSheets.updateSpreadsheet(request);
+    $.export("$summary", `Successfully updated cell ${this.cell} in the spreadsheet.`);
+    return response;
   },
 };
