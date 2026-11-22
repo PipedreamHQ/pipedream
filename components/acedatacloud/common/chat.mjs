@@ -101,15 +101,6 @@ export const confirmedChatResponse = (response, protocol) => {
   return Array.isArray(response?.choices) && response.choices.length > 0;
 };
 
-/** Read model choices for one published media operation, preserving its actual API scope. */
-export const modelsForOperation = (catalog, operation) => {
-  if (!Array.isArray(catalog?.items)) throw new Error("Model discovery returned an invalid catalog.");
-  const path = operation.startsWith("/openai/")
-    ? operation.replace("/openai/", "/v1/")
-    : operation;
-  return catalog.items.filter((item) => item.endpoints?.some((endpoint) => endpoint.path === path && endpoint.auth === "bearer"));
-};
-
 /** Read the selected operation's request enum; response examples are not an inventory. */
 export const operationModelIds = (api) => {
   const definition = api?.definition;

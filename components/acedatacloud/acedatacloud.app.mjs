@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
-  chatModelOptions, modelsForOperation, operationModelIds, publishedChatModels,
+  chatModelOptions, operationModelIds, publishedChatModels,
 } from "./common/chat.mjs";
 import { requestOptions } from "./common/utils.mjs";
 
@@ -89,45 +89,27 @@ export default {
      * @returns {Promise<Object[]>} Published model records for this operation.
      */
     async listModelsForOperation(operation) {
-      const catalog = await axios(undefined, {
+      const result = await axios(undefined, {
         method: "GET",
-        url: "https://platform.acedata.cloud/api/v1/models/catalog/",
+        url: "https://platform.acedata.cloud/api/v1/apis/",
+        params: {
+          path: operation,
+        },
         timeout: 20000,
         maxRedirects: 0,
       });
-      const entries = modelsForOperation(catalog, operation);
-      const canonicalPath = operation.startsWith("/openai/")
-        ? operation.replace("/openai/", "/v1/")
-        : operation;
-      const apiIds = [
-        ...new Set(entries.flatMap((model) => model.endpoints
-          .filter((endpoint) => endpoint.path === canonicalPath)
-          .map((endpoint) => endpoint.api_id))),
-      ];
-      if (!apiIds.length || apiIds.some((id) => !/^[a-f0-9-]{36}$/i.test(id))) throw new Error("The published operation has no API identity.");
-      const apis = await Promise.all(apiIds.map((id) => axios(undefined, {
-        method: "GET",
-        url: `https://platform.acedata.cloud/api/v1/apis/${id}/`,
-        timeout: 20000,
-        maxRedirects: 0,
-      })));
-      const ids = new Set();
-      for (const [
-        index,
-        api,
-      ] of apis.entries()) {
-        if (api.id !== apiIds[index]) throw new Error("The public API identity did not match.");
-        if (![
-          operation,
-          canonicalPath,
-        ].includes(api.path) && api.path2 !== canonicalPath) throw new Error("The API identity does not match this operation.");
-        for (const id of operationModelIds(api)) ids.add(id);
+      if (!Array.isArray(result?.items) || result.count > result.items.length) {
+        throw new Error("The public API lookup returned an incomplete result.");
       }
+      const apis = result.items.filter((api) => (api.path === operation || api.path2 === operation)
+        && api.method === "POST" && api.stage !== "Deprecated");
+      if (!apis.length) throw new Error("No active published API matches this operation.");
+      const ids = new Set(apis.flatMap((api) => operationModelIds(api)));
       return [
         ...ids,
       ].map((id) => ({
         id,
-        label: entries.find((item) => item.id === id)?.name || id,
+        label: id,
       }));
     },
     /**

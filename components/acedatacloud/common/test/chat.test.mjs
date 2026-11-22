@@ -4,7 +4,7 @@ import acedatacloud from "../../acedatacloud.app.mjs";
 import chat from "../../actions/chat-with-gpt-model/chat-with-gpt-model.mjs";
 import list from "../../actions/list-chat-models/list-chat-models.mjs";
 import {
-  chatModelOptions, modelsForOperation, operationModelIds, publishedChatModels,
+  chatModelOptions, operationModelIds, publishedChatModels,
 } from "../chat.mjs";
 import gptImage from "../../actions/gpt-image-generate/gpt-image-generate.mjs";
 
@@ -384,21 +384,32 @@ test("media dropdowns use the actual operation rather than static model presets"
       },
     ],
   }));
-  const catalog = {
-    items: [
-      ...rows,
-      {
-        id: "video",
-        endpoints: [
-          {
-            path: "/video/generate",
-            auth: "bearer",
+  const api = {
+    path: "/openai/images/generations",
+    method: "POST",
+    definition: {
+      paths: {
+        "/openai/images/generations": {
+          post: {
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    properties: {
+                      model: {
+                        enum: rows.map((row) => row.id),
+                      },
+                    },
+                  },
+                },
+              },
+            },
           },
-        ],
+        },
       },
-    ],
+    },
   };
-  const selected = modelsForOperation(catalog, "/openai/images/generations");
+  const selected = operationModelIds(api).map((id) => rows.find((row) => row.id === id));
   assert.equal(selected.length, 24);
   let operation;
   const options = await gptImage.props.model.options.call({
