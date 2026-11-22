@@ -53,14 +53,17 @@ export const isHttpUrl = (value) => {
  */
 export const validateImageRequest = ({
   model, prompt, size, images,
-}) => {
-  if (!Object.hasOwn(MODELS, model)) {
+}, publishedModels = Object.keys(MODELS)) => {
+  if (!publishedModels.includes(model)) {
     throw new Error("Choose a supported public Seedream model.");
   }
   if (typeof prompt !== "string" || !prompt.trim()) {
     throw new Error("Prompt is required.");
   }
-  if (!MODELS[model].includes(size)) {
+  const sizes = MODELS[model];
+  if (sizes
+    ? !sizes.includes(size)
+    : typeof size !== "string" || !/^(1K|1\.5K|2K|3K|4K|auto|[0-9]+x[0-9]+)$/.test(size)) {
     throw new Error(`Size ${size} is unavailable for ${model}.`);
   }
   if (images && images.length > (model.includes("-pro-")

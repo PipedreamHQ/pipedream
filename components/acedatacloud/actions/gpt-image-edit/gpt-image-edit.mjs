@@ -6,7 +6,7 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.2",
+  version: "0.0.3",
   key: "acedatacloud-gpt-image-edit",
   name: "Edit GPT Image",
   description: "GPT Image editing through Ace Data Cloud. Submit once and save the task ID; media is pending. [See the documentation](https://platform.acedata.cloud/documents/openai-images-edits)",

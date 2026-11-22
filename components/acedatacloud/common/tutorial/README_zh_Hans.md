@@ -1,6 +1,6 @@
 # Ace Data Cloud × Pipedream：从服务名到第一次结果
 
-这是 **Ace Data Cloud 提供的集成**，不是 Suno/OpenAI/Google 的第一方 App。26 个动作源码已准备：原 24 个媒体/搜索动作，加 GPT 聊天与模型列表；官方注册、收录与真实连接仍待完成。
+这是 **Ace Data Cloud 提供的集成**，不是 Suno/OpenAI/Google 的第一方 App。26 个动作源码已准备：原 24 个媒体/搜索动作，加多系列对话模型与模型列表；官方注册、收录与真实连接仍待完成。
 
 ## 1. 找到正确入口
 
@@ -39,9 +39,9 @@ App 注册后的连接表单中，粘贴到申请的 **`api_key` secret 字段**
 | HappyHorse / Happy Horse | Generate HappyHorse Video | `happyhorse-1.0-t2v`，视频提示词 |
 | GPT Image | Generate GPT Image / Edit GPT Image | `gpt-image-2`，提示词；编辑再加公开原图 URL |
 | Nano Banana | Generate Nano Banana Image / Edit Nano Banana Image | `nano-banana-2-lite`，1:1、1K；编辑再加公开原图 URL |
-| GPT聊天 | Chat With GPT Model / List Chat Models | 先刷新动态 Model，选择公开 GPT 聊天模型；Prompt；可选 Max Tokens=128 |
+| 对话模型 | Chat With Model / List Chat Models | 先刷新动态 Model，选择公开对话模型；Prompt；可选 Max Tokens=128 |
 
-模型例子来自提交源码，不保证账号有权限，也不是费用承诺。Allowed APIs 限制需允许实际动作接口；聊天需 `/openai/models` 与 `/openai/chat/completions`。不自动换模型、不加 fallback。
+模型例子来自提交源码，不保证账号有权限，也不是费用承诺。Allowed APIs 限制需允许实际动作接口；聊天需 `/v1/models` 与 `/openai/chat/completions`。不自动换模型、不加 fallback。
 
 ## 5. 同一个任务等待终态
 
@@ -54,7 +54,11 @@ App 注册后的连接表单中，粘贴到申请的 **`api_key` secret 字段**
 - 搜不到应用：注册与官方收录待完成，源码/测试不能代替安装。
 - 401/403：检查原始 Token、服务权限、过期、允许接口和余额，不回显 Key。
 - 超时/408/5xx：可能已产生用量或任务，先查原始历史与账单，再人工决定是否重试。
-- 空模型列表：刷新当前目录；只提供该聊天路径支持的 GPT 模型，不把所有模型无差别混入。
+- 空模型列表：刷新当前目录；按模型声明的接口提供对话模型，图片、音频和视频模型保留在对应动作中。
 - pending：查询原 ID，不能再次生成。新连接、最终媒体、唯一账单、注册与付费转化均尚未在 Pipedream 实测完成。
 
 [English](https://github.com/AceDataCloud/pipedream/blob/codex/acedatacloud-seedream-actions/components/acedatacloud/README.md) · [Token](https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen&utm_content=pipedream_readme_api_key) · [价格](https://platform.acedata.cloud/models?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen&utm_content=pipedream_readme_pricing)
+
+## 当前模型选项
+
+对话模型选择器覆盖鉴权模型列表与公开类型目录中的所有模型系列，并按每个模型声明的接口调用 Chat Completions、Messages 或 Responses。Messages 未填写 Max Tokens 时使用 4096 的输出预算，这不是模型最大容量。GPT Image 和 Seedream 的 Model 选项从公开目录中该 API 绑定的模型读取；默认值和示例不会限制选项，Seedream 4.x 与 5.0 都可选择。缺少接口元数据时，对话动作会在提交前停止。

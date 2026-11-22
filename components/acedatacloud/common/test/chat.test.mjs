@@ -4,13 +4,22 @@ import acedatacloud from "../../acedatacloud.app.mjs";
 import chat from "../../actions/chat-with-gpt-model/chat-with-gpt-model.mjs";
 import list from "../../actions/list-chat-models/list-chat-models.mjs";
 import {
-  chatModelOptions, publishedChatModels,
+  chatModelOptions, modelsForOperation, operationModelIds, publishedChatModels,
 } from "../chat.mjs";
+import gptImage from "../../actions/gpt-image-generate/gpt-image-generate.mjs";
 
 const models = [
   {
     id: "gpt-4o-mini",
     label: "GPT-4o Mini",
+    endpoints: [
+      {
+        protocol: "chat_completions",
+        path: "/v1/chat/completions",
+        base_url: "https://api.acedata.cloud/v1",
+        auth: "bearer",
+      },
+    ],
   },
 ];
 const output = () => ({
@@ -50,7 +59,7 @@ function fixture(request = async () => response, available = models) {
   };
 }
 
-test("native model choices use only the authenticated/public GPT chat intersection", async () => {
+test("native model choices use only the authenticated/public chat intersection across model families", async () => {
   const actual = publishedChatModels({
     data: [
       {
@@ -92,6 +101,7 @@ test("native model choices use only the authenticated/public GPT chat intersecti
   });
   assert.deepEqual(actual.map((model) => model.id), [
     "gpt-4o-mini",
+    "claude-example",
   ]);
   assert.throws(() => publishedChatModels({}, {
     data: [],
@@ -104,10 +114,14 @@ test("native model choices use only the authenticated/public GPT chat intersecti
       label: "GPT-4o Mini",
       value: "gpt-4o-mini",
     },
+    {
+      label: "claude-example",
+      value: "claude-example",
+    },
   ]);
   assert.deepEqual(chatModelOptions([
-    ...models,
-    ...models,
+    ...actual,
+    ...actual,
   ]), options);
 });
 
@@ -121,7 +135,7 @@ test("chat sends one selected-model text completion and preserves content plus u
     $: output(),
   }), response);
   assert.equal(calls.length, 1);
-  assert.equal(calls[0].path, "/openai/chat/completions");
+  assert.equal(calls[0].path, "/v1/chat/completions");
   assert.deepEqual(calls[0].data, {
     model: "gpt-4o-mini",
     messages: [
@@ -140,7 +154,7 @@ test("chat sends one selected-model text completion and preserves content plus u
   assert.equal(calls[0].data.async, undefined);
 });
 
-test("invalid, stale and non-GPT models fail before a metered completion request", async () => {
+test("invalid and stale models fail before a metered completion request", async () => {
   for (const override of [
     {
       model: "not-published",
@@ -207,7 +221,7 @@ test("chat keeps definite client errors and does not retry ambiguous/empty compl
   }));
   await assert.rejects(chat.run.call(f.input, {
     $: output(),
-  }), /no completion choices/);
+  }), /no confirmed native response/);
   assert.equal(f.calls.length, 1);
 });
 
@@ -220,4 +234,237 @@ test("model-list action returns native model records without a completion POST",
     $: output(),
   }), models);
   assert.equal(calls.length, 0);
+});
+
+test("Messages-only models use the declared protocol and an explicit output budget", async () => {
+  const model = {
+    id: "claude-sonnet-5-5",
+    endpoints: [
+      {
+        protocol: "messages",
+        path: "/v1/messages",
+        base_url: "https://api.acedata.cloud",
+        auth: "bearer",
+      },
+    ],
+  };
+  const native = {
+    type: "message",
+    model: model.id,
+    content: [
+      {
+        type: "text",
+        text: "Native answer",
+      },
+    ],
+    usage: {
+      input_tokens: 2,
+      output_tokens: 3,
+    },
+  };
+  const {
+    calls, input,
+  } = fixture(async () => native, [
+    model,
+  ]);
+  input.model = model.id;
+  input.systemPrompt = "Be concise";
+  assert.deepEqual(await chat.run.call(input, {
+    $: output(),
+  }), native);
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].path, "/v1/messages");
+  assert.deepEqual(calls[0].data, {
+    model: model.id,
+    messages: [
+      {
+        role: "user",
+        content: input.prompt,
+      },
+    ],
+    system: "Be concise",
+    stream: false,
+    max_tokens: 4096,
+  });
+});
+
+test("Responses-only models preserve the native response and reject pending state", async () => {
+  const model = {
+    id: "responses-model",
+    endpoints: [
+      {
+        protocol: "responses",
+        path: "/v1/responses",
+        base_url: "https://api.acedata.cloud/v1",
+        auth: "bearer",
+      },
+    ],
+  };
+  const native = {
+    object: "response",
+    status: "completed",
+    output: [
+      {
+        type: "message",
+        content: [
+          {
+            type: "output_text",
+            text: "Answer",
+          },
+        ],
+      },
+    ],
+  };
+  const {
+    calls, input,
+  } = fixture(async () => native, [
+    model,
+  ]);
+  input.model = model.id;
+  input.maxTokens = 123;
+  input.systemPrompt = "Be concise";
+  assert.deepEqual(await chat.run.call(input, {
+    $: output(),
+  }), native);
+  assert.equal(calls[0].path, "/v1/responses");
+  assert.deepEqual(calls[0].data, {
+    model: model.id,
+    input: input.prompt,
+    instructions: "Be concise",
+    max_output_tokens: 123,
+    stream: false,
+  });
+  const pending = fixture(async () => ({
+    ...native,
+    status: "queued",
+  }), [
+    model,
+  ]);
+  pending.input.model = model.id;
+  await assert.rejects(chat.run.call(pending.input, {
+    $: output(),
+  }), /no confirmed/);
+  assert.equal(pending.calls.length, 1);
+});
+
+test("unknown endpoint metadata never retargets the account credential", async () => {
+  const invalid = {
+    id: "example",
+    endpoints: [
+      {
+        protocol: "messages",
+        path: "/v1/messages",
+        base_url: "https://other.example",
+        auth: "bearer",
+      },
+    ],
+  };
+  const {
+    calls, input,
+  } = fixture(undefined, [
+    invalid,
+  ]);
+  input.model = invalid.id;
+  await assert.rejects(chat.run.call(input, {
+    $: output(),
+  }), /no supported published chat protocol/);
+  assert.equal(calls.length, 0);
+});
+
+test("media dropdowns use the actual operation rather than static model presets", async () => {
+  const rows = Array.from({
+    length: 24,
+  }, (_, i) => ({
+    id: `image-${i}`,
+    name: `Image ${i}`,
+    endpoints: [
+      {
+        path: "/v1/images/generations",
+        auth: "bearer",
+      },
+    ],
+  }));
+  const catalog = {
+    items: [
+      ...rows,
+      {
+        id: "video",
+        endpoints: [
+          {
+            path: "/video/generate",
+            auth: "bearer",
+          },
+        ],
+      },
+    ],
+  };
+  const selected = modelsForOperation(catalog, "/openai/images/generations");
+  assert.equal(selected.length, 24);
+  let operation;
+  const options = await gptImage.props.model.options.call({
+    acedatacloud: {
+      async listModelsForOperation(path) { operation = path; return selected; },
+    },
+  });
+  assert.equal(operation, "/openai/images/generations");
+  assert.deepEqual(options.map((m) => m.value), rows.map((m) => m.id));
+});
+
+test("operation enums include compatible aliases absent from canonical model entries", () => {
+  const api = {
+    path: "/openai/images/generations",
+    method: "POST",
+    definition: {
+      components: {
+        schemas: {
+          Request: {
+            properties: {
+              model: {
+                enum: [
+                  "gpt-image",
+                  "compatible-alias",
+                ],
+              },
+            },
+          },
+        },
+      },
+      paths: {
+        "/openai/images/generations": {
+          post: {
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/Request",
+                  },
+                },
+              },
+            },
+            responses: {
+              "200": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      properties: {
+                        model: {
+                          enum: [
+                            "response-only",
+                          ],
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  };
+  assert.deepEqual(operationModelIds(api), [
+    "gpt-image",
+    "compatible-alias",
+  ]);
 });

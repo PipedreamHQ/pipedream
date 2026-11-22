@@ -1,4 +1,5 @@
 import { apiError } from "../../common/utils.mjs";
+import { chatModelOptions } from "../../common/chat.mjs";
 
 /**
  * Build an asynchronous Pipedream submission action from one service request.
@@ -29,6 +30,17 @@ export const createSubmissionAction = ({
   props: {
     acedatacloud,
     ...props,
+    ...([
+      "/openai/images/generations",
+      "/openai/images/edits",
+    ].includes(path) && props.model && !props.model.options && {
+      model: {
+        ...props.model,
+        async options() {
+          return chatModelOptions(await this.acedatacloud.listModelsForOperation(path));
+        },
+      },
+    }),
   },
   async run({ $ }) {
     const data = buildData(this);

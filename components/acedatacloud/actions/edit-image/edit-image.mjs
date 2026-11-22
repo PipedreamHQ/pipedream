@@ -9,7 +9,7 @@ export default {
   key: "acedatacloud-edit-image",
   name: "Edit Seedream Image",
   description: "Submit one Seedream image edit and return its task ID. [See the documentation](https://platform.acedata.cloud/documents/seedream-images)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -53,10 +53,11 @@ export default {
   },
   async run({ $ }) {
     const images = normalizeImageInput(this.image);
+    const models = await this.acedatacloud.listModelsForOperation("/seedream/images");
     validateImageRequest({
       ...this,
       images,
-    });
+    }, models.map((model) => model.id));
     let response;
     try {
       response = await this.acedatacloud.submitImage({

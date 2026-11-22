@@ -1,6 +1,6 @@
 import { axios } from "@pipedream/platform";
 import {
-  chatModelOptions, publishedChatModels,
+  chatModelOptions, modelsForOperation, operationModelIds, publishedChatModels,
 } from "./common/chat.mjs";
 import { requestOptions } from "./common/utils.mjs";
 
@@ -11,7 +11,7 @@ export default {
     chatModel: {
       type: "string",
       label: "Model",
-      description: "Published GPT chat model available through the connected API. E.g. `gpt-4o-mini`. Use **List Chat Models** and its `id` field to inspect the current options. The dropdown uses the same catalog; no model fallback is applied.",
+      description: "Published chat model available through the connected API. Use **List Chat Models** and its `id` field to inspect all model families. The dropdown uses the same catalog; no model fallback is applied.",
       async options() {
         return chatModelOptions(await this.listChatModels());
       },
@@ -20,16 +20,9 @@ export default {
       type: "string",
       label: "Model",
       description: "Public Seedream model. Lite supports larger output sizes; Pro supports higher quality single images. E.g. `doubao-seedream-5-0-lite-260128`.",
-      options: [
-        {
-          label: "Seedream 5.0 Lite",
-          value: "doubao-seedream-5-0-lite-260128",
-        },
-        {
-          label: "Seedream 5.0 Pro",
-          value: "doubao-seedream-5-0-pro-260628",
-        },
-      ],
+      async options() {
+        return chatModelOptions(await this.listModelsForOperation("/seedream/images"));
+      },
       default: "doubao-seedream-5-0-lite-260128",
     },
     prompt: {
@@ -64,7 +57,7 @@ export default {
   },
   methods: {
     /**
-     * Load models from the authenticated API and the published GPT chat catalog.
+     * Load models from the authenticated API and the published typed chat catalog.
      * @param {Object} options - Optional Pipedream context.
      * @returns {Promise<Object[]>} Models present in both current lists.
      */
@@ -75,7 +68,7 @@ export default {
       ] = await Promise.all([
         this.request({
           $,
-          path: "/openai/models",
+          path: "/v1/models",
           method: "GET",
         }),
         axios($, {
@@ -89,6 +82,53 @@ export default {
         }),
       ]);
       return publishedChatModels(available, published);
+    },
+    /**
+     * Fetch public model choices for a specific media API; no consumer key is sent.
+     * @param {string} operation - The action's existing API path.
+     * @returns {Promise<Object[]>} Published model records for this operation.
+     */
+    async listModelsForOperation(operation) {
+      const catalog = await axios(undefined, {
+        method: "GET",
+        url: "https://platform.acedata.cloud/api/v1/models/catalog/",
+        timeout: 20000,
+        maxRedirects: 0,
+      });
+      const entries = modelsForOperation(catalog, operation);
+      const canonicalPath = operation.startsWith("/openai/")
+        ? operation.replace("/openai/", "/v1/")
+        : operation;
+      const apiIds = [
+        ...new Set(entries.flatMap((model) => model.endpoints
+          .filter((endpoint) => endpoint.path === canonicalPath)
+          .map((endpoint) => endpoint.api_id))),
+      ];
+      if (!apiIds.length || apiIds.some((id) => !/^[a-f0-9-]{36}$/i.test(id))) throw new Error("The published operation has no API identity.");
+      const apis = await Promise.all(apiIds.map((id) => axios(undefined, {
+        method: "GET",
+        url: `https://platform.acedata.cloud/api/v1/apis/${id}/`,
+        timeout: 20000,
+        maxRedirects: 0,
+      })));
+      const ids = new Set();
+      for (const [
+        index,
+        api,
+      ] of apis.entries()) {
+        if (api.id !== apiIds[index]) throw new Error("The public API identity did not match.");
+        if (![
+          operation,
+          canonicalPath,
+        ].includes(api.path) && api.path2 !== canonicalPath) throw new Error("The API identity does not match this operation.");
+        for (const id of operationModelIds(api)) ids.add(id);
+      }
+      return [
+        ...ids,
+      ].map((id) => ({
+        id,
+        label: entries.find((item) => item.id === id)?.name || id,
+      }));
     },
     /**
      * Send an API request with the connected account's secret key.

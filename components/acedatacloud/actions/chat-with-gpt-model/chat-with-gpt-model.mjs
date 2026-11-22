@@ -1,12 +1,14 @@
 import acedatacloud from "../../acedatacloud.app.mjs";
 import { requiredText } from "../../common/utils.mjs";
-import { chatCompletionError } from "../../common/chat.mjs";
+import {
+  chatCompletionError, chatEndpoint, chatRequestData, confirmedChatResponse,
+} from "../../common/chat.mjs";
 
 export default {
   key: "acedatacloud-chat-with-gpt-model",
-  name: "Chat With GPT Model",
-  description: "Send a text prompt to a selected GPT model through Ace Data Cloud and return the completion with usage. [See the documentation](https://platform.acedata.cloud/documents/openai-chat-completions)",
-  version: "0.0.2",
+  name: "Chat With Model",
+  description: "Send a text prompt to a published chat model through Ace Data Cloud using its native protocol and return the response with usage. [See the documentation](https://platform.acedata.cloud/models)",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -36,7 +38,7 @@ export default {
     maxTokens: {
       type: "integer",
       label: "Max Tokens",
-      description: "Optional output token limit, e.g. `128`. Model limits and metered usage still apply.",
+      description: "Optional output token budget, e.g. `128`. Messages uses 4096 if omitted. This is a request budget, not the model's maximum capacity.",
       min: 1,
       optional: true,
     },
@@ -50,42 +52,32 @@ export default {
     const models = await this.acedatacloud.listChatModels({
       $,
     });
-    if (!models.some((entry) => entry.id === model)) {
-      throw new Error("Model is not in the current published GPT chat catalog. Refresh the Model options; no alternate model was requested.");
+    const selectedModel = models.find((entry) => entry.id === model);
+    if (!selectedModel) {
+      throw new Error("Model is not in the current published chat catalog. Refresh the Model options; no alternate model was requested.");
     }
-    const messages = [
-      ...(this.systemPrompt
-        ? [
-          {
-            role: "system",
-            content: requiredText(this.systemPrompt, "System Prompt"),
-          },
-        ]
-        : []),
-      {
-        role: "user",
-        content: prompt,
-      },
-    ];
+    const endpoint = chatEndpoint(selectedModel);
+    const data = chatRequestData({
+      protocol: endpoint.protocol,
+      model,
+      prompt,
+      systemPrompt: this.systemPrompt
+        ? requiredText(this.systemPrompt, "System Prompt")
+        : undefined,
+      maxTokens: this.maxTokens,
+    });
     let response;
     try {
       response = await this.acedatacloud.request({
         $,
-        path: "/openai/chat/completions",
-        data: {
-          model,
-          messages,
-          stream: false,
-          ...(this.maxTokens !== undefined && {
-            max_tokens: this.maxTokens,
-          }),
-        },
+        path: endpoint.path,
+        data,
       });
     } catch (error) {
       throw chatCompletionError(error);
     }
-    if (!Array.isArray(response?.choices) || !response.choices.length) {
-      throw new Error("Chat request returned no completion choices. Inspect request history before retrying; this action did not send another request.");
+    if (!confirmedChatResponse(response, endpoint.protocol)) {
+      throw new Error("Chat request returned no confirmed native response. Inspect request history before retrying; this action did not send another request.");
     }
     $.export("$summary", `Received a chat completion from ${model}`);
     return response;

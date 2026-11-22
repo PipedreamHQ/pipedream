@@ -12,6 +12,31 @@ import editImage from "../../actions/edit-image/edit-image.mjs";
 
 const model = "doubao-seedream-5-0-lite-260128";
 
+test("published Seedream 4.x models are accepted without inventing model-specific limits", () => {
+  const id = "doubao-seedream-4-5-251128";
+  assert.doesNotThrow(() => validateImageRequest({
+    model: id,
+    prompt: "A kite",
+    size: "2K",
+  }, [
+    id,
+  ]));
+  assert.throws(() => validateImageRequest({
+    model: id,
+    prompt: "A kite",
+    size: "nonsense",
+  }, [
+    id,
+  ]), /unavailable/);
+  assert.throws(() => validateImageRequest({
+    model: "not-published",
+    prompt: "A kite",
+    size: "2K",
+  }, [
+    id,
+  ]), /supported public/);
+});
+
 function step() {
   const exports = {};
   return {
@@ -26,6 +51,11 @@ test("Generate Image sends one async submission and returns only submitted state
   const calls = [];
   const context = {
     acedatacloud: {
+      async listModelsForOperation() { return [
+        {
+          id: model,
+        },
+      ]; },
       async submitImage(args) {
         calls.push(args);
         return {
@@ -58,6 +88,11 @@ test("Edit Image submits one URL and validates input before HTTP", async () => {
   const calls = [];
   const context = {
     acedatacloud: {
+      async listModelsForOperation() { return [
+        {
+          id: model,
+        },
+      ]; },
       async submitImage(args) {
         calls.push(args);
         return {
@@ -191,6 +226,11 @@ test("submission preserves a definite 4xx API error and warns on ambiguous failu
   let calls = 0;
   const context = {
     acedatacloud: {
+      async listModelsForOperation() { return [
+        {
+          id: model,
+        },
+      ]; },
       async submitImage() {
         calls += 1;
         throw rejected;

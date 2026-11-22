@@ -1,8 +1,8 @@
 # Overview
 
-**Suno music, Seedance and HappyHorse video, GPT Image and Nano Banana images, plus GPT chat — through Ace Data Cloud.** Connect one Ace API key, choose an individual action and configure native fields. No custom HTTP URL, Authorization header or request JSON is needed for these actions.
+**Suno music, Seedance and HappyHorse video, GPT Image and Nano Banana images, plus AI chat — through Ace Data Cloud.** Connect one Ace API key, choose an individual action and configure native fields. No custom HTTP URL, Authorization header or request JSON is needed for these actions.
 
-This contribution contains **26 actions**: the original 24 media/search actions plus **List Chat Models** and **Chat With GPT Model**. Search by the service name rather than guessing a generic API action. Ace Data Cloud supplies this integration and API credential; it is not the first-party Suno, OpenAI, or Google app.
+This contribution contains **26 actions**: the original 24 media/search actions plus **List Chat Models** and **Chat With Model**. Search by the service name rather than guessing a generic API action. Ace Data Cloud supplies this integration and API credential; it is not the first-party Suno, OpenAI, or Google app.
 
 **Release status:** [official App registration](https://github.com/PipedreamHQ/pipedream/issues/22155) and [component review](https://github.com/PipedreamHQ/pipedream/pull/22156) are pending. The intended [official AceDataCloud app page](https://pipedream.com/apps/acedatacloud) is not yet a working installation route. Do not interpret this README or a passing test as official publication.
 
@@ -15,7 +15,7 @@ This contribution contains **26 actions**: the original 24 media/search actions 
 | HappyHorse, Happy Horse, video | Generate HappyHorse Video | One `task_id`, `state: submitted` |
 | GPT Image, image editing | Generate GPT Image / Edit GPT Image | One `task_id`, `state: submitted` |
 | Nano Banana, image editing | Generate Nano Banana Image / Edit Nano Banana Image | One `task_id`, `state: submitted` |
-| GPT, chat, models | Chat With GPT Model / List Chat Models | Completion with usage / read-only model list |
+| GPT, Claude, Gemini, chat, models | Chat With Model / List Chat Models | Completion with usage / read-only model list |
 
 Other actions cover Seedream, Qwen Image, Veo, Google Search, Grok Video, Face Transform, Midjourney, Flux, MiniMax Video, Wan, Kling, Fish Audio speech and voice search. Each action is selected separately under the AceDataCloud connection. Separate per-service App identities have not been approved; no first-party provider identity is claimed.
 
@@ -28,7 +28,7 @@ Other actions cover Seedream, Qwen Image, Veo, Google Search, Grok Video, Face T
 - Select **Generate Suno Music** to submit a music brief, save its task ID, and inspect your own Ace task history for the completed audio.
 - Select **Generate Seedance Video** or **Generate HappyHorse Video** without building an HTTP body.
 - Choose GPT Image or Nano Banana generation/editing as a dedicated action, using a public image URL for editing.
-- Select **List Chat Models** to inspect GPT chat choices without generating text, then choose a model in **Chat With GPT Model**. Options use the intersection of the authenticated Models API and published GPT chat catalog; listing a model does not grant service access.
+- Select **List Chat Models** to inspect AI chat choices without generating text, then choose a model in **Chat With Model**. Options use the intersection of the authenticated Models API and published typed chat catalog; listing a model does not grant service access.
 
 # Getting Started
 
@@ -74,7 +74,7 @@ The proposed connection check is a random unknown-ID `POST /seedream/tasks` retr
 | Generate HappyHorse Video | Model `happyhorse-1.0-t2v`; Prompt `A horse crossing a meadow.` | `/happyhorse/videos` |
 | Generate GPT Image | Model `gpt-image-2`; Prompt `A red ceramic mug.` | `/openai/images/generations` |
 | Generate Nano Banana Image | Model `nano-banana-2-lite`; Aspect Ratio `1:1`; Resolution `1K`; Prompt `A paper lantern.` | `/nano-banana/images` |
-| Chat With GPT Model | Refresh Model options; choose one published GPT chat model; Prompt `Summarize this text in one sentence.`; optional Max Tokens `128` | `/openai/models`, `/openai/chat/completions` |
+| Chat With Model | Refresh Model options; choose one published chat model; Prompt `Summarize this text in one sentence.`; optional Max Tokens `128` | `/v1/models`, `/v1/chat/completions`, `/v1/messages`, or `/v1/responses` for the selected model |
 
 Examples describe the submitted source defaults, not guaranteed entitlements or a price offer. For image editing, choose the corresponding **Edit** action and supply a public HTTP(S) source image you are authorized to use. No model substitution or fallback is added.
 
@@ -95,7 +95,7 @@ No real connected Pipedream run, terminal media, unique billing record, new regi
 | No AceDataCloud app/action | Registration/publication is pending; a local source file is not an installed public app. |
 | Cannot register for Workflows | Workflows is retiring and not accepting new signups. Use the supported Connect/MCP product path when published. |
 | Key fails or service is denied | Copy the raw API Token, check scope, expiration, allowed APIs, balance and service access. Never expose it in prompts/logs. |
-| Model list empty or stale | Refresh options. Chat uses current authenticated/published GPT catalog intersection and does not silently choose a replacement. |
+| Model list empty or stale | Refresh options. Chat uses current authenticated/published typed chat catalog intersection and does not silently choose a replacement. |
 | `submitted` but no media | Keep the same task ID and inspect your own history. Do not regenerate to poll. |
 | Timeout, HTTP 408/5xx or missing task ID | A metered request may have been accepted. Inspect history/usage before manual retry. No automatic retry or fallback is performed. |
 | HTTP 400/403/429 | Preserve the API error; correct input/access or wait for rate limits. Do not enable paid retries. |
@@ -106,3 +106,7 @@ No real connected Pipedream run, terminal media, unique billing record, new regi
 ## Local verification
 
 Run `npm test --prefix components/acedatacloud` after installing dependencies. Synthetic tests live under `common/test/`, excluded by the official publisher. They use no API credits. API-side read-only catalog checks and UI/terminal/billing evidence are reported separately.
+
+## Current model choices
+
+Chat choices include every model family in the authenticated and public typed catalogs, including models that use native Messages. Each request follows its published protocol. GPT Image and Seedream Model dropdowns read the models bound to that action’s API from the public catalog, so defaults and examples do not limit the choices. Seedream 4.x remains selectable alongside 5.0. Protocol metadata is supplied by the platform; a missing protocol stops a chat request before submission.
