@@ -67,9 +67,10 @@ export default {
       throw new ConfigurationError(`Could not find worksheet with ID "${this.worksheetId}".`);
     }
 
+    const escapedTitle = title.replace(/'/g, "''");
     const request = {
       spreadsheetId: this.sheetId,
-      range: `'${title}'!${this.cell}:${this.cell}`,
+      range: `'${escapedTitle}'!${this.cell}:${this.cell}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [
