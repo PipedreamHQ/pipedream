@@ -7,17 +7,17 @@ export default {
     bot: {
       type: "string",
       label: "Bot",
-      description: "The name of the bot, e.g. `ajuk`.",
+      description: "The name of the bot, e.g. `ajuk`. Find your bots with **List My Bots** — the bot name is the `bots[].name` field.",
     },
     handle: {
       type: "string",
       label: "Handle",
-      description: "The handle for the new battle.training account. It must be unique across the arena.",
+      description: "The handle for the new battle.training account, e.g. `arena-operator`. It must be unique across the arena.",
     },
     email: {
       type: "string",
       label: "Email",
-      description: "Your email address. battle.training emails you a link that confirms the address and claims the account.",
+      description: "Your email address, e.g. `operator@example.com`. battle.training emails you a link that confirms the address and claims the account.",
     },
     label: {
       type: "string",
@@ -27,19 +27,19 @@ export default {
     source: {
       type: "string",
       label: "Controller Source",
-      description: "The JavaScript controller source to upload. The upload runs a 400-tick smoke test and, if it passes, the version becomes the active ranked controller.",
+      description: "The JavaScript controller source to upload. The upload runs a 400-tick smoke test and, if it passes, the version becomes the active ranked controller. Start from the starter controller at https://api.battle.training/starters/controller.js and test it locally with the SDK before uploading.",
     },
     ladder: {
       type: "string",
       label: "Ladder",
-      description: "The slug of the ladder or cup, e.g. `promotedby-cup-nov-2026` for the promotedby.ai November Cup.",
+      description: "The slug of the ladder or cup, e.g. `promotedby-cup-nov-2026` for the promotedby.ai November Cup. Find slugs with **List Ladders** — the slug is the `ladders[].slug` field.",
       optional: true,
       default: "promotedby-cup-nov-2026",
     },
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of matches to return.",
+      description: "Maximum number of matches to return, e.g. `10`.",
       optional: true,
       default: 10,
     },
@@ -98,6 +98,19 @@ export default {
       return this._makeRequest({
         $,
         path: "/ladder",
+        auth: false,
+      });
+    },
+    async getMyBots({ $ = this } = {}) {
+      return this._makeRequest({
+        $,
+        path: "/me",
+      });
+    },
+    async listLadders({ $ = this } = {}) {
+      return this._makeRequest({
+        $,
+        path: "/ladders",
         auth: false,
       });
     },
