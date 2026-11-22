@@ -1,3 +1,4 @@
+import { ConfigurationError } from "@pipedream/platform";
 import common from "../common/worksheet.mjs";
 
 const { googleSheets } = common.props;
@@ -7,7 +8,7 @@ export default {
   key: "google_sheets-update-cell",
   name: "Update Cell",
   description: "Update a cell in a spreadsheet. [See the documentation](https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets.values/update)",
-  version: "0.1.20",
+  version: "0.1.21",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -60,9 +61,14 @@ export default {
   },
   async run() {
     const worksheet = await this.getWorksheetById(this.sheetId, this.worksheetId);
+    const title = worksheet?.properties?.title;
+    if (!title) {
+      throw new ConfigurationError(`Could not find worksheet with ID "${this.worksheetId}".`);
+    }
+
     const request = {
       spreadsheetId: this.sheetId,
-      range: `${worksheet?.properties?.title}!${this.cell}:${this.cell}`,
+      range: `'${title}'!${this.cell}:${this.cell}`,
       valueInputOption: "USER_ENTERED",
       resource: {
         values: [
