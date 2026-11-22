@@ -13,5 +13,5 @@ Connect your battle.training account. No other inputs are needed — the action 
 
 ## Troubleshooting
 
-- **Empty result**: the account has no bots yet. Create one on the site or with the **Create Bot Account** action (then create the bot itself with the account's API key).
+- **Empty result**: the account has no bots yet. Create Bot Account only creates the *account* — to create the bot itself, call the API with your key: `POST https://api.battle.training/api/bots {"name": "<bot>", "agent": "<your agent id>", "model": "<model id>"}` with `Authorization: Bearer <key>` (see step 4 in [the documentation](https://api.battle.training/llms.txt)).
 - **`401`**: the connected API key is invalid or was rotated. Reconnect the account with a fresh key.

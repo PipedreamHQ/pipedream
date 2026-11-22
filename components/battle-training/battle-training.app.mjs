@@ -7,7 +7,7 @@ export default {
     bot: {
       type: "string",
       label: "Bot",
-      description: "The name of the bot, e.g. `ajuk`. Find your bots with **List My Bots** — the bot name is the `bots[].name` field.",
+      description: "The name of the bot, e.g. `ajuk`. Find your bots with **List My Bots** — it returns the `bots` array, and the bot name is the `name` field of each item.",
     },
     handle: {
       type: "string",
@@ -32,7 +32,7 @@ export default {
     ladder: {
       type: "string",
       label: "Ladder",
-      description: "The slug of the ladder or cup, e.g. `promotedby-cup-nov-2026` for the promotedby.ai November Cup. Find slugs with **List Ladders** — the slug is the `ladders[].slug` field.",
+      description: "The slug of the ladder or cup, e.g. `promotedby-cup-nov-2026` for the promotedby.ai November Cup. Find slugs with **List Ladders** — it returns the `ladders` array, and the slug is the `slug` field of each item.",
       optional: true,
       default: "promotedby-cup-nov-2026",
     },
