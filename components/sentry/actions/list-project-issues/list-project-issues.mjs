@@ -2,7 +2,7 @@ import app from "../../sentry.app.mjs";
 
 export default {
   key: "sentry-list-project-issues",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
