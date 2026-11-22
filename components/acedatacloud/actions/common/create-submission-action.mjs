@@ -14,6 +14,7 @@ export const createSubmissionAction = ({
   path,
   props,
   buildData,
+  modelChoices = false,
   version = "0.0.1",
 }) => ({
   key,
@@ -30,10 +31,7 @@ export const createSubmissionAction = ({
   props: {
     acedatacloud,
     ...props,
-    ...([
-      "/openai/images/generations",
-      "/openai/images/edits",
-    ].includes(path) && props.model && !props.model.options && {
+    ...(modelChoices && props.model && !props.model.options && {
       model: {
         ...props.model,
         async options() {

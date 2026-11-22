@@ -110,3 +110,7 @@ Run `npm test --prefix components/acedatacloud` after installing dependencies. S
 ## Current model choices
 
 Chat choices include every model family in the authenticated and public typed catalogs, including models that use native Messages. Each request follows its published protocol. GPT Image and Seedream Model dropdowns read the models bound to that action’s API from the public catalog, so defaults and examples do not limit the choices. Seedream 4.x remains selectable alongside 5.0. Protocol metadata is supplied by the platform; a missing protocol stops a chat request before submission.
+
+## Image and reference video inputs
+
+Veo, Kling, Wan, HappyHorse, and Seedance expose native frame/reference controls for the image, reference, and editing model families. Choose the matching Generation Mode and provide its required references. Existing text-generation defaults remain unchanged; missing references and incompatible selections are rejected before submission. Reference-video and editing usage follow the service's actual input/output billing rules. Fish Audio now also exposes its published speech model choices.

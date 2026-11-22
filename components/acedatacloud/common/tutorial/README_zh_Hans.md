@@ -62,3 +62,7 @@ App 注册后的连接表单中，粘贴到申请的 **`api_key` secret 字段**
 ## 当前模型选项
 
 对话模型选择器覆盖鉴权模型列表与公开类型目录中的所有模型系列，并按每个模型声明的接口调用 Chat Completions、Messages 或 Responses。Messages 未填写 Max Tokens 时使用 4096 的输出预算，这不是模型最大容量。GPT Image 和 Seedream 的 Model 选项从公开目录中该 API 绑定的模型读取；默认值和示例不会限制选项，Seedream 4.x 与 5.0 都可选择。缺少接口元数据时，对话动作会在提交前停止。
+
+## 图片与参考视频模式
+
+Veo、Kling、Wan、HappyHorse 和 Seedance 已提供首尾帧、参考图片、参考视频及适用音频的原生字段。选择与模型匹配的 Generation Mode，并填写所需素材；原有文生视频默认值保持不变。缺少素材或模型与模式不匹配时会在提交前报错，不自动换模型。参考视频、视频编辑按服务实际输入/输出用量计费。Fish Audio 的 Model 字段也提供公开语音模型选项，默认仍为 s2-pro。

@@ -4,11 +4,12 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.2",
+  version: "0.0.3",
   key: "acedatacloud-grok-generate-video",
   name: "Generate Grok Video",
   description: "Generate a Grok video and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/grok-videos)",
   path: "/grok/videos",
+  modelChoices: true,
   props: {
     prompt: {
       propDefinition: [

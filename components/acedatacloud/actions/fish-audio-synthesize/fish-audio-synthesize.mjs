@@ -4,12 +4,20 @@ import { createSubmissionAction } from "../common/create-submission-action.mjs";
 
 export default createSubmissionAction({
   acedatacloud,
-  version: "0.0.2",
+  version: "0.0.3",
   key: "acedatacloud-fish-audio-synthesize",
   name: "Synthesize Fish Audio Speech",
   description: "Synthesize speech with Fish Audio and return a task ID. [See the documentation](https://platform.acedata.cloud/documents/fish-tts)",
   path: "/fish/tts",
+  modelChoices: true,
   props: {
+    model: {
+      type: "string",
+      label: "Model",
+      description: "Published Fish Audio speech model. The existing default remains s2-pro.",
+      default: "s2-pro",
+      optional: true,
+    },
     text: {
       type: "string",
       label: "Text",
@@ -24,7 +32,7 @@ export default createSubmissionAction({
   },
   buildData: (step) => ({
     text: requiredText(step.text, "Text"),
-    model: "s2-pro",
+    model: requiredText(step.model ?? "s2-pro", "Model"),
     format: "mp3",
     ...(step.referenceId && {
       reference_id: step.referenceId,

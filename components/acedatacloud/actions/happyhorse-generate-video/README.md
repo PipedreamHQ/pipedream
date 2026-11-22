@@ -14,3 +14,9 @@
 A timeout, HTTP 408/5xx or missing task ID can still mean a paid task exists. Inspect task/request history and matching usage before manual retry. The action never retries or falls back to another model. 400/403/429 retain their meaning; correct input/access or wait. Missing cost does not mean free. No connected Pipedream run, terminal media, unique billing or growth is claimed here.
 
 Official [Connect/MCP registry distribution](https://pipedream.com/docs/components/contributing) remains supported; Workflows is [retiring on 2027-03-31](https://pipedream.com/docs/workflows) and no longer accepts new signups. Use existing Workflows accounts only during the transition, not a new sign-up tutorial.
+
+## Select the model family and inputs
+
+Match **Generation Mode** to the model family: `t2v` for Text to Video, `i2v` for Image to Video, `r2v` for Reference to Video, and `video-edit` for Video Edit. Image mode requires **First Frame URL**. Reference mode requires 1–9 **Reference Images**. Video Edit requires **Video to Edit** and accepts up to 5 optional reference images.
+
+Video editing inherits the input duration; billing includes input and output video seconds. The action preserves the selected model and never changes it to match an incompatible mode. Text-generation defaults and the existing asynchronous task behavior remain unchanged.

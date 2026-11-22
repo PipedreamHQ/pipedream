@@ -14,3 +14,9 @@
 A timeout, HTTP 408/5xx or missing task ID can still mean a paid task exists. Inspect task/request history and matching usage before manual retry. The action never retries or falls back to another model. 400/403/429 retain their meaning; correct input/access or wait. Missing cost does not mean free. No connected Pipedream run, terminal media, unique billing or growth is claimed here.
 
 Official [Connect/MCP registry distribution](https://pipedream.com/docs/components/contributing) remains supported; Workflows is [retiring on 2027-03-31](https://pipedream.com/docs/workflows) and no longer accepts new signups. Use existing Workflows accounts only during the transition, not a new sign-up tutorial.
+
+## Frame and multimodal inputs
+
+**First Frame URL** enables image-to-video, including the Lite i2v model. **Last Frame URL** requires a first frame. Frame inputs cannot be mixed with **Reference Images**, **Reference Videos**, or **Reference Audio**.
+
+Reference media requires Seedance 2.x. Seedance 2.0 audio references must accompany a reference image or video; Seedance 2.5 also accepts audio-only references. Audio/video reference counts are limited to 3 for 2.0 and 10 for 2.5; the API enforces the documented media duration and format limits. **Resolution** can be selected explicitly, while the existing default remains 480p. No model or paid request is retried or substituted.

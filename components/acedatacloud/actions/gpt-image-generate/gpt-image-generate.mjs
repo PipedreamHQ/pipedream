@@ -9,6 +9,7 @@ export default createSubmissionAction({
   name: "Generate GPT Image",
   description: "GPT Image generation through Ace Data Cloud. Submit once and save the task ID; media is pending. [See the documentation](https://platform.acedata.cloud/documents/openai-images-generations)",
   path: "/openai/images/generations",
+  modelChoices: true,
   props: {
     model: {
       type: "string",

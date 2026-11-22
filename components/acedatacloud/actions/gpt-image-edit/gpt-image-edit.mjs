@@ -11,6 +11,7 @@ export default createSubmissionAction({
   name: "Edit GPT Image",
   description: "GPT Image editing through Ace Data Cloud. Submit once and save the task ID; media is pending. [See the documentation](https://platform.acedata.cloud/documents/openai-images-edits)",
   path: "/openai/images/edits",
+  modelChoices: true,
   props: {
     model: {
       type: "string",

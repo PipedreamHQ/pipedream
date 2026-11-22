@@ -5,3 +5,7 @@ Submit one asynchronous Fish Audio request using the connected AceDataCloud acco
 Use a token with Fish Audio service access or a global token. Check current service pricing before running a paid request. For a timeout, 408, 5xx, or missing task ID, inspect the account's task or usage history before submitting again; a second request may be charged. Never expose the connected API key in prompts or output.
 
 This source action is not yet evidence of a published Pipedream component or a real connected run. App registration is tracked in [issue #22155](https://github.com/PipedreamHQ/pipedream/issues/22155).
+
+## Speech models
+
+**Model** lists the model IDs declared by the Fish speech API, including `s1`, `s2-pro`, and `s2.1-pro`. The existing default remains `s2-pro`; choosing another model preserves that exact ID. Voice selection, output format, and asynchronous task handling are unchanged.
