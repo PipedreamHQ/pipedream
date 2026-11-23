@@ -6,7 +6,7 @@ export default {
   key: "onfleet-new-task-failed",
   name: "New Task Failed (Instant)",
   description: "Emit new event when a new task is failed.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {
