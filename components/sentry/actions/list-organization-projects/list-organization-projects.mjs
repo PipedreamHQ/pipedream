@@ -1,4 +1,5 @@
 import app from "../../sentry.app.mjs";
+import { DEFAULT_PROJECT_LIST_FIELDS } from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
@@ -7,7 +8,7 @@ export default {
   description: "List the projects of a Sentry organization with their slug, name and platform."
     + " Use to discover a project slug before **Get Project**, **List Project Issues** or **List Project Events**, or to check whether a project exists."
     + " Not for issue or event data: use **List Project Issues** for that."
-    + " Returns `{ projects, hasMore }`; `hasMore` is true when more projects exist than `maxResults`. Each project has only the selected fields (always includes `id`); by default: slug, name, platform, dateCreated, isBookmarked, team, teams."
+    + " Returns `{ projects, hasMore }`; `hasMore` is true when more projects exist than `maxResults`. Each project has only the selected fields (always includes `id`); by default: " + DEFAULT_PROJECT_LIST_FIELDS.join(", ") + "."
     + " Example: organizationIdOrSlug=\"acme-corp\", query=\"web\" → projects whose name or slug matches `web`, with id, slug, name and platform."
     + " [See the documentation](https://docs.sentry.io/api/organizations/list-an-organizations-projects/)",
   version: "0.0.1",
@@ -49,15 +50,6 @@ export default {
     },
   },
   async run({ $ }) {
-    const defaultFields = [
-      "slug",
-      "name",
-      "platform",
-      "dateCreated",
-      "isBookmarked",
-      "team",
-      "teams",
-    ];
     const {
       projects, hasMore,
     } = await this.app.listOrganizationProjects(
@@ -69,7 +61,7 @@ export default {
     );
     const names = this.fields?.length
       ? this.fields
-      : defaultFields;
+      : DEFAULT_PROJECT_LIST_FIELDS;
     $.export("$summary", `Found ${projects.length} project(s)${hasMore
       ? " (more available)"
       : ""}`);

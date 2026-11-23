@@ -1,4 +1,5 @@
 import app from "../../sentry.app.mjs";
+import { DEFAULT_PROJECT_FIELDS } from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
@@ -7,7 +8,7 @@ export default {
   description: "Retrieve the settings and metadata of one Sentry project: platform, creation date, status, teams, features and first-event time."
     + " Use when the user asks about a project itself. Use **List Organization Projects** first to find the project slug."
     + " For the issues in a project use **List Project Issues**; for its events use **List Project Events**."
-    + " Returns only the selected fields (always includes `id`); by default: slug, name, platform, dateCreated, status, isBookmarked, isMember, features, teams, organization, firstEvent, hasAccess."
+    + " Returns only the selected fields (always includes `id`); by default: " + DEFAULT_PROJECT_FIELDS.join(", ") + "."
     + " Example: organizationIdOrSlug=\"acme-corp\", projectIdOrSlug=\"web-frontend\" → the project's platform, creation date and teams."
     + " [See the documentation](https://docs.sentry.io/api/projects/retrieve-a-project/)",
   version: "0.0.1",
@@ -41,24 +42,10 @@ export default {
     },
   },
   async run({ $ }) {
-    const defaultFields = [
-      "slug",
-      "name",
-      "platform",
-      "dateCreated",
-      "status",
-      "isBookmarked",
-      "isMember",
-      "features",
-      "teams",
-      "organization",
-      "firstEvent",
-      "hasAccess",
-    ];
     const project = await this.app.getProject(this.organizationIdOrSlug, this.projectIdOrSlug);
     const names = this.fields?.length
       ? this.fields
-      : defaultFields;
+      : DEFAULT_PROJECT_FIELDS;
     $.export("$summary", `Retrieved project ${project.slug ?? this.projectIdOrSlug}`);
     return utils.pickFields(project, names);
   },
