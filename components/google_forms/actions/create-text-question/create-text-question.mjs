@@ -4,7 +4,7 @@ export default {
   key: "google_forms-create-text-question",
   name: "Create Text Question",
   description: "Creates a new text question in a Google Form. [See the documentation](https://developers.google.com/forms/api/reference/rest/v1/forms/batchUpdate)",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,19 +20,22 @@ export default {
       ],
     },
     title: {
-      type: "string",
-      label: "Title",
-      description: "Title of the question",
+      propDefinition: [
+        googleForms,
+        "questionTitle",
+      ],
     },
     description: {
-      type: "string",
-      label: "Description",
-      description: "Description of the question",
+      propDefinition: [
+        googleForms,
+        "questionDescription",
+      ],
     },
     index: {
-      type: "integer",
-      label: "Index",
-      description: "The index of an item in the form. This must be in the range [0..N), where N is the number of items in the form.",
+      propDefinition: [
+        googleForms,
+        "questionIndex",
+      ],
     },
     paragraph: {
       type: "boolean",

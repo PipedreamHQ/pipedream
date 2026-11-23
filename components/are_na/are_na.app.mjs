@@ -8,38 +8,70 @@ export default {
     channelSlug: {
       type: "string",
       label: "Channel Slug",
-      description: "Slug of the Channel",
-      async options() {
-        const response = await this.getChannels();
-        const channelsSlugs = response.channels;
-        return channelsSlugs.map(({
-          slug, title,
-        }) => ({
-          value: slug,
-          label: title,
-        }));
-      },
+      description: "Slug of the Channel, e.g. `brutalist-architecture`. Use the **List Channel Slug Options** action to find the slug of an existing channel",
     },
     channelTitle: {
       type: "string",
-      label: "Channel Tittle",
-      description: "Tittle of the Channel",
+      label: "Channel Title",
+      description: "Title of the Channel, e.g. `Brutalist Architecture`",
     },
     channelStatus: {
       type: "string",
       label: "Channel Status",
-      description: "Status of the Channel",
+      description: "Visibility of the Channel: `public` (anyone can view and add), `closed` (anyone can view, only collaborators add) or `private` (only collaborators)",
       options: constants.CHANNEL_STATUS,
+    },
+    fields: {
+      type: "string[]",
+      label: "Fields",
+      description: "Only return these fields for each result, e.g. `[\"id\", \"slug\", \"title\"]`. Dot paths such as `owner.name` are supported. Leave empty to return full objects. Pass this to keep responses small",
+      optional: true,
     },
     query: {
       type: "string",
       label: "Query",
-      description: "The search query",
+      description: "The search query. Supports full-text search across titles, descriptions, and content. Use `*` to match everything (useful when filtering by type, scope, user, or extension)",
+    },
+    channelDescription: {
+      type: "string",
+      label: "Description",
+      description: "The description of the channel, e.g. `Concrete buildings and brutalist architecture references`",
+      optional: true,
+    },
+    channelMetadata: {
+      type: "object",
+      label: "Metadata",
+      description: "Arbitrary key-value pairs stored on an entity, e.g. `{\"status\": \"reviewed\", \"priority\": 2}`. Keys are alphanumeric/underscore, max 40 characters. Values are scalars (string, number, boolean). Max 50 keys, 32KB total.",
+      optional: true,
+    },
+    listQuery: {
+      type: "string",
+      label: "Query",
+      description: "Filter results by name or other content. Defaults to `*` (everything)",
+      default: "*",
+      optional: true,
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page number to return. Defaults to 1. Use `meta.next_page` from the previous response to get the next page",
+      min: 1,
+      default: 1,
+      optional: true,
+    },
+    per: {
+      type: "integer",
+      label: "Per Page",
+      description: "Number of items per page (max 100). Defaults to 24",
+      min: 1,
+      max: 100,
+      default: 24,
+      optional: true,
     },
   },
   methods: {
     _baseUrl() {
-      return "http://api.are.na/v2";
+      return "https://api.are.na/v3";
     },
     async _makeRequest(opts = {}) {
       const {
@@ -60,15 +92,13 @@ export default {
     getAuthenticatedUser(args = {}) {
       return this._makeRequest({
         path: "/me",
-        args,
+        ...args,
       });
     },
-    search({
-      query, ...args
-    }) {
+    search(args = {}) {
       return this._makeRequest({
-        path: `/search?q=${query}`,
-        args,
+        path: "/search",
+        ...args,
       });
     },
     async createChannel(args = {}) {
@@ -96,10 +126,52 @@ export default {
         ...args,
       });
     },
-    async getChannels(args = {}) {
+    getUserContents({
+      userId, ...args
+    }) {
       return this._makeRequest({
-        path: "/search/channels",
+        path: `/users/${userId}/contents`,
         ...args,
+      });
+    },
+    /**
+     * Lists the groups the authenticated user owns or belongs to.
+     */
+    async listOwnGroups({
+      $, page, per,
+    } = {}) {
+      const me = await this.getAuthenticatedUser({
+        $,
+      });
+      return this._makeRequest({
+        $,
+        path: `/users/${me.id}/groups`,
+        params: {
+          sort: "name_asc",
+          page,
+          per,
+        },
+      });
+    },
+    /**
+     * Lists the authenticated user's own channels. Uses the user contents
+     * endpoint rather than /search, which is Premium-only.
+     */
+    async listOwnChannels({
+      $, page, per,
+    } = {}) {
+      const me = await this.getAuthenticatedUser({
+        $,
+      });
+      return this.getUserContents({
+        $,
+        userId: me.id,
+        params: {
+          type: "Channel",
+          sort: "updated_at_desc",
+          page,
+          per,
+        },
       });
     },
   },
