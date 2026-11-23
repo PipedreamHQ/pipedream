@@ -5,7 +5,7 @@ clean JSON webhook** and **send email with one API call**, on your own verified 
 
 ## Overview
 
-This app provides three components:
+This app provides five components:
 
 - **New Inbound Email (Instant)** — a source that triggers a workflow the moment an email arrives
   at one of *your* MX-verified MailKite domains. Unlike a generic "new email" trigger tied to a
@@ -17,6 +17,10 @@ This app provides three components:
   `subject`, `html`/`text`, `reply-to`, threading (`in-reply-to`), attachments, extra MIME
   headers, saved or base templates with merge data, per-send open/click tracking, and
   send-later scheduling.
+- **List Domains** — an action that lists the account's domains, so you can find the **Domain ID**
+  (`dom_…`, the `id` field) without the dropdown picker.
+- **List Messages** — an action that lists stored mail, newest first, and returns each message's
+  `threadId`, so a workflow can reply into an existing conversation with **Send Email**.
 - **List Templates** — an action that lists the account's saved `tpl_…` templates and MailKite's
   premade `base_…` catalog, so you can find the `Template ID` that **Send Email** accepts.
 
@@ -46,7 +50,8 @@ This app provides three components:
    returns the saved `tpl_…` templates and the premade `base_…` catalog. To attach a file, add an
    entry to **Attachments** — an object with `filename` plus either `url` (fetched at send time;
    preferred for large files) or `content` (base64 bytes). To send later, set **Schedule Send** to
-   an ISO 8601 timestamp, `in 2 hours`, or a ms-epoch.
+   an ISO 8601 timestamp, `in 2 hours`, or a ms-epoch. To reply in an existing conversation,
+   pass the `threadId` from an inbound event (or from **List Messages**) as **In-Reply-To**.
 
 ## Troubleshooting
 

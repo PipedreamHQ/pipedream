@@ -8,7 +8,7 @@ export default {
       type: "string",
       label: "Domain",
       description:
-        "A MailKite domain that is **MX-verified** (required to receive inbound email), e.g. `myapp.ai`.",
+        "A MailKite domain that is **MX-verified** (required to receive inbound email), e.g. `dom_9f21c8`. Use **List Domains** to find the domain ID (the `id` field).",
       async options() {
         // GET /api/domains returns a bare array of domain rows
         // ({ id, domain, mx_verified, ... }) — see MailKite api/src/index.ts.
@@ -149,7 +149,8 @@ export default {
      * subject, applied server-side. The backfill passes the domain suffix (`@myapp.ai`) so pages
      * hold this domain's mail rather than whatever else the account sent or received.
      * @returns {Promise<object[]>} Message list rows (`{ id, direction, from, to, subject,
-     * received_at, enc_key_fp, … }`), newest first.
+     * thread_id, received_at, enc_key_fp, … }`), newest first. `thread_id` is the conversation
+     * key — what **Send Email**'s `inReplyTo` accepts — or null for a standalone message.
      */
     async listMessages({
       limit, before, search, ...opts

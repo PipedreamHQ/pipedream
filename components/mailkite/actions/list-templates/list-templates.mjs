@@ -1,23 +1,5 @@
 import mailkite from "../../mailkite.app.mjs";
-
-/**
- * Normalize a template row into the shape callers and agents work with: the id that
- * `Send Email`'s `Template ID` accepts, a human name, and whether it is a MailKite base
- * template or one the account saved.
- *
- * @param {object} t - A row from `GET /api/templates` or `GET /api/templates/base`.
- * @returns {object} The normalized template.
- */
-function toTemplate(t) {
-  return {
-    id: t.id,
-    name: t.name,
-    category: t.category || null,
-    subject: t.subject || null,
-    isBase: Boolean(t.is_base),
-    updatedAt: t.updated_at ?? null,
-  };
-}
+import { toTemplate } from "../../common/utils.mjs";
 
 export default {
   key: "mailkite-list-templates",
