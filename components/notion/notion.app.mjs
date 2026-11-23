@@ -2,6 +2,52 @@ import notion from "@notionhq/client";
 import { ConfigurationError } from "@pipedream/platform";
 import { NotionToMarkdown } from "notion-to-md";
 
+class NotionPageToMarkdown extends NotionToMarkdown {
+  constructor(options) {
+    super(options);
+    this.childBlocks = new Map();
+    this.subpages = [];
+  }
+
+  renderPages(blocks) {
+    const output = this.toMarkdownString(blocks);
+    for (const [
+      blockId,
+      markdown,
+    ] of this.subpages) {
+      const base = `parent (${blockId})`;
+      let key = base;
+      for (let suffix = 2; Object.hasOwn(output, key); suffix++) {
+        key = `${base} ${suffix}`;
+      }
+      output[key] = markdown;
+    }
+    return output;
+  }
+
+  toMarkdownString(blocks, pageIdentifier, nestingLevel) {
+    for (const block of blocks) {
+      if (block.type === "quote" || (block.type === "child_page" && block.parent === "parent")) {
+        this.childBlocks.set(block.children, block);
+      }
+    }
+
+    const subpageCount = this.subpages.length;
+    const output = super.toMarkdownString(blocks, pageIdentifier, nestingLevel);
+    const block = this.childBlocks.get(blocks);
+    if (block?.type === "child_page" && Object.hasOwn(output, "parent")) {
+      this.subpages.push([
+        block.blockId,
+        output.parent,
+      ]);
+      delete output.parent;
+    } else if (block?.type === "quote" && this.subpages.length > subpageCount) {
+      output.parent ??= output[pageIdentifier] ?? "";
+    }
+    return output;
+  }
+}
+
 export default {
   type: "app",
   app: "notion",
@@ -461,7 +507,10 @@ export default {
     async getPageAsMarkdown(pageId, shouldRetrieveChildren) {
       const notion = this._getNotionClient();
 
-      const n2m = new NotionToMarkdown({
+      const Converter = shouldRetrieveChildren
+        ? NotionPageToMarkdown
+        : NotionToMarkdown;
+      const n2m = new Converter({
         notionClient: notion,
         config: {
           separateChildPage: true,
@@ -469,10 +518,9 @@ export default {
         },
       });
       const blocks = await n2m.pageToMarkdown(pageId);
-      const output = n2m.toMarkdownString(blocks);
       return shouldRetrieveChildren
-        ? output
-        : output.parent;
+        ? n2m.renderPages(blocks)
+        : n2m.toMarkdownString(blocks).parent;
     },
     async *paginate({
       fn, params = {}, maxResults = null, ...opts
