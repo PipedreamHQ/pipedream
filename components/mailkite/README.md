@@ -59,6 +59,10 @@ This app provides three components:
 - **Signature check failing?** Make sure the **Webhook Signing Secret** matches the one in your
   MailKite dashboard. The signature is HMAC-SHA256 over `` `${timestamp}.${rawBody}` `` and the
   header is `x-mailkite-signature: t=<ms>,v1=<hex>`.
+- **Source logs say `no webhook signing secret is available`?** That is the fail-closed path: the
+  source has neither the secret stored at `activate()` nor a **Webhook Signing Secret Override**,
+  so it cannot verify the signature and drops the delivery rather than emit it unverified.
+  Re-deploy (or re-activate) the source so it registers the webhook again and stores the secret.
 - **Source logs say `event.bodyRaw is unavailable`?** That is the fail-closed path: the Pipedream
   runtime did not hand the source the raw request body, so there is nothing to verify the
   signature against — the delivery is dropped rather than emitted unverified. It should not

@@ -328,22 +328,26 @@ export default {
     // payload and cannot reproduce the exact bytes MailKite signed (key order, whitespace,
     // number formatting), so an HMAC computed over it can never match.
     //
-    // Both failures are dropped: a present-but-invalid signature is a spoof or a rotated
-    // secret; a missing `bodyRaw` means the runtime did not hand us the bytes, so there is
-    // nothing to verify against and emitting would bypass the signature entirely. The request
-    // is acknowledged above either way, so MailKite stops retrying.
+    // Every failure is dropped: a present-but-invalid signature is a spoof or a rotated
+    // secret; a missing secret or `bodyRaw` means verification is impossible, so emitting
+    // would bypass the signature entirely. The request is acknowledged above either way, so
+    // MailKite stops retrying.
     const secret = this.webhookSecret || this.db.get("signingSecret");
-    if (secret) {
-      if (bodyRaw == null) {
-        console.log(
-          "Rejected event: event.bodyRaw is unavailable, so the x-mailkite-signature cannot be verified",
-        );
-        return;
-      }
-      if (!this.verifySignature(secret, headers["x-mailkite-signature"], bodyRaw)) {
-        console.log("Rejected event: invalid or stale x-mailkite-signature");
-        return;
-      }
+    if (!secret) {
+      console.log(
+        "Rejected event: no webhook signing secret is available, so the x-mailkite-signature cannot be verified",
+      );
+      return;
+    }
+    if (bodyRaw == null) {
+      console.log(
+        "Rejected event: event.bodyRaw is unavailable, so the x-mailkite-signature cannot be verified",
+      );
+      return;
+    }
+    if (!this.verifySignature(secret, headers["x-mailkite-signature"], bodyRaw)) {
+      console.log("Rejected event: invalid or stale x-mailkite-signature");
+      return;
     }
 
     // 3) Only emit inbound mail.
