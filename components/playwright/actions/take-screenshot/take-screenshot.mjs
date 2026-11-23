@@ -4,7 +4,7 @@ export default {
   key: "playwright-take-screenshot",
   name: "Take Screenshot",
   description: "Store a new screenshot file on /tmp directory. [See the documentation](https://playwright.dev/docs/screenshots)",
-  version: "0.0.5",
+  version: "0.0.6",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
