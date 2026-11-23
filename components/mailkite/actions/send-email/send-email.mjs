@@ -100,24 +100,27 @@ export function normalizeHeaders(value) {
  *
  * @param {*} value - The raw `scheduledAt` prop value.
  * @returns {string|number|undefined} The value to send, or `undefined` when nothing was set.
- * @throws {ConfigurationError} When the value is a non-finite number (e.g. an expression that
- * evaluated to `NaN`), which would otherwise be dropped and send the mail immediately.
+ * @throws {ConfigurationError} When the value is a non-finite time — a number such as `NaN`, or a
+ * digit-only string long enough to overflow to `Infinity` — which would otherwise be dropped and
+ * send the mail immediately.
  */
 export function normalizeScheduledAt(value) {
   if (value == null) return undefined;
+  const nonFinite = (v) => new ConfigurationError(
+    `Schedule Send must be a finite time — got ${v}. Use an ISO 8601 timestamp, relative language like \`in 2 hours\`, or a ms-epoch.`,
+  );
   if (typeof value === "number") {
-    if (!Number.isFinite(value)) {
-      throw new ConfigurationError(
-        `Schedule Send must be a finite time — got ${value}. Use an ISO 8601 timestamp, relative language like \`in 2 hours\`, or a ms-epoch.`,
-      );
-    }
+    if (!Number.isFinite(value)) throw nonFinite(value);
     return value;
   }
   const s = String(value).trim();
   if (!s) return undefined;
-  return /^\d+$/.test(s)
-    ? Number(s)
-    : s;
+  if (!/^\d+$/.test(s)) return s;
+  // Checked *after* converting: 309 digits parse to `Infinity`, and JSON.stringify turns that
+  // into `null`, which the API reads as "no schedule" — the mail would go out immediately.
+  const epoch = Number(s);
+  if (!Number.isFinite(epoch)) throw nonFinite(s);
+  return epoch;
 }
 
 /**

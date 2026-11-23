@@ -181,11 +181,15 @@ export default {
      * Select the messages deploy() should backfill: inbound mail to the chosen domain, newest
      * first, at most BACKFILL_LIMIT of them.
      *
-     * Every filter here exists because `GET /api/messages` cannot express it. The endpoint has
-     * no domain filter and no direction filter, so it returns the account's outbound sends and
-     * every other domain's mail too; and rows whose bodies are encrypted at rest (`enc_key_fp`)
-     * are stored as ciphertext the API never decrypts, so backfilling one would emit an event
-     * whose `text`/`html` are unreadable — those are skipped and counted in the log instead.
+     * The endpoint has no domain filter and no direction filter, so without `search` it returns
+     * the account's outbound sends and every other domain's mail too — pages that can fill up
+     * with mail this source will never emit. `search` is the one server-side filter it does
+     * offer (a substring over sender, recipient, and subject), so the domain suffix narrows
+     * each page before it is paged; the exact `endsWith` check below still runs, because a
+     * substring also matches lookalikes (`@myapp.ai.example`). Rows whose bodies are encrypted
+     * at rest (`enc_key_fp`) are stored as ciphertext the API never decrypts, so backfilling
+     * one would emit an event whose `text`/`html` are unreadable — those are skipped and
+     * counted in the log instead.
      *
      * @returns {Promise<object[]>} Selected list rows, newest first.
      */
@@ -202,6 +206,7 @@ export default {
         const rows = await this.mailkite.listMessages({
           limit: BACKFILL_PAGE_SIZE,
           before,
+          search: suffix,
         });
         if (!rows?.length) break;
         let fresh = 0;
@@ -220,11 +225,12 @@ export default {
         }
         // `before` is exclusive, so paging on the last row's own timestamp would drop any row
         // sharing that millisecond; `+ 1` keeps them and `seen` absorbs the re-read overlap.
-        // A full page that is entirely overlap means more than one page of mail shares this
-        // exact `received_at`: a `<`-only cursor cannot move within that bucket, so step
-        // strictly below it (`oldest`) to reach older mail rather than stopping here. Rows in
-        // the bucket past this page are unreachable through the API; the log says so. A short
-        // page is the end of the list.
+        // `search` already removes the common way a page goes stale (other domains' mail), so a
+        // full page that is *entirely* overlap means >200 messages for this domain share one
+        // `received_at`. The API's only cursor is `received_at <`, which cannot move within a
+        // bucket, so step strictly below it to reach older mail rather than stopping here, and
+        // say in the log that the rest of that bucket could not be read. A short page ends the
+        // list.
         if (rows.length < BACKFILL_PAGE_SIZE) break;
         const oldest = rows[rows.length - 1].received_at;
         if (!fresh) {

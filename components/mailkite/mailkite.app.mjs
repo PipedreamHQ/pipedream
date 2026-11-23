@@ -145,11 +145,14 @@ export default {
      * @param {object} [opts={}] - Request options.
      * @param {number} [opts.limit] - Page size, 1–200 (the API defaults to 100).
      * @param {number} [opts.before] - Cursor: return only messages with `received_at` below this.
+     * @param {string} [opts.search] - Case-insensitive substring over sender, recipient, and
+     * subject, applied server-side. The backfill passes the domain suffix (`@myapp.ai`) so pages
+     * hold this domain's mail rather than whatever else the account sent or received.
      * @returns {Promise<object[]>} Message list rows (`{ id, direction, from, to, subject,
      * received_at, enc_key_fp, … }`), newest first.
      */
     async listMessages({
-      limit, before, ...opts
+      limit, before, search, ...opts
     } = {}) {
       return this._request({
         path: "/api/messages",
@@ -163,6 +166,11 @@ export default {
             ? {}
             : {
               before,
+            }),
+          ...(search === undefined
+            ? {}
+            : {
+              search,
             }),
         },
         ...opts,
