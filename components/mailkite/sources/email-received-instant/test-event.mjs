@@ -6,7 +6,9 @@
 // Two things the shape is easy to get wrong: `receivedAt` is when the message ARRIVED, not
 // when the POST was made (so a retry or replay reports the same instant), and `name` rides
 // along on an address only when the MIME header names that same address — it is omitted,
-// never null, when unknown.
+// never null, when unknown. A third: `threadId` is the conversation root's Message-ID
+// (`<…@host>`), not a MailKite handle — **Send Email** copies it into `In-Reply-To` and
+// `References`, so a made-up id would produce an invalid header.
 export default {
   id: "msg_2Hk9QpVn4tLd",
   type: "email.received",
@@ -23,7 +25,7 @@ export default {
   subject: "Re: my order",
   text: "Hey — any update on order #1234? Receipt attached.",
   html: "<p>Hey — any update on order #1234? Receipt attached.</p>",
-  threadId: "thr_abc123",
+  threadId: "<CABc123@mail.example.com>",
   receivedAt: 1785249066000,
   receivedAtIso: "2026-07-28T14:31:06.000Z",
   auth: {
