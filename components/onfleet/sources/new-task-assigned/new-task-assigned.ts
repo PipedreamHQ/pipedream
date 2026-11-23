@@ -6,7 +6,7 @@ export default {
   key: "onfleet-new-task-assigned",
   name: "New Task Assigned (Instant)",
   description: "Emit new event when a new task is assigned.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {

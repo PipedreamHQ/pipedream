@@ -6,7 +6,7 @@ export default {
   key: "onfleet-new-task-arrival",
   name: "New Task Arrival (Instant)",
   description: "Emit new event when a new task is arrival.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {
