@@ -285,6 +285,11 @@ export default {
         url,
       });
     },
+    queryMore(nextRecordsUrl) {
+      return this._makeRequest({
+        url: `${this._baseApiUrl()}${nextRecordsUrl}`,
+      });
+    },
     async listRecordOptions({
       objType,
       nameField = "Id",

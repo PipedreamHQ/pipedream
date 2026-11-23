@@ -106,7 +106,7 @@ export default {
       const recordsWithChanges = new Set();
       let totalHistoryRecords = 0;
       let successfulBatches = 0;
-      let failedBatches = 0;
+      let firstBatchError;
       const totalBatches = Math.ceil(recordIds.length / BATCH_SIZE);
 
       for (let i = 0; i < recordIds.length; i += BATCH_SIZE) {
@@ -123,19 +123,32 @@ export default {
           ORDER BY CreatedDate DESC
         `;
 
+        let page;
         try {
-          const { records } = await this.query({
+          page = await this.query({
             query,
           });
-
-          totalHistoryRecords += records.length;
-          for (const record of records) {
-            recordsWithChanges.add(record[parentIdField]);
-          }
           successfulBatches++;
         } catch (err) {
-          failedBatches++;
+          firstBatchError ??= err;
           console.log(`Field history query batch ${batchNumber}/${totalBatches} failed for ${historyObjectName}: ${err.message}`);
+          continue;
+        }
+
+        for (;;) {
+          totalHistoryRecords += page.records.length;
+          for (const record of page.records) {
+            recordsWithChanges.add(record[parentIdField]);
+          }
+
+          // Further history on a record we already matched can't change the result.
+          if (!page.nextRecordsUrl || batch.every((id) => recordsWithChanges.has(id))) {
+            break;
+          }
+
+          // A failure here is not evidence that field history is disabled. Retry
+          // the polling window rather than silently accepting an incomplete set.
+          page = await this.salesforce.queryMore(page.nextRecordsUrl);
         }
       }
 
@@ -150,8 +163,8 @@ export default {
         return null;
       }
 
-      if (failedBatches > 0) {
-        console.log(`Warning: ${failedBatches}/${totalBatches} batches failed, results may be incomplete`);
+      if (firstBatchError) {
+        throw firstBatchError;
       }
 
       console.log(`Field history query found ${totalHistoryRecords} change(s) for ${recordsWithChanges.size} record(s)`);
@@ -261,43 +274,33 @@ export default {
         dateFieldName,
       });
 
-      this.setPollingCursor(events, dateFieldName);
-
       const { fields } = this;
+      let filteredEvents = events;
 
-      if (!fields?.length) {
-        events.forEach((item) => {
-          const meta = generateTimerMeta(item, fieldName);
-          emit(item, meta);
+      if (fields?.length) {
+        const recordsWithFieldChanges = await this.queryFieldHistory({
+          objectType,
+          recordIds: events.map((event) => event.Id),
+          fields,
+          startTimestamp,
         });
-        return;
+
+        if (recordsWithFieldChanges === null) {
+          console.log("Emitting all updated records due to field history unavailability");
+        } else {
+          filteredEvents = events.filter((item) => recordsWithFieldChanges.has(item.Id));
+          console.log(`Filtered ${events.length} updated records to ${filteredEvents.length} with watched field changes`);
+        }
       }
-
-      const recordIds = events.map((event) => event.Id);
-      const recordsWithFieldChanges = await this.queryFieldHistory({
-        objectType,
-        recordIds,
-        fields,
-        startTimestamp,
-      });
-
-      if (recordsWithFieldChanges === null) {
-        console.log("Emitting all updated records due to field history unavailability");
-        events.forEach((item) => {
-          const meta = generateTimerMeta(item, fieldName);
-          emit(item, meta);
-        });
-        return;
-      }
-
-      const filteredEvents = events.filter((item) => recordsWithFieldChanges.has(item.Id));
-
-      console.log(`Filtered ${events.length} updated records to ${filteredEvents.length} with watched field changes`);
 
       filteredEvents.forEach((item) => {
         const meta = generateTimerMeta(item, fieldName);
         emit(item, meta);
       });
+
+      // Advance past all checked records (including ones deliberately filtered
+      // out), but only after filtering and emission succeed.
+      this.setPollingCursor(events, dateFieldName);
     },
     async timerActivateHook() {
       const {
