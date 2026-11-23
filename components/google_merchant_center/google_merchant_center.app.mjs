@@ -8,7 +8,7 @@ import {
   PRODUCTS_API_VERSION,
 } from "./common/constants.mjs";
 import {
-  buildProductIdentifier, encodeProductId, toDataSourceName,
+  encodeProductId, toDataSourceName, toProductOption,
 } from "./common/utils.mjs";
 
 export default {
@@ -32,15 +32,7 @@ export default {
           },
         });
         return {
-          options: products.map((product) => {
-            const value = buildProductIdentifier(product);
-            return {
-              label: product.productAttributes?.title
-                ? `${product.productAttributes.title} (${value})`
-                : value,
-              value,
-            };
-          }),
+          options: products.map(toProductOption),
           context: {
             pageToken: nextPageToken ?? null,
           },

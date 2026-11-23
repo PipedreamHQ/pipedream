@@ -1,3 +1,4 @@
+import { toProductOption } from "../../common/utils.mjs";
 import google_merchant_center from "../../google_merchant_center.app.mjs";
 
 export default {
@@ -15,10 +16,12 @@ export default {
     google_merchant_center,
   },
   async run({ $ }) {
-    const { options } = await google_merchant_center.propDefinitions.productId.options
-      .call(this.google_merchant_center, {
-        prevContext: {},
-      });
+    const options = [];
+    for await (const product of this.google_merchant_center.paginateProducts({
+      $,
+    })) {
+      options.push(toProductOption(product));
+    }
     $.export("$summary", `Successfully retrieved ${options.length} option${
       options.length === 1
         ? ""

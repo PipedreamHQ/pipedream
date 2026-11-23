@@ -39,6 +39,25 @@ export function buildProductIdentifier({
   ].filter(Boolean).join("~");
 }
 
+export function toProductOption(product) {
+  const value = buildProductIdentifier(product);
+  const title = product.productAttributes?.title;
+  return {
+    label: title
+      ? `${title} (${value})`
+      : value,
+    value,
+  };
+}
+
+export function toLegacyProductId({
+  legacyLocal, contentLanguage, feedLabel, offerId,
+}) {
+  return `${legacyLocal
+    ? "local"
+    : "online"}:${contentLanguage}:${feedLabel}:${offerId}`;
+}
+
 // Accepts `en~US~sku`, a base64url ID, or a legacy Content API ID (`online:en:US:sku`)
 export function encodeProductId(productId) {
   let id = productId.trim();

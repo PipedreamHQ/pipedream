@@ -1,5 +1,7 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
-import { hashId } from "../../common/utils.mjs";
+import {
+  hashId, toLegacyProductId,
+} from "../../common/utils.mjs";
 import googleMerchantCenter from "../../google_merchant_center.app.mjs";
 
 export default {
@@ -44,6 +46,11 @@ export default {
     const products = await this.getResources();
     const savedIds = new Set(this._getSavedIds());
 
+    // Migrate IDs saved by the Content API version of this source
+    products
+      .filter((product) => savedIds.has(toLegacyProductId(product)))
+      .forEach(({ name }) => savedIds.add(name));
+
     products
       .filter(({ name }) => !savedIds.has(name))
       .forEach((product) => {
@@ -51,13 +58,11 @@ export default {
         this.$emit(product, {
           id: hashId(name),
           summary: `New Product: "${product.productAttributes?.title ?? product.offerId}"`,
-          ts: Date.now(),
+          ts: Date.parse(product.productStatus?.creationDate) || Date.now(),
         });
         savedIds.add(name);
       });
 
-    this._setSavedIds([
-      ...savedIds,
-    ]);
+    this._setSavedIds(products.map(({ name }) => name));
   },
 };
