@@ -4,7 +4,7 @@ export default {
   key: "asana-list-organizations-options",
   name: "List Organizations Options",
   description: "Returns all Asana workspaces for the authenticated account that are organizations (i.e. `is_organization: true`). Use this to obtain organization GIDs for org-scoped actions. Prefer **List Workspaces** when you need all workspaces including non-organization ones. Returns an array of `{label, value}` pairs where `value` is the organization GID. Example: returns `[{label: 'Acme Corp', value: '1200123456789012'}]`. [See the documentation](https://developers.asana.com/reference/getworkspaces)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   ai: "optimized",
   annotations: {

@@ -49,7 +49,7 @@ export default {
   key: "google_docs-insert-date",
   name: "Insert Date",
   description: "Insert a date smart chip into a Google Doc: a real date chip readers can click, not typed text. Use it for due dates, meeting dates, deadlines and timelines. Pass a calendar date (`2026-11-14`), or a date and time plus **Time Zone** to show the time as well (`2026-11-14T15:00` with `America/New_York` -> `Nov 14, 2026 3:00 PM EST`). Place the chip with **Placeholder** (replace text such as `{{due}}` that you wrote with **Insert Text**) or with **Position**; in a multi-tab document either set **Tab ID** (from **List Tabs**) or use **Placeholder**. Use **Find Document** to resolve a document's name to its ID. Example: call with documentId=`1AbC...`, date=`2026-11-14`, placeholder=`{{due}}` -> a chip reading `Nov 14, 2026`; returns `chipsInserted`, each chip's `tabId` and `index`, and the document `url`. [See the documentation](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents/request#InsertDateRequest)",
-  version: "0.0.1",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -173,7 +173,9 @@ export default {
     const result = await this.insertChips();
     $.export("$summary", `Inserted ${result.chipsInserted} date chip${result.chipsInserted === 1
       ? ""
-      : "s"} for ${this.date} into document ${this.documentId}`);
+      : "s"} for ${this.date} into document ${this.documentId}${this.suggestMode
+      ? " as a suggestion"
+      : ""}`);
     return result;
   },
 };

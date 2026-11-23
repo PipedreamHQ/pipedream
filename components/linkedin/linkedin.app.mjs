@@ -98,18 +98,21 @@ export default {
       type: "string",
       label: "Campaign Id",
       description: "Sponsored campaign account id to match results by",
-      async options({ page }) {
+      async options({
+        page, adAccountId,
+      }) {
         const count = 10;
         const params = {
           count,
           start: count * page,
         };
         const { elements } = await this.searchCampaigns({
+          adAccountId,
           params,
         });
         return elements?.map((element) => ({
           label: element.name,
-          id: element.id,
+          value: element.id,
         }));
       },
     },
@@ -299,9 +302,11 @@ export default {
         ...args,
       });
     },
-    async searchCampaigns(args = {}) {
+    async searchCampaigns({
+      adAccountId, ...args
+    } = {}) {
       return this._makeRequest({
-        path: "/adCampaigns?q=search",
+        path: `/adAccounts/${adAccountId}/adCampaigns?q=search`,
         ...args,
       });
     },

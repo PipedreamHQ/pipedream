@@ -4,7 +4,7 @@ export default {
   key: "microsoft_teams-search-messages",
   name: "Search Messages",
   description: "Search for email or chat messages. [See the documentation](https://learn.microsoft.com/en-us/graph/api/search-query?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

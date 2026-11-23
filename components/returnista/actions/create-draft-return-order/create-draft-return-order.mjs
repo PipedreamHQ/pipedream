@@ -8,7 +8,7 @@ export default {
     + " Draft return orders are pending merchant review before being accepted or rejected."
     + " Use **Process Draft Return Order** to accept or reject the created draft."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#post-/consumer/-consumerId-/draft-return-order)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {

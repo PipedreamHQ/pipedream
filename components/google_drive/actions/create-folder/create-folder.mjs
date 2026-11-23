@@ -1,19 +1,22 @@
+import { ConfigurationError } from "@pipedream/platform";
 import {
   getListFilesOpts,
   toSingleLineString,
 } from "../../common/utils.mjs";
 import googleDrive from "../../google_drive.app.mjs";
 
-import {
-  GOOGLE_DRIVE_FOLDER_MIME_TYPE,
-  MY_DRIVE_VALUE,
-} from "../../common/constants.mjs";
+import { GOOGLE_DRIVE_FOLDER_MIME_TYPE } from "../../common/constants.mjs";
+
+// Escapes a value for use inside a single-quoted string in a Drive `q` query
+const escapeQueryValue = (value) => String(value)
+  .replace(/\\/g, "\\\\")
+  .replace(/'/g, "\\'");
 
 export default {
   key: "google_drive-create-folder",
   name: "Create Folder",
   description: "Create a new empty folder. [See the documentation](https://developers.google.com/drive/api/v3/reference/files/create) for more information",
-  version: "0.1.31",
+  version: "0.1.32",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -76,14 +79,15 @@ export default {
     const driveId = await this.googleDrive.getDriveId(drive);
 
     if (createIfUnique) {
-      let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name = '${name}' and trashed = false`;
-      if (parentId) {
-        q += ` and '${parentId}' in parents`;
-      } else if (drive === MY_DRIVE_VALUE) {
-        q += " and 'root' in parents";
-      } else {
-        q += ` and '${driveId}' in parents`;
+      if (!name) {
+        throw new ConfigurationError("A folder **Name** is required when **Create Only If Filename Is Unique?** is enabled.");
       }
+      let q = `mimeType = '${GOOGLE_DRIVE_FOLDER_MIME_TYPE}' and name = '${escapeQueryValue(name)}' and trashed = false`;
+      // Check where the folder will be created: the given parent, otherwise the
+      // top level of the selected shared drive, otherwise the My Drive root
+      // (driveId is unset or null for no drive / "My Drive" / legacy "myDrive").
+      const parent = parentId || driveId || "root";
+      q += ` and '${escapeQueryValue(parent)}' in parents`;
 
       const opts = getListFilesOpts(driveId, {
         // Used for querying 'shared with me' folders that the user does not have direct access to

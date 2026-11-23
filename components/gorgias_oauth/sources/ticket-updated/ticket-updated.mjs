@@ -7,7 +7,7 @@ export default {
   key: "gorgias_oauth-ticket-updated",
   name: "New Updated Ticket",
   description: "Emit new event when a ticket is updated. [See the documentation](https://developers.gorgias.com/reference/the-event-object)",
-  version: "0.2.4",
+  version: "0.2.5",
   type: "source",
   props: {
     ...base.props,
@@ -51,7 +51,11 @@ export default {
       };
     },
     async processEvent(event) {
-      const { ticket } = event;
+      const ticket = event?.ticket;
+      if (!ticket?.id) {
+        console.log("Skipping webhook delivery without a ticket");
+        return;
+      }
       if (this.isRelevant(ticket)) {
         const enrichedTicket = await this.enrichTicketWithCustomFields(ticket);
         this.emitEvent(enrichedTicket);

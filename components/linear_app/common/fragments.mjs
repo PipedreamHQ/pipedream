@@ -101,6 +101,27 @@ export default {
       }
     }
   `,
+  documentComment: `
+    fragment DocumentComment on Comment {
+      id
+      body
+      createdAt
+      updatedAt
+      resolvedAt
+      quotedText
+      parent {
+        id
+      }
+      user {
+        id
+        name
+      }
+      resolvingUser {
+        id
+        name
+      }
+    }
+  `,
   project: `
     fragment Project on Project {
       id
@@ -254,6 +275,63 @@ export default {
       }
       creator {
         id
+      }
+    }
+  `,
+  issueMutationResult: `
+    fragment IssueMutationResult on Issue {
+      id
+      identifier
+      title
+      url
+      state {
+        id
+        name
+      }
+    }
+  `,
+  commentMutationResult: `
+    fragment CommentMutationResult on Comment {
+      id
+      body
+      url
+      issue {
+        id
+        identifier
+        url
+      }
+    }
+  `,
+  documentMutationResult: `
+    fragment DocumentMutationResult on Document {
+      id
+      title
+      slugId
+      url
+      icon
+      color
+      createdAt
+      updatedAt
+      project {
+        id
+        name
+      }
+      initiative {
+        id
+        name
+      }
+      team {
+        id
+        name
+      }
+      issue {
+        id
+        identifier
+        title
+      }
+      owner {
+        id
+        name
       }
     }
   `,

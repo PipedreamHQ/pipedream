@@ -5,7 +5,7 @@ export default {
   name: "List Teams",
   description: "Lists all teams the authenticated user has joined. [See the documentation](https://learn.microsoft.com/en-us/graph/api/user-list-joinedteams)",
   type: "action",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

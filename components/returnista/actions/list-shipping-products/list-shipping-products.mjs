@@ -5,7 +5,7 @@ export default {
   name: "List Shipping Products",
   description: "Returns all shipping product options available in Returnista, including carrier integrations, label types, and product codes."
     + " [See the documentation](https://platform.returnista.com/reference/rest-api/#get-/shipping-products)",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

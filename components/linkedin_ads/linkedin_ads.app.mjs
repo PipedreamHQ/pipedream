@@ -161,9 +161,15 @@ export default {
       };
     },
     getSponsoredAccountUrn(id) {
+      if (String(id).startsWith("urn:li:sponsoredAccount:")) {
+        return id;
+      }
       return `urn:li:sponsoredAccount:${id}`;
     },
     getSponsoredCampaignUrn(id) {
+      if (String(id).startsWith("urn:li:sponsoredCampaign:")) {
+        return id;
+      }
       return `urn:li:sponsoredCampaign:${id}`;
     },
     getOrganizationUrn(id) {
