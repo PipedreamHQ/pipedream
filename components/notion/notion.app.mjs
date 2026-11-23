@@ -6,43 +6,74 @@ class NotionPageToMarkdown extends NotionToMarkdown {
   constructor(options) {
     super(options);
     this.childBlocks = new Map();
-    this.subpages = [];
+  }
+
+  indexChildBlocks(blocks, exposesTitles = true) {
+    for (const block of blocks) {
+      if (block.type === "child_page" || block.type === "quote") {
+        this.childBlocks.set(block.children, {
+          block,
+          exposesTitles,
+        });
+      }
+      const exposesChildTitles = block.type === "child_page"
+        || block.type === "synced_block"
+        || block.type === "column_list"
+        || block.type === "column";
+      this.indexChildBlocks(block.children, exposesTitles && exposesChildTitles);
+    }
   }
 
   renderPages(blocks) {
-    const output = this.toMarkdownString(blocks);
-    for (const [
-      blockId,
-      markdown,
-    ] of this.subpages) {
-      const base = `parent (${blockId})`;
+    this.indexChildBlocks(blocks);
+    const output = new Map(Object.entries(this.toMarkdownString(blocks)));
+    const subpages = [];
+    const pagesByTitle = new Map();
+    for (const {
+      block, exposesTitles,
+    } of this.childBlocks.values()) {
+      if (block.type !== "child_page") continue;
+      const { parent: markdown } = super.toMarkdownString(block.children);
+      if (markdown === undefined) continue;
+
+      const {
+        parent: title, blockId,
+      } = block;
+      const page = {
+        title,
+        blockId,
+        markdown,
+        exposesTitles,
+      };
+      subpages.push(page);
+      if (title !== "parent" && (exposesTitles || !pagesByTitle.get(title)?.exposesTitles)) {
+        pagesByTitle.set(title, page);
+        output.set(title, markdown);
+      }
+    }
+    for (const page of subpages) {
+      const {
+        title, blockId, markdown,
+      } = page;
+      if (pagesByTitle.get(title) === page) continue;
+
+      const base = `${title} (${blockId})`;
       let key = base;
-      for (let suffix = 2; Object.hasOwn(output, key); suffix++) {
+      for (let suffix = 2; output.has(key); suffix++) {
         key = `${base} ${suffix}`;
       }
-      output[key] = markdown;
+      output.set(key, markdown);
     }
-    return output;
+    return Object.fromEntries(output);
   }
 
   toMarkdownString(blocks, pageIdentifier, nestingLevel) {
-    for (const block of blocks) {
-      if (block.type === "quote" || (block.type === "child_page" && block.parent === "parent")) {
-        this.childBlocks.set(block.children, block);
-      }
-    }
+    const block = this.childBlocks.get(blocks)?.block;
+    if (block?.type === "child_page") return {};
 
-    const subpageCount = this.subpages.length;
     const output = super.toMarkdownString(blocks, pageIdentifier, nestingLevel);
-    const block = this.childBlocks.get(blocks);
-    if (block?.type === "child_page" && Object.hasOwn(output, "parent")) {
-      this.subpages.push([
-        block.blockId,
-        output.parent,
-      ]);
-      delete output.parent;
-    } else if (block?.type === "quote" && this.subpages.length > subpageCount) {
-      output.parent ??= output[pageIdentifier] ?? "";
+    if (block?.type === "quote") {
+      output.parent ??= "";
     }
     return output;
   }
