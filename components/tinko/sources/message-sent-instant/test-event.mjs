@@ -1,0 +1,52 @@
+export default {
+  event: "MESSAGE_SENT",
+  message: {
+    id: "01JD8Y4R7Y0L4N6P8Q2S5U7W9X",
+    content: "Your order left our warehouse today and arrives on Monday.",
+    type: "text",
+    file: null,
+    direction: "outgoing",
+    visibility: "client",
+    reply_to: null,
+    created_at: "2026-11-22T14:07:40.000000Z",
+  },
+  chat: {
+    id: "01JD8Y1B2C3D4E5F6G7H8J9K0M",
+    status: "entrance",
+    channel: {
+      id: "01JC0A1B2C3D4E5F6G7H8J9K0N",
+      name: "Support WhatsApp",
+      type: "waba",
+    },
+    is_open: true,
+    pined: false,
+    notification: true,
+    unread_count: 0,
+    opened_at: "2026-11-22T14:05:12.000000Z",
+    created_at: "2026-11-22T14:05:12.000000Z",
+    updated_at: "2026-11-22T14:07:40.000000Z",
+  },
+  users: [
+    {
+      id: "01JA7X1A2B3C4D5E6F7G8H9J0P",
+      name: "Ana Souza",
+      email: "ana@example.com",
+      avatar: null,
+    },
+  ],
+  contact: {
+    phone: "+55 11 99999 9999",
+    type: "contact",
+    name: "Nathan Smith",
+    avatar: null,
+    blocked: false,
+    custom_fields: {
+      Email: "nathan@example.com",
+    },
+    tags: [],
+    created_at: "2026-10-01T12:00:00.000000Z",
+    updated_at: "2026-11-22T14:07:40.000000Z",
+  },
+  timestamp: "2026-11-22T14:07:41+00:00",
+  webhook_id: "whk_674090a5b2c3d",
+};

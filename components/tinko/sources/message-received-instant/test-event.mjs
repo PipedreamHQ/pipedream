@@ -1,0 +1,51 @@
+export default {
+  event: "MESSAGE_RECEIVED",
+  message: {
+    id: "01JD8Y2Q6X9K3M5N7P1R4T6V8W",
+    content: "Hi, I would like to know the status of my order",
+    type: "text",
+    file: null,
+    direction: "incoming",
+    visibility: "client",
+    reply_to: null,
+    created_at: "2026-11-22T14:05:12.000000Z",
+  },
+  chat: {
+    id: "01JD8Y1B2C3D4E5F6G7H8J9K0M",
+    status: "waiting",
+    channel: {
+      id: "01JC0A1B2C3D4E5F6G7H8J9K0N",
+      name: "Support WhatsApp",
+      type: "waba",
+    },
+    is_open: true,
+    pined: false,
+    notification: true,
+    unread_count: 1,
+    opened_at: "2026-11-22T14:05:12.000000Z",
+    created_at: "2026-11-22T14:05:12.000000Z",
+    updated_at: "2026-11-22T14:05:12.000000Z",
+  },
+  users: [],
+  contact: {
+    phone: "+55 11 99999 9999",
+    type: "contact",
+    name: "Nathan Smith",
+    avatar: null,
+    blocked: false,
+    custom_fields: {
+      Email: "nathan@example.com",
+    },
+    tags: [
+      {
+        id: "01JB9Z1A2B3C4D5E6F7G8H9J0K",
+        name: "VIP Customer",
+        color: "#27D366",
+      },
+    ],
+    created_at: "2026-10-01T12:00:00.000000Z",
+    updated_at: "2026-11-22T14:05:12.000000Z",
+  },
+  timestamp: "2026-11-22T14:05:13+00:00",
+  webhook_id: "whk_6740900966f1a",
+};

@@ -1076,3 +1076,6 @@ UX
 taskSchedulerURL
 taskId
 codebase
+Tinko
+HMAC
+omnichannel
