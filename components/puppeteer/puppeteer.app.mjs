@@ -42,7 +42,6 @@ export default {
             "--disable-web-security",
             "--font-render-hinting=none",
           ],
-          headless: "shell",
         }),
         protocolTimeout: 240000,
         ...opts,
