@@ -4,7 +4,7 @@ export default {
   key: "mailkite-list-messages",
   name: "List Messages",
   description:
-    "List stored messages, newest first. Use this to find the `threadId` that **Send Email**'s In-Reply-To accepts, or a message ID for another MailKite step. Each result keeps its `thread_id` and adds `threadId` (the conversation key, falling back to the message's own id). [See the documentation](https://mailkite.dev/api/messages).",
+    "List stored messages, newest first. Use this to find the `threadId` that **Send Email**'s In-Reply-To accepts, or a message ID for another MailKite step. Each result keeps its `thread_id` and adds `threadId`; both are null when the message has no usable threading id, so a reply cannot be threaded from that row. [See the documentation](https://mailkite.dev/api/messages).",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -48,7 +48,7 @@ export default {
     });
     const messages = (rows ?? []).map((m) => ({
       ...m,
-      threadId: m.thread_id ?? m.id,
+      threadId: m.thread_id ?? null,
     }));
 
     $.export(

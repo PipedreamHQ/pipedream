@@ -20,7 +20,8 @@ This app provides five components:
 - **List Domains** — an action that lists the account's domains, so you can find the **Domain ID**
   (`dom_…`, the `id` field) without the dropdown picker.
 - **List Messages** — an action that lists stored mail, newest first, and returns each message's
-  `threadId`, so a workflow can reply into an existing conversation with **Send Email**.
+  `threadId` (null when it has none), so a workflow can reply into an existing conversation with
+  **Send Email**.
 - **List Templates** — an action that lists the account's saved `tpl_…` templates and MailKite's
   premade `base_…` catalog, so you can find the `Template ID` that **Send Email** accepts.
 

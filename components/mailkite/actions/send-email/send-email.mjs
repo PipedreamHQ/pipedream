@@ -122,7 +122,7 @@ export default {
       type: "string",
       label: "In-Reply-To",
       description:
-        "The thread identifier of the message this one replies to — pass the `threadId` field from a **New Inbound Email (Instant)** event, or the `threadId` returned by **List Messages**, e.g. `<CABc123@mail.example.com>`. Sets the `In-Reply-To` and `References` headers so the reply joins that conversation.",
+        "The thread identifier of the message this one replies to — pass the `threadId` field from a **New Inbound Email (Instant)** event, or the `threadId` returned by **List Messages**, e.g. `<CABc123@mail.example.com>`. Both are null when the message had no threading id, in which case it cannot be replied to in-thread. Sets the `In-Reply-To` and `References` headers so the reply joins that conversation.",
       optional: true,
     },
     attachments: {
