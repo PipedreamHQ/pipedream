@@ -3,7 +3,7 @@ import utils from "../../common/utils.mjs";
 
 export default {
   key: "google_photos-list-library-contents",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -11,7 +11,7 @@ export default {
   },
   type: "action",
   name: "List Library Contents",
-  description: "Retrieves library contents [See the documentation](https://developers.google.com/photos/library/guides/list#listing-library-contents)",
+  description: "Lists media items in Google Photos. Google's API only returns items created through this app (e.g. uploaded with **Upload Item**), not the rest of the user's library, so an empty result does not mean the library is empty. [See the documentation](https://developers.google.com/photos/library/guides/list#listing-library-contents)",
   props: {
     app,
   },
@@ -27,8 +27,9 @@ export default {
     for await (const item of resourcesStream) {
       items.push(item);
     }
-    // eslint-disable-next-line multiline-ternary
-    $.export("$summary", `${items.length} album${items.length == 1 ? "" : "s"} found.`);
+    $.export("$summary", `${items.length} media item${items.length === 1
+      ? ""
+      : "s"} found.`);
     return items;
   },
 };

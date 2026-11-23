@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-list-event",
   name: "New List Event (Instant)",
   description: "Emit new event when the following occurs on an audience list: a campaign is sent or cancelled, a subscriber is added, unsubscribed, has a profile update, or has the associated email address changed, or cleaned.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

@@ -8,7 +8,7 @@ export default {
   key: "mailchimp-update-campaign",
   name: "Update Campaign",
   description: "Update a campaign. [See the documentation](https://mailchimp.com/developer/marketing/api/campaigns/update-campaign-settings/)",
-  version: "1.0.0",
+  version: "1.0.1",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

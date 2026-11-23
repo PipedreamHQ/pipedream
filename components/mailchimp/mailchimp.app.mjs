@@ -719,6 +719,13 @@ export default {
         method: "post",
       });
     },
+    async listTemplates($, params) {
+      return this._makeRequest({
+        $,
+        path: "/templates",
+        params,
+      });
+    },
     async editCampaignTemplate($, {
       campaignId, ...data
     }) {
