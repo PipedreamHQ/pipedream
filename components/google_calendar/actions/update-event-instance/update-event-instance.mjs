@@ -4,8 +4,8 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event-instance",
   name: "Update Event Instance",
-  description: "Update a single occurrence of a recurring event. Changes apply only to that instance and only the fields you supply change; reminders, attendees and all other fields are kept. Set `Show As` to mark the instance as Free or Busy, or `Color ID` to recolor it. When only `Color ID` and/or `Show As` are supplied, just your own copy changes and no notifications are sent, so this also works on meetings you don't organize. Use **List Event Instances** to find the instance, or **Update Event** to change the whole series. Returns the updated instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
-  version: "0.2.0",
+  description: "Update a single occurrence of a recurring event. Changes apply only to that instance and only the fields you supply change; reminders, attendees and all other fields are kept. Set `Show As` to mark the instance as Free or Busy, or `Color ID` to recolor it. Set `Conference URL` to switch the video link to Zoom or another provider (replacing Google Meet), or `Remove Conference` to drop it. When only `Color ID` and/or `Show As` are supplied, just your own copy changes and no notifications are sent, so this also works on meetings you don't organize. Use **List Event Instances** to find the instance, or **Update Event** to change the whole series. Returns the updated instance. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/update)",
+  version: "0.3.0",
   ai: "optimized",
   type: "action",
   annotations: {
@@ -92,6 +92,9 @@ export default {
         "transparency",
       ],
     },
+    ...createEventCommon.conferenceProps({
+      isUpdate: true,
+    }),
     timeZone: {
       propDefinition: [
         googleCalendar,
@@ -108,6 +111,8 @@ export default {
   },
   methods: createEventCommon.methods,
   async run({ $ }) {
+    const conferenceUrl = this.getConferenceUrl();
+
     if (this.isPersonalFieldsOnlyUpdate()) {
       const response = await this.patchPersonalFields(this.instanceId);
 
@@ -127,28 +132,32 @@ export default {
       ? suppliedAttendees
       : currentEvent.attendees;
 
+    // `update` is a full replace; unsupplied fields would be wiped
+    const requestBody = {
+      ...currentEvent,
+      summary: this.summary || currentEvent.summary,
+      location: this.location || currentEvent.location,
+      description: this.description || currentEvent.description,
+      start: this.getDateParam({
+        date: this.eventStartDate || currentEvent.start.dateTime || currentEvent.start.date,
+        timeZone: timeZone || currentEvent.start.timeZone,
+      }),
+      end: this.getDateParam({
+        date: this.eventEndDate || currentEvent.end.dateTime || currentEvent.end.date,
+        timeZone: timeZone || currentEvent.end.timeZone,
+      }),
+      attendees,
+      colorId: this.colorId || currentEvent.colorId,
+      transparency: this.transparency || currentEvent.transparency,
+    };
+    const conferenceDataVersion = this.applyConferenceChange(requestBody, conferenceUrl);
+
     const response = await this.googleCalendar.updateEvent({
       calendarId: this.calendarId,
       eventId: this.instanceId,
       sendUpdates: this.sendUpdates || undefined,
-      // `update` is a full replace; unsupplied fields would be wiped
-      requestBody: {
-        ...currentEvent,
-        summary: this.summary || currentEvent.summary,
-        location: this.location || currentEvent.location,
-        description: this.description || currentEvent.description,
-        start: this.getDateParam({
-          date: this.eventStartDate || currentEvent.start.dateTime || currentEvent.start.date,
-          timeZone: timeZone || currentEvent.start.timeZone,
-        }),
-        end: this.getDateParam({
-          date: this.eventEndDate || currentEvent.end.dateTime || currentEvent.end.date,
-          timeZone: timeZone || currentEvent.end.timeZone,
-        }),
-        attendees,
-        colorId: this.colorId || currentEvent.colorId,
-        transparency: this.transparency || currentEvent.transparency,
-      },
+      conferenceDataVersion,
+      requestBody,
     });
 
     $.export("$summary", `Successfully updated event instance \`${response.id}\``);

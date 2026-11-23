@@ -74,7 +74,83 @@ export default {
       },
     }
   ),
+  conferenceProps: ({ isUpdate }) => ({
+    conferenceUrl: {
+      label: "Conference URL",
+      type: "string",
+      description: `Join URL of a Zoom, Microsoft Teams, Webex or other video meeting to attach as the event's conference, shown in Google Calendar as a join button, e.g. \`https://zoom.us/j/1234567890\`. Google Calendar can't create Zoom meetings: create one first with **Zoom > Create Meeting** and pass its \`join_url\`.${isUpdate
+        ? " Replaces the event's current conference, including a Google Meet link."
+        : " Not used with `Create Meet Room`."}`,
+      optional: true,
+    },
+    conferenceName: {
+      label: "Conference Name",
+      type: "string",
+      description: "Name shown for the conference, e.g. `Zoom Meeting`. Defaults to the provider name for Zoom, Microsoft Teams and Webex links, otherwise `Video Meeting`. Only used with `Conference URL`.",
+      optional: true,
+    },
+    ...(isUpdate && {
+      removeConference: {
+        label: "Remove Conference",
+        type: "boolean",
+        description: "Set to `true` to remove the event's video conference, such as a Google Meet or Zoom link. Not used with `Conference URL`.",
+        optional: true,
+      },
+    }),
+  }),
   methods: {
+    getConferenceUrl() {
+      const value = this.conferenceUrl?.trim();
+      if (!value) {
+        return;
+      }
+      const url = URL.canParse(value)
+        ? new URL(value)
+        : null;
+      if (![
+        "http:",
+        "https:",
+      ].includes(url?.protocol)) {
+        throw new ConfigurationError(`\`Conference URL\` must be an http(s) URL, got \`${value}\``);
+      }
+      if (this.createMeetRoom || this.removeConference) {
+        throw new ConfigurationError("`Conference URL` can't be combined with `Create Meet Room` or `Remove Conference`: set only one.");
+      }
+      return url;
+    },
+    buildConferenceData(url) {
+      const host = url.hostname.toLowerCase();
+      const provider = constants.CONFERENCE_NAMES_BY_DOMAIN.find(
+        ({ domain }) => host === domain || host.endsWith(`.${domain}`),
+      );
+      return {
+        conferenceSolution: {
+          key: {
+            type: constants.CONFERENCE_SOLUTION_TYPE_ADD_ON,
+          },
+          name: this.conferenceName?.trim()
+            || provider?.name
+            || constants.DEFAULT_CONFERENCE_NAME,
+        },
+        entryPoints: [
+          {
+            entryPointType: constants.CONFERENCE_ENTRY_POINT_TYPE_VIDEO,
+            uri: url.href,
+          },
+        ],
+      };
+    },
+    applyConferenceChange(resource, conferenceUrl) {
+      if (conferenceUrl) {
+        resource.conferenceData = this.buildConferenceData(conferenceUrl);
+        return constants.CONFERENCE_DATA_VERSION;
+      }
+      if (this.removeConference) {
+        delete resource.conferenceData;
+        delete resource.hangoutLink;
+        return constants.CONFERENCE_DATA_VERSION;
+      }
+    },
     hasSharedFieldInput() {
       return [
         this.summary,
@@ -89,6 +165,8 @@ export default {
         this.repeatUntil,
         this.repeatSpecificDays?.length,
         this.timeZone,
+        this.conferenceUrl?.trim(),
+        this.removeConference,
       ].some(Boolean);
     },
     isPersonalFieldsOnlyUpdate() {
