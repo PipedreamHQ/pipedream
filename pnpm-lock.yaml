@@ -28370,6 +28370,15 @@ packages:
       debug:
         optional: true
 
+  follow-redirects@1.16.0:
+    resolution: {integrity: sha512-y5rN/uOsadFT/JfYwhxRS5R7Qce+g3zG97+JrtFZlC9klX/W5hD7iiLzScI4nZqUS7DNUdhPgw4xI8W2LuXlUw==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+
   follow-redirects@1.16.2:
     resolution: {integrity: sha512-/kVP2U8z596Ia0gwFrwyIeo74ta5aVmSeU1FfAUMAmcEP5EP7zydmag3SLiN64NaRKef3lxsq7i/g7ltJQDGow==}
     engines: {node: '>=4.0'}
@@ -49221,13 +49230,13 @@ snapshots:
 
   follow-redirects@1.15.11: {}
 
-  follow-redirects@1.16.2(debug@3.2.7):
-    optionalDependencies:
-      debug: 3.2.7
-
   follow-redirects@1.16.0(debug@4.4.3):
     optionalDependencies:
       debug: 4.4.3(supports-color@5.5.0)
+
+  follow-redirects@1.16.2(debug@3.2.7):
+    optionalDependencies:
+      debug: 3.2.7
 
   follow-redirects@1.16.2(debug@4.4.3):
     optionalDependencies:
