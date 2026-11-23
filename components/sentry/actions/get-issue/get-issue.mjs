@@ -62,15 +62,7 @@ export default {
       "firstRelease",
       "lastRelease",
     ];
-    let issue;
-    try {
-      issue = await this.app.getIssue(this.organizationIdOrSlug, this.issueId);
-    } catch (err) {
-      if (err.response?.status === 404) {
-        throw new Error(`Issue ${this.issueId} not found in organization ${this.organizationIdOrSlug}. Check the organization slug and that the issue id is a numeric id or short id like \`PROJECT-123\`.`);
-      }
-      throw err;
-    }
+    const issue = await this.app.getIssue(this.organizationIdOrSlug, this.issueId);
     const names = this.fields?.length
       ? this.fields
       : defaultFields;
