@@ -367,7 +367,7 @@ export default {
       });
     },
     async getIssue(organizationSlug, issueId) {
-      const url = `${this._apiUrl()}/organizations/${organizationSlug}/issues/${issueId}/`;
+      const url = `${this._apiUrl()}/organizations/${organizationSlug}/issues/${encodeURIComponent(issueId)}/`;
       const requestConfig = this._makeRequestConfig();
       return axios(this, {
         ...requestConfig,
