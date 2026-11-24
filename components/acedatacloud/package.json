@@ -1,26 +1,12 @@
 {
   "name": "@pipedream/acedatacloud",
-  "version": "0.1.1",
-  "description": "Ace Data Cloud chat, image, video, music, speech and embedding actions for Pipedream Connect and MCP",
+  "version": "0.0.1",
+  "description": "Ace Data Cloud chat actions for Pipedream",
   "main": "acedatacloud.app.mjs",
   "keywords": [
     "pipedream",
     "acedatacloud",
-    "ace-data-cloud",
-    "suno",
-    "seedance",
-    "happyhorse",
-    "happy-horse",
-    "gpt-image",
-    "nano-banana",
-    "chat",
-    "image",
-    "video",
-    "audio",
-    "acemusic",
-    "hailuo",
-    "luma",
-    "producer"
+    "chat"
   ],
   "homepage": "https://pipedream.com/apps/acedatacloud",
   "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
@@ -28,8 +14,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@pipedream/platform": "^3.1.1",
-    "form-data": "^4.0.4"
+    "@pipedream/platform": "^3.1.1"
   },
   "scripts": {
     "test": "node --test common/test/*.test.mjs"
