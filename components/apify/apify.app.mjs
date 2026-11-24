@@ -242,6 +242,15 @@ export default {
       return this._client().task(taskId)
         .start(input, params);
     },
+    callTask({
+      taskId, params, input, waitSecs,
+    }) {
+      return this._client().task(taskId)
+        .call(input, {
+          ...params,
+          waitSecs,
+        });
+    },
     getTask(taskId) {
       return this._client().task(taskId)
         .get();
