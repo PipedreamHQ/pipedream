@@ -52,16 +52,22 @@ async function run(articleIds, answer) {
   };
 }
 
-test("an article the Knowledge API returns is readable; an empty answer is not", async () => {
+test("an article the Knowledge API returns is readable; an error_msg answer is not", async () => {
   const { result } = await run([
     id("1"),
     id("2"),
-  ], (article) => (article === id("1")
-    ? {
+    id("3"),
+  ], (article) => {
+    if (article === id("1")) return {
       sys_id: article,
       number: "KB0001",
-    }
-    : {}));
+    };
+    return {
+      error_msg: article === id("2")
+        ? "You do not have sufficient privileges to access this knowledge item"
+        : "Knowledge article not found",
+    };
+  });
   assert.deepEqual(result, [
     {
       sys_id: id("1"),
@@ -70,6 +76,11 @@ test("an article the Knowledge API returns is readable; an empty answer is not",
     },
     {
       sys_id: id("2"),
+      can_read: false,
+      reason: "not_readable",
+    },
+    {
+      sys_id: id("3"),
       can_read: false,
       reason: "not_readable",
     },
@@ -84,9 +95,23 @@ test("an answer for another article is not a read of this one", async () => {
   }));
   assert.deepEqual(result[0], {
     sys_id: id("1"),
-    can_read: false,
-    reason: "not_readable",
+    can_read: null,
+    reason: "check_failed",
   });
+});
+
+test("upper-case sys_ids are accepted and lowercased", async () => {
+  const { calls } = await run([
+    id("A"),
+    id("a"),
+  ], (article) => ({
+    sys_id: article,
+  }));
+  assert.deepEqual(calls.map(([
+    article,
+  ]) => article), [
+    id("a"),
+  ]);
 });
 
 test("asks once per distinct article, without counting a view", async () => {
@@ -105,7 +130,7 @@ test("asks once per distinct article, without counting a view", async () => {
   ]);
   assert.ok(calls.every(([
     , params,
-  ]) => !("update_view" in params) && !("search_id" in params)));
+  ]) => params === undefined));
 });
 
 test("a 403 is unreadable and any other request error check_failed, per article", async () => {
@@ -139,15 +164,17 @@ test("a 403 is unreadable and any other request error check_failed, per article"
   ]);
 });
 
-test("a response that is not an article is check_failed, never readable", async () => {
-  const { result } = await run([
-    id("1"),
-  ], () => "<html>maintenance</html>");
-  assert.deepEqual(result[0], {
-    sys_id: id("1"),
-    can_read: null,
-    reason: "check_failed",
-  });
+test("a response that is not an article or an error_msg is check_failed, never readable", async () => {
+  const answers = [
+    "<html>maintenance</html>",
+    null,
+    undefined,
+    [],
+    {},
+  ];
+  const articleIds = answers.map((_, i) => id(String(i + 1)));
+  const { result } = await run(articleIds, (article) => answers[articleIds.indexOf(article)]);
+  assert.ok(result.every((row) => row.can_read === null && row.reason === "check_failed"));
 });
 
 test("a broken connection (401) or a bug fails the whole action", async () => {
@@ -185,7 +212,9 @@ test("the summary counts readable and undetermined articles", async () => {
       ? {
         sys_id: article,
       }
-      : {};
+      : {
+        error_msg: "Knowledge article not found",
+      };
   });
   assert.equal(summary, "The connected user may read 1 of 3 article(s); 1 could not be determined");
 });

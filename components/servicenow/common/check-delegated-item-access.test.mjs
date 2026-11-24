@@ -20,8 +20,14 @@ const requestError = (status, code) => Object.assign(new Error(status
     : undefined,
 });
 
-// Runs the action with `answer(itemSysId, userSysId)` standing in for the delegation endpoint.
-async function run(itemIds, answer, userSysId = U) {
+const activeRecipient = (user) => ({
+  sys_id: user,
+  active: "true",
+});
+
+// Runs the action with `answer(itemSysId, userSysId)` standing in for the delegation endpoint and
+// `recipient(userSysId)` for the recipient's sys_user record.
+async function run(itemIds, answer, userSysId = U, recipient = activeRecipient) {
   const calls = [];
   const summary = {};
   const self = {
@@ -29,6 +35,12 @@ async function run(itemIds, answer, userSysId = U) {
     userSysId,
     catalogItemSysIds: itemIds,
     servicenow: {
+      async getTableRecordById({
+        table, recordId,
+      }) {
+        assert.equal(table, "sys_user");
+        return recipient(recordId);
+      },
       async checkDelegatedItemAccess({
         catalogItemSysId, userSysId: user,
       }) {
@@ -58,9 +70,14 @@ test("maps ServiceNow's answer for each item, in input order", async () => {
   const { result } = await run([
     id("1"),
     id("2"),
-  ], (item) => ({
-    result: item === id("1"),
-  }));
+  ], (item) => (item === id("1")
+    ? {
+      result: true,
+    }
+    : {
+      result: false,
+      errMsg: "Item is unavailable for this user",
+    }));
   assert.deepEqual(result, [
     {
       sys_id: id("1"),
@@ -72,6 +89,91 @@ test("maps ServiceNow's answer for each item, in input order", async () => {
       can_request: false,
       reason: "delegation_denied",
     },
+  ]);
+});
+
+test("a 400 (ServiceNow refuses delegation on the item) is item_unavailable", async () => {
+  const { result } = await run([
+    id("1"),
+  ], () => {
+    throw requestError(400);
+  });
+  assert.deepEqual(result[0], {
+    sys_id: id("1"),
+    can_request: false,
+    reason: "item_unavailable",
+  });
+});
+
+test("an inactive or unknown recipient is refused without asking about any item", async () => {
+  const never = () => assert.fail("delegation was checked");
+  const inactive = await run([
+    id("1"),
+    id("2"),
+  ], never, U, (user) => ({
+    sys_id: user,
+    active: "false",
+  }));
+  assert.ok(inactive.result.every((row) => row.can_request === false && row.reason === "recipient_inactive"));
+  assert.equal(inactive.summary, `0 of 2 catalog item(s) may be requested for user ${U} (recipient_inactive)`);
+  const missing = await run([
+    id("1"),
+  ], never, U, () => {
+    throw requestError(404);
+  });
+  assert.deepEqual(missing.result[0], {
+    sys_id: id("1"),
+    can_request: false,
+    reason: "recipient_not_found",
+  });
+});
+
+test("a recipient lookup that fails leaves every item undetermined", async () => {
+  const never = () => assert.fail("delegation was checked");
+  for (const [
+    lookup,
+    reason,
+  ] of [
+      [
+        () => {
+          throw requestError(403);
+        },
+        "unreadable",
+      ],
+      [
+        () => {
+          throw requestError(500);
+        },
+        "check_failed",
+      ],
+      [
+        () => null,
+        "check_failed",
+      ],
+    ]) {
+    const { result } = await run([
+      id("1"),
+    ], never, U, lookup);
+    assert.deepEqual(result[0], {
+      sys_id: id("1"),
+      can_request: null,
+      reason,
+    });
+  }
+});
+
+test("upper-case sys_ids are accepted and lowercased", async () => {
+  const { calls } = await run([
+    id("B"),
+    id("b"),
+  ], () => ({
+    result: true,
+  }), id("A"));
+  assert.deepEqual(calls, [
+    [
+      id("b"),
+      U,
+    ],
   ]);
 });
 
@@ -133,7 +235,7 @@ test("a response without a boolean is check_failed, never allowed", async () => 
     ? {
       result: "true",
     }
-    : {}));
+    : true));
   assert.ok(result.every((row) => row.can_request === null && row.reason === "check_failed"));
 });
 
