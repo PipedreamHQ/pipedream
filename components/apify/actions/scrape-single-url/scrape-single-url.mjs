@@ -70,6 +70,12 @@ export default {
     const url = this.url?.trim();
     this.validateUrl(url);
 
+    // `playwright:chrome` was removed from the options; steps saved with it
+    // get Firefox, which Website Content Crawler itself substitutes for it.
+    const crawlerType = this.crawlerType === "playwright:chrome"
+      ? "playwright:firefox"
+      : this.crawlerType;
+
     const {
       status,
       defaultDatasetId,
@@ -77,7 +83,7 @@ export default {
     } = await this.apify.runActor({
       actorId: WCC_ACTOR_ID,
       input: {
-        crawlerType: this.crawlerType,
+        crawlerType,
         maxCrawlDepth: 0,
         maxCrawlPages: 1,
         maxResults: 1,
