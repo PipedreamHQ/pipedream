@@ -1,4 +1,5 @@
 import firsttouch from "../../firsttouch.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "firsttouch-enroll-contact-in-flow",
@@ -11,6 +12,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     firsttouch,
     flowId: {
@@ -55,19 +57,19 @@ export default {
     phone: {
       type: "string",
       label: "Phone",
-      description: "The contact's phone number",
+      description: "The contact's phone number, e.g. `+1 512 555 0142`",
       optional: true,
     },
     customVariables: {
       type: "object",
       label: "Custom Variables",
-      description: "Values for the flow's custom inputs, by name. For example a `job_title` value fills the `ft.custom.job_title` placeholder in the flow's messages.",
+      description: "Values for the flow's custom inputs, by name. Values can be text, numbers or `true`/`false`, matching the flow's definitions, e.g. `{\"job_title\": \"VP Sales\", \"seats\": 12, \"is_customer\": false}`. A `job_title` value fills the `ft.custom.job_title` placeholder in the flow's messages.",
       optional: true,
     },
     enrollmentMode: {
       type: "string",
       label: "Enrollment Mode",
-      description: "Leave empty to use the flow's own setting",
+      description: "How to add the contact, e.g. `manual` to add them to Awaiting only. Leave empty to use the flow's own setting.",
       optional: true,
       options: [
         {
@@ -83,18 +85,13 @@ export default {
     skipExclusionCheck: {
       type: "boolean",
       label: "Skip Exclusion Check",
-      description: "Enroll even if the contact matches one of your FirstTouch exclusions",
+      description: "Set to `true` to enroll even if the contact matches one of your FirstTouch exclusions. Defaults to `false`.",
       optional: true,
       default: false,
     },
   },
   async run({ $ }) {
-    const clean = (value) => {
-      const text = String(value ?? "").trim();
-      return text === ""
-        ? null
-        : text;
-    };
+    const clean = utils.cleanText;
     const email = clean(this.email);
     const rawLinkedin = clean(this.linkedinUrl);
     const firstName = clean(this.firstName);
@@ -103,17 +100,7 @@ export default {
     if (!email && !rawLinkedin && !(firstName && lastName && domain)) {
       throw new Error("Provide an email, a LinkedIn profile URL, or first name + last name + company domain.");
     }
-    const customVariables = Object.fromEntries(Object.entries(this.customVariables || {})
-      .filter(([
-        key,
-      ]) => key.trim() !== "")
-      .map(([
-        key,
-        value,
-      ]) => [
-        key.trim(),
-        String(value ?? ""),
-      ]));
+    const customVariables = utils.cleanCustomVariables(this.customVariables);
     const response = await this.firsttouch.addManualFlowEnrollment({
       $,
       data: {
@@ -130,7 +117,7 @@ export default {
             lastName,
             email,
             linkedinUrl: rawLinkedin
-              ? this.firsttouch.normalizeProfileUrl(rawLinkedin)
+              ? utils.normalizeProfileUrl(rawLinkedin)
               : null,
             phone: clean(this.phone),
           },

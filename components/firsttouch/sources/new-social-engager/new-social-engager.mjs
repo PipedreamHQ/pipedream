@@ -19,7 +19,7 @@ export default {
     engagementType: {
       type: "string",
       label: "Engagement Type",
-      description: "Leave empty for reactions and comments",
+      description: "Only this kind of engagement, e.g. `comment`. Leave empty for reactions and comments.",
       optional: true,
       options: [
         {
@@ -36,15 +36,25 @@ export default {
   methods: {
     ...common.methods,
     async fetchEvents() {
-      const response = await this.firsttouch.listEngagers({
-        data: {
-          signalId: this.signalId,
-          engagementType: this.engagementType || undefined,
-          engagedFromUtc: this.daysAgoIso(7),
-          limit: 100,
-        },
+      const engagedFromUtc = this.daysAgoIso(7);
+      const engagers = await this.paginate(async (cursor) => {
+        const response = await this.firsttouch.listEngagers({
+          data: {
+            signalId: this.signalId,
+            engagementType: this.engagementType || undefined,
+            engagedFromUtc,
+            // Keep every engagement, not only each person's first one.
+            earliestEngagementPerContact: false,
+            limit: 100,
+            cursor,
+          },
+        });
+        return {
+          items: response.engagers?.items,
+          cursor: response.engagers?.cursor,
+        };
       });
-      return (response.engagers?.items || []).map((engager) => ({
+      return engagers.map((engager) => ({
         id: engager.id || `${engager.profile_url}:${engager.engaged_at}`,
         occurredAt: engager.engaged_at || "",
         data: engager,

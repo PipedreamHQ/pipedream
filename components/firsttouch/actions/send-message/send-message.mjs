@@ -11,6 +11,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     firsttouch,
     linkedinUrl: {
@@ -40,7 +41,7 @@ export default {
     message: {
       type: "string",
       label: "Message",
-      description: "The LinkedIn message to send",
+      description: "The exact LinkedIn message to send, e.g. `Hi Jane, thanks for connecting. Are you the right person to talk to about LinkedIn outreach at Acme?`",
     },
     email: {
       propDefinition: [

@@ -1,4 +1,5 @@
 import firsttouch from "../../firsttouch.app.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   key: "firsttouch-check-connection-status",
@@ -11,6 +12,7 @@ export default {
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     firsttouch,
     linkedinUrl: {
@@ -24,11 +26,11 @@ export default {
         firsttouch,
         "teammateId",
       ],
-      description: "Only check this teammate. Leave empty to check everyone on your team.",
+      description: "Only check this teammate. Select one from the list (it is loaded from your team members), or enter a user ID, e.g. `86632827-b7c3-4533-b2bb-04d6d9bda6cf`. Leave empty to check everyone on your team.",
     },
   },
   async run({ $ }) {
-    const linkedinUrl = this.firsttouch.normalizeProfileUrl(this.linkedinUrl);
+    const linkedinUrl = utils.normalizeProfileUrl(this.linkedinUrl);
     const response = await this.firsttouch.listTeamConnections({
       $,
       data: {

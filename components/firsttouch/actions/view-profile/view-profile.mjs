@@ -11,6 +11,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     firsttouch,
     linkedinUrl: {
@@ -36,7 +37,7 @@ export default {
         firsttouch,
         "senderId",
       ],
-      description: "The teammate whose LinkedIn account visits. Leave empty for the owner of the API key.",
+      description: "The teammate whose LinkedIn account visits. Select one from the list (it is loaded from your team members), or enter a user ID, e.g. `86632827-b7c3-4533-b2bb-04d6d9bda6cf`. Leave empty for the owner of the API key.",
     },
     email: {
       propDefinition: [

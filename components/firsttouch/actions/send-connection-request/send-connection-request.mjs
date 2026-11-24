@@ -11,6 +11,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     firsttouch,
     linkedinUrl: {
@@ -40,7 +41,7 @@ export default {
     note: {
       type: "string",
       label: "Note",
-      description: "Optional connection note, up to about 300 characters",
+      description: "Optional connection note, up to about 300 characters, e.g. `Hi Jane, I enjoyed your recent post on RevOps hiring. Would love to connect.`",
       optional: true,
     },
     email: {

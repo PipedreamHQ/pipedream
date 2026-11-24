@@ -11,6 +11,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     firsttouch,
     linkedinUrl: {
@@ -40,12 +41,12 @@ export default {
     subject: {
       type: "string",
       label: "Subject",
-      description: "The InMail subject, up to 200 characters",
+      description: "The InMail subject, up to 200 characters, e.g. `Quick question about outbound at Acme`",
     },
     body: {
       type: "string",
       label: "InMail Body",
-      description: "The InMail body, up to 1,900 characters",
+      description: "The exact InMail text, up to 1,900 characters, e.g. `Hi Jane, I saw Acme is hiring two SDRs. We help HubSpot teams run LinkedIn outreach with an approval step. Open to a 15-minute call next week?`",
     },
     email: {
       propDefinition: [

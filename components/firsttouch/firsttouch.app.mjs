@@ -1,6 +1,7 @@
 import { axios } from "@pipedream/platform";
+import utils from "./common/utils.mjs";
 
-const PROFILE_PATTERN = /^(?:https?:\/\/)?(?:[a-z]{2,3}\.)?(?:www\.)?linkedin\.com\/in\/([^/?#\s]+)/i;
+const FLOW_PAGE_SIZE = 100;
 
 export default {
   type: "app",
@@ -9,10 +10,23 @@ export default {
     flowId: {
       type: "string",
       label: "Flow",
-      description: "The FirstTouch flow to add the contact to",
-      async options() {
-        const flows = await this.listAllFlows();
-        return flows.map((flow) => ({
+      description: "The FirstTouch flow to add the contact to. Select one from the list, or enter a flow ID, e.g. `flow_plan_4c95d3e90d454ff4a50d0b4734c406e8`.",
+      async options({ prevContext }) {
+        // A previous page that returned no cursor means every flow is already listed.
+        if (prevContext && "cursor" in prevContext && !prevContext.cursor) {
+          return {
+            options: [],
+          };
+        }
+        const response = await this.listFlows({
+          data: {
+            limit: FLOW_PAGE_SIZE,
+            cursor: prevContext?.cursor || undefined,
+            orderBy: "created",
+            orderDirection: "descending",
+          },
+        });
+        const options = (response.items || []).map((flow) => ({
           label: flow.name
             ? `${flow.name}${flow.isDraft
               ? " [draft]"
@@ -20,12 +34,20 @@ export default {
             : `(untitled draft, created ${String(flow.created || "").slice(0, 10)})`,
           value: flow.id,
         }));
+        return {
+          options,
+          context: {
+            cursor: response.hasMore
+              ? response.cursor
+              : null,
+          },
+        };
       },
     },
     teammateId: {
       type: "string",
       label: "Teammate",
-      description: "A FirstTouch teammate",
+      description: "A FirstTouch teammate. Select one from the list (it is loaded from your team members), or enter a user ID, e.g. `86632827-b7c3-4533-b2bb-04d6d9bda6cf`.",
       optional: true,
       async options() {
         const { items = [] } = await this.listTeamMembers();
@@ -38,7 +60,7 @@ export default {
     linkedinAccountId: {
       type: "string",
       label: "LinkedIn Account",
-      description: "Only replies to this teammate's LinkedIn account. Leave empty for every account you can access.",
+      description: "Only replies to this teammate's LinkedIn account. Select one from the list, or enter an account ID, e.g. `lin_account_e8ab189f4baa42e6ac38e9830d379c54`. Leave empty for every account you can access.",
       optional: true,
       async options() {
         const { items = [] } = await this.listTeamMembers({
@@ -57,7 +79,7 @@ export default {
     signalId: {
       type: "string",
       label: "Signal",
-      description: "The FirstTouch Social Engagement signal to watch",
+      description: "The FirstTouch Social Engagement signal to watch. Select one from the list, or enter a signal ID, e.g. `signal_prospect_source_931d05c6627a47f790b39d0d9437ca5f`.",
       async options() {
         const { signals = [] } = await this.listSignals();
         return signals.map((signal) => ({
@@ -74,17 +96,17 @@ export default {
     firstName: {
       type: "string",
       label: "First Name",
-      description: "The contact's first name",
+      description: "The contact's first name, e.g. `Jane`",
     },
     lastName: {
       type: "string",
       label: "Last Name",
-      description: "The contact's last name",
+      description: "The contact's last name, e.g. `Doe`",
     },
     email: {
       type: "string",
       label: "Email",
-      description: "The contact's email address",
+      description: "The contact's email address, e.g. `jane@acme.com`",
       optional: true,
     },
     companyDomain: {
@@ -96,7 +118,7 @@ export default {
     senderId: {
       type: "string",
       label: "Send From",
-      description: "The teammate whose LinkedIn account sends. Leave empty for the owner of the API key.",
+      description: "The teammate whose LinkedIn account sends. Select one from the list (it is loaded from your team members), or enter a user ID, e.g. `86632827-b7c3-4533-b2bb-04d6d9bda6cf`. Leave empty for the owner of the API key.",
       optional: true,
       async options() {
         const { items = [] } = await this.listTeamMembers();
@@ -109,13 +131,13 @@ export default {
     reason: {
       type: "string",
       label: "Reason / Context",
-      description: "Shown to the approver in FirstTouch: why this contact and where they came from",
+      description: "Shown to the approver in FirstTouch: why this contact and where they came from, e.g. `Commented on our pricing post; VP Sales at a HubSpot customer`",
       optional: true,
     },
     requireApproval: {
       type: "boolean",
       label: "Require Approval",
-      description: "When true, the step waits in FirstTouch Tasks until someone approves it",
+      description: "When `true` (the default), the step waits in FirstTouch Tasks until someone approves it. Set to `false` to send without review.",
       optional: true,
       default: true,
     },
@@ -138,14 +160,7 @@ export default {
         ...opts,
       });
     },
-    normalizeProfileUrl(raw) {
-      const value = String(raw ?? "").trim();
-      const match = value.match(PROFILE_PATTERN);
-      if (!match) {
-        throw new Error(`"${value || "(blank)"}" is not a LinkedIn profile URL for a person. Use a URL like https://www.linkedin.com/in/jane-doe (company pages and post links do not work).`);
-      }
-      return `https://www.linkedin.com/in/${match[1]}`;
-    },
+
     getCurrentUser(opts = {}) {
       return this._makeRequest({
         tool: "get_current_user",
@@ -158,34 +173,7 @@ export default {
         ...opts,
       });
     },
-    async listAllFlows({ maxPages = 5 } = {}) {
-      const flows = [];
-      let cursor;
-      for (let page = 0; page < maxPages; page++) {
-        const response = await this.listFlows({
-          data: {
-            limit: 100,
-            cursor,
-            orderBy: "created",
-            orderDirection: "descending",
-          },
-        });
-        flows.push(...(response.items || []));
-        if (!response.hasMore || !response.cursor) break;
-        cursor = response.cursor;
-      }
-      const rank = (flow) => (flow.name
-        ? 0
-        : 2) + (flow.isDraft
-        ? 1
-        : 0);
-      return flows.map((flow, index) => ({
-        flow,
-        index,
-      }))
-        .sort((a, b) => rank(a.flow) - rank(b.flow) || a.index - b.index)
-        .map(({ flow }) => flow);
-    },
+
     listTeamMembers(opts = {}) {
       return this._makeRequest({
         tool: "list_team_members",
@@ -232,7 +220,7 @@ export default {
       $, actionType, label, linkedinUrl, firstName, lastName, senderId,
       email, companyDomain, reason, requireApproval, extra = {},
     }) {
-      const linkedInUrl = this.normalizeProfileUrl(linkedinUrl);
+      const linkedInUrl = utils.normalizeProfileUrl(linkedinUrl);
       const first = String(firstName ?? "").trim();
       const last = String(lastName ?? "").trim();
       if (!first || !last) {

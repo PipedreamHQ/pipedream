@@ -13,7 +13,7 @@ export default {
     tag: {
       type: "string",
       label: "Only Conversations Tagged",
-      description: "Leave empty for every conversation",
+      description: "Only conversations with this FirstTouch tag, e.g. `hot`. Leave empty for every conversation.",
       optional: true,
       options: [
         {
@@ -36,17 +36,24 @@ export default {
   methods: {
     ...common.methods,
     async fetchEvents() {
-      const { conversations = [] } = await this.firsttouch.listConversations({
-        data: {
-          limit: 100,
-          archived: false,
-          tags: this.tag
-            ? [
-              this.tag,
-            ]
-            : undefined,
-          linAccountId: this.linkedinAccountId || undefined,
-        },
+      // `archived` is omitted on purpose so replies in archived conversations are included too.
+      const conversations = await this.paginate(async (cursor) => {
+        const response = await this.firsttouch.listConversations({
+          data: {
+            limit: 100,
+            cursor,
+            tags: this.tag
+              ? [
+                this.tag,
+              ]
+              : undefined,
+            linAccountId: this.linkedinAccountId || undefined,
+          },
+        });
+        return {
+          items: response.conversations,
+          cursor: response.nextCursor,
+        };
       });
       return conversations
         .filter((conversation) => conversation.lastInboundMessageAtUtc)
