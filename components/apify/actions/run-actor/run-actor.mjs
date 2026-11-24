@@ -501,7 +501,7 @@ export default {
     let run;
 
     if (!waitForFinish) {
-      // async run — start and return immediately without waiting
+      // async run: start and return immediately without waiting
       run = await apify.runActorAsynchronously({
         actorId,
         data: input,
