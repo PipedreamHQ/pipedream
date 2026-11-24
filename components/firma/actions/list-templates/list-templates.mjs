@@ -1,10 +1,5 @@
 import firma from "../../firma.app.mjs";
-import {
-  DEFAULT_PAGE_SIZE,
-  MAX_PAGE_SIZE,
-  SORT_ORDERS,
-  TEMPLATE_SORT_FIELDS,
-} from "../../common/constants.mjs";
+import { TEMPLATE_SORT_FIELDS } from "../../common/constants.mjs";
 
 export default {
   key: "firma-list-templates",
@@ -12,6 +7,7 @@ export default {
   description: "Lists Firma templates, optionally filtered by name or creation date. Returns one page: `results` plus `pagination` (`current_page`, `page_size`, `total_count`, `total_pages`); set **Page** to read further pages. **Page Size** is at most 200. Use it to find a template ID for **Get Template** or **Create and Send Signing Request**. [See the documentation](https://docs.firma.dev/api-reference/templates/list-templates)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -20,22 +16,25 @@ export default {
   props: {
     firma,
     name: {
-      type: "string",
-      label: "Name",
-      description: "Only return templates whose name contains this text (case-insensitive), for example `NDA`.",
-      optional: true,
+      propDefinition: [
+        firma,
+        "nameFilter",
+      ],
+      description: "Only return templates whose name contains this text (case-insensitive), e.g. `NDA`.",
     },
     createdAfter: {
-      type: "string",
-      label: "Created After",
-      description: "Only return templates created after this ISO 8601 date-time, for example `2026-01-31T00:00:00Z`.",
-      optional: true,
+      propDefinition: [
+        firma,
+        "createdAfter",
+      ],
+      description: "Only return templates created after this ISO 8601 date-time, e.g. `2026-01-31T00:00:00Z`.",
     },
     createdBefore: {
-      type: "string",
-      label: "Created Before",
-      description: "Only return templates created before this ISO 8601 date-time, for example `2026-02-28T23:59:59Z`.",
-      optional: true,
+      propDefinition: [
+        firma,
+        "createdBefore",
+      ],
+      description: "Only return templates created before this ISO 8601 date-time, e.g. `2026-02-28T23:59:59Z`.",
     },
     sortBy: {
       type: "string",
@@ -46,29 +45,22 @@ export default {
       default: "created_on",
     },
     sortOrder: {
-      type: "string",
-      label: "Sort Order",
-      description: "The sort direction.",
-      optional: true,
-      options: SORT_ORDERS,
-      default: "desc",
+      propDefinition: [
+        firma,
+        "sortOrder",
+      ],
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page to return, starting at 1.",
-      optional: true,
-      default: 1,
-      min: 1,
+      propDefinition: [
+        firma,
+        "page",
+      ],
     },
     pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description: "Templates per page, from 1 to 200.",
-      optional: true,
-      default: DEFAULT_PAGE_SIZE,
-      min: 1,
-      max: MAX_PAGE_SIZE,
+      propDefinition: [
+        firma,
+        "pageSize",
+      ],
     },
   },
   async run({ $ }) {

@@ -42,8 +42,18 @@ export const EVENT_SIGNING_REQUEST_CREATED = "signing_request.created";
 export const EVENT_SIGNING_REQUEST_COMPLETED = "signing_request.completed";
 export const EVENT_RECIPIENT_SIGNED = "signing_request.recipient.signed";
 
+export const WORKSPACE_SORT_FIELDS = [
+  "name",
+  "protected",
+  "created_on",
+];
+
 export const SIGNATURE_HEADER = "x-firma-signature";
 export const SIGNATURE_OLD_HEADER = "x-firma-signature-old";
+// Firma signs every delivery attempt with a fresh `t`, so an older signature is a replay.
+export const SIGNATURE_MAX_AGE_SECONDS = 5 * 60;
+// Allowed clock skew for a `t` slightly ahead of this server's clock.
+export const SIGNATURE_MAX_FUTURE_SECONDS = 60;
 
 // A 503 with one of these codes is a refusal before anything was created.
 export const NOT_CREATED_503_CODES = [

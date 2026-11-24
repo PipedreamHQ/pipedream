@@ -2,6 +2,8 @@ import { axios } from "@pipedream/platform";
 import {
   BASE_URL,
   DEFAULT_PAGE_SIZE,
+  MAX_PAGE_SIZE,
+  SORT_ORDERS,
 } from "./common/constants.mjs";
 
 export default {
@@ -66,6 +68,62 @@ export default {
         })) || [];
       },
     },
+    workspaceId: {
+      type: "string",
+      label: "Workspace ID",
+      description: "The UUID of a Firma workspace, e.g. `0b7c1f7e-2d4a-4b8e-9f3c-6a5d4e3c2b1a`. Use **List Workspaces** to find it (the `id` field); it also appears in the Firma dashboard address when the workspace is open. Set it to register a workspace webhook that receives only that workspace's events; when omitted, a company webhook is registered. Webhooks must be switched on for the company (Settings, Webhook Configuration, Enable Webhooks) or for the workspace in the Firma dashboard, otherwise Firma sends no events.",
+      optional: true,
+    },
+    webhookSecret: {
+      type: "string",
+      label: "Webhook Signing Secret",
+      description: "The webhook signing secret that Firma signs deliveries with, a 64-character hex string, e.g. `9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08`. For a company webhook it is required: copy it from the Firma dashboard (Settings, Webhook Configuration, Webhook Signing Secret); Firma's API does not return it. When **Workspace ID** is set, leave it empty or paste that workspace's own secret, never the company secret: Firma signs a workspace webhook's deliveries with the workspace's own secret. Left empty, the source reads the workspace's secret from Firma when it is deployed (redeploy after rotating that secret); a pasted value is checked against it on deploy, and a different value stops the deploy before any webhook is registered. Every delivery must carry a valid `X-Firma-Signature` signed less than 5 minutes ago; any other request is answered with 401 and not emitted.",
+      secret: true,
+      optional: true,
+    },
+    nameFilter: {
+      type: "string",
+      label: "Name",
+      description: "Only return items whose name contains this text (case-insensitive), e.g. `contract`.",
+      optional: true,
+    },
+    createdAfter: {
+      type: "string",
+      label: "Created After",
+      description: "Only return items created after this ISO 8601 date-time, e.g. `2026-01-31T00:00:00Z`.",
+      optional: true,
+    },
+    createdBefore: {
+      type: "string",
+      label: "Created Before",
+      description: "Only return items created before this ISO 8601 date-time, e.g. `2026-02-28T23:59:59Z`.",
+      optional: true,
+    },
+    sortOrder: {
+      type: "string",
+      label: "Sort Order",
+      description: "The sort direction, `asc` or `desc`, e.g. `desc`. Defaults to `desc`.",
+      optional: true,
+      options: SORT_ORDERS,
+      default: "desc",
+    },
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "The page to return, starting at 1, e.g. `2`. The response's `pagination.total_pages` says how many pages there are. Defaults to `1`.",
+      optional: true,
+      default: 1,
+      min: 1,
+    },
+    pageSize: {
+      type: "integer",
+      label: "Page Size",
+      description: `Items per page, from 1 to ${MAX_PAGE_SIZE}, e.g. \`100\`. Defaults to \`${DEFAULT_PAGE_SIZE}\`.`,
+      optional: true,
+      default: DEFAULT_PAGE_SIZE,
+      min: 1,
+      max: MAX_PAGE_SIZE,
+    },
   },
   methods: {
     /**
@@ -100,6 +158,33 @@ export default {
         ...opts,
         url: `${this._baseUrl()}${path}`,
         headers: this._headers(),
+      });
+    },
+    /**
+     * Sends document bytes to a pre-signed upload URL with `PUT`. Unlike `_makeRequest`
+     * it never adds the Firma API key: the URL carries its own token, and the key must
+     * not travel to the storage host.
+     * @param {object} opts
+     * @param {object} [opts.$] The step context, for request logging
+     * @param {string} opts.url The pre-signed URL, used as given
+     * @param {Buffer} opts.content The document bytes
+     * @param {string} opts.contentType The content type registered for the document
+     * @returns {Promise<object>}
+     */
+    _uploadRequest({
+      $ = this, url, content, contentType,
+    }) {
+      return axios($, {
+        method: "PUT",
+        url,
+        headers: {
+          "Content-Type": contentType,
+        },
+        // An ArrayBuffer, not the Buffer itself: the request helper walks the keys of
+        // object bodies, which for a Buffer means one key per byte.
+        data: content.buffer.slice(content.byteOffset, content.byteOffset + content.byteLength),
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
       });
     },
     /**
@@ -185,17 +270,11 @@ export default {
     uploadDocumentContent({
       $ = this, uploadUrl, content, contentType,
     }) {
-      return axios($, {
-        method: "PUT",
+      return this._uploadRequest({
+        $,
         url: uploadUrl,
-        headers: {
-          "Content-Type": contentType,
-        },
-        // An ArrayBuffer, not the Buffer itself: the request helper walks the keys of
-        // object bodies, which for a Buffer means one key per byte.
-        data: content.buffer.slice(content.byteOffset, content.byteOffset + content.byteLength),
-        maxBodyLength: Infinity,
-        maxContentLength: Infinity,
+        content,
+        contentType,
       });
     },
     /**
@@ -269,6 +348,36 @@ export default {
     }) {
       return this._makeRequest({
         path: `/templates/${encodeURIComponent(templateId)}`,
+        ...opts,
+      });
+    },
+    /**
+     * Lists workspaces, one page at a time (`GET /workspaces`). A workspace API key sees
+     * only its own workspace; an account-admin key sees all of them. Each workspace
+     * record includes its `api_key` and `test_api_key`.
+     * @param {object} [opts] Request options; `params` holds the query (`page`,
+     * `page_size` up to 200, `name`, `protected`, `created_after`, `created_before`,
+     * `sort_by`, `sort_order`)
+     * @returns {Promise<{results: object[], pagination: object}>}
+     */
+    listWorkspaces(opts = {}) {
+      return this._makeRequest({
+        path: "/workspaces",
+        ...opts,
+      });
+    },
+    /**
+     * Gets one workspace (`GET /workspaces/{id}`), including its API keys and its
+     * `webhook_secret`.
+     * @param {object} opts
+     * @param {string} opts.workspaceId The workspace UUID
+     * @returns {Promise<object>}
+     */
+    getWorkspace({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `/workspaces/${encodeURIComponent(workspaceId)}`,
         ...opts,
       });
     },

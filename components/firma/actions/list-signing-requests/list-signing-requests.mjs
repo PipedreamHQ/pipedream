@@ -1,10 +1,7 @@
 import firma from "../../firma.app.mjs";
 import {
-  DEFAULT_PAGE_SIZE,
-  MAX_PAGE_SIZE,
   SIGNING_REQUEST_SORT_FIELDS,
   SIGNING_REQUEST_STATUSES,
-  SORT_ORDERS,
 } from "../../common/constants.mjs";
 
 export default {
@@ -13,6 +10,7 @@ export default {
   description: "Lists Firma signing requests with their status and recipients, filtered by status, name, signer or creation date. Returns one page: `results` plus `pagination` (`current_page`, `page_size`, `total_count`, `total_pages`); set **Page** to read further pages. **Page Size** is at most 200. Use it to find a request ID for **Get Signing Request**, **Download Signed Document**, **Cancel Signing Request** or **Resend Signing Request**. [See the documentation](https://docs.firma.dev/api-reference/signing-requests/list-signing-requests)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,10 +33,11 @@ export default {
       default: false,
     },
     name: {
-      type: "string",
-      label: "Name",
-      description: "Only return requests whose name contains this text (case-insensitive), for example `contract`.",
-      optional: true,
+      propDefinition: [
+        firma,
+        "nameFilter",
+      ],
+      description: "Only return requests whose name contains this text (case-insensitive), e.g. `contract`.",
     },
     signerEmail: {
       type: "string",
@@ -53,16 +52,18 @@ export default {
       optional: true,
     },
     createdAfter: {
-      type: "string",
-      label: "Created After",
-      description: "Only return requests created after this ISO 8601 date-time, for example `2026-01-31T00:00:00Z`.",
-      optional: true,
+      propDefinition: [
+        firma,
+        "createdAfter",
+      ],
+      description: "Only return requests created after this ISO 8601 date-time, e.g. `2026-01-31T00:00:00Z`.",
     },
     createdBefore: {
-      type: "string",
-      label: "Created Before",
-      description: "Only return requests created before this ISO 8601 date-time, for example `2026-02-28T23:59:59Z`.",
-      optional: true,
+      propDefinition: [
+        firma,
+        "createdBefore",
+      ],
+      description: "Only return requests created before this ISO 8601 date-time, e.g. `2026-02-28T23:59:59Z`.",
     },
     sortBy: {
       type: "string",
@@ -73,29 +74,22 @@ export default {
       default: "created_on",
     },
     sortOrder: {
-      type: "string",
-      label: "Sort Order",
-      description: "The sort direction.",
-      optional: true,
-      options: SORT_ORDERS,
-      default: "desc",
+      propDefinition: [
+        firma,
+        "sortOrder",
+      ],
     },
     page: {
-      type: "integer",
-      label: "Page",
-      description: "The page to return, starting at 1.",
-      optional: true,
-      default: 1,
-      min: 1,
+      propDefinition: [
+        firma,
+        "page",
+      ],
     },
     pageSize: {
-      type: "integer",
-      label: "Page Size",
-      description: "Requests per page, from 1 to 200.",
-      optional: true,
-      default: DEFAULT_PAGE_SIZE,
-      min: 1,
-      max: MAX_PAGE_SIZE,
+      propDefinition: [
+        firma,
+        "pageSize",
+      ],
     },
   },
   async run({ $ }) {

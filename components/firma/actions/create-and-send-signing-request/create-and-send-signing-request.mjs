@@ -25,6 +25,7 @@ export default {
   description: "Creates a signing request from a template or from a PDF or DOCX file and sends it to the recipients in one call. Each run sends a legally binding request and uses one Firma credit. Use **List Templates** and **Get Template** to find a template and its signing roles. Template sends need exactly one recipient for every Signer and Approver of the template (matched by `template_user_id`, then `order`); the action refuses, before sending, a missing role, a recipient that matches no role and two recipients for one role, because Firma would leave such a recipient out. Documents up to 4 MiB are sent inline; larger ones, up to 50 MB, are uploaded first and sent by `document_id`. If Firma does not confirm the result (a network error, a timeout or a 5xx answer), the request may still have been sent: the error says so, and the step must not simply be run again. [See the documentation](https://docs.firma.dev/api-reference/signing-requests/create-and-send-signing-request-atomic)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

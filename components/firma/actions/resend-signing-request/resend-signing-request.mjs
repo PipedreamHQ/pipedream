@@ -6,6 +6,7 @@ export default {
   description: "Sends the signing email of an in-progress signing request again to the chosen recipients, optionally with a custom message. Use **List Signing Requests** to find the request and its recipient IDs. [See the documentation](https://docs.firma.dev/api-reference/signing-requests/resend-signing-request-to-specific-recipients)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,6 +6,7 @@ export default {
   description: "Cancels a sent signing request that is not finished, so its recipients can no longer sign. This cannot be undone. Firma answers 409 when the request is already cancelled, finished, declined or not sent. Use **List Signing Requests** with status `in_progress` to find requests that can be cancelled. [See the documentation](https://docs.firma.dev/api-reference/signing-requests/cancel-a-signing-request)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
