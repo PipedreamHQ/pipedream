@@ -56,19 +56,43 @@ export function sysIdList(value, label, max) {
 }
 
 // Runs `fn` on every item with at most `limit` calls in flight; returns results in input order.
+// After one call throws, no further calls start.
 export async function mapConcurrently(items, limit, fn) {
   const results = new Array(items.length);
   let next = 0;
+  let failed = false;
   const worker = async () => {
-    while (next < items.length) {
+    while (!failed && next < items.length) {
       const index = next++;
-      results[index] = await fn(items[index], index);
+      try {
+        results[index] = await fn(items[index], index);
+      } catch (error) {
+        failed = true;
+        throw error;
+      }
     }
   };
   await Promise.all(Array.from({
     length: Math.min(limit, items.length),
   }, worker));
   return results;
+}
+
+// For a per-record check: rethrows a broken connection (401) or a non-request error, which fail
+// the whole action, and otherwise returns the HTTP status (undefined when there was no response).
+export function requestErrorStatus(error) {
+  const status = error?.response?.status;
+  if (!error?.isAxiosError || status === 401) {
+    throw error;
+  }
+  return status;
+}
+
+export function describeRequestError(error) {
+  const status = error?.response?.status;
+  return status
+    ? `HTTP ${status}`
+    : error?.code ?? "no response";
 }
 
 export function knowledgeArticleUrl(instanceBaseUrl, articleSysId) {

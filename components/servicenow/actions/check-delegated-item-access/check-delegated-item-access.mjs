@@ -1,23 +1,10 @@
 import servicenow from "../../servicenow.app.mjs";
 import {
-  mapConcurrently, sysId, sysIdList,
+  describeRequestError, mapConcurrently, requestErrorStatus, sysId, sysIdList,
 } from "../../common/utils.mjs";
 
 const MAX_ITEMS = 50;
 const CONCURRENCY = 5;
-
-const requestFailure = (error, what) => {
-  const status = error?.response?.status;
-  // A broken connection (401) or a bug fails the whole action; any other request error is
-  // that check's answer.
-  if (!error?.isAxiosError || status === 401) {
-    throw error;
-  }
-  console.log(`${what} failed: ${status
-    ? `HTTP ${status}`
-    : error.code ?? "no response"}`);
-  return status;
-};
 
 export default {
   key: "servicenow-check-delegated-item-access",
@@ -61,21 +48,27 @@ export default {
             sysparm_fields: "sys_id,active",
           },
         });
-        if (user?.sys_id !== userSysId) {
+        // A field ACL can hide `active` while `sys_id` still comes back.
+        const active = String(user?.active);
+        if (user?.sys_id !== userSysId || ![
+          "true",
+          "false",
+        ].includes(active)) {
           console.log(`Unexpected sys_user response for recipient ${userSysId}`);
           return {
             can_request: null,
             reason: "check_failed",
           };
         }
-        return String(user.active) === "true"
+        return active === "true"
           ? null
           : {
             can_request: false,
             reason: "recipient_inactive",
           };
       } catch (error) {
-        const status = requestFailure(error, `Recipient lookup for ${userSysId}`);
+        const status = requestErrorStatus(error);
+        console.log(`Recipient lookup for ${userSysId} failed: ${describeRequestError(error)}`);
         if (status === 404) {
           return {
             can_request: false,
@@ -113,7 +106,8 @@ export default {
             : "delegation_denied",
         };
       } catch (error) {
-        const status = requestFailure(error, `Delegation check for item ${itemSysId}`);
+        const status = requestErrorStatus(error);
+        console.log(`Delegation check for item ${itemSysId} failed: ${describeRequestError(error)}`);
         // 400 "Security constraints prevent delegation on item".
         if (status === 400) {
           return {

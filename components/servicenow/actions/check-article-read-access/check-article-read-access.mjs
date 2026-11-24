@@ -1,6 +1,6 @@
 import servicenow from "../../servicenow.app.mjs";
 import {
-  mapConcurrently, sysIdList,
+  describeRequestError, mapConcurrently, requestErrorStatus, sysIdList,
 } from "../../common/utils.mjs";
 
 const MAX_ARTICLES = 50;
@@ -54,15 +54,8 @@ export default {
           reason: "check_failed",
         };
       } catch (error) {
-        const status = error?.response?.status;
-        // A broken connection (401) or a bug fails the whole action; any other request error is
-        // that article's answer.
-        if (!error?.isAxiosError || status === 401) {
-          throw error;
-        }
-        console.log(`Article read check failed for ${sysId}: ${status
-          ? `HTTP ${status}`
-          : error.code ?? "no response"}`);
+        const status = requestErrorStatus(error);
+        console.log(`Article read check failed for ${sysId}: ${describeRequestError(error)}`);
         return {
           can_read: null,
           reason: status === 403

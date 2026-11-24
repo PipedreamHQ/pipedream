@@ -128,6 +128,72 @@ test("an inactive or unknown recipient is refused without asking about any item"
   });
 });
 
+test("only an explicit active value decides the recipient; a hidden one is undetermined", async () => {
+  const answer = () => ({
+    result: true,
+  });
+  for (const [
+    active,
+    expected,
+  ] of [
+      [
+        true,
+        "true/delegation_allowed",
+      ],
+      [
+        "true",
+        "true/delegation_allowed",
+      ],
+      [
+        false,
+        "false/recipient_inactive",
+      ],
+      [
+        "false",
+        "false/recipient_inactive",
+      ],
+      [
+        undefined,
+        "null/check_failed",
+      ],
+      [
+        "",
+        "null/check_failed",
+      ],
+      [
+        "yes",
+        "null/check_failed",
+      ],
+    ]) {
+    const { result } = await run([
+      id("1"),
+    ], answer, U, (user) => (active === undefined
+      ? {
+        sys_id: user,
+      }
+      : {
+        sys_id: user,
+        active,
+      }));
+    assert.equal(`${result[0].can_request}/${result[0].reason}`, expected, `active=${JSON.stringify(active)}`);
+  }
+});
+
+test("after a broken connection no further items are checked", async () => {
+  const items = Array.from({
+    length: 50,
+  }, (_, i) => i.toString(16).padStart(32, "0"));
+  let calls = 0;
+  await assert.rejects(run(items, (item) => {
+    calls++;
+    if (item === items[0]) throw requestError(401);
+    return {
+      result: true,
+    };
+  }), /HTTP 401/);
+  assert.ok(calls <= 5, `${calls} delegation calls after the 401`);
+});
+
 test("a recipient lookup that fails leaves every item undetermined", async () => {
   const never = () => assert.fail("delegation was checked");
   for (const [
