@@ -40,8 +40,7 @@ export const IMAGE_MODELS = [
 ];
 
 export const MODERATION_MODELS = [
-  "text-moderation-stable",
-  "text-moderation-latest",
+  "omni-moderation-latest",
 ];
 
 // Models that are eligible for Assistants API usage when selecting an Assistant model
