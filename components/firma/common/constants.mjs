@@ -50,3 +50,12 @@ export const NOT_CREATED_503_CODES = [
   "ANCHOR_DISABLED_EDGE",
   "SEALS_DISABLED",
 ];
+
+// Inline base64 documents travel in the JSON body, which Firma's API gateway caps at
+// 6,291,456 bytes. 4 MiB of raw bytes is 5,592,408 bytes of base64, which leaves room for
+// the rest of the body. Larger documents go through `POST /documents` (up to 50 MB).
+export const INLINE_DOCUMENT_MAX_BYTES = 4 * 1024 * 1024;
+export const UPLOAD_DOCUMENT_MAX_BYTES = 50 * 1024 * 1024;
+
+export const PDF_CONTENT_TYPE = "application/pdf";
+export const DOCX_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";

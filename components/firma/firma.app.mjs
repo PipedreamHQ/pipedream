@@ -157,6 +157,48 @@ export default {
       });
     },
     /**
+     * Registers a document upload (`POST /documents`) for documents too large to send
+     * inline. Returns `document_id` and a pre-signed `upload_url`, valid for an hour.
+     * @param {object} opts Request options; `data` holds `file_name`, `file_size` (bytes,
+     * up to 50 MB) and `content_type` (PDF or DOCX)
+     * @returns {Promise<{document_id: string, upload_url: string, upload_token: string,
+     * expires_in: number}>}
+     */
+    createDocumentUpload(opts = {}) {
+      return this._makeRequest({
+        method: "POST",
+        path: "/documents",
+        ...opts,
+      });
+    },
+    /**
+     * Uploads the document bytes to the pre-signed `upload_url` returned by
+     * `createDocumentUpload`. The URL carries its own token, so the Firma API key is not
+     * sent.
+     * @param {object} opts
+     * @param {object} [opts.$] The step context, for request logging
+     * @param {string} opts.uploadUrl The `upload_url` from `POST /documents`
+     * @param {Buffer} opts.content The document bytes
+     * @param {string} opts.contentType The content type registered for the document
+     * @returns {Promise<object>}
+     */
+    uploadDocumentContent({
+      $ = this, uploadUrl, content, contentType,
+    }) {
+      return axios($, {
+        method: "PUT",
+        url: uploadUrl,
+        headers: {
+          "Content-Type": contentType,
+        },
+        // An ArrayBuffer, not the Buffer itself: the request helper walks the keys of
+        // object bodies, which for a Buffer means one key per byte.
+        data: content.buffer.slice(content.byteOffset, content.byteOffset + content.byteLength),
+        maxBodyLength: Infinity,
+        maxContentLength: Infinity,
+      });
+    },
+    /**
      * Cancels a sent signing request (`POST /signing-requests/{id}/cancel`).
      * @param {object} opts
      * @param {string} opts.signingRequestId The signing request UUID

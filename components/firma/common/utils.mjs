@@ -1,7 +1,9 @@
 import { ConfigurationError } from "@pipedream/platform";
 import {
   DESIGNATIONS,
+  DOCX_CONTENT_TYPE,
   NOT_CREATED_503_CODES,
+  PDF_CONTENT_TYPE,
 } from "./constants.mjs";
 
 /**
@@ -82,12 +84,86 @@ function describeTemplateUser(user) {
     : ""}, template_user_id ${user.id})`;
 }
 
+function describeRecipient(recipient, index) {
+  const who = [
+    recipient.first_name,
+    recipient.email,
+  ].filter(Boolean).join(", ");
+  return `${index + 1}${who
+    ? ` (${who})`
+    : ""}`;
+}
+
+/**
+ * Whether a designation is CC. Firma compares it without regard to case.
+ * @param {string} designation
+ * @returns {boolean}
+ */
+export function isCcDesignation(designation) {
+  return typeof designation === "string" && designation.toLowerCase() === "cc";
+}
+
+/**
+ * Applies Firma's duplicate order rules for template sends: when two template roles share
+ * an order, every Signer and Approver recipient needs `template_user_id`; and recipients
+ * that share an order (a recipient without `order` counts as its position in the list)
+ * each need `template_user_id`.
+ * @param {Array<object>} users The Signers and Approvers of the template
+ * @param {Array<object>} recipients The recipients to send
+ * @param {string} roles The template roles, for the error message
+ */
+function checkDuplicateOrders(users, recipients, roles) {
+  const actors = recipients
+    .map((recipient, index) => ({
+      recipient,
+      index,
+    }))
+    .filter(({ recipient }) => !isCcDesignation(recipient.designation));
+  const templateOrders = new Map();
+  for (const user of users) {
+    const order = user.order || 1;
+    templateOrders.set(order, (templateOrders.get(order) || 0) + 1);
+  }
+  if ([
+    ...templateOrders.values(),
+  ].some((count) => count > 1)) {
+    const lacking = actors.filter(({ recipient }) => !recipient.template_user_id);
+    if (lacking.length) {
+      throw new ConfigurationError(`Two or more template roles share an order, so every Signer and Approver recipient needs \`template_user_id\` (from **Get Template**). ${lacking.map(({
+        recipient, index,
+      }) => `Recipient ${describeRecipient(recipient, index)} has no \`template_user_id\``).join("; ")}. Template roles: ${roles}.`);
+    }
+  }
+  const byOrder = new Map();
+  for (const actor of actors) {
+    const order = actor.recipient.order || actor.index + 1;
+    if (!byOrder.has(order)) byOrder.set(order, []);
+    byOrder.get(order).push(actor);
+  }
+  for (const [
+    order,
+    group,
+  ] of byOrder) {
+    const lacking = group.filter(({ recipient }) => !recipient.template_user_id);
+    if (group.length > 1 && lacking.length) {
+      throw new ConfigurationError(`Multiple recipients have order ${order} (a recipient without \`order\` counts as its position in the list). Recipients that share an order on a template send each need \`template_user_id\`; missing on: ${lacking.map(({
+        recipient, index,
+      }) => `Recipient ${describeRecipient(recipient, index)}`).join("; ")}. Template roles: ${roles}.`);
+    }
+  }
+}
+
 /**
  * Matches the given recipients to the users of a template the way Firma does on
- * create-and-send (`template_user_id` first, then `order`; CC recipients are never
- * matched and are added as extra CC recipients). Every Signer and Approver of the
- * template needs a recipient, otherwise Firma refuses the send; this check refuses it
- * before the call.
+ * create-and-send (`template_user_id` first, then a template user `id`, then `order`;
+ * CC recipients are never matched and are added as extra CC recipients), and refuses
+ * before the call what Firma would refuse or silently drop:
+ * - a template that has roles sharing an order, or recipients sharing an order, without
+ *   `template_user_id` (Firma refuses these);
+ * - a Signer or Approver of the template with no recipient (Firma refuses);
+ * - a non CC recipient that matches no template role, or matches a role already taken
+ *   by an earlier recipient (Firma keeps the first match and drops the rest silently,
+ *   so the document would go out without that person).
  *
  * When the template has exactly one Signer or Approver and exactly one non CC recipient
  * is given without `template_user_id` or `order`, that recipient is assigned to it.
@@ -96,8 +172,8 @@ function describeTemplateUser(user) {
  * @returns {Array<object>} The recipients to send
  */
 export function matchTemplateRecipients(templateUsers, recipients) {
-  const users = (templateUsers || []).filter(({ designation }) => designation !== "CC");
-  const nonCc = recipients.filter(({ designation }) => designation !== "CC");
+  const users = (templateUsers || []).filter(({ designation }) => !isCcDesignation(designation));
+  const nonCc = recipients.filter(({ designation }) => !isCcDesignation(designation));
   if (!users.length) {
     validateDocumentRecipients(recipients);
     return recipients;
@@ -106,21 +182,43 @@ export function matchTemplateRecipients(templateUsers, recipients) {
     && !nonCc[0].template_user_id && (nonCc[0].order === undefined || nonCc[0].order === null)) {
     nonCc[0].template_user_id = users[0].id;
   }
+  const roles = users.map(describeTemplateUser).join("; ");
+  checkDuplicateOrders(users, recipients, roles);
+
   const userIds = new Set(users.map(({ id }) => id));
   const isMatch = (recipient, user) => {
-    if (recipient.designation === "CC") return false;
+    if (isCcDesignation(recipient.designation)) return false;
     if (recipient.template_user_id) return recipient.template_user_id === user.id;
     if (recipient.id && userIds.has(recipient.id)) return recipient.id === user.id;
     return recipient.order !== undefined && recipient.order !== null
       && Number(recipient.order) === Number(user.order);
   };
-  const missing = users.filter((user) => !recipients.some((r) => isMatch(r, user)));
+  // Firma takes, for each template user, the first recipient that matches it.
+  const taken = new Map();
+  for (const user of users) {
+    const index = recipients.findIndex((r) => isMatch(r, user));
+    if (index >= 0) taken.set(user.id, index);
+  }
+  const missing = users.filter((user) => !taken.has(user.id));
   if (missing.length) {
-    const roles = users.map(describeTemplateUser).join("; ");
     const lead = nonCc.length < users.length
       ? `This template has ${users.length} signing roles but ${nonCc.length} recipient(s) were given.`
       : "Some template roles have no matching recipient.";
     throw new ConfigurationError(`${lead} Firma needs a recipient for every Signer and Approver of the template, matched by \`template_user_id\` or \`order\`. Missing: ${missing.map(describeTemplateUser).join("; ")}. Template roles: ${roles}.`);
+  }
+  const dropped = [];
+  recipients.forEach((recipient, index) => {
+    if (isCcDesignation(recipient.designation)) return;
+    const user = users.find((u) => isMatch(recipient, u));
+    if (!user) {
+      dropped.push(`Recipient ${describeRecipient(recipient, index)} matches no Signer or Approver of the template`);
+    } else if (taken.get(user.id) !== index) {
+      const first = taken.get(user.id);
+      dropped.push(`Recipient ${describeRecipient(recipient, index)} matches ${describeTemplateUser(user)}, already taken by recipient ${describeRecipient(recipients[first], first)}`);
+    }
+  });
+  if (dropped.length) {
+    throw new ConfigurationError(`${dropped.join("; ")}. Firma would leave these recipients out of the signing request. Match each Signer and Approver recipient to a different template role with \`template_user_id\` or \`order\`, or give extra people the designation \`CC\`. Template roles: ${roles}.`);
   }
   for (const recipient of nonCc) {
     if (!recipient.first_name || !recipient.email) {
@@ -128,6 +226,41 @@ export function matchTemplateRecipients(templateUsers, recipients) {
     }
   }
   return recipients;
+}
+
+/**
+ * Checks the **Fields** of a template send. Each entry overrides one template field,
+ * named by `template_field_id` (the field `id` from **Get Template**), `variable_name`
+ * or `variable_defined_name`, and sets `value` or `read_only_value`. Firma refuses an
+ * override that names no field of the template.
+ * @param {Array<object>} fields The parsed fields
+ */
+export function validateTemplateFieldOverrides(fields) {
+  fields.forEach((field, index) => {
+    const key = [
+      "template_field_id",
+      "variable_name",
+      "variable_defined_name",
+    ].find((k) => typeof field[k] === "string" && field[k]);
+    if (!key) {
+      throw new ConfigurationError(`Field ${index + 1} needs \`template_field_id\` (a field \`id\` from **Get Template**), \`variable_name\` or \`variable_defined_name\` to name the template field it sets. Template sends take field overrides only; the template places its own fields.`);
+    }
+  });
+}
+
+/**
+ * Picks the content type Firma expects for an uploaded document: DOCX when the file
+ * name or reported type says so, otherwise PDF.
+ * @param {string} name The file name
+ * @param {string} [contentType] The content type reported for the file
+ * @returns {string}
+ */
+export function documentContentType(name, contentType) {
+  const type = String(contentType || "").split(";")[0].trim().toLowerCase();
+  if (type === DOCX_CONTENT_TYPE || /\.docx$/i.test(name || "")) {
+    return DOCX_CONTENT_TYPE;
+  }
+  return PDF_CONTENT_TYPE;
 }
 
 /**
