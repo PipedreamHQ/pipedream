@@ -231,7 +231,9 @@ export function matchTemplateRecipients(templateUsers, recipients) {
 /**
  * Checks the **Fields** of a template send. Each entry overrides one template field,
  * named by `template_field_id` (the field `id` from **Get Template**), `variable_name`
- * or `variable_defined_name`, and sets `value` or `read_only_value`. Firma refuses an
+ * or `variable_defined_name`, and sets `value`, or `read_only_value` with
+ * `read_only: true` to lock it (`read_only_value` alone does not lock the
+ * field). Firma refuses an
  * override that names no field of the template.
  * @param {Array<object>} fields The parsed fields
  */
