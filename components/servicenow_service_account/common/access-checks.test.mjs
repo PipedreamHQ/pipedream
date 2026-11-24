@@ -193,15 +193,8 @@ test("personRefusal", () => {
     reason: "unreadable",
   });
   assert.equal(refusal({
-    locked_out: "false",
-  }).reason, "unreadable");
-  // A hidden locked_out is decided on active alone.
-  assert.equal(refusal({
     active: "true",
-  }), null);
-  assert.equal(refusal({
-    active: "false",
-  }).reason, "user_inactive");
+  }).reason, "unreadable");
   assert.equal(refusal({
     active: "false",
     locked_out: "false",
