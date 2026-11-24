@@ -6,19 +6,27 @@ export default {
   key: "google_vertex_ai-generate-video-from-image",
   name: "Generate Video from Image",
   description: "Generate a video from an image with optional text prompt using Google Vertex AI Veo models. [See the documentation](https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/veo-video-generation)",
-  version: "0.0.2",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     ...common.props,
     image: {
       type: "string",
       label: "Image Path Or URL",
+      format: "file-ref",
       description: "Provide either a file URL or a path to a file in the `/tmp` directory (for example, `/tmp/image.jpg`). Supported formats: JPEG, PNG. For best quality, use 720p or higher (1280 x 720 pixels) with 16:9 or 9:16 aspect ratio.",
+    },
+    syncDir: {
+      type: "dir",
+      accessMode: "read",
+      sync: true,
+      optional: true,
     },
   },
   async run({ $ }) {
