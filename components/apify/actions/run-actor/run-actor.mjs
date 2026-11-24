@@ -3,7 +3,9 @@ import apify from "../../apify.app.mjs";
 import {
   getMemoryLimits, buildMemoryProp, validateMemory,
 } from "../../common/memory.mjs";
-import { WEBHOOK_EVENT_TYPES } from "@apify/consts";
+import {
+  ACTOR_JOB_STATUSES, WEBHOOK_EVENT_TYPES,
+} from "@apify/consts";
 import { ConfigurationError } from "@pipedream/platform";
 
 // Max OUTPUT record size (bytes) returned inline; oversized values get a reference object.
@@ -64,7 +66,7 @@ export default {
     waitForFinish: {
       type: "boolean",
       label: "Wait for finish",
-      description: "If `true` (default), the step waits for the Actor run to finish and returns its output. If `false`, the step starts the run and returns immediately with the run details, without waiting.",
+      description: "If `true` (default), the step waits for the Actor run to finish and returns `{ run, output }`; the step fails if the run doesn't succeed. If `false`, the step starts the run and returns `{ run }` immediately, without waiting.",
       reloadProps: true,
       default: true,
     },
@@ -507,7 +509,9 @@ export default {
       });
 
       $.export("$summary", `Successfully started Actor run with ID: ${run.id}`);
-      return run;
+      return {
+        run,
+      };
     } else {
       // sync run
       run = await apify.runActor({
@@ -515,6 +519,15 @@ export default {
         input,
         options: params,
       });
+
+      // `.call()` returns the run whatever its final status, so fail the step
+      // instead of passing a failed run downstream as a success.
+      if (run.status !== ACTOR_JOB_STATUSES.SUCCEEDED) {
+        const consoleUrl = run.consoleUrl ?? `https://console.apify.com/view/runs/${run.id}`;
+        throw new Error(
+          `Apify Actor run ${run.id} finished with status ${run.status}. See console: ${consoleUrl}`,
+        );
+      }
 
       // Fetch OUTPUT record and guard its size before returning it inline.
       let output;
