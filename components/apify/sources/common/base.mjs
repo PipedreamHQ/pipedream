@@ -30,12 +30,25 @@ export default {
     },
   },
   methods: {
-    // SHA-256(endpoint + condition target) - stable across re-deploys so Apify
-    // reuses the same webhook instead of creating duplicates.
+    // Whitelist terminal states only; fall back to all when none are valid.
+    getEventTypes() {
+      const selected = (this.eventTypes ?? [])
+        .filter((type) => WEBHOOK_EVENT_TYPE_GROUPS.ACTOR_RUN_TERMINAL.includes(type));
+      return selected.length
+        ? selected
+        : WEBHOOK_EVENT_TYPE_GROUPS.ACTOR_RUN_TERMINAL;
+    },
+    // SHA-256(endpoint + condition target + event types) - stable across
+    // re-deploys so Apify reuses the same webhook instead of creating
+    // duplicates, while a changed run-state selection creates a new one.
     getIdempotencyKey() {
       const target = Object.values(this.getCondition()).join(":");
+      const types = [
+        ...this.getEventTypes(),
+      ].sort()
+        .join(",");
       return createHash("sha256")
-        .update(`${this.http.endpoint}:${target}`)
+        .update(`${this.http.endpoint}:${target}:${types}`)
         .digest("hex");
     },
   },
@@ -49,15 +62,9 @@ export default {
         );
       }
 
-      // Whitelist terminal states only; fall back to all when none are valid.
-      const selected = (this.eventTypes ?? [])
-        .filter((type) => WEBHOOK_EVENT_TYPE_GROUPS.ACTOR_RUN_TERMINAL.includes(type));
-
       const response = await this.apify.createHook({
         requestUrl: this.http.endpoint,
-        eventTypes: selected.length
-          ? selected
-          : WEBHOOK_EVENT_TYPE_GROUPS.ACTOR_RUN_TERMINAL,
+        eventTypes: this.getEventTypes(),
         condition: this.getCondition(),
         idempotencyKey: this.getIdempotencyKey(),
       });
