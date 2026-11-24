@@ -129,7 +129,7 @@ export default {
           truncated: true,
           message:
             "The OUTPUT record exceeds the safe step-output size and was not returned inline. " +
-            "Retrieve it via `recordUrl`, or use the Get key-value store record action.",
+            "Retrieve it via `recordUrl`, or use the Get Key-Value Store Record action.",
           keyValueStoreId,
           recordKey,
           contentType: record.contentType,

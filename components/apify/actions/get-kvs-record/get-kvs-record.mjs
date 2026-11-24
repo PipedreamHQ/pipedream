@@ -3,7 +3,7 @@ import apify from "../../apify.app.mjs";
 
 export default {
   key: "apify-get-kvs-record",
-  name: "Get key-value store record",
+  name: "Get Key-Value Store Record",
   description: "Gets a record from a key-value store. If the record is a valid JSON object, the output includes all parsed attributes as individual fields. If the record is any other file type (such as PDFs, images, or plain text), the output is a file reference. [See the documentation](https://docs.apify.com/api/v2/key-value-store-record-get)",
   version: "0.0.2",
   annotations: {
