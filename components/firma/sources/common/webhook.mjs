@@ -16,16 +16,21 @@ export default {
       type: "$.interface.http",
       customResponse: true,
     },
+    webhooksAlert: {
+      type: "alert",
+      alertType: "info",
+      content: "Firma sends events only while webhooks are switched on. For a company webhook, turn on **Enable Webhooks** in the Firma dashboard (Settings, Webhook Configuration); it is off on a new account. For a workspace webhook, turn on that workspace's own webhooks. A test delivery from Firma is sent even when webhooks are off, so it does not confirm this setting.",
+    },
     workspaceId: {
       type: "string",
       label: "Workspace ID",
-      description: "The UUID of a Firma workspace, for example `0b7c1f7e-2d4a-4b8e-9f3c-6a5d4e3c2b1a`, to register a workspace webhook that receives only that workspace's events. When omitted, a company webhook is registered. Webhooks must be switched on for the company or the workspace in the Firma dashboard (Settings, Webhooks), otherwise Firma sends no events.",
+      description: "The UUID of a Firma workspace, for example `0b7c1f7e-2d4a-4b8e-9f3c-6a5d4e3c2b1a`, to register a workspace webhook that receives only that workspace's events. When omitted, a company webhook is registered. Webhooks must be switched on for the company (Settings, Webhook Configuration, Enable Webhooks) or for the workspace in the Firma dashboard, otherwise Firma sends no events.",
       optional: true,
     },
     webhookSecret: {
       type: "string",
       label: "Webhook Signing Secret",
-      description: "The webhook signing secret of the company, or of the workspace when **Workspace ID** is set, from the Firma dashboard (Settings, Webhooks). When set, every delivery must carry a valid `X-Firma-Signature` header; others are answered with 401 and not emitted. Strongly recommended.",
+      description: "The webhook signing secret of the company, or of the workspace when **Workspace ID** is set, from the Firma dashboard (Settings, Webhook Configuration). When set, every delivery must carry a valid `X-Firma-Signature` header; others are answered with 401 and not emitted. Strongly recommended.",
       secret: true,
       optional: true,
     },
