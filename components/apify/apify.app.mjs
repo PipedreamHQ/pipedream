@@ -155,8 +155,9 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "The maximum number of items to return, e.g. `100`. Leave empty to return all items",
+      description: "The maximum number of items to return, e.g. `100`. Defaults to `100`. Clear the field to return all items.",
       min: 1,
+      default: LIMIT,
       optional: true,
     },
     offset: {
@@ -258,7 +259,7 @@ export default {
       }
 
       if (!buildRef) {
-        buildRef = actor.defaultRunOptions.build;
+        buildRef = actor.defaultRunOptions?.build;
       }
 
       const taggedBuilds = actor.taggedBuilds ?? {};
@@ -267,8 +268,8 @@ export default {
         return taggedBuilds[buildRef].buildId;
       }
 
-      // Builds can span multiple pages
-      for (let offset = 0; ; offset += LIMIT) {
+      // Builds can span multiple pages; stop after 20 pages (2,000 builds)
+      for (let offset = 0; offset < LIMIT * 20; offset += LIMIT) {
         const { items: builds = [] } = await this.listBuilds({
           actorId,
           desc: true,
