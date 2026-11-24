@@ -1,10 +1,12 @@
 import common from "../common/webhook.mjs";
+import { EVENT_SIGNING_REQUEST_COMPLETED } from "../../common/constants.mjs";
+import sampleEmit from "./test-event.mjs";
 
 export default {
   ...common,
   key: "firma-new-signing-request-completed",
   name: "New Signing Request Completed (Instant)",
-  description: "Triggers when a signing request is completed by all signers. [See the documentation](https://docs.firma.dev/api-reference/webhooks/overview)",
+  description: "Emit new event when every recipient of a Firma signing request has signed. The event is Firma's webhook payload; the request is in `data.signing_request`. Use **Download Signed Document** to fetch the signed PDF. [See the documentation](https://docs.firma.dev/guides/webhooks)",
   version: "0.0.1",
   type: "source",
   dedupe: "unique",
@@ -12,18 +14,13 @@ export default {
     ...common.methods,
     getEventTypes() {
       return [
-        "signing_request.completed",
+        EVENT_SIGNING_REQUEST_COMPLETED,
       ];
     },
-    generateMeta(event) {
-      const sr = event?.data || event;
-      const id = event?.id || sr?.id;
-      const name = sr?.name || id;
-      return {
-        id,
-        summary: `Signing Request Completed: ${name}`,
-        ts: Date.parse(event?.created_at || sr?.created_on) || Date.now(),
-      };
+    getSummary({ data }) {
+      const request = data?.signing_request;
+      return `Signing request completed: ${request?.name || request?.id}`;
     },
   },
+  sampleEmit,
 };

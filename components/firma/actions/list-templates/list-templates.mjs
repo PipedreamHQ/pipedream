@@ -1,64 +1,94 @@
 import firma from "../../firma.app.mjs";
 import {
-  TEMPLATE_SORT_FIELDS,
+  DEFAULT_PAGE_SIZE,
+  MAX_PAGE_SIZE,
   SORT_ORDERS,
+  TEMPLATE_SORT_FIELDS,
 } from "../../common/constants.mjs";
 
 export default {
   key: "firma-list-templates",
   name: "List Templates",
-  description: "Retrieves a paginated list of templates. [See the documentation](https://docs.firma.dev/api-reference/templates/list-templates)",
+  description: "Lists Firma templates, optionally filtered by name or creation date. Returns one page: `results` plus `pagination` (`current_page`, `page_size`, `total_count`, `total_pages`); set **Page** to read further pages. **Page Size** is at most 200. Use it to find a template ID for **Get Template** or **Create and Send Signing Request**. [See the documentation](https://docs.firma.dev/api-reference/templates/list-templates)",
   version: "0.0.1",
   type: "action",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
   props: {
     firma,
     name: {
       type: "string",
       label: "Name",
-      description: "Filter by template name (partial match, case-insensitive)",
+      description: "Only return templates whose name contains this text (case-insensitive), for example `NDA`.",
+      optional: true,
+    },
+    createdAfter: {
+      type: "string",
+      label: "Created After",
+      description: "Only return templates created after this ISO 8601 date-time, for example `2026-01-31T00:00:00Z`.",
+      optional: true,
+    },
+    createdBefore: {
+      type: "string",
+      label: "Created Before",
+      description: "Only return templates created before this ISO 8601 date-time, for example `2026-02-28T23:59:59Z`.",
       optional: true,
     },
     sortBy: {
       type: "string",
       label: "Sort By",
-      description: "Field to sort by",
+      description: "The field to sort by.",
       optional: true,
       options: TEMPLATE_SORT_FIELDS,
+      default: "created_on",
     },
     sortOrder: {
       type: "string",
       label: "Sort Order",
-      description: "Sort order",
+      description: "The sort direction.",
       optional: true,
       options: SORT_ORDERS,
+      default: "desc",
     },
     page: {
       type: "integer",
       label: "Page",
-      description: "Page number",
+      description: "The page to return, starting at 1.",
       optional: true,
       default: 1,
+      min: 1,
     },
     pageSize: {
       type: "integer",
       label: "Page Size",
-      description: "Items per page (max 200)",
+      description: "Templates per page, from 1 to 200.",
       optional: true,
-      default: 50,
+      default: DEFAULT_PAGE_SIZE,
+      min: 1,
+      max: MAX_PAGE_SIZE,
     },
   },
   async run({ $ }) {
-    const params = {};
-    if (this.name) params.name = this.name;
-    if (this.sortBy) params.sort_by = this.sortBy;
-    if (this.sortOrder) params.sort_order = this.sortOrder;
-    if (this.page) params.page = this.page;
-    if (this.pageSize) params.page_size = this.pageSize;
     const response = await this.firma.listTemplates({
       $,
-      params,
+      params: {
+        name: this.name,
+        created_after: this.createdAfter,
+        created_before: this.createdBefore,
+        sort_by: this.sortBy,
+        sort_order: this.sortOrder,
+        page: this.page,
+        page_size: this.pageSize,
+      },
     });
-    $.export("$summary", `Successfully retrieved ${response.results?.length || 0} template(s)`);
+    const count = response.results?.length ?? 0;
+    const total = response.pagination?.total_count;
+    $.export("$summary", `Retrieved ${count} template(s)${total === undefined
+      ? ""
+      : ` of ${total}`}`);
     return response;
   },
 };
