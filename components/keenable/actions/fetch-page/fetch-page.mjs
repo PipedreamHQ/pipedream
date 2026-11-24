@@ -3,7 +3,7 @@ import app from "../../keenable.app.mjs";
 export default {
   key: "keenable-fetch-page",
   name: "Fetch Page",
-  description: "Fetch a web page and get its content as clean Markdown, with title, author and publish date. [See the documentation](https://docs.keenable.ai/api-reference/fetch)",
+  description: "Fetch a web page and get its content as clean Markdown, with title, author and publish date. [See the documentation](https://docs.keenable.ai/api-reference/fetch-post)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -30,7 +30,7 @@ export default {
     live: {
       type: "boolean",
       label: "Live",
-      description: "Set to `true` to fetch the live page from the source instead of the indexed copy, e.g. for a page that changes often. Defaults to `false`. Example: `true`",
+      description: "Set to `true` to fetch the live page from the source (`retrieval.max_age_hours: 0`) instead of the indexed copy, e.g. for a page that changes often. Defaults to `false`. Example: `true`",
       optional: true,
     },
     prompt: {
@@ -41,16 +41,21 @@ export default {
     },
   },
   async run({ $ }) {
+    const data = { urls: [this.url] };
+    const content = {};
+    if (this.maxChars != null) content.max_chars = this.maxChars;
+    if (this.prompt) content.prompt = this.prompt;
+    if (Object.keys(content).length) data.content = content;
+    if (this.live) data.retrieval = { max_age_hours: 0 };
     const response = await this.app.fetchPage({
       $,
-      params: {
-        url: this.url,
-        max_chars: this.maxChars,
-        live: this.live,
-        prompt: this.prompt,
-      },
+      data,
     });
-    $.export("$summary", `Successfully fetched ${response.url || this.url}`);
-    return response;
+    const page = Array.isArray(response?.results) ? response.results[0] : response;
+    if (page?.error) {
+      throw new Error(page.error.message || page.error.error || "Keenable fetch failed");
+    }
+    $.export("$summary", `Successfully fetched ${page?.url || this.url}`);
+    return page;
   },
 };

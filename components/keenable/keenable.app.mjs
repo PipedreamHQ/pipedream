@@ -42,7 +42,7 @@ export default {
     },
     fetchPage(opts = {}) {
       return this._makeRequest({
-        method: "GET",
+        method: "POST",
         path: "/fetch",
         ...opts,
       });
