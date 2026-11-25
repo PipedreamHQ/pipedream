@@ -39,12 +39,12 @@ export default {
       type: "string",
       secret: true,
       label: "Webhook Signing Secret (whsec_...)",
-      description: "Register this source's HTTP endpoint URL in Paymos Dashboard -> Developer -> Webhooks and paste the generated whsec_ secret.",
+      description: "Register this source's HTTP endpoint URL in Paymos Dashboard -> Developer -> Webhooks and paste the generated signing secret, e.g. `whsec_example`.",
     },
     events: {
       type: "string[]",
       label: "Events",
-      description: "Optional list of Paymos webhook event types to emit. Leave empty to emit all 18 canonical Paymos events.",
+      description: "Optional list of Paymos webhook event types to emit, e.g. `[\"invoice.paid\"]`. Leave empty to emit all 18 canonical Paymos events.",
       optional: true,
       options: [
         ...PAYMOS_CANONICAL_WEBHOOK_EVENTS,
@@ -96,6 +96,25 @@ export default {
       return;
     }
 
+    const selectedEvents = Array.isArray(this.events)
+      ? this.events.filter((item) => typeof item === "string" && item.trim() !== "")
+      : [];
+    const matched = selectedEvents.length === 0 || selectedEvents.includes(parsed.event_type);
+
+    if (!matched) {
+      this.http.respond({
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          received: true,
+          ignored: true,
+        }),
+      });
+      return;
+    }
+
     const seen = await this.db.get(SEEN_EVENT_IDS_KEY);
     const dedup = trackSeenEventId(seen, parsed.event_id, DEFAULT_DEDUP_LIMIT);
     if (dedup.isDuplicate) {
@@ -114,32 +133,20 @@ export default {
 
     await this.db.set(SEEN_EVENT_IDS_KEY, dedup.seenEventIds);
 
-    const selectedEvents = Array.isArray(this.events)
-      ? this.events.filter((item) => typeof item === "string" && item.trim() !== "")
-      : [];
-    const matched = selectedEvents.length === 0 || selectedEvents.includes(parsed.event_type);
-
     this.http.respond({
       status: 200,
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(
-        matched
-          ? { received: true }
-          : {
-            received: true,
-            ignored: true,
-          },
-      ),
+      body: JSON.stringify({
+        received: true,
+      }),
     });
 
-    if (matched) {
-      this.$emit(parsed, {
-        id: parsed.event_id,
-        summary: `${parsed.event_type} (${parsed.event_id})`,
-        ts: parsed.occurred_at * 1000,
-      });
-    }
+    this.$emit(parsed, {
+      id: parsed.event_id,
+      summary: `${parsed.event_type} (${parsed.event_id})`,
+      ts: parsed.occurred_at * 1000,
+    });
   },
 };

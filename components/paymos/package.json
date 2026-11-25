@@ -20,8 +20,7 @@
   "engines": {
     "node": ">=20"
   },
-  "scripts": {
-    "test": "node --test tests/conformance.test.mjs"
-  },
-  "dependencies": {}
+  "dependencies": {
+    "@pipedream/platform": "^1.6.8"
+  }
 }

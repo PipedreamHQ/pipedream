@@ -5,12 +5,13 @@ export default {
   name: "Cancel Invoice",
   description: "Cancel a Paymos invoice while it is still awaiting client selection. [See the documentation](https://paymos.io/docs)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     paymos,
     invoiceId: {
@@ -22,11 +23,12 @@ export default {
     reason: {
       type: "string",
       label: "Reason",
-      description: "Required cancellation reason stored on the invoice record (1 to 500 characters).",
+      description: "Required cancellation reason stored on the invoice record (1 to 500 characters), e.g. `Duplicate order`.",
     },
   },
   async run({ $ }) {
     const response = await this.paymos.cancelInvoice({
+      $,
       invoiceId: this.invoiceId,
       reason: this.reason,
     });

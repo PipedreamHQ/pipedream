@@ -3,8 +3,24 @@ import {
   encodePathSegment,
   signRequest,
 } from "./common/signing.mjs";
+import {
+  PAYMOS_DEFAULT_BASE_URL,
+  PaymosApiError,
+  normalizeBaseUrl,
+  parseNonNegativeInteger,
+  parseProblemDetails,
+  requireNonEmptyString,
+  validatePaymosAuth,
+} from "./common/utils.mjs";
 
-export const PAYMOS_DEFAULT_BASE_URL = "https://api.paymos.io";
+export {
+  PAYMOS_DEFAULT_BASE_URL,
+  PaymosApiError,
+  normalizeBaseUrl,
+  parseProblemDetails,
+  validatePaymosAuth,
+};
+
 export const PAYMOS_PIPEDREAM_USER_AGENT = "paymos-pipedream/0.0.1";
 
 export const PAYMOS_NETWORKS = Object.freeze([
@@ -47,147 +63,9 @@ export const PAYMOS_REFUND_MODES = Object.freeze([
   "overpayment",
 ]);
 
-export function parseProblemDetails(rawBody) {
-  if (rawBody === undefined || rawBody === null) {
-    return null;
-  }
-  if (typeof rawBody === "object" && !Array.isArray(rawBody)) {
-    return rawBody;
-  }
-  if (typeof rawBody !== "string" || rawBody.trim() === "") {
-    return null;
-  }
-  try {
-    const parsed = JSON.parse(rawBody);
-    if (parsed === null || typeof parsed !== "object" || Array.isArray(parsed)) {
-      return null;
-    }
-    return parsed;
-  } catch {
-    return null;
-  }
-}
-
-export class PaymosApiError extends Error {
-  constructor(status, responseBody) {
-    const rawText = typeof responseBody === "string"
-      ? responseBody
-      : responseBody !== undefined && responseBody !== null
-        ? JSON.stringify(responseBody)
-        : "";
-    const problem = parseProblemDetails(rawText);
-    const detail = (typeof problem?.detail === "string" && problem.detail !== "")
-      ? problem.detail
-      : (typeof problem?.code === "string" && problem.code !== "")
-        ? problem.code
-        : (typeof problem?.title === "string" && problem.title !== "")
-          ? problem.title
-          : rawText || "Empty response";
-
-    super(`Paymos API ${status}: ${detail}`);
-    this.name = "PaymosApiError";
-    this.status = status;
-    this.type = typeof problem?.type === "string" ? problem.type : null;
-    this.title = typeof problem?.title === "string" ? problem.title : null;
-    this.code = typeof problem?.code === "string" ? problem.code : "";
-    this.detail = detail;
-    this.field = typeof problem?.field === "string" ? problem.field : null;
-    this.errors = Array.isArray(problem?.errors)
-      ? problem.errors.map((entry) => ({
-        code: typeof entry?.code === "string" ? entry.code : "",
-        field: typeof entry?.field === "string" ? entry.field : null,
-        message: typeof entry?.message === "string" ? entry.message : "",
-      }))
-      : [];
-    this.problem = problem;
-    this.responseBody = rawText;
-  }
-}
-
-function normalizeBaseUrl(rawValue) {
-  let parsed;
-  try {
-    parsed = new URL(rawValue);
-  } catch {
-    throw new Error("Paymos API base_url is not a valid URL.");
-  }
-
-  const host = parsed.hostname.toLowerCase();
-  const isLoopback = host === "localhost" ||
-    host === "127.0.0.1" ||
-    host === "::1" ||
-    host === "[::1]";
-
-  if (parsed.protocol !== "https:" && !(parsed.protocol === "http:" && isLoopback)) {
-    throw new Error(
-      "Paymos API base_url must use HTTPS (HTTP is allowed only for loopback tests).",
-    );
-  }
-
-  return rawValue.replace(/\/+$/, "");
-}
-
-export function validatePaymosAuth(auth) {
-  if (!auth || typeof auth !== "object") {
-    throw new Error("Paymos API credentials are required.");
-  }
-
-  const publicKey = String(auth.public_key ?? "").trim();
-  const secretKey = String(auth.secret_key ?? "").trim();
-  const rawBaseUrl = String(auth.base_url ?? PAYMOS_DEFAULT_BASE_URL).trim() ||
-    PAYMOS_DEFAULT_BASE_URL;
-
-  if (!publicKey) {
-    throw new Error(
-      "Paymos public_key is required (expected pk_live_... or pk_test_...).",
-    );
-  }
-
-  if (publicKey.startsWith("rk_")) {
-    throw new Error(
-      "Payout API keys (rk_) are not supported in Paymos Pipedream components. Use a Payment API key starting with pk_live_ (Production) or pk_test_ (Sandbox).",
-    );
-  }
-
-  let environment;
-  if (publicKey.startsWith("pk_live_")) {
-    environment = "production";
-  } else if (publicKey.startsWith("pk_test_")) {
-    environment = "sandbox";
-  } else {
-    throw new Error(
-      "Invalid Paymos public_key prefix. Expected a Payment API key starting with pk_live_ (Production) or pk_test_ (Sandbox).",
-    );
-  }
-
-  if (!secretKey) {
-    throw new Error("Paymos secret_key is required.");
-  }
-
-  const baseUrl = normalizeBaseUrl(rawBaseUrl);
-
-  return {
-    publicKey,
-    secretKey,
-    baseUrl,
-    environment,
-  };
-}
-
-function requireNonEmptyString(value, fieldName) {
-  const trimmed = typeof value === "string" ? value.trim() : "";
-  if (trimmed === "") {
-    throw new Error(`${fieldName} is required and cannot be empty.`);
-  }
-  return trimmed;
-}
-
-function parseNonNegativeInteger(value, fieldName) {
-  const num = Number(value);
-  if (!Number.isSafeInteger(num) || num < 0) {
-    throw new Error(`${fieldName} must be a non-negative integer.`);
-  }
-  return num;
+async function loadPlatformAxios() {
+  const mod = await import("@pipedream/platform");
+  return mod.axios;
 }
 
 export default {
@@ -197,17 +75,22 @@ export default {
     projectId: {
       type: "string",
       label: "Project ID",
-      description: "Prefixed Paymos project identifier (e.g. `prj_...`). Find it in Paymos Dashboard -> Projects -> Details.",
+      description: "Prefixed Paymos project identifier, e.g. `prj_01J9SAMPLEPROJECT`. Find it in Paymos Dashboard -> Projects -> Details.",
     },
     invoiceId: {
       type: "string",
       label: "Invoice ID",
-      description: "Prefixed Paymos invoice identifier (e.g. `inv_...`).",
+      description: "Prefixed Paymos invoice identifier, e.g. `inv_74BPZFhr9qy9Uz2fbRkdJX`. Returned as `invoice_id` by **Create Invoice** or **List Invoices**.",
     },
     channelId: {
       type: "string",
       label: "Payment Channel ID",
-      description: "Prefixed Paymos payment channel identifier (e.g. `pch_...`).",
+      description: "Prefixed Paymos payment channel identifier, e.g. `pch_01J9SAMPLECHANNEL`. Returned as `channel_id` by **Create Payment Channel**.",
+    },
+    externalOrderId: {
+      type: "string",
+      label: "External Order ID",
+      description: "Your unique merchant order or idempotency identifier (max 128 characters, cannot start with `wgt_`), e.g. `order-10042`.",
     },
   },
   methods: {
@@ -215,13 +98,32 @@ export default {
       return validatePaymosAuth(this.$auth);
     },
 
+    async testConnection({
+      $ = this,
+      fetchImpl,
+      axiosImpl,
+    } = {}) {
+      return this.makeRequest({
+        $,
+        method: "GET",
+        path: "/v1/invoices",
+        query: {
+          limit: 1,
+        },
+        fetchImpl,
+        axiosImpl,
+      });
+    },
+
     async makeRequest({
+      $ = this,
       method = "GET",
       path,
       query,
       body,
       requireSandbox = false,
       fetchImpl,
+      axiosImpl,
       timestamp,
     }) {
       const creds = this.validateCredentials();
@@ -268,24 +170,45 @@ export default {
         headers["Content-Type"] = "application/json";
       }
 
-      const fetcher = fetchImpl ?? this._fetchImpl ?? globalThis.fetch;
-      if (typeof fetcher !== "function") {
-        throw new Error("Fetch API is unavailable in this Node.js runtime.");
+      const fetcher = fetchImpl ?? this._fetchImpl;
+      let status;
+      let responseText;
+
+      if (typeof fetcher === "function") {
+        const requestInit = {
+          method: upperMethod,
+          headers,
+        };
+        if (bodyString !== "") {
+          requestInit.body = bodyString;
+        }
+        const response = await fetcher(url, requestInit);
+        status = response.status;
+        responseText = await response.text();
+      } else {
+        const platformAxios = axiosImpl ?? this._axiosImpl ?? await loadPlatformAxios();
+        const axiosConfig = {
+          method: upperMethod,
+          url,
+          headers,
+          validateStatus: () => true,
+          transformResponse: [(data) => data],
+          returnFullResponse: true,
+        };
+        if (bodyString !== "") {
+          axiosConfig.data = bodyString;
+        }
+        const response = await platformAxios($, axiosConfig);
+        status = response.status;
+        responseText = typeof response.data === "string"
+          ? response.data
+          : response.data !== undefined && response.data !== null
+            ? JSON.stringify(response.data)
+            : "";
       }
 
-      const requestInit = {
-        method: upperMethod,
-        headers,
-      };
-      if (bodyString !== "") {
-        requestInit.body = bodyString;
-      }
-
-      const response = await fetcher(url, requestInit);
-      const responseText = await response.text();
-
-      if (!response.ok) {
-        throw new PaymosApiError(response.status, responseText);
+      if (status < 200 || status >= 300) {
+        throw new PaymosApiError(status, responseText);
       }
 
       if (responseText.trim() === "") {
@@ -300,6 +223,7 @@ export default {
     },
 
     async createInvoice({
+      $ = this,
       projectId,
       amount,
       currency,
@@ -308,6 +232,7 @@ export default {
       customerFeePercent,
       clientId,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const normalizedProjectId = requireNonEmptyString(projectId, "project_id");
       const normalizedAmount = requireNonEmptyString(amount, "amount");
@@ -347,26 +272,33 @@ export default {
       }
 
       return this.makeRequest({
+        $,
         method: "POST",
         path: "/v1/invoices",
         body,
         fetchImpl,
+        axiosImpl,
       });
     },
 
     async getInvoice({
+      $ = this,
       invoiceId,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const normalizedInvoiceId = requireNonEmptyString(invoiceId, "invoice_id");
       return this.makeRequest({
+        $,
         method: "GET",
         path: `/v1/invoices/${encodePathSegment(normalizedInvoiceId)}`,
         fetchImpl,
+        axiosImpl,
       });
     },
 
     async listInvoices({
+      $ = this,
       projectId,
       status,
       externalOrderId,
@@ -375,6 +307,7 @@ export default {
       limit,
       cursor,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const query = {};
 
@@ -412,17 +345,21 @@ export default {
       }
 
       return this.makeRequest({
+        $,
         method: "GET",
         path: "/v1/invoices",
         query,
         fetchImpl,
+        axiosImpl,
       });
     },
 
     async cancelInvoice({
+      $ = this,
       invoiceId,
       reason,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const normalizedInvoiceId = requireNonEmptyString(invoiceId, "invoice_id");
       const normalizedReason = requireNonEmptyString(reason, "reason");
@@ -431,19 +368,23 @@ export default {
       }
 
       return this.makeRequest({
+        $,
         method: "POST",
         path: `/v1/invoices/${encodePathSegment(normalizedInvoiceId)}/cancel`,
         body: {
           reason: normalizedReason,
         },
         fetchImpl,
+        axiosImpl,
       });
     },
 
     async simulateSandboxInvoice({
+      $ = this,
       invoiceId,
       stage,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const normalizedInvoiceId = requireNonEmptyString(invoiceId, "invoice_id");
       const normalizedStage = requireNonEmptyString(stage, "stage");
@@ -454,6 +395,7 @@ export default {
       }
 
       return this.makeRequest({
+        $,
         method: "POST",
         path: `/v1/sandbox/invoices/${encodePathSegment(normalizedInvoiceId)}/simulate-payment`,
         body: {
@@ -461,13 +403,16 @@ export default {
         },
         requireSandbox: true,
         fetchImpl,
+        axiosImpl,
       });
     },
 
     async createPaymentChannel({
+      $ = this,
       projectId,
       externalId,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const normalizedProjectId = requireNonEmptyString(projectId, "project_id");
       const normalizedExternalId = requireNonEmptyString(externalId, "external_id");
@@ -476,6 +421,7 @@ export default {
       }
 
       return this.makeRequest({
+        $,
         method: "POST",
         path: "/v1/payment-channels",
         body: {
@@ -483,26 +429,33 @@ export default {
           external_id: normalizedExternalId,
         },
         fetchImpl,
+        axiosImpl,
       });
     },
 
     async getPaymentChannel({
+      $ = this,
       channelId,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const normalizedChannelId = requireNonEmptyString(channelId, "channel_id");
       return this.makeRequest({
+        $,
         method: "GET",
         path: `/v1/payment-channels/${encodePathSegment(normalizedChannelId)}`,
         fetchImpl,
+        axiosImpl,
       });
     },
 
     async createRefund({
+      $ = this,
       invoiceId,
       mode,
       externalOrderId,
       fetchImpl,
+      axiosImpl,
     } = {}) {
       const normalizedInvoiceId = requireNonEmptyString(invoiceId, "invoice_id");
       const normalizedMode = requireNonEmptyString(mode, "mode");
@@ -520,10 +473,12 @@ export default {
       };
 
       return this.makeRequest({
+        $,
         method: "POST",
         path: "/v1/refunds",
         body,
         fetchImpl,
+        axiosImpl,
       });
     },
   },

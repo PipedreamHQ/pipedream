@@ -2,7 +2,7 @@
 
 Official Pipedream components for [Paymos](https://paymos.io) — accept stablecoin (**USDT, USDC, USD1, DAI**) and gold-backed **XAUT** payments across **13 deposit networks**, price invoices in **45 fiat currencies** or crypto, manage per-customer Payment Channels and server-calculated invoice refunds, and trigger workflows on verified Paymos webhooks.
 
-Built as pure Node.js ESM (`.mjs`) with **zero external runtime dependencies** (`node:crypto` + native `fetch`).
+Built as pure Node.js ESM (`.mjs`) using `@pipedream/platform` (`axios`) for platform HTTP integration and `node:crypto` for canonical HMAC-SHA256 signing and webhook verification.
 
 ## Authentication (`this.$auth`)
 

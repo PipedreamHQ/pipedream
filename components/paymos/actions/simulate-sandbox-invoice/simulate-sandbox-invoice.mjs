@@ -5,12 +5,13 @@ export default {
   name: "Simulate Sandbox Invoice",
   description: "Simulate a payment outcome on a Sandbox Paymos invoice (`pk_test_` key required; rejected for `pk_live_` keys). [See the documentation](https://paymos.io/docs)",
   version: "0.0.1",
+  type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
-  type: "action",
   props: {
     paymos,
     invoiceId: {
@@ -22,7 +23,7 @@ export default {
     stage: {
       type: "string",
       label: "Stage",
-      description: "Sandbox payment lifecycle stage to simulate (`paid`, `overpaid`, `underpay`, or `cancel`).",
+      description: "Sandbox payment lifecycle stage to simulate (`paid`, `overpaid`, `underpay`, or `cancel`), e.g. `paid`.",
       options: [
         ...PAYMOS_SANDBOX_STAGES,
       ],
@@ -30,6 +31,7 @@ export default {
   },
   async run({ $ }) {
     const response = await this.paymos.simulateSandboxInvoice({
+      $,
       invoiceId: this.invoiceId,
       stage: this.stage,
     });
