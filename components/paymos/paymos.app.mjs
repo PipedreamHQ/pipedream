@@ -148,7 +148,8 @@ export default {
         : typeof body === "string"
           ? body
           : JSON.stringify(body);
-      const url = `${creds.baseUrl}${path}${queryString}`;
+      const baseRequestUrl = `${creds.baseUrl}${path}`;
+      const url = `${baseRequestUrl}${queryString}`;
 
       const signed = signRequest({
         method: upperMethod,
@@ -189,12 +190,20 @@ export default {
         const platformAxios = axiosImpl ?? this._axiosImpl ?? await loadPlatformAxios();
         const axiosConfig = {
           method: upperMethod,
-          url,
+          // Keep queryString off config.url so @pipedream/platform removeSearchFromUrl()
+          // does not JSON.parse-collapse duplicate keys (e.g. status[]) or re-encode RFC 3986 query.
+          url: baseRequestUrl,
           headers,
           validateStatus: () => true,
+          transformRequest: [(data) => data],
           transformResponse: [(data) => data],
           returnFullResponse: true,
         };
+        if (queryString !== "") {
+          const serializedQuery = queryString.slice(1);
+          axiosConfig.params = { _: 1 };
+          axiosConfig.paramsSerializer = () => serializedQuery;
+        }
         if (bodyString !== "") {
           axiosConfig.data = bodyString;
         }
