@@ -1,0 +1,27 @@
+{
+  "name": "@pipedream/paymos",
+  "version": "0.0.1",
+  "description": "Pipedream Paymos components",
+  "type": "module",
+  "main": "paymos.app.mjs",
+  "author": "Paymos <support@paymos.io>",
+  "license": "MIT",
+  "homepage": "https://paymos.io",
+  "keywords": [
+    "pipedream",
+    "paymos",
+    "payments",
+    "stablecoins",
+    "usdt",
+    "usdc",
+    "xaut",
+    "webhooks"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test tests/conformance.test.mjs"
+  },
+  "dependencies": {}
+}
