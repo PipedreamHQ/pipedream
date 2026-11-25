@@ -1,6 +1,6 @@
 # Overview
 
-List the chat models present in both the [public Ace Data Cloud model catalog](https://platform.acedata.cloud/models) and your connected account's Models API. This action only reads the model lists.
+List the chat models present in both the [public Ace Data Cloud model catalog](https://platform.acedata.cloud/models) and the authenticated Models API. This action only reads the model lists.
 
 # Getting Started
 
@@ -9,4 +9,4 @@ List the chat models present in both the [public Ace Data Cloud model catalog](h
 
 # Troubleshooting
 
-If an expected model is missing, check that your application token has access and that the model is in the public chat catalog.
+If an expected model is missing, check both lists for its exact ID. Model access and balance are checked when you make a chat request.

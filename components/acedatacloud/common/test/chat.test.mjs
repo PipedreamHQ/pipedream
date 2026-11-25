@@ -6,6 +6,7 @@ import list from "../../actions/list-chat-models/list-chat-models.mjs";
 import {
   chatModelOptions, publishedChatModels,
 } from "../chat.mjs";
+import { requestOptions } from "../utils.mjs";
 
 const models = [
   {
@@ -151,6 +152,42 @@ test("chat sends one selected-model text completion and preserves content plus u
     max_tokens: 128,
   });
   assert.equal(calls[0].data.async, undefined);
+});
+
+test("chat preserves user and system text, including indentation and final newlines", async () => {
+  const {
+    input, calls,
+  } = fixture();
+  input.model = " gpt-4o-mini ";
+  input.prompt = "    indented code\n";
+  input.systemPrompt = "  instruction\n";
+  await chat.run.call(input, {
+    $: output(),
+  });
+  assert.equal(calls[0].data.model, "gpt-4o-mini");
+  assert.deepEqual(calls[0].data.messages, [
+    {
+      role: "system",
+      content: input.systemPrompt,
+    },
+    {
+      role: "user",
+      content: input.prompt,
+    },
+  ]);
+});
+
+test("completion requests leave the execution deadline to the workflow", () => {
+  const options = requestOptions({
+    path: "/v1/chat/completions",
+    apiKey: "fixture",
+    data: {
+      model: "fixture",
+    },
+  });
+  assert.equal(options.timeout, undefined);
+  assert.equal(options.headers.Authorization, "Bearer fixture");
+  assert.equal(options.maxRedirects, 0);
 });
 
 test("invalid and stale models fail before a metered completion request", async () => {

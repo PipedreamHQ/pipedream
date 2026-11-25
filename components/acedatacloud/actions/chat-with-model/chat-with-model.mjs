@@ -47,7 +47,7 @@ export default {
     },
   },
   async run({ $ }) {
-    const model = requiredText(this.model, "Model");
+    const model = requiredText(this.model, "Model").trim();
     const prompt = requiredText(this.prompt, "Prompt");
     if (this.maxTokens !== undefined && (!Number.isInteger(this.maxTokens) || this.maxTokens < 1)) {
       throw new Error("Max Tokens must be a positive integer.");

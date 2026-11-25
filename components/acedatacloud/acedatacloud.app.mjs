@@ -28,7 +28,7 @@ export default {
      * @param {Object} options - Optional Pipedream context.
      * @returns {Promise<Object[]>} Models present in both current lists.
      */
-    async listChatModels({ $ } = {}) {
+    async listChatModels({ $ = this } = {}) {
       const [
         available,
         published,
@@ -37,6 +37,7 @@ export default {
           $,
           path: "/v1/models",
           method: "GET",
+          timeout: 20000,
         }),
         axios($, {
           method: "GET",
@@ -56,16 +57,14 @@ export default {
      * @returns {Promise<Object>} API response.
      */
     request({
-      $, path, data, method, params, headers, responseType,
+      $ = this, path, data, method, timeout,
     }) {
       return axios($, requestOptions({
         apiKey: this.$auth.api_key,
         path,
         data,
         method,
-        params,
-        headers,
-        responseType,
+        timeout,
       }));
     },
   },
