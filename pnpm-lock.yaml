@@ -4670,6 +4670,12 @@ importers:
         specifier: ^3.2.2
         version: 3.2.2
 
+  components/donethat:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+
   components/donorbox: {}
 
   components/doppler: {}
