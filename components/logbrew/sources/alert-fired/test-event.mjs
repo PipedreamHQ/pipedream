@@ -1,0 +1,18 @@
+export default {
+  "id": "5c1d2e3f-4a5b-4c6d-8e7f-9a0b1c2d3e4f",
+  "project_id": "11111111-1111-4111-8111-111111111111",
+  "name": "New production issue",
+  "kind": "new_issue",
+  "environment": "production",
+  "service": null,
+  "level": null,
+  "threshold": null,
+  "window_minutes": null,
+  "factor": null,
+  "issue_id": null,
+  "muted": false,
+  "snoozed_until": null,
+  "last_fired_at": "2026-11-25T12:01:00Z",
+  "created_at": "2026-11-20T09:00:00Z",
+  "updated_at": "2026-11-20T09:00:00Z",
+};
