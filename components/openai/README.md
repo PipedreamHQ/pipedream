@@ -42,17 +42,17 @@ Use ChatGPT to translate and localize content across multiple languages, expandi
 
 First, sign up for an OpenAI account, then in a new workflow step open the OpenAI app:
 
-![Screenshot highlighting the OpenAI (ChatGPT) app selected in the Pipedream workflow automation interface, with a red arrow pointing to the OpenAI option in the sidebar app list.](https://res.cloudinary.com/pipedreamin/image/upload/v1713464578/marketplace/apps/openai/CleanShot_2024-04-18_at_14.22.30_guc5ri.png)
+![Screenshot highlighting the OpenAI (ChatGPT) app selected in the Pipedream workflow automation interface, with a red arrow pointing to the OpenAI option in the sidebar app list.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/openai/CleanShot_2024-04-18_at_14.22.30_guc5ri.png)
 
 Then select one of the Pre-built actions, or choose to use Node.js or Python:
 
-![Interface showing a list of OpenAI (ChatGPT) actions available in Pipedream, including options for building API requests, using the API in Node.js and Python, and pre-built actions like Chat, Summarize Text, and Create Image (DALL-E).](https://res.cloudinary.com/pipedreamin/image/upload/v1713464768/marketplace/apps/openai/CleanShot_2024-04-18_at_14.25.46_akse9e.png)
+![Interface showing a list of OpenAI (ChatGPT) actions available in Pipedream, including options for building API requests, using the API in Node.js and Python, and pre-built actions like Chat, Summarize Text, and Create Image (DALL-E).](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/openai/CleanShot_2024-04-18_at_14.25.46_akse9e.png)
 
 Then connect your OpenAI account to Pipedream. Open the [API keys section](https://platform.openai.com/api-keys) in the OpenAI dashboard.
 
 Then select **Create a new secret key:**
 
-![Screenshot of the OpenAI API keys management page with a red arrow pointing to the 'Create new secret key' button for generating new API keys.](https://res.cloudinary.com/pipedreamin/image/upload/v1713464913/marketplace/apps/openai/CleanShot_2024-04-18_at_14.28.03_lw0pbw.png)
+![Screenshot of the OpenAI API keys management page with a red arrow pointing to the 'Create new secret key' button for generating new API keys.](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/openai/CleanShot_2024-04-18_at_14.28.03_lw0pbw.png)
 
 Name the key `Pipedream` and then save the API key within Pipedream. Now you’re all set to use pre-built actions like `Chat` or use your OpenAI API key directly in Node.js or Python code.
 

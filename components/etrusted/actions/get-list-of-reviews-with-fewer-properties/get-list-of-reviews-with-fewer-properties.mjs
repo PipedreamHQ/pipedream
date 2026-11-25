@@ -5,7 +5,7 @@ export default {
   key: "etrusted-get-list-of-reviews-with-fewer-properties",
   name: "Get List of Reviews with Fewer Properties",
   description: "Retrieves a list of reviews with fewer properties. [See the documentation](https://developers.etrusted.com/reference/getminimalreviews)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: false,

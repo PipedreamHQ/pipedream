@@ -4,8 +4,9 @@ import createEventCommon from "../common/create-event-common.mjs";
 export default {
   key: "google_calendar-update-event",
   name: "Update Event",
-  description: "Update an event from Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#update)",
-  version: "0.0.18",
+  description: "Update an existing event in Google Calendar. Only the fields you supply change; recurrence, reminders, attendees and all other fields are kept. Set `Show As` to mark the event as Free or Busy, or `Color ID` to recolor it; for a recurring event this changes the whole series. When only `Color ID` and/or `Show As` are supplied, just your own copy changes and no notifications are sent, so this also works on meetings you don't organize. To add guests without replacing the list, use **Add Attendees To Event**; to change a single occurrence of a recurring event, use **Update Event Instance**. Returns the updated event. [See the documentation](https://developers.google.com/workspace/calendar/api/v3/reference/events/update)",
+  version: "0.2.0",
+  ai: "optimized",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
@@ -32,6 +33,25 @@ export default {
     ...createEventCommon.props({
       isUpdate: true,
     }),
+    attendees: {
+      label: "Attendees",
+      type: "string",
+      description: "Enter either an array or a comma separated list of email addresses of attendees, e.g. `alice@example.com,bob@example.com` or `[\"alice@example.com\"]`. Replaces the event's current attendee list; to add attendees without removing existing ones, use **Add Attendees To Event** instead.",
+      optional: true,
+    },
+    colorId: {
+      propDefinition: [
+        googleCalendar,
+        "colorId",
+      ],
+      description: "The color of the event on your calendar only, e.g. `5`. Use **List Color ID Options** and pass an option's `value`.",
+    },
+    transparency: {
+      propDefinition: [
+        googleCalendar,
+        "transparency",
+      ],
+    },
     timeZone: {
       propDefinition: [
         googleCalendar,
@@ -43,19 +63,29 @@ export default {
         googleCalendar,
         "sendUpdates",
       ],
+      description: "Configure whether to send notifications about the event, e.g. `all`. Ignored when only `Color ID` and/or `Show As` are supplied: those change only your copy and never notify guests.",
     },
   },
-  methods: {
-    ...createEventCommon.methods,
-  },
+  methods: createEventCommon.methods,
   async run({ $ }) {
+    if (this.isPersonalFieldsOnlyUpdate()) {
+      const response = await this.patchPersonalFields(this.eventId);
+
+      $.export("$summary", `Successfully updated your copy of event: "${response.id}"`);
+
+      return response;
+    }
+
     const currentEvent = await this.googleCalendar.getEvent({
       calendarId: this.calendarId,
       eventId: this.eventId,
     });
 
     const timeZone = await this.getTimeZone(this.timeZone || currentEvent.start.timeZone);
-    const attendees = this.formatAttendees(this.attendees, currentEvent.attendees);
+    const suppliedAttendees = this.formatAttendees(this.attendees);
+    const attendees = suppliedAttendees.length
+      ? suppliedAttendees
+      : currentEvent.attendees;
     const recurrence = this.formatRecurrence({
       repeatFrequency: this.repeatFrequency,
       repeatInterval: this.repeatInterval,
@@ -67,8 +97,10 @@ export default {
     const response = await this.googleCalendar.updateEvent({
       calendarId: this.calendarId,
       eventId: this.eventId,
-      sendUpdates: this.sendUpdates,
+      sendUpdates: this.sendUpdates || undefined,
+      // `update` is a full replace; unsupplied fields would be wiped
       requestBody: {
+        ...currentEvent,
         summary: this.summary || currentEvent.summary,
         location: this.location || currentEvent.location,
         description: this.description || currentEvent.description,
@@ -77,11 +109,13 @@ export default {
           timeZone: timeZone || currentEvent.start.timeZone,
         }),
         end: this.getDateParam({
-          date: this.eventEndDate || currentEvent.end.dateTime || currentEvent.start.date,
+          date: this.eventEndDate || currentEvent.end.dateTime || currentEvent.end.date,
           timeZone: timeZone || currentEvent.end.timeZone,
         }),
-        recurrence,
+        recurrence: recurrence || currentEvent.recurrence,
         attendees,
+        colorId: this.colorId || currentEvent.colorId,
+        transparency: this.transparency || currentEvent.transparency,
       },
     });
 

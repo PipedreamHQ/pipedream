@@ -6,7 +6,7 @@ export default {
   description:
     "Get the object currently being played on the user's Spotify account. [See the documentation](https://developer.spotify.com/documentation/web-api/reference/get-the-users-currently-playing-track)",
   key: "spotify-get-currently-playing-track",
-  version: "0.0.8",
+  version: "0.0.9",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

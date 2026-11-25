@@ -23,7 +23,7 @@ The subdomain is the portion of the URL *before* `zendesk.com`.
 
 For example, if the subdomain is `pipedream1903`, that's what you would enter in Pipedream.
 
-![Example of finding the Zendesk subdomain from the URL while logged into Zendesk](https://res.cloudinary.com/pipedreamin/image/upload/v1715183755/marketplace/apps/zendesk/CleanShot_2024-05-08_at_11.44.08_2x_ogzhhj.png)
+![Example of finding the Zendesk subdomain from the URL while logged into Zendesk](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/zendesk/CleanShot_2024-05-08_at_11.44.08_2x_ogzhhj.png)
 
 Next, you'll be prompted to connect your Zendesk account. Zendesk will ask if you'd like to grant Pipedream permission to perform actions on your account; accept these permissions to continue.
 

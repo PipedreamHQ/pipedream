@@ -16,13 +16,13 @@ First, open the SendGrid console and log in.
 
 Then open the [Integration Guide](https://app.sendgrid.com/guide/integrate) and select the **Web API** option.
 
-![Open the Twilio SendGrid Integration Guide to begin the process of creating an API key to connect with Pipedream](https://res.cloudinary.com/pipedreamin/image/upload/v1715176223/marketplace/apps/sendgrid/CleanShot_2024-05-07_at_15.17.56_2x_zhynua.png)
+![Open the Twilio SendGrid Integration Guide to begin the process of creating an API key to connect with Pipedream](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/sendgrid/CleanShot_2024-05-07_at_15.17.56_2x_zhynua.png)
 
 Then choose any language from the next menu. Choose any programming language; this selection only affects the example code shown. The key step is obtaining the API key.
 
 After picking a language, you'll be prompted to generate an API key, we recommend naming it `Pipedream` for easy identification.
 
-![Name the API key "pipedream" and then after clicking the Generate button, copy the API key and paste it into Pipedream](https://res.cloudinary.com/pipedreamin/image/upload/v1715176222/marketplace/apps/sendgrid/CleanShot_2024-05-07_at_15.19.44_2x_hcduuf.png)
+![Name the API key "pipedream" and then after clicking the Generate button, copy the API key and paste it into Pipedream](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/sendgrid/CleanShot_2024-05-07_at_15.19.44_2x_hcduuf.png)
 
 After creating the API key, copy it and paste it into the appropriate configuration field in a Pipedream SendGrid connected account, either through a Pipedream action/trigger or through the Connected Accounts section of the dashboard.
 

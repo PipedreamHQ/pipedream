@@ -12,21 +12,21 @@ First, sign into your [ServiceNow Developer Portal](https://developer.servicenow
 
 1. Go to **System OAuth > Application Registry**.
 
-   ![Find the OAuth Client option under the ServiceNow application registry](https://res.cloudinary.com/pipedreamin/image/upload/v1715264549/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.18.36_ntausg.png)
+   ![Find the OAuth Client option under the ServiceNow application registry](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.18.36_ntausg.png)
 
 2. Create a new app by selecting **New** in the top right corner.
 
-   ![Create a new ServiceNow application under the OAuth Clients section in the Application Registry](https://res.cloudinary.com/pipedreamin/image/upload/v1715265062/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.30.51_jpi4ct.png)
+   ![Create a new ServiceNow application under the OAuth Clients section in the Application Registry](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.30.51_jpi4ct.png)
 
 3. Choose **Create an OAuth API endpoint for external clients**:
 
-   ![Create a new app, and make sure to choose the OAuth API endpoint for external clients option](https://res.cloudinary.com/pipedreamin/image/upload/v1715264615/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.19.09_pgezqf.png)
+   ![Create a new app, and make sure to choose the OAuth API endpoint for external clients option](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.19.09_pgezqf.png)
 
 4. Name your app, such as `Pipedream`. Use the default settings but specify the **Redirect URL**: `https://api.pipedream.com/connect/oauth/oa_g2oiqA/callback`.
 
 5. Click **Create**. It will appear in the Application Registry once created.
 
-   ![You should see the Pipedream app listed in the ServiceNow Registry after making those changes](https://res.cloudinary.com/pipedreamin/image/upload/v1715264960/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.21.12_iwlxgq.png)
+   ![You should see the Pipedream app listed in the ServiceNow Registry after making those changes](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/servicenow/CleanShot_2024-05-09_at_10.21.12_iwlxgq.png)
 
 ### Create the OAuth Validator app
 

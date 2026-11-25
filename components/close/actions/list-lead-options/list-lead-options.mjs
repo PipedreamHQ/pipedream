@@ -4,7 +4,7 @@ export default {
   key: "close-list-lead-options",
   name: "List Lead ID Options",
   description: "Retrieves available options for the Lead ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
   annotations: {
     destructiveHint: false,

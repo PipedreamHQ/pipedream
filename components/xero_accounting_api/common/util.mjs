@@ -19,25 +19,49 @@ const removeNullEntries = (obj) =>
       : acc;
   }, {});
 
-const formatLineItems = (lineItems) => {
-  if (!lineItems) {
-    return [];
+// For props declared as `string[]` whose entries must each be a JSON object. Unlike
+// `parseObject`, malformed JSON is reported as a `ConfigurationError` instead of a bare
+// `SyntaxError`, and a non-object entry is rejected instead of being forwarded to Xero as
+// a string. An entry holding a whole JSON array is flattened rather than rejected — some
+// prop descriptions show their example wrapped in `[ ]`, so that mistake is common.
+const parseObjectArray = (values, fieldName) => {
+  if (!values) {
+    return undefined;
   }
-  if (typeof (lineItems) === "string") {
-    return JSON.parse(lineItems);
-  }
-  let parsedLineItems = [];
-  for (let lineItem of lineItems) {
-    if (!lineItem) {
-      continue;
-    }
-    if (typeof (lineItem) === "string") {
-      lineItem = JSON.parse(lineItem);
-    }
-    parsedLineItems.push(lineItem);
-  }
-  return parsedLineItems;
+
+  const entries = Array.isArray(values)
+    ? values
+    : [
+      values,
+    ];
+
+  const parsedEntries = entries
+    .filter((entry) => entry !== undefined && entry !== null && entry !== "")
+    .flatMap((entry) => {
+      if (typeof entry !== "string") {
+        return entry;
+      }
+      try {
+        return JSON.parse(entry);
+      } catch {
+        throw new ConfigurationError(`${fieldName}: \`${entry}\` is not valid JSON. Provide one JSON object per entry.`);
+      }
+    })
+    .map((parsed) => {
+      if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+        throw new ConfigurationError(`${fieldName}: \`${JSON.stringify(parsed)}\` is not a JSON object. Provide one JSON object per entry.`);
+      }
+      return parsed;
+    });
+
+  // Left as `undefined` rather than `[]` so an unset prop stays absent from the request
+  // body — Xero treats an empty collection as "remove everything in it".
+  return parsedEntries.length
+    ? parsedEntries
+    : undefined;
 };
+
+const formatLineItems = (lineItems) => parseObjectArray(lineItems, "Line Items") ?? [];
 
 const deleteKeys = (mainObject, keys = []) => {
   return Object.keys(mainObject)
@@ -141,6 +165,7 @@ export {
   formatQueryString,
   isValidDate,
   parseObject,
+  parseObjectArray,
   removeNullEntries,
 };
 

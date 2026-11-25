@@ -8,7 +8,7 @@ export default {
     + " Requires a Workspace ID - use **List Workspace Options** to find one first."
     + " Use the folder IDs it returns with **Create Sheet**, **Import Sheet**, **Copy Sheet** or **Move Sheet**."
     + " [See the documentation](https://developers.smartsheet.com/api/smartsheet/openapi/workspaces/get-workspace-children)",
-  version: "1.1.2",
+  version: "1.1.3",
   type: "action",
   ai: "optimized",
   annotations: {

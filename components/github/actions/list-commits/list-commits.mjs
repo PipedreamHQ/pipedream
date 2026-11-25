@@ -1,10 +1,11 @@
 import github from "../../github.app.mjs";
+import constants from "../../common/constants.mjs";
 
 export default {
   key: "github-list-commits",
   name: "List Commits",
   description: "List commits in a repository, most recent first. Optionally scope to a branch or starting SHA, a file path, an author, or a date range. Provide the repository as an `owner/repo` string. Use **Get Repository** to find the default branch name if needed. [See the documentation](https://docs.github.com/en/rest/commits/commits?apiVersion=2022-11-28#list-commits)",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -61,22 +62,27 @@ export default {
         github,
         "maxResults",
       ],
+      description: `The maximum number of commits to return (1-${constants.MAX_RESULTS_MAX}), e.g. \`50\`. Defaults to \`${constants.DEFAULT_MAX_RESULTS}\`.`,
+      min: 1,
+      max: constants.MAX_RESULTS_MAX,
     },
   },
   async run({ $ }) {
     const repoFullname = await this.github._resolveRepoFullname(this.repoFullname);
-    const commits = await this.github.listCommits({
-      repoFullname,
+    const maxResults = this.maxResults || constants.DEFAULT_MAX_RESULTS;
+    const commits = await this.github._paginateWithLimit(`GET /repos/${repoFullname}/commits`, maxResults, {
       sha: this.sha,
       path: this.path,
       author: this.author,
       committer: this.committer,
       since: this.since,
       until: this.until,
-      per_page: this.maxResults,
+      per_page: Math.min(maxResults, constants.PER_PAGE_MAX),
     });
 
-    $.export("$summary", `Successfully retrieved ${commits.length} commits.`);
+    $.export("$summary", `Successfully retrieved ${commits.length} commits${commits.length === maxResults
+      ? " (limit reached; more may exist)"
+      : ""}.`);
 
     return commits;
   },

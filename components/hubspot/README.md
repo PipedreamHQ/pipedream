@@ -14,7 +14,7 @@ You can install the Pipedream HubSpot app in the [Accounts](https://pipedream.co
 4. You will be prompted to sign in to HubSpot and select the account you'd like to connect.
 5. Finally, HubSpot will ask to give Pipedream access to your account. Click "Connect app" to proceed.
 
-![A screenshot of a user interface for adding a contact to a HubSpot account, with a prominent red arrow pointing to a dropdown menu titled "Select a HubSpot account...".](https://res.cloudinary.com/pipedreamin/image/upload/v1713894384/marketplace/apps/hubspot/CleanShot_2024-04-23_at_13.46.00_n2ve4a.png)
+![A screenshot of a user interface for adding a contact to a HubSpot account, with a prominent red arrow pointing to a dropdown menu titled "Select a HubSpot account...".](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/hubspot/CleanShot_2024-04-23_at_13.46.00_n2ve4a.png)
 
 6. That's it! You can now use this HubSpot account to trigger a workflow, or [link it to any code step](/connected-accounts/#connecting-accounts).
 
@@ -25,7 +25,7 @@ You can install the Pipedream HubSpot app in the [Accounts](https://pipedream.co
 3. Select the one of the triggers that appear, based on your use case.
 4. Click the **Connect Account** button near the top of the trigger. This will prompt you to select any existing HubSpot accounts you've previously authenticated with Pipedream, or you can select a **New** account. Clicking **New** opens a new window asking you to allow Pipedream access to your HubSpot account.
 
-![A screenshot of a user interface for adding a contact to a HubSpot account, with a prominent red arrow pointing to a dropdown menu titled "Select a HubSpot account...".](https://res.cloudinary.com/pipedreamin/image/upload/v1713894384/marketplace/apps/hubspot/CleanShot_2024-04-23_at_13.46.00_n2ve4a.png)
+![A screenshot of a user interface for adding a contact to a HubSpot account, with a prominent red arrow pointing to a dropdown menu titled "Select a HubSpot account...".](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/hubspot/CleanShot_2024-04-23_at_13.46.00_n2ve4a.png)
 
 5. That's it! You can now connect to the HubSpot API using any of the HubSpot triggers within a Pipedream workflow.
 

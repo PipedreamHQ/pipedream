@@ -2,14 +2,14 @@ import godial from "../../godial.app.mjs";
 
 export default {
   name: "Add Contact",
-  version: "0.0.2",
+  version: "0.0.3",
   key: "godial-add-contact",
   description: "Adds a contact. [See docs here](https://godial.stoplight.io/docs/godial/b3A6MzAzMTY2Mg-contact-add)",
   type: "action",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   props: {
     godial,

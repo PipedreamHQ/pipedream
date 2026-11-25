@@ -4,7 +4,7 @@ export default {
   key: "gorgias_oauth-add-ticket-tags",
   name: "Add Ticket Tags",
   description: "Add tags to a ticket. [See the documentation](https://developers.gorgias.com/reference/create-ticket-tags)",
-  version: "0.0.4",
+  version: "0.0.5",
   type: "action",
   annotations: {
     destructiveHint: false,

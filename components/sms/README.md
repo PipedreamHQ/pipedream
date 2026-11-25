@@ -12,13 +12,13 @@ To get started, go to <https://pipedream.com/alpha> and enable the SMS feature.
 
 Next, go to your [account settings](https://pipedream.com/settings) and enter and save an **SMS Number** (only US numbers are supported):
 
-![Enter an SMS number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings_uhsvqa.png)
+![Enter an SMS number](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/sms/sms-account-settings_uhsvqa.png)
 
-![Save an SMS number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings-save-phone-number_gfiwm9.png)
+![Save an SMS number](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/sms/sms-account-settings-save-phone-number_gfiwm9.png)
 
 Pipedream will automatically send a verification code to the number you provided. Enter the code where prompted and click **Verify**:
 
-![Verify your number](https://res.cloudinary.com/pipedreamin/image/upload/v1663724994/marketplace/apps/sms/sms-account-settings-verify_zsbjqt.png)
+![Verify your number](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/sms/sms-account-settings-verify_zsbjqt.png)
 
 Finally, add a step to a workflow to use the pre-built action to send an SMS without writing any code, or for more control pass a string to `$.send.sms()` in a Node.js code step.
 

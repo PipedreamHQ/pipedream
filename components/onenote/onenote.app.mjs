@@ -1,4 +1,8 @@
 import { axios } from "@pipedream/platform";
+import {
+  PAGE_OPTIONS_LIMIT, SECTION_BATCH_SIZE, THROTTLE_RETRY_DELAYS_MS,
+} from "./common/constants.mjs";
+import utils from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -6,7 +10,7 @@ export default {
   propDefinitions: {
     notebookId: {
       label: "Notebook ID",
-      description: "The notebook ID",
+      description: "The notebook ID, e.g. `1-ec21367d-3684-4072-bad8-31e4a03fc029`. Use **Search Notebooks** to find it (the `id` field).",
       type: "string",
       async options() {
         const { value: notebooks } = await this.getNotebooks();
@@ -19,7 +23,7 @@ export default {
     },
     sectionId: {
       label: "Section ID",
-      description: "The section ID",
+      description: "The section ID, e.g. `1-a745a153-ea3f-4b6e-8f16-9163bfe64932`. Use **Search Sections** to find it (the `id` field).",
       type: "string",
       async options() {
         const { value: sections } = await this.getSections();
@@ -32,32 +36,48 @@ export default {
     },
     pageId: {
       label: "Page ID",
-      description: "The page ID",
+      description: "The page ID, e.g. `1-922e4ff8076f49cc9487e4728297580a!128-d089bdb3-33b1-4eeb-af21-98e7157af301`. Use **Search Pages** to find it (the `id` field of each page). On accounts with many sections only the 100 most recently modified pages are listed here, so use **Search Pages** for the rest.",
       type: "string",
-      async options() {
-        const { value: pages } = await this.getPages();
-        return pages.map((page) => ({
-          label: page.title,
-          value: page.id,
+      async options({ page = 0 } = {}) {
+        // On accounts with many sections (Graph error 20266) every page of options
+        // would need a full scan of all sections, which burns OneNote's 400
+        // requests/hour budget. Scan once for the first page; later pages stay empty
+        // and the description sends callers to Search Pages instead.
+        let pages;
+        try {
+          ({ value: pages } = await this.getPages({
+            allowFallback: page === 0,
+            params: {
+              "$top": PAGE_OPTIONS_LIMIT,
+              "$skip": page * PAGE_OPTIONS_LIMIT,
+            },
+          }));
+        } catch (err) {
+          if (page > 0 && utils.isSectionLimitError(err)) return [];
+          throw err;
+        }
+        return pages.map((item) => ({
+          label: item.title,
+          value: item.id,
         }));
       },
     },
     search: {
       type: "string",
       label: "Search",
-      description: "Search for notebooks. [See the documentation](https://learn.microsoft.com/en-us/graph/search-query-parameter?tabs=http)",
+      description: "Free-text search against the name. Case-insensitive substring match, e.g. `project`. Translated server-side to a `contains` filter, because the OneNote API does not support the `$search` query parameter.",
       optional: true,
     },
     filter: {
       type: "string",
       label: "Filter",
-      description: "Filter for notebooks. [See the documentation](https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#filter)",
+      description: "OData `$filter` expression, e.g. `isDefault eq true` or `createdDateTime gt 2026-01-01T00:00:00Z`. Combined with `search` using `and` when both are set. [See the documentation](https://learn.microsoft.com/en-us/graph/query-parameters?tabs=http#filter)",
       optional: true,
     },
     expand: {
       type: "string",
       label: "Expand",
-      description: "Expand the response",
+      description: "Related resource to include inline in each result, e.g. `parentNotebook` (the allowed values depend on the action). Only one value is accepted.",
       optional: true,
     },
   },
@@ -108,11 +128,140 @@ export default {
         ...args,
       });
     },
-    async getPages(args = {}) {
+    async getSectionPages({
+      sectionId, ...args
+    }) {
       return this._makeRequest({
-        path: "/me/onenote/pages",
+        path: `/me/onenote/sections/${sectionId}/pages`,
         ...args,
       });
+    },
+    // `url` overrides the URL built from `path` because `...args` is spread after it
+    // in _makeRequest. That lets an absolute @odata.nextLink go through the normal
+    // auth and error handling. Don't reorder the spread in _makeRequest.
+    async _getNextLink({
+      $, nextLink,
+    }) {
+      return this._scanRequest(() => this._makeRequest({
+        $,
+        path: "",
+        url: nextLink,
+      }));
+    },
+    async _sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    },
+    // OneNote allows about 120 requests/min and 400/hour per user and, on 429, sends
+    // no Retry-After header, so back off on a fixed schedule. If the budget is still
+    // exhausted, fail with a message that points the caller at `sectionId` rather than
+    // silently returning a partial scan.
+    async _scanRequest(request) {
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await request();
+        } catch (err) {
+          if (!utils.isThrottleError(err)) throw err;
+          if (attempt >= THROTTLE_RETRY_DELAYS_MS.length) {
+            throw new Error("OneNote rate limit reached while scanning every section for pages (OneNote allows about 120 requests per minute and 400 per hour). Set `sectionId` to search a single section instead; use **Search Sections** to find the section ID.");
+          }
+          await this._sleep(THROTTLE_RETRY_DELAYS_MS[attempt]);
+        }
+      }
+    },
+    async _getAllSections($) {
+      const sections = [];
+      let response = await this._scanRequest(() => this.getSections({
+        $,
+      }));
+      sections.push(...(response.value ?? []));
+      while (response["@odata.nextLink"]) {
+        response = await this._getNextLink({
+          $,
+          nextLink: response["@odata.nextLink"],
+        });
+        sections.push(...(response.value ?? []));
+      }
+      return sections;
+    },
+    // Up to `limit` pages of one section, following continuations (Graph caps $top at 100).
+    async _getSectionPagesUpTo({
+      $, sectionId, params, limit,
+    }) {
+      let response = await this._scanRequest(() => this.getSectionPages({
+        $,
+        sectionId,
+        params: {
+          ...params,
+          "$top": Math.min(limit, 100),
+        },
+      }));
+      const pages = (response.value ?? []).slice();
+      while (response["@odata.nextLink"] && pages.length < limit) {
+        response = await this._getNextLink({
+          $,
+          nextLink: response["@odata.nextLink"],
+        });
+        pages.push(...(response.value ?? []));
+      }
+      return pages.slice(0, limit);
+    },
+    /**
+     * Lists pages. With `sectionId`, queries only that section. Otherwise tries the
+     * account-wide endpoint and, if Graph rejects it with error 20266 (too many
+     * sections), falls back to querying /sections/{id}/pages one section at a time,
+     * as Microsoft recommends, then merges, orders (default last modified, newest
+     * first) and pages the results itself. `$filter` and `$expand` are applied to
+     * each section query. Pass `allowFallback: false` to surface the 20266 error
+     * instead of scanning.
+     */
+    async getPages({
+      sectionId, allowFallback = true, ...args
+    } = {}) {
+      if (sectionId) {
+        return this.getSectionPages({
+          sectionId,
+          ...args,
+        });
+      }
+      try {
+        return await this._makeRequest({
+          path: "/me/onenote/pages",
+          ...args,
+        });
+      } catch (err) {
+        if (!allowFallback || !utils.isSectionLimitError(err)) throw err;
+      }
+
+      const {
+        $, params = {},
+      } = args;
+      // Graph can't skip or order across sections, so both happen here. To return the
+      // right global page, take the first `skip + top` pages of every section (in the
+      // requested order), merge them, sort, then slice. `top` defaults to 20 like the
+      // account-wide endpoint.
+      const {
+        "$skip": skip = 0, "$top": top = 20, "$orderby": orderby, ...sectionParams
+      } = params;
+      const limit = skip + top;
+      if (orderby) sectionParams["$orderby"] = orderby;
+      const sections = await this._getAllSections($);
+      const pages = [];
+      for (let i = 0; i < sections.length; i += SECTION_BATCH_SIZE) {
+        const batch = await Promise.all(
+          sections.slice(i, i + SECTION_BATCH_SIZE).map((section) =>
+            this._getSectionPagesUpTo({
+              $,
+              sectionId: section.id,
+              params: sectionParams,
+              limit,
+            })),
+        );
+        pages.push(...batch.flat());
+      }
+      // Paging across sections can't be expressed as one Graph nextLink.
+      return {
+        value: utils.sortByOrderBy(pages, orderby).slice(skip, limit),
+      };
     },
     async getPage({
       pageId, ...args

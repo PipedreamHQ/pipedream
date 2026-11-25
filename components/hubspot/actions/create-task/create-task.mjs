@@ -9,7 +9,7 @@ export default {
   name: "Create Task",
   description:
     "Create a task engagement in HubSpot. Put task fields in **Object Properties** as HubSpot internal names (`hs_task_subject`, `hs_task_body`, `hs_task_status`, `hs_task_priority`); `hs_timestamp` is defaulted for you. Optionally associate it with a record via **Associated Object Type/ID** + **Association Type**. Example: Object Properties `{ \"hs_task_subject\": \"Call Art Vandelay\", \"hs_task_status\": \"NOT_STARTED\", \"hs_task_priority\": \"HIGH\" }`. Returns the created task with its id. [See the documentation](https://developers.hubspot.com/docs/api/crm/engagements)",
-  version: "1.0.1",
+  version: "1.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

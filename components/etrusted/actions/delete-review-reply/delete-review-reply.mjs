@@ -4,7 +4,7 @@ export default {
   key: "etrusted-delete-review-reply",
   name: "Delete Review Reply",
   description: "Reply to a review. [See the documentation](https://developers.etrusted.com/reference/deletereviewreply)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   annotations: {
     destructiveHint: true,

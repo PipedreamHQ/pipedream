@@ -8,7 +8,7 @@ Cisco Webex (Custom App) API on Pipedream allows users to automate actions withi
 To use your own custom Cisco Webex app, you will need to sign up for a free [Webex developer account](https://developer.webex.com/signup) if you don't already have one, and [create a new app](https://developer.webex.com/my-apps/new).
 
 1. Navigate to **My Webex Apps**, and select **Create an Integration**
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_9.48.58_AM_sqdtmf.png" width=500 />
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-21_at_9.48.58_AM_sqdtmf.png" width=500 />
 
 2. Name your integration, e.g. "Pipedream" and choose an icon.
 
@@ -16,7 +16,7 @@ To use your own custom Cisco Webex app, you will need to sign up for a free [Web
 
 4. For the Redirect URI, copy and paste `https://api.pipedream.com/connect/oauth/oa_aWyi6o/callback`.
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_9.51.45_AM_o20sqj.png" width=500 />
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-21_at_9.51.45_AM_o20sqj.png" width=500 />
 
 5. [Scopes](https://developer.webex.com/docs/integrations#scopes) define the level of access that your integration requires. This part of the setup is **critical** to your integration working correctly. Please note that scopes that begin with `spark-admin` can only be used by users with administrative access to an organization.
 
@@ -28,18 +28,18 @@ As a general best practice, however, it is best to only the scopes that will you
 
 7. Copy your **Client ID** and **Client Secret**.
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182775/Screenshot_2023-12-21_at_10.06.39_AM_luxsjs.png" />
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-21_at_10.06.39_AM_luxsjs.png" />
 
 8. If you selected the following scopes: 
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703182776/Screenshot_2023-12-21_at_10.02.49_AM_wou8ns.png">
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-21_at_10.02.49_AM_wou8ns.png">
 
 you'll need to create a space-separated list of scopes: 
 `spark-admin:calling_cdr_read spark:calls_read spark:devices_read spark:devices_write`
 
 9. Copy and paste your **Client ID**, **Client Secret**, and **Space Separated Scopes** on the Cisco Webex (Custom App) account connection page on Pipedream. 
 
-<img src="https://res.cloudinary.com/dpenc2lit/image/upload/v1703183779/Screenshot_2023-12-21_at_10.35.53_AM_qqz0wh.png" />
+<img src="https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-12-21_at_10.35.53_AM_qqz0wh.png" />
 
 # Example Use Cases
 

@@ -7,8 +7,8 @@ export default {
   key: "hubspot-batch-create-companies",
   name: "Batch Create Companies",
   description:
-    "Create a batch of companies in Hubspot. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/objects/companies#post-%2Fcrm%2Fv3%2Fobjects%2Fcompanies%2Fbatch%2Fcreate)",
-  version: "0.0.18",
+    "Create a batch of companies in HubSpot. [See the documentation](https://developers.hubspot.com/docs/reference/api/crm/objects/companies#post-%2Fcrm%2Fv3%2Fobjects%2Fcompanies%2Fbatch%2Fcreate)",
+  version: "0.0.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -1,7 +1,10 @@
 import { ConfigurationError } from "@pipedream/platform";
 import slides from "@googleapis/slides";
 import googleDrive from "@pipedream/google_drive";
-import { CONTENT_ALIGNMENTS } from "./common/constants.mjs";
+import { v4 as uuid } from "uuid";
+import {
+  CONTENT_ALIGNMENTS, TEXT_PLACEHOLDER_TYPES,
+} from "./common/constants.mjs";
 
 export default {
   ...googleDrive,
@@ -89,16 +92,9 @@ export default {
     },
     layoutId: {
       type: "string",
-      label: "Layout ID",
-      description: "The ID of a slide layout",
+      label: "Layout",
+      description: "The layout to base the slide on, given as its name (e.g. `TITLE_AND_BODY`, `TITLE`, `TITLE_AND_TWO_COLUMNS`), its display name (e.g. `Title and body`) or its object ID. Use **Get Presentation** and read `layouts[]` to see the layouts in a deck with a custom template. If omitted, the slide uses the BLANK layout and has no title or body placeholders.",
       optional: true,
-      async options({ presentationId }) {
-        const { layouts } = await this.getPresentation(presentationId);
-        return layouts.map((layout) => ({
-          label: layout.layoutProperties.name,
-          value: layout.objectId,
-        }));
-      },
     },
     slideId: {
       type: "string",
@@ -319,6 +315,68 @@ export default {
       }
       return this.listFilesOptions(pageToken, request);
     },
+    async findPresentations(drive, name) {
+      let q = "mimeType='application/vnd.google-apps.presentation' and trashed=false";
+      if (name) {
+        // Drive's "name contains" only prefix-matches the whole name string (e.g. it
+        // wouldn't match "Board" against "Q3 Board Deck"). OR in "fullText contains",
+        // which does token-level matching, so a mid-name word still matches — the same
+        // workaround google_docs-find-document uses for its name/content search.
+        const escaped = name.replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+        q += ` and (name contains '${escaped}' or fullText contains '${escaped}')`;
+      }
+      let request = {
+        q,
+        fields: "nextPageToken,files(id,name,modifiedTime,webViewLink)",
+        orderBy: "modifiedTime desc",
+      };
+      // getDriveId(drive) collapses both "My Drive" and "no selection" to null, so
+      // branch on the raw drive value first to keep an explicit My Drive scoped to
+      // corpora "user" instead of falling through to "allDrives".
+      if (drive && this.isMyDrive(drive)) {
+        request = {
+          ...request,
+          corpora: "user",
+          supportsAllDrives: true,
+        };
+      } else if (drive) {
+        request = {
+          ...request,
+          corpora: "drive",
+          driveId: this.getDriveId(drive),
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      } else {
+        request = {
+          ...request,
+          corpora: "allDrives",
+          includeItemsFromAllDrives: true,
+          supportsAllDrives: true,
+        };
+      }
+      // Drive treats `pageSize` as a maximum, so a short page can still carry a
+      // `nextPageToken`. Keep following it until `limit` is filled or pages run out,
+      // otherwise a search term matching page 2+ results in a false "not found".
+      const limit = 100;
+      const files = [];
+      let pageToken;
+      do {
+        const page = await this.listFilesInPage(pageToken, {
+          ...request,
+          pageSize: Math.min(100, limit - files.length),
+        });
+        files.push(...(page.files || []));
+        pageToken = page.nextPageToken;
+      } while (pageToken && files.length < limit);
+
+      return files.slice(0, limit).map((file) => ({
+        id: file.id,
+        name: file.name,
+        url: file.webViewLink || `https://docs.google.com/presentation/d/${file.id}/edit`,
+        modifiedTime: file.modifiedTime,
+      }));
+    },
     getPresentationId(idOrUrl) {
       const input = String(idOrUrl).trim();
       if (!input) {
@@ -388,6 +446,123 @@ export default {
         pageObjectId: slideId,
       };
       return (await slides.presentations.pages.get(request)).data;
+    },
+    // Rethrows API errors unchanged so callers keep the HTTP status. A 403 or
+    // 404 gets an access hint instead, with the original error kept as its
+    // `cause`; Google returns 404 when the account cannot see the presentation.
+    withPermissionHint(error) {
+      const status = error?.response?.status ?? error?.status;
+      if (status === 403 || status === 404) {
+        const hinted = new ConfigurationError(`${String(error.message).replace(/\.?$/, ".")} Make sure the presentation ID is correct and the connected account has edit access to the presentation.`);
+        hinted.cause = error;
+        return hinted;
+      }
+      return error;
+    },
+    async getSlideCreationContext(presentationId) {
+      const {
+        slides = [], masters = [], layouts = [],
+      } = await this.getPresentation(presentationId,
+        "slides(objectId,slideProperties(masterObjectId)),masters(objectId),layouts(objectId,layoutProperties(name,displayName,masterObjectId),pageElements(objectId,shape(placeholder)))");
+      return {
+        slideCount: slides.length,
+        slideMasterIds: slides.map(({ slideProperties }) => slideProperties?.masterObjectId),
+        masterIds: masters.map(({ objectId }) => objectId),
+        layouts,
+      };
+    },
+    // createSlide only accepts a layout from one master: that of the slide
+    // before the insertion point, the first slide's when inserting at 0, or
+    // the first master when the presentation has no slides. Any other layout
+    // is rejected with a 400.
+    getInsertionMasterId({
+      slideMasterIds, masterIds,
+    }, insertionIndex) {
+      if (!slideMasterIds.length) {
+        return masterIds[0];
+      }
+      const previous = insertionIndex == null
+        ? slideMasterIds.length - 1
+        : Math.max(insertionIndex - 1, 0);
+      return slideMasterIds[previous];
+    },
+    // Accepts a layout's object ID (case-sensitive), its name (e.g.
+    // `TITLE_AND_BODY`) or its display name (e.g. `Title and body`), matched
+    // only against the layouts of `masterId` when one is given.
+    resolveLayout(layouts, layout, masterId) {
+      const input = String(layout).trim();
+      const wanted = input.toLowerCase();
+      const candidates = masterId
+        ? layouts.filter(({ layoutProperties: props = {} }) => props.masterObjectId === masterId)
+        : layouts;
+      const matchesName = ({ layoutProperties: props = {} }) =>
+        props.name?.toLowerCase() === wanted || props.displayName?.toLowerCase() === wanted;
+      const found = candidates.find(({ objectId }) => objectId === input)
+        || candidates.find(matchesName);
+      if (!found) {
+        const available = candidates
+          .map(({
+            objectId, layoutProperties: props = {},
+          }) => `${props.name || props.displayName} (${objectId})`)
+          .join(", ");
+        // Only blame the position when the layout exists on another master.
+        const existsElsewhere = layouts.some((l) => l.objectId === input || matchesName(l));
+        const reason = existsElsewhere
+          ? "is not available at this position. A new slide can only use layouts from the master of the slide before it (or of the first slide, when inserting at position 0)"
+          : "was not found in this presentation";
+        throw new ConfigurationError(`Layout "${layout}" ${reason}. Available layouts: ${available || "none"}.`);
+      }
+      return found;
+    },
+    newSlideObjectId() {
+      return `slide_${uuid().replace(/-/g, "")
+        .slice(0, 16)}`;
+    },
+    // Assigns a predictable object ID to each text placeholder on the layout, so
+    // the new slide's placeholders can be returned or filled in the same request.
+    // `ordinal` is the placeholder's position among those of the same type,
+    // since layouts (e.g. ones imported from PowerPoint) may number indexes
+    // from 1 or leave gaps.
+    buildPlaceholderMappings(slideObjectId, layout) {
+      const placeholders = (layout.pageElements || [])
+        .map(({ shape }) => shape?.placeholder)
+        .filter((placeholder) => TEXT_PLACEHOLDER_TYPES.includes(placeholder?.type));
+      const seen = new Set();
+      const ordinals = new Map();
+      return placeholders
+        .map(({
+          type, index = 0,
+        }) => ({
+          type,
+          index,
+          objectId: `${slideObjectId}_${type.toLowerCase()}_${index}`,
+        }))
+        .filter(({ objectId }) => !seen.has(objectId) && seen.add(objectId))
+        .sort((a, b) => a.index - b.index)
+        .map((placeholder) => {
+          const ordinal = ordinals.get(placeholder.type) ?? 0;
+          ordinals.set(placeholder.type, ordinal + 1);
+          return {
+            ...placeholder,
+            ordinal,
+          };
+        });
+    },
+    toPlaceholderIdMappings(placeholders) {
+      return placeholders.map(({
+        type, index, objectId,
+      }) => ({
+        layoutPlaceholder: {
+          type,
+          index,
+        },
+        objectId,
+      }));
+    },
+    validateInsertionIndex(insertionIndex, slideCount) {
+      if (insertionIndex != null && (insertionIndex < 0 || insertionIndex > slideCount)) {
+        throw new ConfigurationError(`Insertion Index ${insertionIndex} is out of range: the presentation has ${slideCount} slide(s), so it must be between 0 and ${slideCount}. Omit it to add the slide at the end.`);
+      }
     },
     async copyPresentation(fileId, name) {
       const drive = this.drive();

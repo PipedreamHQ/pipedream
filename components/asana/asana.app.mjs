@@ -1,5 +1,12 @@
 import { axios } from "@pipedream/platform";
+
+// Sources run in Pipedream's workflow builder (not MCP), so they keep
+// auto-populating dropdowns via async `options()`. Their propDefinitions are
+// suffixed `Async` and kept separate from the static, MCP-safe ones actions use.
 const DEFAULT_LIMIT = 25;
+// Longest `Retry-After` (seconds) we'll wait out before retrying a 429. Three
+// waits of this length stay well inside the 60s tool timeout.
+const MAX_RETRY_AFTER_SECONDS = 10;
 
 export default {
   type: "app",
@@ -9,6 +16,8 @@ export default {
       label: "Organizations",
       description: "List of organizations. This field uses the organization GID.",
       type: "string[]",
+      // Only used by sources (workflow builder), never by MCP actions, so an
+      // auto-populating dropdown is safe here.
       async options() {
         const organizations = await this.getOrganizations();
         return organizations?.map((organization) => ({
@@ -19,7 +28,12 @@ export default {
     },
     workspaces: {
       label: "Workspaces",
-      description: "List of workspaces. Use the **List Workspaces** action to retrieve available workspace GIDs.",
+      description: "List of workspaces. This field uses the workspace GID (e.g. `1200123456789012`). Use the **List Workspaces** action to retrieve available workspace GIDs.",
+      type: "string[]",
+    },
+    workspacesAsync: {
+      label: "Workspaces",
+      description: "List of workspaces. This field uses the workspace GID (e.g. `1200123456789012`).",
       type: "string[]",
       async options({ prevContext }) {
         const params = {
@@ -49,17 +63,15 @@ export default {
       label: "Teams",
       description: "List of teams. Use the **List Teams** action to retrieve available team GIDs.",
       type: "string[]",
-      async options({ workspace }) {
-        const teams = await this.getTeams(workspace);
-        return teams?.map((team) => ({
-          label: team.name,
-          value: team.gid,
-        })) || [];
-      },
     },
     projects: {
       label: "Projects",
-      description: "List of projects. This field uses the project GID.",
+      description: "List of projects. This field uses the project GID (e.g. `1204567890123456`). Use **Search Projects** to find available project GIDs (the `gid` field).",
+      type: "string[]",
+    },
+    projectsAsync: {
+      label: "Projects",
+      description: "List of projects. This field uses the project GID (e.g. `1204567890123456`).",
       type: "string[]",
       async options({
         workspace, prevContext,
@@ -90,7 +102,12 @@ export default {
     },
     tags: {
       label: "Tags",
-      description: "List of tags. This field uses the tag GID.",
+      description: "List of tags. This field uses the tag GID (e.g. `1202345678901234`). Use **List Tags** to find available tag GIDs (the `gid` field).",
+      type: "string[]",
+    },
+    tagsAsync: {
+      label: "Tags",
+      description: "List of tags. This field uses the tag GID (e.g. `1202345678901234`).",
       type: "string[]",
       async options({
         prevContext, workspace,
@@ -121,7 +138,12 @@ export default {
     },
     users: {
       label: "Users",
-      description: "List of users. Use the **List Users** action to retrieve available user GIDs.",
+      description: "List of users. This field uses the user `gid` (e.g. `1198765432109876`). Use the **List Users** action to retrieve available user GIDs.",
+      type: "string[]",
+    },
+    usersAsync: {
+      label: "Users",
+      description: "List of users. This field uses the user `gid` (e.g. `1198765432109876`).",
       type: "string[]",
       async options({
         prevContext, workspace,
@@ -152,7 +174,12 @@ export default {
     },
     tasks: {
       label: "Tasks",
-      description: "List of tasks. This field uses the task GID.",
+      description: "List of tasks. This field uses the task GID (e.g. `1202345678901234`). Use **Search Tasks** to find available task GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
+      type: "string[]",
+    },
+    tasksAsync: {
+      label: "Tasks",
+      description: "List of tasks. This field uses the task GID (e.g. `1202345678901234`).",
       type: "string[]",
       async options({
         project, prevContext,
@@ -188,89 +215,53 @@ export default {
     },
     sections: {
       label: "Sections",
-      description: "List of sections. This field uses the section GID.",
+      description: "List of sections. This field uses the section GID (e.g. `1203456789012345`). Use **Search Sections** to find available section GIDs (the `gid` field). Requires a project GID from **Search Projects**.",
       type: "string[]",
-      async options({
-        project, prevContext,
-      }) {
-        if (!project) {
-          return [];
-        }
-        const params = {
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data: sections, next_page: next,
-        } = await this.getSections({
-          project,
-          params,
-        });
-        const options = sections?.map((section) => ({
-          label: section.name,
-          value: section.gid,
-        })) || [];
-        return {
-          options,
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
     },
     taskFields: {
       label: "Task Fields",
-      description: "List of task fields that will emit events when updated. This field uses the field code.",
+      description: "List of task fields that will emit events when updated.",
       type: "string[]",
-      async options({ project }) {
-        const { data: tasks } = await this.getTasks({
-          params: {
-            project,
-            limit: 1,
-          },
-        });
-        if (!tasks || tasks.length === 0) {
-          return [];
-        }
-        const { data: task } = await this.getTask({
-          taskId: tasks[0].gid,
-        });
-        return Object.keys(task);
-      },
+      // Asana task fields that can be reported as changed by a webhook event
+      // (developers.asana.com/reference/task). Many of these — custom_fields,
+      // tags, followers, dependencies, dependents, parent, memberships — are
+      // omitted from a task's default GET response unless explicitly
+      // requested via opt_fields, so this is a fixed catalog rather than
+      // anything derived from a live task sample.
+      options: [
+        "approval_status",
+        "assignee",
+        "assignee_section",
+        "assignee_status",
+        "actual_time_minutes",
+        "completed",
+        "completed_at",
+        "custom_fields",
+        "dependencies",
+        "dependents",
+        "due_at",
+        "due_on",
+        "external",
+        "followers",
+        "html_notes",
+        "is_rendered_as_separator",
+        "liked",
+        "memberships",
+        "name",
+        "notes",
+        "num_subtasks",
+        "parent",
+        "projects",
+        "start_at",
+        "start_on",
+        "tags",
+        "workspace",
+      ],
     },
     taskTemplate: {
       type: "string",
       label: "Task Template",
-      description: "The identifier of a task template",
-      async options({
-        project, prevContext,
-      }) {
-        const params = {
-          project,
-          limit: DEFAULT_LIMIT,
-        };
-        if (prevContext?.offset) {
-          params.offset = prevContext.offset;
-        }
-        const {
-          data, next_page: next,
-        } = await this.listTaskTemplates({
-          params,
-        });
-        return {
-          options: data?.map(({
-            gid: value, name: label,
-          }) => ({
-            value,
-            label,
-          })) || [],
-          context: {
-            offset: next?.offset,
-          },
-        };
-      },
+      description: "The GID of a task template, e.g. `1205678901234567`. Use **List Task Templates** to find available template GIDs (the `gid` field).",
     },
     maxResults: {
       type: "integer",
@@ -324,7 +315,7 @@ export default {
      *
      * @returns {string} The request result data.
      */
-    _makeRequest({
+    async _makeRequest({
       path, $ = this, ...opts
     }) {
       const config = {
@@ -332,7 +323,30 @@ export default {
         headers: this._headers(),
         ...opts,
       };
-      return axios($, config);
+      // Asana rate-limits per user and answers 429 with a `Retry-After` (seconds).
+      // Wait exactly that long and retry a few times instead of failing the whole
+      // action. Never retry before it elapses: that fails again and can use up more
+      // quota. If it's longer than we can wait within the tool timeout, surface the
+      // 429 right away rather than retrying early.
+      const maxRetries = 3;
+      for (let attempt = 0; ; attempt++) {
+        try {
+          return await axios($, config);
+        } catch (err) {
+          if (err?.response?.status !== 429 || attempt >= maxRetries) {
+            throw err;
+          }
+          const retryAfter = Number(err.response.headers?.["retry-after"]);
+          const hasRetryAfter = Number.isFinite(retryAfter) && retryAfter >= 0;
+          if (hasRetryAfter && retryAfter > MAX_RETRY_AFTER_SECONDS) {
+            throw err;
+          }
+          const delayMs = hasRetryAfter
+            ? retryAfter * 1000
+            : (2 ** attempt) * 1000 + Math.floor(Math.random() * 500);
+          await new Promise((resolve) => setTimeout(resolve, delayMs));
+        }
+      }
     },
     /**
      * Create a webhook
@@ -390,9 +404,9 @@ export default {
      *
      * @returns {string} An Asana Organizations list.
      */
-    async getOrganizations() {
+    async getOrganizations({ $ } = {}) {
       const params = {
-        opt_fields: "is_organization",
+        opt_fields: "is_organization,name",
       };
       const workspaces = [];
       do {
@@ -400,6 +414,7 @@ export default {
           data, next_page: next,
         } = await this.getWorkspaces({
           params,
+          $,
         });
         workspaces.push(...data);
         params.offset = next?.offset;
@@ -430,6 +445,22 @@ export default {
     getProjects(opts = {}) {
       return this._makeRequest({
         path: "projects",
+        ...opts,
+      });
+    },
+    /**
+     * Search a workspace with Asana's typeahead (one request, not paginated).
+     * Matches the start of words, case-insensitively, and returns the top results.
+     *
+     * @param {string} workspaceId - The workspace GID.
+     *
+     * @returns {object} Typeahead results in `data`.
+     */
+    getTypeahead({
+      workspaceId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `workspaces/${workspaceId}/typeahead`,
         ...opts,
       });
     },

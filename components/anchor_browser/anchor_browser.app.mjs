@@ -29,23 +29,25 @@ export default {
       label: "Session ID",
       description: "The session ID is required if the source is set to session. The session must be running, and the profile will be stored once the session terminates.",
       async options() {
-        const sessions = await this.listSessions();
-        return sessions.map(({ session_id: value }) => value);
+        const { data: { items: sessions } } = await this.listSessions();
+        return sessions
+          .filter(({ status }) => status === "running")
+          .map(({ session_id: value }) => value);
       },
     },
     profileName: {
       type: "string",
       label: "Profile Name",
-      description: "The name of the profile to update.",
+      description: "The name of the profile, e.g. `my-profile`. Use **List Profile Name Options** to retrieve available profile names.",
       async options() {
-        const { data: profiles } = await this.listProfiles();
+        const { data: { items: profiles } } = await this.listProfiles();
         return profiles.map(({ name: value }) => value);
       },
     },
   },
   methods: {
     getUrl(path) {
-      return `https://api.anchorbrowser.io/api${path}`;
+      return `https://api.anchorbrowser.io/v1${path}`;
     },
     getHeaders(headers) {
       return {
@@ -68,12 +70,6 @@ export default {
         ...args,
       });
     },
-    put(args = {}) {
-      return this._makeRequest({
-        method: "PUT",
-        ...args,
-      });
-    },
     delete(args = {}) {
       return this._makeRequest({
         method: "DELETE",
@@ -82,7 +78,7 @@ export default {
     },
     listSessions(args = {}) {
       return this._makeRequest({
-        path: "/sessions/active",
+        path: "/sessions/all/status",
         ...args,
       });
     },

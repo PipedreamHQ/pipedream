@@ -16,21 +16,21 @@ To get started using Klaviyo with Pipedream, you’ll need to create a new Klavi
 
 First, log in to your Klaviyo account, then open *Settings* in the bottom left-hand corner:
 
-![Open the drawer in the bottom left-hand drawer to open your Klaviyo account settings](https://res.cloudinary.com/pipedreamin/image/upload/v1715178061/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.11.15_2x_cusdgp.png)
+![Open the drawer in the bottom left-hand drawer to open your Klaviyo account settings](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.11.15_2x_cusdgp.png)
 
 Then, on the next page, click **Create API Key** to begin creating a new private API key.
 
-![Create a new Klaviyo API key](https://res.cloudinary.com/pipedreamin/image/upload/v1715178067/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.11.29_2x_uenkfm.png)
+![Create a new Klaviyo API key](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.11.29_2x_uenkfm.png)
 
 On this page, you can configure your API key settings, such as its name and permissions. We recommend naming this API key `Pipedream` so you can easily track where it’s used.
 
 Next, you'll need to define the permissions for this API key. You can grant specific permissions, read-only access to all resources, or full read/write access. Don’t worry, you can change these settings later.
 
-![Choosing between permission levels](https://res.cloudinary.com/pipedreamin/image/upload/v1715178064/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.12.15_2x_ebxwdq.png)
+![Choosing between permission levels](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.12.15_2x_ebxwdq.png)
 
 Once you have created your Klaviyo private API key, make sure to copy it to your clipboard and save it within Pipedream through either a Klaviyo trigger or action in a workflow, or by opening the dedicated Connected Accounts area in Pipedream.
 
-![Save the Klaviyo API key to Pipedream](https://res.cloudinary.com/pipedreamin/image/upload/v1715178053/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.19.51_2x_otps4k.png)
+![Save the Klaviyo API key to Pipedream](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/klayvio/CleanShot_2024-05-08_at_10.19.51_2x_otps4k.png)
 
 Ensure you save the API key before closing the Klaviyo window, as this is the only time this private API key will be displayed.
 

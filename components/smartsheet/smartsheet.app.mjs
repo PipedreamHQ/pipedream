@@ -511,11 +511,15 @@ export default {
         ...args,
         params: {
           includeAll: true,
+          // Without `level: 2`, MULTI_PICKLIST/MULTI_CONTACT_LIST columns are reported as
+          // plain TEXT_NUMBER for backwards compatibility, so callers can never detect them.
+          level: 2,
           ...args.params,
         },
       });
       const byName = {};
       const byId = {};
+      const typesById = {};
       for (const col of data || []) {
         const key = col.title.toLowerCase();
         if (byName[key] !== undefined && byName[key] !== col.id) {
@@ -523,10 +527,12 @@ export default {
         }
         byName[key] = col.id;
         byId[col.id] = col.title;
+        typesById[col.id] = col.type;
       }
       return {
         byName,
         byId,
+        typesById,
       };
     },
   },

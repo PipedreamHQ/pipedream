@@ -124,9 +124,55 @@ const DAYS_OF_WEEK = [
   },
 ];
 
+// https://developers.google.com/calendar/api/v3/reference/events#transparency
+const TRANSPARENCY_OPTIONS = [
+  {
+    label: "Busy",
+    value: "opaque",
+  },
+  {
+    label: "Free",
+    value: "transparent",
+  },
+];
+
+// https://developers.google.com/workspace/calendar/api/v3/reference/events#resource
+const SPLIT_CARRIED_EVENT_FIELDS = [
+  "conferenceData",
+  "reminders",
+  "visibility",
+  "guestsCanInviteOthers",
+  "guestsCanModify",
+  "guestsCanSeeOtherGuests",
+];
+
+const WRITABLE_ATTENDEE_FIELDS = [
+  "email",
+  "displayName",
+  "optional",
+  "resource",
+  "responseStatus",
+  "comment",
+  "additionalGuests",
+];
+
+// https://developers.google.com/workspace/calendar/api/v3/reference/events/insert#parameters
+const CONFERENCE_DATA_VERSION = 1;
+
+const SEND_UPDATES_NONE = "none";
+
+// https://developers.google.com/workspace/calendar/api/v3/reference/events/instances#parameters
+const INSTANCES_MAX_RESULTS = 2500;
+
 export default {
   API,
   REPEAT_FREQUENCIES,
   WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
   DAYS_OF_WEEK,
+  TRANSPARENCY_OPTIONS,
+  SPLIT_CARRIED_EVENT_FIELDS,
+  WRITABLE_ATTENDEE_FIELDS,
+  CONFERENCE_DATA_VERSION,
+  SEND_UPDATES_NONE,
+  INSTANCES_MAX_RESULTS,
 };

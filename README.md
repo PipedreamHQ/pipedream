@@ -116,24 +116,24 @@ Most integrations require custom logic. Code is often the best way to express th
   <tr>
     <td>
       <a href="https://pipedream.com/docs/code/nodejs/">
-        <img alt="Node.js" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646761316/docs/icons/icons8-nodejs_aax6wn.svg" width="100">
+        <img alt="Node.js" src="images/languages/nodejs.svg" width="100">
       </a>
     </td>
     <td>
       <a href="https://pipedream.com/docs/code/python/">
-        <img alt="Python" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356607/docs/icons/python-logo-generic_k3o5w2.svg" width="100">
+        <img alt="Python" src="images/languages/python.svg" width="100">
       </a>
     </td>
   </tr>
   </tr>
     <td>
       <a href="https://pipedream.com/docs/code/go/">
-        <img alt="Go" src="https://res.cloudinary.com/pipedreamin/image/upload/v1646763751/docs/icons/Go-Logo_Blue_zhkchv.svg" width="100">
+        <img alt="Go" src="images/languages/go.svg" width="100">
       </a>
     </td>
     <td>
       <a href="https://pipedream.com/docs/code/bash/">
-        <img alt="Bash" src="https://res.cloudinary.com/pipedreamin/image/upload/v1647356698/docs/icons/full_colored_dark_1_-svg_vyfnv7.svg" width="100">
+        <img alt="Bash" src="images/languages/bash.svg" width="100">
       </a>
     </td>
   </tr>

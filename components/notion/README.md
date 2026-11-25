@@ -16,11 +16,11 @@ To get started, first log in to or create your [Pipedream account](https://piped
 
 Add a Notion action or trigger to your workflow, then click **Select a Notion account** to open a Notion connection window:
 
-![Selecting your Notion API account](https://res.cloudinary.com/pipedreamin/image/upload/v1715267108/marketplace/apps/notion/CleanShot_2024-05-09_at_11.04.34_pdb2rx.png)
+![Selecting your Notion API account](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/notion/CleanShot_2024-05-09_at_11.04.34_pdb2rx.png)
 
 From within this window, select pages you'd like Pipedream to access:
 
-![Select the Notion pages that you'd like Pipedream to have access to](https://res.cloudinary.com/pipedreamin/image/upload/v1715267109/marketplace/apps/notion/CleanShot_2024-05-09_at_11.04.44_awccry.png)
+![Select the Notion pages that you'd like Pipedream to have access to](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/notion/CleanShot_2024-05-09_at_11.04.44_awccry.png)
 
 Click **Accept** to connect your Notion account to Pipedream.
 

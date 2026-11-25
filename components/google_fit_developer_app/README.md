@@ -10,25 +10,25 @@ In order to connect your personal or workspace Google Fit account to Pipedream, 
 1. Sign in to the [Google Cloud Console](https://cloud.google.com/)
 2. Select an existing project or create a new one
 
-  ![Select an existing project or create a new one in the Google Cloud Console](https://res.cloudinary.com/pipedreamin/image/upload/v1663268100/docs/components/CleanShot_2022-09-15_at_14.54.34_vajyds.png)
+  ![Select an existing project or create a new one in the Google Cloud Console](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_14.54.34_vajyds.png)
 
 3. Select **APIs & Services**
 4. Click **Enable APIs & Services**
 
-  ![Select "Enable APIs & Services to open a menu to enable the Google Fitness API for Pipedream to connect to](https://res.cloudinary.com/pipedreamin/image/upload/v1663268316/docs/components/CleanShot_2022-09-15_at_14.58.06_jshirk.png)
+  ![Select "Enable APIs & Services to open a menu to enable the Google Fitness API for Pipedream to connect to](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_14.58.06_jshirk.png)
 
 5. Search for and select **Fitness API**
 6. Click **Enable**
 
-  ![Search for and select the Google Fitness API](https://res.cloudinary.com/dpenc2lit/image/upload/v1692292762/Screenshot_2023-08-17_at_10.03.05_AM_ek8nqq.png)
+  ![Search for and select the Google Fitness API](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-08-17_at_10.03.05_AM_ek8nqq.png)
 
 7. Click **OAuth consent screen** on the left side
    
-  ![Click "OAuth consent screen" in the left navigation menu](https://res.cloudinary.com/pipedreamin/image/upload/v1663268506/docs/components/CleanShot_2022-09-15_at_15.01.24_wravfb.png)
+  ![Click "OAuth consent screen" in the left navigation menu](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.01.24_wravfb.png)
 
 8. Select **External** User Type and click “Create”
 
-  ![Select "External" in the OAuth Consent Screen](https://res.cloudinary.com/pipedreamin/image/upload/v1663268545/docs/components/CleanShot_2022-09-15_at_15.02.22_fiekq1.png)
+  ![Select "External" in the OAuth Consent Screen](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.02.22_fiekq1.png)
 
 9. Fill in the required fields and click **Save and Continue**
 10. Under **Authorized Domains**, add `pipedream.com`
@@ -45,27 +45,27 @@ You will need to generate a set of OAuth credentials to connect your new Google 
 
 1. Navigate to the **Credentials** section on the left side.
     
-    ![Open the Credentials menu in the left hand nav bar](https://res.cloudinary.com/pipedreamin/image/upload/v1663269973/docs/components/CleanShot_2022-09-15_at_15.13.52_yvllxi.png)
+    ![Open the Credentials menu in the left hand nav bar](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.13.52_yvllxi.png)
 
 2. Click **Create Credentials** at the top and select **“*OAuth client ID**
    
-  ![Click create credentials to start the process](https://res.cloudinary.com/pipedreamin/image/upload/v1663270014/docs/components/CleanShot_2022-09-15_at_15.14.15_hjulis.png)
+  ![Click create credentials to start the process](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.14.15_hjulis.png)
   
-  ![Select the OAuth Client ID option](https://res.cloudinary.com/pipedreamin/image/upload/v1663270093/docs/components/CleanShot_2022-09-15_at_15.14.39_juqtnm.png)
+  ![Select the OAuth Client ID option](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.14.39_juqtnm.png)
 
 3. Select **Web application** for **Application type**
 
-  ![Web application is the type of OAuth credential we're generating](https://res.cloudinary.com/pipedreamin/image/upload/v1663270117/docs/components/CleanShot_2022-09-15_at_15.14.56_hlseq6.png)
+  ![Web application is the type of OAuth credential we're generating](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.14.56_hlseq6.png)
 
 4. Name the app “Pipedream”
 5. Click **Add URI** and enter `https://api.pipedream.com/connect/oauth/oa_gA6iex/callback`
 
-  ![Add the Pipedream URL to the Callback Redirect URL option](https://res.cloudinary.com/dpenc2lit/image/upload/v1692295499/Screenshot_2023-08-17_at_11.04.54_AM_blco7y.png)
+  ![Add the Pipedream URL to the Callback Redirect URL option](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-08-17_at_11.04.54_AM_blco7y.png)
 
 6. Click **Create** to create your new OAuth keys
 7. Note the client ID and client Secret, but keep these private and secure
 
-  ![Store the Client ID and Client Secret keys](https://res.cloudinary.com/pipedreamin/image/upload/v1663270250/docs/components/CleanShot_2022-09-15_at_15.16.29_hvxnkx.png)
+  ![Store the Client ID and Client Secret keys](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.16.29_hvxnkx.png)
 
 ## Connect your Google Fit app Pipedream with your Google Fit app OAuth credentials
 
@@ -76,11 +76,11 @@ At this point, you should have a Google Fit App under your Google Project, and a
 3. Then click **Connect**
 4. If you did not publish your Google Fit App in the Google Cloud Console, just click **Continue** to ignore the warning.
 
-    ![Click continue if presented with a warning about an unpublished app](https://res.cloudinary.com/pipedreamin/image/upload/v1663269902/docs/components/CleanShot_2022-09-15_at_15.19.58_jnzlwc.png)
+    ![Click continue if presented with a warning about an unpublished app](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/docs/components/CleanShot_2022-09-15_at_15.19.58_jnzlwc.png)
 
 5. Check all of the necessary scopes you'll need for your workflows
 
-    ![Check all scopes to include grant your integration permission](https://res.cloudinary.com/dpenc2lit/image/upload/v1692293421/Screenshot_2023-08-17_at_10.30.15_AM_ymeont.png)
+    ![Check all scopes to include grant your integration permission](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-08-17_at_10.30.15_AM_ymeont.png)
 
 7. Click the final **Connect** and your custom Google Fit app should be integrated into Pipedream!
 
@@ -92,9 +92,9 @@ Google has a [7 day expiration window](https://developers.google.com/identity/pr
 3. Your application will not be available externally unless you share your **client_id** with others, and you will not have to go through the verification process unless you intend to onboard over 100 users.
 4. The publishing status should be set to **In production**, and your account should maintain its connection without an expiration window.
 
-![Publish your application](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.06_AM_lve7wq.png)
+![Publish your application](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-10-24_at_9.50.06_AM_lve7wq.png)
 
-![Confirmation of changes](https://res.cloudinary.com/dpenc2lit/image/upload/v1698166716/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
+![Confirmation of changes](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-10-24_at_9.50.18_AM_mndtyc.png)
 
 # Example Use Cases
 

@@ -1,5 +1,7 @@
 import { ConfigurationError } from "@pipedream/platform";
+import googleCalendar from "../../google_calendar.app.mjs";
 import constants from "../../common/constants.mjs";
+import utils from "../../common/utils.mjs";
 
 export default {
   props: ({ isUpdate }) => (
@@ -48,10 +50,10 @@ export default {
         options: Object.keys(constants.REPEAT_FREQUENCIES),
       },
       repeatInterval: {
-        type: "integer",
-        label: "Repeat Interval",
-        description: "Enter 1 to \"repeat every day\", enter 2 to \"repeat every other day\", etc. Defaults to 1.",
-        optional: true,
+        propDefinition: [
+          googleCalendar,
+          "repeatInterval",
+        ],
       },
       repeatSpecificDays: {
         type: "string[]",
@@ -61,26 +63,61 @@ export default {
         options: constants.DAYS_OF_WEEK,
       },
       repeatUntil: {
-        type: "string",
-        label: "Repeat Until",
-        description: "The event will repeat only until this date, if set. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
-        optional: true,
+        propDefinition: [
+          googleCalendar,
+          "repeatUntil",
+        ],
       },
       repeatTimes: {
-        type: "integer",
-        label: "Repeat How Many Times?",
-        description: "Limit the number of times this event will occur. Only one of `Repeat Until` or Repeat `How Many Times` may be entered.",
-        optional: true,
+        propDefinition: [
+          googleCalendar,
+          "repeatTimes",
+        ],
       },
     }
   ),
   methods: {
+    hasSharedFieldInput() {
+      return [
+        this.summary,
+        this.eventStartDate,
+        this.eventEndDate,
+        this.location,
+        this.description,
+        this.parseEmails(this.attendees).length,
+        this.repeatFrequency,
+        this.repeatInterval,
+        this.repeatTimes,
+        this.repeatUntil,
+        this.repeatSpecificDays?.length,
+        this.timeZone,
+      ].some(Boolean);
+    },
+    isPersonalFieldsOnlyUpdate() {
+      return (this.colorId || this.transparency) && !this.hasSharedFieldInput();
+    },
+    async patchPersonalFields(eventId) {
+      // colorId and transparency are per-copy, so this never touches other guests
+      return this.googleCalendar.patchEvent({
+        calendarId: this.calendarId,
+        eventId,
+        sendUpdates: constants.SEND_UPDATES_NONE,
+        requestBody: {
+          ...(this.colorId && {
+            colorId: this.colorId,
+          }),
+          ...(this.transparency && {
+            transparency: this.transparency,
+          }),
+        },
+      });
+    },
     async getTimeZone(selectedTimeZone) {
       /**
       * Based on the IANA Time Zone DB
       * http://www.iana.org/time-zones
       */
-      if (typeof selectedTimeZone === "string") {
+      if (selectedTimeZone) {
         return selectedTimeZone;
       }
       const { value: timeZone } = await this.googleCalendar.getSettings({
@@ -186,6 +223,12 @@ export default {
         && (repeatInterval || repeatTimes || repeatUntil || repeatSpecificDays)
       ) {
         throw new ConfigurationError("`Repeat Frequency` is required when `Repeat Interval`, `Repeat Times`, `Repeat Until`, or `Repeat Specific Days` is entered.");
+      }
+      if (repeatInterval !== undefined && !utils.isPositiveInteger(repeatInterval)) {
+        throw new ConfigurationError("`Repeat Interval` must be a positive integer.");
+      }
+      if (repeatTimes !== undefined && !utils.isPositiveInteger(repeatTimes)) {
+        throw new ConfigurationError("`Repeat How Many Times?` must be a positive integer.");
       }
       if (!repeatFrequency) {
         return;

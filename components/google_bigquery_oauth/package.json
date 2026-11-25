@@ -1,0 +1,15 @@
+{
+  "name": "@pipedream/google_bigquery_oauth",
+  "version": "0.0.1",
+  "description": "Pipedream Google BigQuery (OAuth) Components",
+  "main": "google_bigquery_oauth.app.mjs",
+  "keywords": [
+    "pipedream",
+    "google_bigquery_oauth"
+  ],
+  "homepage": "https://pipedream.com/apps/google_bigquery_oauth",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  }
+}

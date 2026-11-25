@@ -13,7 +13,7 @@ export default {
     + " For example, `Status` `New` with `Limit` `10` returns the ten newest open cases."
     + " Status values are org-configurable."
     + " [See the documentation](https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_case.htm)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -10,7 +10,7 @@ export default {
   key: "spotify-search",
   name: "Search",
   description: "Search for items on Spotify (tracks, albums, artists, playlists, shows, or episodes). [See the docs here](https://developer.spotify.com/documentation/web-api/reference/search)",
-  version: "0.0.6",
+  version: "0.0.7",
   type: "action",
   ai: "optimized",
   annotations: {

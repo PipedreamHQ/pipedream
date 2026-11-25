@@ -147,4 +147,124 @@ export default {
     }
     ${fragments.initiativeUpdate}
   `,
+  getDocument: `
+    query GetDocument($id: String!) {
+      document(id: $id) {
+        ...Document
+      }
+    }
+    ${fragments.document}
+  `,
+  getDocumentForHistory: `
+    query GetDocumentForHistory($id: String!) {
+      document(id: $id) {
+        id
+        documentContentId
+      }
+    }
+  `,
+  listDocumentComments: `
+    query ListDocumentComments(
+      $id: String!,
+      $first: Int,
+      $after: String,
+      $orderBy: PaginationOrderBy,
+      $includeArchived: Boolean
+    ) {
+      document(id: $id) {
+        id
+        comments(
+          first: $first,
+          after: $after,
+          orderBy: $orderBy,
+          includeArchived: $includeArchived
+        ) {
+          pageInfo {
+            ...PageInfo
+          }
+          nodes {
+            ...DocumentComment
+          }
+        }
+      }
+    }
+    ${fragments.documentComment}
+    ${fragments.pageInfo}
+  `,
+  createDocumentComment: `
+    mutation CreateDocumentComment($input: CommentCreateInput!) {
+      commentCreate(input: $input) {
+        success
+        comment {
+          ...DocumentComment
+        }
+      }
+    }
+    ${fragments.documentComment}
+  `,
+  searchDocuments: `
+    query SearchDocuments(
+      $term: String!,
+      $teamId: String,
+      $first: Int,
+      $after: String,
+      $includeArchived: Boolean
+    ) {
+      searchDocuments(
+        term: $term,
+        teamId: $teamId,
+        first: $first,
+        after: $after,
+        includeArchived: $includeArchived
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
+        nodes {
+          ...DocumentSearchResult
+        }
+      }
+    }
+    ${fragments.documentSearchResult}
+    ${fragments.pageInfo}
+  `,
+  listDocuments: `
+    query ListDocuments(
+      $filter: DocumentFilter,
+      $first: Int,
+      $after: String,
+      $orderBy: PaginationOrderBy,
+      $includeArchived: Boolean
+    ) {
+      documents(
+        filter: $filter,
+        first: $first,
+        after: $after,
+        orderBy: $orderBy,
+        includeArchived: $includeArchived
+      ) {
+        pageInfo {
+          ...PageInfo
+        }
+        nodes {
+          ...DocumentListItem
+        }
+      }
+    }
+    ${fragments.documentListItem}
+    ${fragments.pageInfo}
+  `,
+  getDocumentContentHistory: `
+    query GetDocumentContentHistory($id: String!) {
+      documentContentHistory(id: $id) {
+        success
+        history {
+          id
+          contentDataSnapshotAt
+          actorIds
+          contentData
+        }
+      }
+    }
+  `,
 };

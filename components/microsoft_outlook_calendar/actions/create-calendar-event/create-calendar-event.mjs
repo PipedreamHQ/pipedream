@@ -9,7 +9,7 @@ import {
 export default {
   type: "action",
   key: "microsoft_outlook_calendar-create-calendar-event",
-  version: "0.0.16",
+  version: "0.0.17",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -35,7 +35,7 @@ export default {
         microsoftOutlook,
         "content",
       ],
-      description: "Content",
+      description: "Body of the event, in plain text or HTML. Set `Content Type` to match: `text` for plain text (e.g. `Join us to discuss Q3 roadmap.`), `html` for markup (e.g. `<p>Join us to discuss <b>Q3 roadmap</b>.</p>`). HTML sent with `text` is escaped and shows as literal tags.",
     },
     timeZone: {
       propDefinition: [
@@ -151,7 +151,7 @@ export default {
     const data = {
       subject: this.subject,
       body: {
-        contentType: this.contentType ?? "HTML",
+        contentType: this.contentType,
         content: this.content,
       },
       start: {

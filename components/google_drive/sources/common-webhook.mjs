@@ -2,7 +2,11 @@ import includes from "lodash/includes.js";
 import { v4 as uuid } from "uuid";
 
 import googleDrive from "../google_drive.app.mjs";
-import { WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS } from "../common/constants.mjs";
+import {
+  MY_DRIVE_VALUE,
+  WEBHOOK_RENEWAL_WINDOW_MILLISECONDS,
+  WEBHOOK_TIMER_INTERVAL_SECONDS,
+} from "../common/constants.mjs";
 import { getListFilesOpts } from "../common/utils.mjs";
 import commonDedupeChanges from "./common-dedupe-changes.mjs";
 
@@ -19,8 +23,9 @@ export default {
         googleDrive,
         "watchedDrive",
       ],
-      description: "Defaults to **All Drives** (My Drive and all Shared Drives you have access to) when no selection is made. To limit to your personal drive or a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
+      description: "The drive to watch. Defaults to **My Drive**. To watch a [Shared Drive](https://support.google.com/a/users/answer/9310351), select it from this list.",
       optional: false,
+      default: MY_DRIVE_VALUE,
     },
     timer: {
       label: "Push notification renewal schedule",
@@ -28,14 +33,28 @@ export default {
         "The Google Drive API requires occasional renewal of push notification subscriptions. **This runs in the background, so you should not need to modify this schedule**.",
       type: "$.interface.timer",
       static: {
-        intervalSeconds: WEBHOOK_SUBSCRIPTION_RENEWAL_SECONDS,
+        intervalSeconds: WEBHOOK_TIMER_INTERVAL_SECONDS,
       },
+      hidden: true,
+    },
+    // Unused; kept so older deployments can still save
+    updateTypes: {
+      type: "string[]",
+      label: "Types of updates",
+      description: "Deprecated and ignored.",
+      optional: true,
       hidden: true,
     },
     changesPageSize: {
       propDefinition: [
         googleDrive,
         "changesPageSize",
+      ],
+    },
+    maxEmitsPerRun: {
+      propDefinition: [
+        googleDrive,
+        "maxEmitsPerRun",
       ],
     },
   },
@@ -97,6 +116,38 @@ export default {
     _setPageToken(pageToken) {
       this.db.set("pageToken", pageToken);
     },
+    _getBacklogHeaders() {
+      return this.db.get("backlogHeaders");
+    },
+    _setBacklogHeaders(headers) {
+      this.db.set("backlogHeaders", headers);
+    },
+    isSubscriptionExpiring(subscription) {
+      const expiration = Number(subscription?.expiration);
+      return !expiration || expiration - Date.now() < WEBHOOK_RENEWAL_WINDOW_MILLISECONDS;
+    },
+    async renewSubscription(subscription, channelID, pageToken) {
+      const {
+        newChannelID,
+        newPageToken,
+        expiration,
+        resourceId,
+      } = await this.googleDrive.renewSubscription(
+        this.drive,
+        subscription,
+        this.http.endpoint,
+        channelID,
+        pageToken,
+      );
+
+      this._setSubscription({
+        expiration,
+        resourceId,
+      });
+      this._setChannelID(newChannelID);
+      this._setPageToken(newPageToken);
+      return newPageToken;
+    },
     isMyDrive(drive = this.drive) {
       return googleDrive.methods.isMyDrive(drive);
     },
@@ -123,6 +174,22 @@ export default {
       return [];
     },
     /**
+     * File fields to request per change; `undefined` returns the API's minimal fields.
+     */
+    getChangesFileFields() {
+      return undefined;
+    },
+    isRelevantChange() {
+      return true;
+    },
+    async getChangeFilter() {
+      return (change) => this.isRelevantChange(change);
+    },
+    // false: processChanges() ignores changedFiles, so run it once, not per page
+    consumesChangedFiles() {
+      return true;
+    },
+    /**
      * This method is responsible for processing a list of changed files
      * according to the event source's purpose. As an abstract method, it must
      * be implemented by every event source that extends this module.
@@ -131,9 +198,35 @@ export default {
      * by the API](https://bit.ly/3h7WeUa)
      * @param {object} [headers] - an object containing the request headers of
      * the webhook call made by Google Drive
+     * @returns {number} the number of events emitted
      */
     processChanges() {
       throw new Error("processChanges is not implemented");
+    },
+    async processChangesFrom(pageToken, headers) {
+      this.resetFileIntervals();
+      // Thrown runs keep db writes, so flush intervals with the token
+      try {
+        const caughtUp = await this.googleDrive.processChangesPages({
+          pageToken,
+          driveId: this.getDriveId(),
+          pageSize: this.changesPageSize,
+          fileFields: this.getChangesFileFields(),
+          maxEmits: this.maxEmitsPerRun,
+          changeFilter: await this.getChangeFilter(),
+          processPage: (changedFiles) => this.processChanges(changedFiles, headers),
+          savePageToken: (nextPageToken) => this._setPageToken(nextPageToken),
+        });
+        this._setBacklogHeaders(caughtUp
+          ? null
+          : {
+            "x-goog-resource-state": headers["x-goog-resource-state"],
+            "x-goog-resource-uri": headers["x-goog-resource-uri"],
+            "x-goog-changed": headers["x-goog-changed"],
+          });
+      } finally {
+        this.flushFileIntervals();
+      }
     },
   },
   async run(event) {
@@ -146,25 +239,15 @@ export default {
 
     // Component was invoked by timer
     if (event.timestamp) {
-      const {
-        newChannelID,
-        newPageToken,
-        expiration,
-        resourceId,
-      } = await this.googleDrive.renewSubscription(
-        this.drive,
-        subscription,
-        this.http.endpoint,
-        channelID,
-        pageToken,
-      );
+      const currentPageToken = this.isSubscriptionExpiring(subscription)
+        ? await this.renewSubscription(subscription, channelID, pageToken)
+        : pageToken;
 
-      this._setSubscription({
-        expiration,
-        resourceId,
-      });
-      this._setChannelID(newChannelID);
-      this._setPageToken(newPageToken);
+      const backlogHeaders = this._getBacklogHeaders();
+      if (backlogHeaders && this.consumesChangedFiles()) {
+        console.log("Resuming changes left by a capped run");
+        await this.processChangesFrom(currentPageToken, backlogHeaders);
+      }
       return;
     } else {
       this.http.respond({
@@ -200,20 +283,12 @@ export default {
     }
 
     const driveId = this.getDriveId();
-    const changedFilesStream =
-      this.googleDrive.listChanges(pageToken, driveId, this.changesPageSize);
-    for await (const changedFilesPage of changedFilesStream) {
-      const {
-        changedFiles,
-        nextPageToken,
-      } = changedFilesPage;
-
-      // Process all the changed files retrieved from the current page
-      await this.processChanges(changedFiles, headers);
-
-      // After successfully processing the changed files, we store the page
-      // token of the next page
-      this._setPageToken(nextPageToken);
+    if (!this.consumesChangedFiles()) {
+      await this.processChanges([], headers);
+      this._setPageToken(await this.googleDrive.getPageToken(driveId));
+      return;
     }
+
+    await this.processChangesFrom(pageToken, headers);
   },
 };

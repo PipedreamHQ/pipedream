@@ -20,7 +20,7 @@ To get started, you will need to create a custom Shopify app in the Shopify Admi
 3. Click **Allow custom app development**.
 4. Click **Create an App**, and name the app "Pipedream"
 
-  ![Create an App](https://res.cloudinary.com/dpenc2lit/image/upload/v1688060015/Screenshot_2023-06-29_at_10.11.43_AM_unkom4.png)
+  ![Create an App](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-06-29_at_10.11.43_AM_unkom4.png)
 
 ### Configure Admin API scopes
 1. In the new app you have created, under the **API Credentials** tab, click **Configure Admin API scopes**
@@ -30,7 +30,7 @@ To get started, you will need to create a custom Shopify app in the Shopify Admi
 1. Under API credentials, click **Install app**.
 2. Click **Reveal token once** and save it in a secure location (we recommend using a password manager such as 1Password) -- you will need it when setting up authentication on Pipedream, and it is only revealed once. If you happen to lose this, you will need to uninstall the app, and reinstall it on Shopify to generate a new access token.
 
-  ![API Credentials](https://res.cloudinary.com/dpenc2lit/image/upload/v1688061470/Screenshot_2023-06-29_at_10.54.53_AM_jta5gc.png)
+  ![API Credentials](https://assets.pipedream.net/s.v0/static/legacy/dpenc2lit/Screenshot_2023-06-29_at_10.54.53_AM_jta5gc.png)
 
 ### Connect your Shopify app with Pipedream using your access token
 
@@ -67,11 +67,11 @@ Then pass the shop's access token to a no-code Shopify Developer App action, or 
 
 For example, in a pre-built action like *Add Tags*, click _use external authentication_ to pass in your database stored access token:
 
-![Use external account to pass in your database managed Shopify store oauth access tokens to perform actions on behalf of merchants](https://res.cloudinary.com/pipedreamin/image/upload/v1714495695/marketplace/apps/shopify_developer_a/CleanShot_2024-04-30_at_12.47.21_cewyzb.png)
+![Use external account to pass in your database managed Shopify store oauth access tokens to perform actions on behalf of merchants](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/shopify_developer_a/CleanShot_2024-04-30_at_12.47.21_cewyzb.png)
 
 This will switch the action to allow you to pass in the merchants access token from your database query step:
 
-![Using the store's access token as a prop input](https://res.cloudinary.com/pipedreamin/image/upload/v1714495801/marketplace/apps/shopify_developer_a/CleanShot_2024-04-30_at_12.49.43_qclqdi.png)
+![Using the store's access token as a prop input](https://assets.pipedream.net/s.v0/static/legacy/pipedreamin/marketplace/apps/shopify_developer_a/CleanShot_2024-04-30_at_12.49.43_qclqdi.png)
 
 # Example Use Cases
 
