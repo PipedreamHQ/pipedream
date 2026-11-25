@@ -1,9 +1,12 @@
 # Overview
 
-**List Chat Models** reads the connected Models API and published typed chat catalog, returning only matching IDs/labels. This is a native read-only action with no completion POST. It does not grant service access, reserve price or include media models.
+List the chat models present in both the [public Ace Data Cloud model catalog](https://platform.acedata.cloud/models) and your connected account's Models API. This action only reads the model lists.
 
 # Getting Started
 
-After [App registration](https://github.com/PipedreamHQ/pipedream/issues/22155) and official publication, connect an [Ace API Token](https://platform.acedata.cloud/console/applications?utm_source=opensource&utm_medium=referral&utm_campaign=evergreen&utm_content=pipedream_readme_api_key), select the account and run the action. Use one returned ID in **Chat With Model**. Refresh before a paid request and check current access/balance. Empty or failed discovery stops without generating or falling back.
+1. Connect your [Ace Data Cloud application API token](https://platform.acedata.cloud/console/applications).
+2. Run the action to get the matching model IDs and labels. Use an ID from the result in **Chat With Model**.
 
-[Full setup and Token screenshots](https://github.com/AceDataCloud/pipedream/blob/codex/acedatacloud-seedream-actions/components/acedatacloud/README.md) · [中文教程](https://github.com/AceDataCloud/pipedream/blob/codex/acedatacloud-seedream-actions/components/acedatacloud/common/tutorial/README_zh_Hans.md). Local/free catalog checks are separate from actual Pipedream installation and connected-run proof.
+# Troubleshooting
+
+If an expected model is missing, check that your application token has access and that the model is in the public chat catalog.

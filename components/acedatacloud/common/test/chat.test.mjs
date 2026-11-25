@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import acedatacloud from "../../acedatacloud.app.mjs";
-import chat from "../../actions/chat-with-gpt-model/chat-with-gpt-model.mjs";
+import chat from "../../actions/chat-with-model/chat-with-model.mjs";
 import list from "../../actions/list-chat-models/list-chat-models.mjs";
 import {
   chatModelOptions, publishedChatModels,

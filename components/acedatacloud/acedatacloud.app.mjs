@@ -1,5 +1,7 @@
 import { axios } from "@pipedream/platform";
-import { chatModelOptions, publishedChatModels } from "./common/chat.mjs";
+import {
+  chatModelOptions, publishedChatModels,
+} from "./common/chat.mjs";
 import { requestOptions } from "./common/utils.mjs";
 
 export default {
@@ -14,7 +16,7 @@ export default {
         return chatModelOptions(await this.listChatModels());
       },
     },
-    prompt: {
+    "prompt": {
       type: "string",
       label: "Prompt",
       description: "Text to send to the selected model.",
