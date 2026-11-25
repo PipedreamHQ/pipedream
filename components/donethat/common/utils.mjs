@@ -5,12 +5,15 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 /**
  * Parse a `YYYY-MM-DD` calendar date as UTC midnight, in Unix milliseconds.
+ * Rejects dates that do not exist, such as `2026-02-29` or `2026-04-31`,
+ * which `Date.parse` would otherwise roll over into the next month.
  */
 const dateToUtcStartMs = (value, label = "Date") => {
   const ms = DATE_PATTERN.test(value ?? "")
     ? Date.parse(`${value}T00:00:00.000Z`)
     : NaN;
-  if (Number.isNaN(ms)) {
+  if (Number.isNaN(ms) || new Date(ms).toISOString()
+    .slice(0, 10) !== value) {
     throw new ConfigurationError(`${label} must be a calendar date in \`YYYY-MM-DD\` format, e.g. \`2026-01-31\`. Received: \`${value}\``);
   }
   return ms;
@@ -56,8 +59,33 @@ const getYesterdayInTimeZone = (timeZone = "UTC", now = new Date()) => {
     .slice(0, 10);
 };
 
+/**
+ * Build the `contributorIds` request value for Create Project and Update Project.
+ * The API reads `null` as "everyone on the team", `[]` as "nobody" and an omitted
+ * field as "keep the current list" (on create: everyone).
+ * @param {object} options
+ * @param {string} [options.access] - `everyone`, `selected` or unset
+ * @param {string[]} [options.ids] - The contributors for `selected`
+ * @returns {string[]|null|undefined} The value to send; `undefined` omits the field
+ */
+const buildContributorIds = ({
+  access, ids,
+}) => {
+  if (access === "everyone") {
+    if (ids?.length) {
+      throw new ConfigurationError("Leave Contributors empty when Contributor Access is `everyone`, or set Contributor Access to `selected`.");
+    }
+    return null;
+  }
+  if (access === "selected") {
+    return ids ?? [];
+  }
+  return ids;
+};
+
 export default {
   DATE_PATTERN,
+  buildContributorIds,
   dateToUtcStartMs,
   dateToUtcEndExclusiveMs,
   getTodayInTimeZone,

@@ -106,6 +106,17 @@ const PROJECT_COLORS = [
   "#D65DB1",
 ];
 
+const CONTRIBUTOR_ACCESS_OPTIONS = [
+  {
+    label: "Everyone on the team",
+    value: "everyone",
+  },
+  {
+    label: "Only the selected contributors",
+    value: "selected",
+  },
+];
+
 export default {
   BASE_URL,
   AGGREGATION_LEVELS,
@@ -115,4 +126,5 @@ export default {
   PROJECT_SORT_KEYS,
   SEARCH_SOURCES,
   PROJECT_COLORS,
+  CONTRIBUTOR_ACCESS_OPTIONS,
 };

@@ -1,4 +1,3 @@
-import { ConfigurationError } from "@pipedream/platform";
 import donethat from "../../donethat.app.mjs";
 import constants from "../../common/constants.mjs";
 import utils from "../../common/utils.mjs";
@@ -44,8 +43,9 @@ export default {
     },
   },
   async run({ $ }) {
-    if (this.date && !utils.DATE_PATTERN.test(this.date)) {
-      throw new ConfigurationError("Date must be a calendar date in `YYYY-MM-DD` format, e.g. `2026-02-02`.");
+    if (this.date) {
+      // Throws a ConfigurationError for a malformed or nonexistent date
+      utils.dateToUtcStartMs(this.date, "Date");
     }
 
     const response = await this.donethat.getSummary({

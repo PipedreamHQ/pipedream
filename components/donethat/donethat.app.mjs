@@ -93,12 +93,22 @@ export default {
       description: "Whether the project is private, e.g. `false`.",
       optional: true,
     },
+    contributorAccess: {
+      type: "string",
+      label: "Contributor Access",
+      description: "Who can log time to a team project. `everyone` lets every member of the project's team log time;"
+        + " `selected` limits it to the people in Contributors, and nobody can log time if Contributors is empty."
+        + " Only valid on team projects.",
+      options: constants.CONTRIBUTOR_ACCESS_OPTIONS,
+      optional: true,
+    },
     contributorIds: {
       type: "string[]",
       label: "Contributors",
-      description: "Who can log time to a team project: user IDs, handles or email addresses, e.g. `[\"jane@example.com\"]`."
-        + " Only valid on team projects; every entry must be an active member of the project's team."
-        + " Leave empty to let every team member log time.",
+      description: "The people who can log time when Contributor Access is `selected`: user IDs, handles (without the `@`) or email addresses, e.g. `[\"jane@example.com\"]`."
+        + " Every entry must be an active member of the project's team."
+        + " In DoneThat, a member's handle shows as `@handle` under their name in the group's Settings > Members (groups are teams in the API); you can also use the email address they sign in with."
+        + " Setting Contributors without Contributor Access is the same as `selected`, and replaces the whole list.",
       optional: true,
     },
   },
