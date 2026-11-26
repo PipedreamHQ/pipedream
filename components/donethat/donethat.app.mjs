@@ -98,7 +98,7 @@ export default {
       label: "Contributor Access",
       description: "Who can log time to a team project. `everyone` lets every member of the project's team log time;"
         + " `selected` limits it to the people in Contributors, and nobody can log time if Contributors is empty."
-        + " Only valid on team projects.",
+        + " Only valid on team projects. E.g. `selected`.",
       options: constants.CONTRIBUTOR_ACCESS_OPTIONS,
       optional: true,
     },

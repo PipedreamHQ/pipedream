@@ -69,7 +69,7 @@ export default {
       ],
       description: "Who can log time to the team project. `everyone` lets every member of the team log time;"
         + " `selected` limits it to the people in Contributors, and nobody can log time if Contributors is empty."
-        + " Leave empty for `everyone`, or for `selected` when Contributors is set. Requires Team.",
+        + " Leave empty for `everyone`, or for `selected` when Contributors is set. Requires Team. E.g. `selected`.",
     },
     contributorIds: {
       propDefinition: [

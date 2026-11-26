@@ -50,14 +50,19 @@ const getTodayInTimeZone = (timeZone = "UTC", now = new Date()) => {
 };
 
 /**
- * Yesterday's calendar date (`YYYY-MM-DD`) in the given IANA time zone.
- * Subtracts one calendar day, so daylight saving changes do not skip or repeat a date.
+ * Shift a `YYYY-MM-DD` calendar date by whole days.
+ * E.g. `addDays("2026-03-01", -1)` is `2026-02-28`.
+ * Works on UTC calendar dates, so daylight saving changes do not skip or repeat a date.
  */
-const getYesterdayInTimeZone = (timeZone = "UTC", now = new Date()) => {
-  const todayMs = dateToUtcStartMs(getTodayInTimeZone(timeZone, now));
-  return new Date(todayMs - DAY_MS).toISOString()
+const addDays = (value, days) =>
+  new Date(dateToUtcStartMs(value) + days * DAY_MS).toISOString()
     .slice(0, 10);
-};
+
+/**
+ * Yesterday's calendar date (`YYYY-MM-DD`) in the given IANA time zone.
+ */
+const getYesterdayInTimeZone = (timeZone = "UTC", now = new Date()) =>
+  addDays(getTodayInTimeZone(timeZone, now), -1);
 
 /**
  * Build the `contributorIds` request value for Create Project and Update Project.
@@ -85,6 +90,7 @@ const buildContributorIds = ({
 
 export default {
   DATE_PATTERN,
+  addDays,
   buildContributorIds,
   dateToUtcStartMs,
   dateToUtcEndExclusiveMs,
