@@ -1,17 +1,23 @@
-import { parseObject } from "../../common/utils.mjs";
+import { ConfigurationError } from "@pipedream/platform";
+import { MAX_PAGE } from "../../common/constants.mjs";
+import {
+  buildContactInclude,
+  getPageSize,
+} from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-search-and-enrich-contacts",
   name: "Search and Enrich Contacts",
-  description: "Search for contacts and enrich them. [See the documentation](https://docs.lusha.com/apis/openapi/contact-search-and-enrich)",
-  version: "0.0.4",
+  description: "Search Lusha's contact database with prospecting filters, then enrich every match to reveal emails and phones, up to `Limit` contacts. Each revealed field is billed per contact, so set `Limit` to cap credit usage. To preview matches without spending reveal credits, use **Search Contacts** instead. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-contacts)",
+  version: "1.0.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     lusha,
     names: {
@@ -72,33 +78,28 @@ export default {
     },
   },
   async run({ $ }) {
-    const include = {};
-
-    if (this.names) include.names = parseObject(this.names);
-    if (this.jobTitles) include.jobTitles = parseObject(this.jobTitles);
-    if (this.jobTitlesExactMatch)
-      include.jobTitlesExactMatch = parseObject(this.jobTitlesExactMatch);
-    if (this.countries) include.countries = parseObject(this.countries);
-    if (this.seniority) include.seniority = parseObject(this.seniority);
-    if (this.departments) include.departments = parseObject(this.departments);
-    if (this.existingDataPoints) include.existingDataPoints = parseObject(this.existingDataPoints);
-    if (this.location) include.locations = parseObject(this.location);
+    const include = buildContactInclude(this);
+    if (Object.keys(include).length === 0) {
+      throw new ConfigurationError("Provide at least one contact filter.");
+    }
+    if (!Number.isInteger(this.limit) || this.limit < 1) {
+      throw new ConfigurationError("`Limit` must be a positive integer.");
+    }
 
     const contacts = [];
-    let hasMore, count = 0, page = 0;
+    const pageSize = getPageSize(this.limit);
+    let page = 0;
+    let hasMore;
 
     do {
-      const {
-        requestId, data = [],
-      } = await this.lusha.searchContacts({
+      const remaining = this.limit - contacts.length;
+      const { results = [] } = await this.lusha.searchContacts({
         $,
-        params: {
-          pages: {
-            page,
-            size: 50,
-          },
-        },
         data: {
+          pagination: {
+            page,
+            size: pageSize,
+          },
           filters: {
             contacts: {
               include,
@@ -107,26 +108,39 @@ export default {
         },
       });
 
-      hasMore = data.length;
-      const contactIds = [];
+      const ids = results
+        .slice(0, remaining)
+        .map(({ id }) => id)
+        .filter(Boolean);
 
-      for (const d of data) {
-        contactIds.push(d.contactId);
-        if (++count >= this.limit) {
-          hasMore = false;
-          break;
+      if (ids.length) {
+        const {
+          results: enriched = [], job,
+        } = await this.lusha.enrichContacts({
+          $,
+          data: {
+            ids,
+          },
+        });
+        // With Data Waterfall enabled, part of the data arrives later through an async job.
+        const completed = await this.lusha.waitForContactsEnrichJob({
+          $,
+          job,
+        });
+        // Job contacts are complete: they replace the partial result with the same `id`.
+        const merged = new Map(enriched.map((contact) => [
+          contact.id,
+          contact,
+        ]));
+        for (const contact of completed) {
+          merged.set(contact.id, contact);
         }
+        contacts.push(...merged.values());
       }
 
-      const enrichedContacts = await this.lusha.enrichContacts({
-        $,
-        data: {
-          requestId,
-          contactIds,
-        },
-      });
-
-      contacts.push(...enrichedContacts.contacts);
+      hasMore = results.length === pageSize
+        && contacts.length < this.limit
+        && page < MAX_PAGE;
       page++;
     } while (hasMore);
 
