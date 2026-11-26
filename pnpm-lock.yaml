@@ -14967,7 +14967,11 @@ importers:
         specifier: ^3.1.1
         version: 3.1.1
 
-  components/simple_analytics: {}
+  components/simple_analytics:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.1.1
+        version: 3.1.1
 
   components/simplebackups: {}
 
