@@ -12,7 +12,8 @@ export default {
   name: "New Daily Summary",
   description: "Emit new event when DoneThat's daily summary for the previous day is available."
     + " Polls for yesterday's summary in the chosen time zone and emits it once per date."
-    + " A summary that is not ready yet is checked again on later runs for up to 7 days, and summaries are emitted in date order."
+    + " A summary that is not ready yet is checked again on later runs for up to 7 days."
+    + " Each run checks dates in order, so a delayed summary can arrive after a later day's."
     + " [See the documentation](https://donethat.ai/api-reference/messages)",
   version: "0.0.1",
   type: "source",
