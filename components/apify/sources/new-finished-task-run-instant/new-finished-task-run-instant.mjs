@@ -5,8 +5,8 @@ export default {
   ...common,
   key: "apify-new-finished-task-run-instant",
   name: "New Finished Task Run (Instant)",
-  description: "Emit new event when a selected task is run and finishes.",
-  version: "0.0.6",
+  description: "Emit new event when a selected task is run and finishes. [See the documentation](https://docs.apify.com/api/v2/webhooks-post)",
+  version: "0.0.7",
   type: "source",
   dedupe: "unique",
   props: {
