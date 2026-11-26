@@ -6,6 +6,7 @@ export default {
   description: "Call any Groundsocial endpoint (Reddit, X, TikTok, Instagram, YouTube, LinkedIn, Google and 70+ more) and get the platform's JSON. [See the documentation](https://groundsocial.dev/docs/api)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,6 +6,7 @@ export default {
   description: "Search posts across Reddit or in one subreddit. [See the documentation](https://groundsocial.dev/docs/api/reddit-search-posts)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,18 +17,18 @@ export default {
     query: {
       type: "string",
       label: "Query",
-      description: "Search words",
+      description: "Search words, e.g. `typescript narrowing`",
     },
     subreddit: {
       type: "string",
       label: "Subreddit",
-      description: "Search only this subreddit, without `r/`",
+      description: "Search only this subreddit, without `r/`, e.g. `typescript`. Subreddit names appear in the `subreddit` field of this action's results",
       optional: true,
     },
     sort: {
       type: "string",
       label: "Sort",
-      description: "Result order",
+      description: "Result order, e.g. `new`",
       options: [
         "relevance",
         "new",
@@ -41,7 +42,7 @@ export default {
     time: {
       type: "string",
       label: "Time",
-      description: "Time window for `top`",
+      description: "Time window for `top`, e.g. `week`",
       options: [
         "hour",
         "day",

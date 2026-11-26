@@ -6,6 +6,7 @@ export default {
   description: "Find the Groundsocial endpoints that fit a task described in plain words, with their inputs and cost. Free. [See the documentation](https://groundsocial.dev/docs/api/utility-find-get)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -21,7 +22,7 @@ export default {
     platform: {
       type: "string",
       label: "Platform",
-      description: "Only return endpoints for this platform, e.g. `reddit`",
+      description: "Only return endpoints for this platform, e.g. `reddit` or `tiktok`. The **List Platforms** action returns every accepted value in `platforms[].id`",
       optional: true,
     },
   },

@@ -9,7 +9,7 @@ export default {
     endpoint: {
       type: "string",
       label: "Endpoint",
-      description: "The endpoint to call, e.g. `reddit.search.posts`. [See the endpoint reference](https://groundsocial.dev/docs/api)",
+      description: "The endpoint to call, e.g. `reddit.search.posts`. Use the **Find Endpoints** action to find the `id` for a task. [See the endpoint reference](https://groundsocial.dev/docs/api)",
       async options() {
         const { endpoints } = await this.listEndpoints();
         return endpoints.map((endpoint) => ({
@@ -21,7 +21,7 @@ export default {
     limit: {
       type: "integer",
       label: "Limit",
-      description: "Maximum number of results to return",
+      description: "Maximum number of results to return, from 1 to 100 (default 25), e.g. `10`",
       min: 1,
       max: 100,
       default: 25,
@@ -47,6 +47,12 @@ export default {
     listEndpoints(opts = {}) {
       return this._makeRequest({
         path: "/v1/utility/endpoints",
+        ...opts,
+      });
+    },
+    listPlatforms(opts = {}) {
+      return this._makeRequest({
+        path: "/v1/platforms",
         ...opts,
       });
     },

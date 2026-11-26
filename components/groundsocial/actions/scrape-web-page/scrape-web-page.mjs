@@ -6,6 +6,7 @@ export default {
   description: "Fetch a web page as clean Markdown. [See the documentation](https://groundsocial.dev/docs/api/web-scrape-get)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

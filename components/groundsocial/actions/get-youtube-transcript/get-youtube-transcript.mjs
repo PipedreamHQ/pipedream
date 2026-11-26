@@ -6,6 +6,7 @@ export default {
   description: "Get the transcript of a YouTube video. [See the documentation](https://groundsocial.dev/docs/api/youtube-video-transcript)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +17,7 @@ export default {
     videoId: {
       type: "string",
       label: "Video ID or URL",
-      description: "The video ID (e.g. `dQw4w9WgXcQ`) or its URL",
+      description: "The video ID (e.g. `dQw4w9WgXcQ`) or its URL. The **Search YouTube Videos** action returns IDs in `items[].id.videoId`",
     },
     language: {
       type: "string",
