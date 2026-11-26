@@ -125,6 +125,14 @@ export default {
         ...args,
       });
     },
+    // Connection test: returns the key owner's `name` and `email`.
+    // Needs an API key with the `user:read` scope.
+    getUser(args = {}) {
+      return this._makeRequest({
+        url: "/user",
+        ...args,
+      });
+    },
     getReport(args = {}) {
       return this._makeRequest({
         method: "POST",
