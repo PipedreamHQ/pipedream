@@ -3,7 +3,7 @@ import options from  "../../options.mjs";
 
 export default {
   key: "sentry-update-issue",
-  version: "0.1.3",
+  version: "0.1.4",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

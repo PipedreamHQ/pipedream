@@ -6,7 +6,7 @@ export default {
   key: "mailchimp-new-audience",
   name: "New Audience",
   description: "Emit new event when an audience is added to the connected Mailchimp account.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "source",
   dedupe: "unique",
   hooks: {

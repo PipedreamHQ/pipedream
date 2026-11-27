@@ -4,7 +4,7 @@ export default {
   key: "playwright-get-page-html",
   name: "Get Page HTML",
   description: "Returns the page's html. [See the documentation](https://playwright.dev/docs/api/class-page#page-content)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

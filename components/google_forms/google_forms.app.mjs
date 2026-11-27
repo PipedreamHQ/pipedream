@@ -14,6 +14,21 @@ export default {
       label: "Title",
       description: "The title of the form which is visible to responders",
     },
+    questionTitle: {
+      type: "string",
+      label: "Title",
+      description: "The question text shown to responders, e.g. `Preferred meeting day`.",
+    },
+    questionDescription: {
+      type: "string",
+      label: "Description",
+      description: "Helper text shown under the question, e.g. `Pick the day that suits you best`.",
+    },
+    questionIndex: {
+      type: "integer",
+      label: "Index",
+      description: "0-based position of the question in the form, e.g. `0` for the top. Must be between 0 and the current number of items.",
+    },
     formResponseId: {
       type: "string",
       label: "Form Response",
