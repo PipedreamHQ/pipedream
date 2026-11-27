@@ -15,13 +15,14 @@ export default {
   name: "Download Attachment",
   description:
     "Download a Gmail message attachment to `/tmp` and return its path + metadata. File Stash syncs the file and exposes a presigned download URL so the caller can retrieve it."
+    + " To read the content (e.g. show an image inline) use **Get Attachment Content**."
     + " Call **Find Emails** with `fields: [\"subject\", \"attachments\"]`, or **Get Thread**, first: each returned message lists its attachments as `attachments: [{ partId, filename, mimeType, size }]`. Pass the message's `id` as `messageId` and the attachment's `partId` as `partId`. This works for any message size, including large HTML emails whose `payload` is too big to return."
     + " Alternatively pass `attachmentId` from a message's `payload.parts[].body.attachmentId`. Provide `partId` or `attachmentId`; when both are given, `partId` is used."
     + " When only `attachmentId` is given, Gmail issues a new one for the same part on every read, so the filename and MIME type are resolved separately: by `partId`, then by a unique filename-and-size match, then by a unique size match. If none resolve, the file is saved as `attachment-<id>` with an extension detected from its contents."
     + " If `filename` is omitted, the action uses the attachment's own filename from the message."
     + " Set `convertToPdf: true` to convert image / HTML / plain-text / DOCX attachments to PDF during download; other MIME types are rejected."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages.attachments/get).",
-  version: "0.3.0",
+  version: "0.3.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

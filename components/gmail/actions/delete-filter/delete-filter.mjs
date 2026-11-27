@@ -7,7 +7,7 @@ export default {
     "Permanently delete a Gmail filter from the authenticated user's settings. Mail already processed by the filter is not changed; the filter simply stops applying to future incoming mail."
     + " The Gmail API deletes by filter ID — call **List Filters** first to find the `id` of the filter to remove."
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings.filters/delete).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -258,6 +258,27 @@ function getAttachments(payload) {
   return attachments;
 }
 
+/**
+ * Finds the named attachment part with the given `partId` (as listed by getAttachments),
+ * whether its content sits behind an `attachmentId` or inline in `body.data`.
+ */
+function findAttachmentPart(payload, partId) {
+  let found;
+  const walk = (part) => {
+    if (!part || found) return;
+    if (part.filename && (part.body?.attachmentId || part.body?.data)
+      && String(part.partId) === String(partId)) {
+      found = part;
+      return;
+    }
+    for (const child of part.parts ?? []) {
+      walk(child);
+    }
+  };
+  walk(payload);
+  return found;
+}
+
 function capBodies(records, bodyOf, {
   cap, floor, maxChars, measure,
 }) {
@@ -338,6 +359,7 @@ export default {
   pluckFields,
   getBodyText,
   getAttachments,
+  findAttachmentPart,
   sniffMimeType,
   capBodies,
   fitToBudget,
