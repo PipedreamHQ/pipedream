@@ -3,9 +3,15 @@ const VERSION_PLACEHOLDER = "{version}";
 
 const API = {
   EDIT: `/edit/${VERSION_PLACEHOLDER}`,
-  SERVE: `/serve/${VERSION_PLACEHOLDER}`,
   INGEST: `/ingest/${VERSION_PLACEHOLDER}`,
 };
+
+const ORIGIN = "pipedream";
+const USER_AGENT = "shotstack-pipedream/0.1.0";
+
+const POLL_MS = 5000;
+// MCP clients on the official SDK give up on a tool call after 60 s by default.
+const MAX_WAIT_SECONDS = 50;
 
 const SEP = "_";
 
@@ -87,6 +93,10 @@ export default {
   BASE_URL,
   VERSION_PLACEHOLDER,
   API,
+  ORIGIN,
+  USER_AGENT,
+  POLL_MS,
+  MAX_WAIT_SECONDS,
   SEP,
   ASSET_TYPE,
   OUTPUT_FORMAT,
