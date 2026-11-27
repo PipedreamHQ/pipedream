@@ -9,6 +9,7 @@ import {
   resolveWorkspaceUser,
   sleep,
 } from "../../common/utils.mjs";
+import { validateDetailedPage } from "../../common/report-utils.mjs";
 
 const REQUEST_INTERVAL_MS = 1000;
 const ALL_FIELDS = "all_fields";
@@ -24,8 +25,8 @@ const DEFAULT_FIELDS = [
 export default {
   key: "toggl-search-detailed-time-entries",
   name: "Search Detailed Time Entries",
-  description: "Search workspace-wide Toggl Track time entries with structured filters and provider-computed totals. Follows Toggl Reports API cursors up to an explicit cap and returns deterministic JSON without model rewriting. Only present the entries as a complete report when `complete` is true; otherwise use **Export Detailed Time Entries**. For time per task on one project, use **Get Project Task Time Summary**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
-  version: "1.0.1",
+  description: "Search workspace-wide Toggl Track time entries with structured filters and provider-computed totals. Follows Toggl Reports API cursors up to an explicit cap, validates row continuity and duplicate IDs, and returns deterministic JSON without model rewriting. Only present the entries as a complete report when `complete` is true. For time per task on one project, use **Get Project Task Time Summary**. For description-rich client updates or historical project analysis, prefer **Get Project Activity**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/detailed_reports/)",
+  version: "2.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -134,7 +135,7 @@ export default {
     cursor: {
       type: "object",
       label: "Cursor",
-      description: "Optional `nextCursor` object returned by a previous run, e.g. `{\"firstId\": 123, \"firstRowNumber\": 51}`. Paging uses only `firstRowNumber`; keep the same filters and ordering as that run.",
+      description: "Optional `nextCursor` object returned by a previous run, e.g. `{\"firstId\": 123, \"firstRowNumber\": 51}`. Header values are preserved for diagnostics; paging uses only First Row Number. Keep the same filters and ordering as the previous run.",
       optional: true,
     },
     fields: {
@@ -329,17 +330,20 @@ export default {
       order_dir: this.orderDirection,
       enrich_response: needsEnrichment,
       grouped: false,
-      // first_id is never sent: Toggl treats it as an exclusive id filter, so entries with a
-      // lower id further down the ordering (backdated entries) were skipped. The row number
-      // alone pages correctly.
+      // first_id is an exclusive ID filter and can skip backdated entries.
+      // Use only the row number for pagination.
       first_row_number: initialCursor?.firstRowNumber,
     };
     const timeEntries = [];
-    // The row number drives paging, so it must strictly increase.
     let lastRowNumber = initialCursor?.firstRowNumber ?? 0;
+    const seenEntryIds = new Set();
     let nextCursor = null;
     let quotaRemaining;
     let quotaResetsIn;
+    let entryCount = 0;
+    let trackedSeconds = 0;
+    let billableSeconds = 0;
+    let expectedFirstRowNumber = initialCursor?.firstRowNumber ?? 1;
 
     do {
       // At least 2: Toggl returns no continuation cursor for a single-row page.
@@ -356,10 +360,24 @@ export default {
         throw new Error("Toggl returned an invalid detailed report response.");
       }
 
+      const pageStats = validateDetailedPage({
+        page,
+        expectedFirstRowNumber,
+        seenEntryIds,
+      });
+
+      expectedFirstRowNumber = pageStats.nextExpectedRowNumber;
+      entryCount += pageStats.entryCount;
+      trackedSeconds += pageStats.trackedSeconds;
+      billableSeconds += pageStats.billableSeconds;
       nextCursor = getNextCursor(response.headers);
 
       if (!page.length && nextCursor) {
         throw new Error("Toggl returned an empty report page with a continuation cursor.");
+      }
+
+      if (nextCursor && Number(nextCursor.firstRowNumber) !== expectedFirstRowNumber) {
+        throw new Error(`Toggl returned a non-contiguous pagination cursor. Expected row ${expectedFirstRowNumber}, received ${nextCursor.firstRowNumber}.`);
       }
 
       timeEntries.push(...page.map((entry) => projectTimeEntryFields(entry, fields)));
@@ -386,7 +404,7 @@ export default {
     const capHit = hasMore && timeEntries.length >= this.maxResults;
     const complete = !hasMore && !initialCursor;
     const totalCount = complete
-      ? timeEntries.length
+      ? entryCount
       : null;
     const incompleteReasons = [
       initialCursor && "initial_cursor",
@@ -401,10 +419,19 @@ export default {
       $,
     });
     const providerTotals = parseProviderTotals(totalsResponse?.data);
+
+    if (complete && (
+      trackedSeconds !== providerTotals.trackedSeconds
+      || billableSeconds !== providerTotals.billableSeconds
+    )) {
+      throw new Error(`Detailed report rows did not reconcile with Toggl totals. Rows: ${trackedSeconds} tracked / ${billableSeconds} billable seconds; totals: ${providerTotals.trackedSeconds} tracked / ${providerTotals.billableSeconds} billable seconds.`);
+    }
+
     const result = {
       timeEntries,
-      returned: timeEntries.length,
-      returnedCount: timeEntries.length,
+      returned: entryCount,
+      returnedCount: entryCount,
+      reportRowCount: timeEntries.length,
       totalCount,
       totalCountExact: complete,
       complete,
@@ -412,11 +439,13 @@ export default {
       hasMore,
       capHit,
       nextCursor,
+      paginationValidated: true,
+      duplicateEntryCount: 0,
       dateRange,
       totals: {
         ...providerTotals,
         entryCount: complete
-          ? timeEntries.length
+          ? entryCount
           : null,
         entryCountExact: complete,
         scope: "full_filter",
@@ -432,11 +461,16 @@ export default {
       },
     };
 
+    let summarySuffix = " with provider-computed totals";
+    if (hasMore) {
+      summarySuffix = " (incomplete; continue with nextCursor)";
+    } else if (initialCursor) {
+      summarySuffix = " (no pages remain; earlier segments are excluded)";
+    }
+
     $.export("$summary", `Successfully retrieved ${result.returnedCount} time ${result.returnedCount === 1
       ? "entry"
-      : "entries"}${complete
-      ? " with provider-computed totals"
-      : " (incomplete; use the export action)"}`);
+      : "entries"}${summarySuffix}`);
 
     return result;
   },

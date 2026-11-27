@@ -1,19 +1,20 @@
 import toggl from "../../toggl.app.mjs";
 import {
-  collectTimeEntryIds,
   parseProviderTotals,
   resolveDateRange,
   resolveWorkspaceUser,
   sleep,
+  unwrapItems,
 } from "../../common/utils.mjs";
+import { compactSummaryReport } from "../../common/report-utils.mjs";
 
 const REQUEST_INTERVAL_MS = 1000;
 
 export default {
   key: "toggl-get-time-entry-summary",
   name: "Get Time Entry Summary",
-  description: "Return Toggl-computed summary report groups and totals by user, client, or project. For time per task on one project, use **Get Project Task Time Summary**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
-  version: "0.0.2",
+  description: "Return compact Toggl-computed summary groups and totals by user, client, or project. The action validates that every returned group reconciles with the provider totals and omits the large nested provider payload. For time per task on one project, use **Get Project Task Time Summary**. Results are limited by the connected user's Toggl permissions. [See the documentation](https://engineering.toggl.com/docs/track/reports/summary_reports/)",
+  version: "1.0.0",
   type: "action",
   ai: "optimized",
   annotations: {
@@ -125,19 +126,20 @@ export default {
       weekStart: profile?.beginning_of_week ?? 1,
     });
     const userIds = new Set(this.userIds || []);
+    let workspaceUsers;
     let resolvedUser = null;
 
     if (this.userName) {
-      const users = await this.toggl.getWorkspaceUsers({
+      workspaceUsers = await this.toggl.getWorkspaceUsers({
         workspaceId: this.workspaceId,
         $,
       });
 
-      if (!Array.isArray(users)) {
+      if (!Array.isArray(workspaceUsers)) {
         throw new Error("Toggl returned an invalid workspace users response.");
       }
 
-      resolvedUser = resolveWorkspaceUser(users, this.userName);
+      resolvedUser = resolveWorkspaceUser(workspaceUsers, this.userName);
       userIds.add(resolvedUser.userId);
     }
 
@@ -170,6 +172,54 @@ export default {
       throw new Error("Toggl returned an invalid summary report response.");
     }
 
+    const compactReport = compactSummaryReport(summaryResponse.data);
+    let groupEntities;
+
+    if (this.grouping === "users") {
+      groupEntities = workspaceUsers || await this.toggl.getWorkspaceUsers({
+        workspaceId: this.workspaceId,
+        $,
+      });
+    } else if (this.grouping === "clients") {
+      const clientsResponse = await this.toggl.getClients({
+        workspaceId: this.workspaceId,
+        params: {
+          status: "both",
+        },
+        $,
+      });
+      groupEntities = unwrapItems(clientsResponse, "workspace clients");
+    } else {
+      groupEntities = await this.toggl.getAllProjects({
+        workspaceId: this.workspaceId,
+        params: {
+          active: "both",
+        },
+        $,
+      });
+    }
+
+    if (!Array.isArray(groupEntities)) {
+      throw new Error(`Toggl returned invalid ${this.grouping} metadata for the summary groups.`);
+    }
+
+    const entitiesById = new Map(groupEntities.map((entity) => [
+      Number(entity.id),
+      entity,
+    ]));
+    const groups = compactReport.groups.map((group) => {
+      const entity = entitiesById.get(Number(group.id));
+      const name = group.name || entity?.fullname || entity?.name || null;
+
+      return {
+        ...group,
+        name,
+        ...this.grouping === "users" && entity?.email && {
+          email: entity.email,
+        },
+      };
+    });
+
     await sleep(REQUEST_INTERVAL_MS);
 
     const totalsResponse = await this.toggl.getDetailedTimeEntryTotals({
@@ -182,17 +232,38 @@ export default {
       throw new Error("Toggl returned an invalid report totals response.");
     }
 
-    const timeEntryIds = collectTimeEntryIds(summaryResponse.data);
+    const providerTotals = parseProviderTotals(totalsResponse.data);
+    const groupedTotals = groups.reduce((totals, group) => ({
+      trackedSeconds: totals.trackedSeconds + group.trackedSeconds,
+      billableSeconds: totals.billableSeconds + group.billableSeconds,
+      entryCount: totals.entryCount + group.entryCount,
+    }), {
+      trackedSeconds: 0,
+      billableSeconds: 0,
+      entryCount: 0,
+    });
+
+    if (
+      groupedTotals.trackedSeconds !== providerTotals.trackedSeconds
+      || groupedTotals.billableSeconds !== providerTotals.billableSeconds
+      || groupedTotals.entryCount !== compactReport.entryCount
+    ) {
+      throw new Error(`Summary groups did not reconcile with Toggl totals. Groups: ${groupedTotals.trackedSeconds} tracked / ${groupedTotals.billableSeconds} billable seconds / ${groupedTotals.entryCount} entries; totals: ${providerTotals.trackedSeconds} tracked / ${providerTotals.billableSeconds} billable seconds / ${compactReport.entryCount} unique entries.`);
+    }
+
     const totals = {
-      ...parseProviderTotals(totalsResponse.data),
-      entryCount: timeEntryIds.size,
+      ...providerTotals,
+      entryCount: compactReport.entryCount,
+      entryCountExact: true,
     };
     const result = {
       grouping: this.grouping,
       dateRange,
-      report: summaryResponse.data,
-      providerTotals: totalsResponse.data,
+      groups,
+      groupCount: compactReport.groupCount,
       totals,
+      complete: true,
+      totalsMatchGroups: true,
       ...resolvedUser && {
         resolvedUser,
       },
