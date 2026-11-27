@@ -1076,3 +1076,8 @@ UX
 taskSchedulerURL
 taskId
 codebase
+CompanyEnrich
+lookalike
+lookalikes
+MCP
+NAICS
