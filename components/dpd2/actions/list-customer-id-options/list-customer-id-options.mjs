@@ -4,8 +4,9 @@ export default {
   key: "dpd2-list-customer-id-options",
   name: "List Customer ID Options",
   description: "Retrieves available options for the Customer ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

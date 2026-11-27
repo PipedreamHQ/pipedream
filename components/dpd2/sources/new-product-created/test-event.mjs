@@ -1,0 +1,25 @@
+export default {
+  "id": 22537,
+  "created_at": "1793023200",
+  "updated_at": "1793023200",
+  "storefront_id": 14056,
+  "name": "Pass The Steak Cookbook",
+  "description": "Sixty recipes for the grill.",
+  "long_description": null,
+  "price": "12.00",
+  "prices": [
+    {
+      "id": 31002,
+      "name": null,
+      "price": "12.00",
+    },
+  ],
+  "sku": "PTS-COOKBOOK",
+  "file_name": "pass-the-steak.pdf",
+  "file_size": 18734112,
+  "mime_type": "application/pdf",
+  "image_file_name": null,
+  "image_updated_at": null,
+  "weight": null,
+  "visibility": 1,
+};

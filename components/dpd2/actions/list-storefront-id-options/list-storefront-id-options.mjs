@@ -4,8 +4,9 @@ export default {
   key: "dpd2-list-storefront-id-options",
   name: "List Storefront ID Options",
   description: "Retrieves available options for the Storefront ID field.",
-  version: "0.0.1",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
