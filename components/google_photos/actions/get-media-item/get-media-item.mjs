@@ -2,7 +2,7 @@ import app from "../../google_photos.app.mjs";
 
 export default {
   key: "google_photos-get-media-item",
-  version: "0.0.2",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -10,7 +10,7 @@ export default {
   },
   type: "action",
   name: "Get Media Item",
-  description: "Retrieves a media item [See the documentation](https://developers.google.com/photos/library/guides/access-media-items)",
+  description: "Retrieves a media item by ID. Only works for items created through this app; other items in the user's library are not accessible. [See the documentation](https://developers.google.com/photos/library/guides/access-media-items)",
   props: {
     app,
     itemId: {

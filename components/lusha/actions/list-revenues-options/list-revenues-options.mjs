@@ -3,9 +3,10 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-list-revenues-options",
   name: "List Company Revenues Options",
-  description: "Retrieves available options for the Company Revenues field.",
-  version: "0.0.1",
+  description: "List the company revenue ranges Lusha accepts in the `Company Revenues` filter of **Search Companies** and **Search and Enrich Companies**. Each option's `value` is a JSON range such as `{\"min\":1000000,\"max\":10000000}`; pass it as is. Does not use credits. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-companies)",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,7 +16,9 @@ export default {
     lusha,
   },
   async run({ $ }) {
-    const options = await lusha.propDefinitions.revenues.options.call(this.lusha);
+    const options = await this.lusha.listRevenueOptions({
+      $,
+    });
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);

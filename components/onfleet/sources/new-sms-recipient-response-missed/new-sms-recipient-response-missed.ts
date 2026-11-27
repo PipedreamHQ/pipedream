@@ -6,7 +6,7 @@ export default {
   key: "onfleet-new-sms-recipient-response-missed",
   name: "New SMS Recipient Response Missed (Instant)",
   description: "Emit new event when a new SMS recipient response is missed.",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   type: "source",
   methods: {

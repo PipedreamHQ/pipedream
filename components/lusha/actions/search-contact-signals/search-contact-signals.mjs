@@ -1,16 +1,15 @@
-import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-search-contact-signals",
   name: "Search Contact Signals",
-  description: "Search for contact signals using identifiers like LinkedIn URL, email, or name + company. This endpoint combines search and signal enrichment in a single request. [See the documentation](https://docs.lusha.com/apis/openapi/signals/searchcontactsignals)",
-  version: "0.0.2",
+  description: "Search for contact signals using identifiers like LinkedIn URL, email, or name + company. This endpoint combines search and signal enrichment in a single request. [See the documentation](https://docs.lusha.com/tutorials/signals)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
-    readOnlyHint: true,
+    readOnlyHint: false,
   },
   type: "action",
   ai: "optimized",
@@ -27,7 +26,7 @@ export default {
     contacts: {
       type: "string[]",
       label: "Contacts",
-      description: "List of contact objects to search for. Example: [{ \"id\": \"123321\", \"social_links\": [\"https://www.linkedin.com/in/ron-nabet\"], \"full_name\": \"Ron Nabet\", \"email\": \"dustin@lusha.com\", \"companies\": [\"name\": \"Lusha\", \"domain\": \"lusha.com\", \"is_current\": true] }]. [See the documentation](https://docs.lusha.com/apis/openapi/signals/searchcontactsignals) for more information.",
+      description: "List of contact objects to search for. Example: [{ \"id\": \"123321\", \"social_links\": [\"https://www.linkedin.com/in/ron-nabet\"], \"full_name\": \"Ron Nabet\", \"email\": \"dustin@lusha.com\", \"companies\": [\"name\": \"Lusha\", \"domain\": \"lusha.com\", \"is_current\": true] }]. [See the documentation](https://docs.lusha.com/tutorials/signals) for more information.",
     },
     signals: {
       propDefinition: [
@@ -43,20 +42,18 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response = await this.lusha.searchContactSignals({
-        $,
-        params: {
-          contacts: parseObject(this.contacts),
-          signals: this.signals,
-          startDate: this.startDate,
-        },
-      });
-      $.export("$summary", `Successfully searched for ${Object.keys(response.contacts).length} contact signals`);
-
-      return response;
-    } catch ({ response }) {
-      throw new ConfigurationError(response?.data?.message);
-    }
+    const response = await this.lusha.searchContactSignals({
+      $,
+      data: {
+        contacts: parseObject(this.contacts),
+        signals: this.signals,
+        startDate: this.startDate,
+      },
+    });
+    const count = Object.keys(response.contacts ?? {}).length;
+    $.export("$summary", `Retrieved signals for ${count} contact${count === 1
+      ? ""
+      : "s"}`);
+    return response;
   },
 };

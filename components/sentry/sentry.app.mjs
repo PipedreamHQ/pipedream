@@ -107,6 +107,27 @@ export default {
       default: 1000,
       max: 10000,
     },
+    organizationIdOrSlug: {
+      type: "string",
+      label: "Organization Slug",
+      description: "The organization's slug or numeric id, e.g. `my-org`. The slug is the segment after `organizations/` in your Sentry URL (`sentry.io/organizations/my-org/`).",
+    },
+    projectIdOrSlug: {
+      type: "string",
+      label: "Project Slug",
+      description: "The project's slug, e.g. `my-backend`. Use **List Organization Projects** to find it.",
+    },
+    issueIdentifier: {
+      type: "string",
+      label: "Issue ID",
+      description: "The issue id, e.g. `4512345678`. Use the `id` field from **List Project Issues** output; a short id like `MY-BACKEND-1A` also works.",
+    },
+    fieldsSelection: {
+      type: "string[]",
+      label: "Fields",
+      description: "Top-level fields to return, e.g. `[\"id\",\"title\",\"status\"]`. `id` is always included. Omit to get the default set of fields.",
+      optional: true,
+    },
     full: {
       type: "boolean",
       label: "Full",
@@ -344,6 +365,58 @@ export default {
         },
         returnFullResponse: true,
       });
+    },
+    async getIssue(organizationSlug, issueId) {
+      const url = `${this._apiUrl()}/organizations/${organizationSlug}/issues/${encodeURIComponent(issueId)}/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios(this, {
+        ...requestConfig,
+        url,
+      });
+    },
+    async getProject(organizationSlug, projectSlug) {
+      const url = `${this._apiUrl()}/projects/${organizationSlug}/${projectSlug}/`;
+      const requestConfig = this._makeRequestConfig();
+      return axios(this, {
+        ...requestConfig,
+        url,
+      });
+    },
+    async listOrganizationProjectsPage(organizationSlug, params, cursor) {
+      const url = this._organizationProjectsEndpoint(organizationSlug);
+      const requestConfig = this._makeRequestConfig();
+      return axios(this, {
+        ...requestConfig,
+        url,
+        params: {
+          ...params,
+          cursor,
+        },
+        returnFullResponse: true,
+      });
+    },
+    async listOrganizationProjects(organizationSlug, params, maxResults) {
+      const items = [];
+      let cursor;
+      let hasMore = false;
+      do {
+        const res = await this.listOrganizationProjectsPage(organizationSlug, params, cursor);
+        items.push(...res.data);
+        const next = parseLinkHeader(res.headers?.link)?.next;
+        const more = Boolean(next) && String(next.results).toLowerCase() === "true";
+        cursor = more
+          ? next.cursor
+          : undefined;
+        hasMore = more;
+        if (items.length >= maxResults) {
+          hasMore = hasMore || items.length > maxResults;
+          break;
+        }
+      } while (cursor);
+      return {
+        projects: items.slice(0, maxResults),
+        hasMore,
+      };
     },
     async listOrganizationUser(organizationSlug) {
       const url = `${this._apiUrl()}/organizations/${organizationSlug}/users/`;

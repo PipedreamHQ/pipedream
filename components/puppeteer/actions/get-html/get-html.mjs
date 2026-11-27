@@ -7,7 +7,7 @@ export default {
   name: "Get HTML",
   description:
     "Get the HTML of a webpage using Puppeteer. [See the documentation](https://pptr.dev/api/puppeteer.page.content) for details.",
-  version: "1.0.4",
+  version: "1.0.5",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
