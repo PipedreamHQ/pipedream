@@ -2,6 +2,17 @@
 
 # Changelog
 
+## [3.0.2] - 2026-11-21
+
+### Fixed
+
+- Narrowed the `react` and `react-dom` peer dependency range to
+  `^18.0.0 || ^19.0.0`. The package already required React 18: it
+  calls `useId` directly, and `@tanstack/react-query` v5 depends on
+  `useSyncExternalStore`. React 18 or 19 is required; installs on
+  React 16 or 17 now report a peer dependency warning (or fail, depending
+  on the package manager), and will still error at runtime if forced.
+
 ## [3.0.1] - 2026-05-20
 
 ### Added

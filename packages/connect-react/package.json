@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/connect-react",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Pipedream Connect library for React",
   "files": [
     "dist"
@@ -45,7 +45,7 @@
     "vite-plugin-dts": "^4.3.0"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
   }
 }
