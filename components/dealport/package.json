@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/dealport",
+  "version": "0.0.1",
+  "description": "Pipedream Dealport Components",
+  "main": "dealport.app.mjs",
+  "keywords": [
+    "pipedream",
+    "dealport"
+  ],
+  "homepage": "https://pipedream.com/apps/dealport",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.1"
+  }
+}
