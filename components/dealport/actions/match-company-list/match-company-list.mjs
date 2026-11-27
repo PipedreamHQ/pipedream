@@ -53,8 +53,8 @@ export default {
         watch: false,
       },
     });
-    const matches = response?.matches ?? response?.items ?? [];
-    $.export("$summary", `Matched ${matches.length} company row${matches.length === 1
+    const matchedCount = response?.data?.matched_count ?? 0;
+    $.export("$summary", `Matched ${matchedCount} company row${matchedCount === 1
       ? ""
       : "s"} ($0.00)`);
     return response;
