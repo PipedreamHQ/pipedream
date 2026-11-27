@@ -18,7 +18,7 @@ export default {
     csv: {
       type: "string",
       label: "CSV Text",
-      description: "Raw CSV string with header row (`name,domain,city,state`), e.g. `name,domain,city,state\\nAcme LLC,acme.com,Columbus,OH`. Provide either **CSV Text** or **Items JSON**.",
+      description: "Raw CSV string with header row (`name,domain,city,state`) separated from company rows by a line break (`\\n` represents a line break), e.g. `name,domain,city,state\\nAcme LLC,acme.com,Columbus,OH`. Provide either **CSV Text** or **Items JSON**.",
       optional: true,
     },
     itemsJson: {

@@ -86,12 +86,12 @@ export default {
     companyId: {
       type: "string",
       label: "Company ID",
-      description: "Dealport company UUID from `companies[].id` in **Search Companies**, `sample_companies[].id` in **Preview Market ($0.00)**, or `matches[].company_id` in **Match Company List ($0.00)**, e.g. `123e4567-e89b-12d3-a456-426614174000`.",
+      description: "Dealport company UUID from `data[].id` in **Search Companies**, `sample[].id` in **Preview Market ($0.00)**, or `data.matched_company_ids[]` in **Match Company List ($0.00)**, e.g. `123e4567-e89b-12d3-a456-426614174000`.",
     },
     person: {
       type: "string",
       label: "Principal Name",
-      description: "Optional full name of a specific principal listed on the company Record, e.g. `Jane Doe`.",
+      description: "Optional full name of a specific principal from `data.people[].name` in **Get Cited Record**, e.g. `Jane Doe`.",
       optional: true,
     },
   },
