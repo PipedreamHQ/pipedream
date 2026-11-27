@@ -3,14 +3,15 @@ import app from "../../autom.app.mjs";
 export default {
   key: "autom-brave-search",
   name: "Brave Search",
-  description: "Scrape the results from Brave search engine using Autom.dev. [See the documentation](https://docs.autom.dev/api-reference/brave/search)",
-  version: "0.0.2",
+  description: "Search Brave's web index and return organic results with their position, title, link and snippet. [See the documentation](https://docs.autom.dev/api-reference/brave/search)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     app,
     query: {
@@ -29,13 +30,12 @@ export default {
   async run({ $ }) {
     const response = await this.app.searchBrave({
       $,
-      data: {
+      params: {
         query: this.query,
         page: this.page,
       },
     });
-
-    $.export("$summary", `Successfully retrieved Brave search results for query "${this.query}"`);
+    $.export("$summary", `Found ${response.organic_results?.length ?? 0} results for "${this.query}"`);
     return response;
   },
 };
