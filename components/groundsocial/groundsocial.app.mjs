@@ -18,6 +18,18 @@ export default {
         }));
       },
     },
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Search words, e.g. `typescript narrowing`",
+    },
+    sort: {
+      type: "string",
+      label: "Sort",
+      description: "Result order, e.g. `relevance`",
+      default: "relevance",
+      optional: true,
+    },
     limit: {
       type: "integer",
       label: "Limit",

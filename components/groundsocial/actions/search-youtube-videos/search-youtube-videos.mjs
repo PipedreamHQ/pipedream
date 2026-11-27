@@ -15,22 +15,23 @@ export default {
   props: {
     app,
     query: {
-      type: "string",
-      label: "Query",
+      propDefinition: [
+        app,
+        "query",
+      ],
       description: "Search words, e.g. `pipedream tutorial`",
     },
     sort: {
-      type: "string",
-      label: "Sort",
-      description: "Result order, e.g. `relevance`",
+      propDefinition: [
+        app,
+        "sort",
+      ],
       options: [
         "relevance",
         "popular",
         "date",
         "rating",
       ],
-      default: "relevance",
-      optional: true,
     },
     uploadDate: {
       type: "string",

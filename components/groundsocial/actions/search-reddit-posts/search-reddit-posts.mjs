@@ -15,19 +15,22 @@ export default {
   props: {
     app,
     query: {
-      type: "string",
-      label: "Query",
-      description: "Search words, e.g. `typescript narrowing`",
+      propDefinition: [
+        app,
+        "query",
+      ],
     },
     subreddit: {
       type: "string",
       label: "Subreddit",
-      description: "Search only this subreddit, without `r/`, e.g. `typescript`. Subreddit names appear in the `subreddit` field of this action's results",
+      description: "Search only this subreddit, without `r/`, e.g. `typescript`. Use **Search Reddit Posts** without a subreddit to find names (the `subreddit` field of each result)",
       optional: true,
     },
     sort: {
-      type: "string",
-      label: "Sort",
+      propDefinition: [
+        app,
+        "sort",
+      ],
       description: "Result order, e.g. `new`",
       options: [
         "relevance",
@@ -36,8 +39,6 @@ export default {
         "comments",
         "hot",
       ],
-      default: "relevance",
-      optional: true,
     },
     time: {
       type: "string",
