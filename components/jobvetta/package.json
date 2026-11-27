@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/jobvetta",
+  "version": "0.1.0",
+  "description": "Pipedream Jobvetta Components",
+  "main": "jobvetta.app.mjs",
+  "keywords": [
+    "pipedream",
+    "jobvetta"
+  ],
+  "homepage": "https://pipedream.com/apps/jobvetta",
+  "author": "Sam Arora <sam@jobvetta.com> (https://www.jobvetta.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.4.0"
+  }
+}

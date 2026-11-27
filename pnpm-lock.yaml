@@ -8370,6 +8370,12 @@ importers:
 
   components/jobsoid_careers_portal: {}
 
+  components/jobvetta:
+    dependencies:
+      '@pipedream/platform':
+        specifier: ^3.4.0
+        version: 3.4.0
+
   components/joggai:
     dependencies:
       '@pipedream/platform':
