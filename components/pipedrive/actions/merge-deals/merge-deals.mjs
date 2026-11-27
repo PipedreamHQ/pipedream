@@ -3,14 +3,17 @@ import pipedriveApp from "../../pipedrive.app.mjs";
 export default {
   key: "pipedrive-merge-deals",
   name: "Merge Deals",
-  description: "Merge two deals in Pipedrive. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Deals#mergeDeals)",
-  version: "0.0.10",
+  description: "Merges two duplicate deals into one. The deal given as `Deal ID` is merged into the deal given as `Target Deal ID`."
+    + " Use **List Deals** to find both IDs and **Get Deal** to confirm which one to keep. Example: `Deal ID` `1025`, `Target Deal ID` `1024`."
+    + " The merge cannot be undone. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Deals#mergeDeals)",
+  version: "0.0.11",
   annotations: {
-    destructiveHint: false,
+    destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedriveApp,
     dealId: {
@@ -18,7 +21,7 @@ export default {
         pipedriveApp,
         "dealId",
       ],
-      description: "The ID of the deal to merge",
+      description: "The ID of the deal to merge into the target, e.g. `1025`. Use **List Deals** to find it (the `id` field).",
       optional: false,
     },
     targetDealId: {
@@ -27,7 +30,7 @@ export default {
         "dealId",
       ],
       label: "Target Deal ID",
-      description: "The ID of the deal that the deal will be merged with",
+      description: "The ID of the deal to keep, e.g. `1024`. Must differ from `Deal ID`. Use **List Deals** to find it (the `id` field).",
       optional: false,
     },
   },

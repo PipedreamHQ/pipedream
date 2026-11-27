@@ -5,24 +5,29 @@ import pipedriveApp from "../../pipedrive.app.mjs";
 export default {
   key: "pipedrive-add-person",
   name: "Add Person",
-  description: "Adds a new person. See the Pipedrive API docs for People [here](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
-  version: "0.1.25",
+  description: "Creates a new person (contact) in Pipedrive. Only `Person Name` is required."
+    + " Link the person to a company with an organization ID from **List Organizations**, and assign an owner with an ID from **List User ID Options**."
+    + " Example: `Person Name` `Daniel Okafor`, `Emails` `[{\"value\": \"daniel.okafor@example.com\", \"primary\": true, \"label\": \"work\"}]`, `Organization ID` `7`."
+    + " Pipedrive does not deduplicate people, so check **Search persons** first to avoid creating a duplicate; use **Merge Persons** if one slips through."
+    + " Use **Update Person** to change the person later. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Persons#addPerson)",
+  version: "0.1.26",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     pipedriveApp,
     name: {
       type: "string",
-      label: "Name",
-      description: "Person name",
+      label: "Person Name",
+      description: "The full name of the person, e.g. `Daniel Okafor`.",
     },
     ownerId: {
       label: "Owner ID",
-      description: "ID of the user who will be marked as the owner of this person. When omitted, the authorized user ID will be used.",
+      description: "The ID of the user to set as owner of the person, e.g. `12345678`. If omitted, the authorized user is used. Use **List User ID Options** to find it (the `value` field).",
       propDefinition: [
         pipedriveApp,
         "userId",
@@ -33,7 +38,7 @@ export default {
         pipedriveApp,
         "organizationId",
       ],
-      description: "ID of the organization this person will belong to.",
+      description: "The ID of the organization the person belongs to, e.g. `7`. Use **List Organizations** to find it (the `id` field), or **Add Organization** to create one.",
     },
     emails: {
       propDefinition: [
@@ -52,7 +57,7 @@ export default {
         pipedriveApp,
         "visibleTo",
       ],
-      description: "Visibility of the person. If omitted, visibility will be set to the default visibility setting of this item type for the authorized user.",
+      description: "Who can see the person: `1` (owner & followers) or `3` (entire company), e.g. `3`. If omitted, the account's default visibility for people is used.",
     },
   },
   async run({ $ }) {

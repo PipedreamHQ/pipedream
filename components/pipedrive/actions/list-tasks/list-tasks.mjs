@@ -4,7 +4,7 @@ export default {
   key: "pipedrive-list-tasks",
   name: "List Tasks",
   description: "Lists tasks in your Pipedrive account (BETA). Use **List Projects** to obtain a project ID to filter by. Use the returned IDs with **Get Task**, **Update Task**, or **Delete Task**. [See the documentation](https://developers.pipedrive.com/docs/api/v1/Tasks#getTasks)",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "action",
   ai: "optimized",
   annotations: {
