@@ -270,6 +270,24 @@ export default {
       optional: true,
       min: 1,
     },
+    conferenceUrl: {
+      label: "Conference URL",
+      type: "string",
+      description: "Join URL of a Zoom, Microsoft Teams, Webex or other video meeting to attach as the event's conference, shown in Google Calendar as a join button, e.g. `https://zoom.us/j/1234567890`. Google Calendar can't create Zoom meetings: create one first with **Zoom > Create Meeting** and pass its `join_url`.",
+      optional: true,
+    },
+    conferenceName: {
+      label: "Conference Name",
+      type: "string",
+      description: "Name shown for the conference, e.g. `Zoom Meeting`. Defaults to the provider name for Zoom, Microsoft Teams and Webex links, otherwise `Video Meeting`. Only used with `Conference URL`.",
+      optional: true,
+    },
+    removeConference: {
+      label: "Remove Conference",
+      type: "boolean",
+      description: "Set to `true` to remove the event's video conference, such as a Google Meet or Zoom link. Not used with `Conference URL`.",
+      optional: true,
+    },
     transparency: {
       label: "Show As",
       type: "string",

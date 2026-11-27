@@ -1,6 +1,32 @@
+import constants from "./constants.mjs";
+
 const DATE_INPUT_REGEX = /^(\d{4})-(\d{2})-(\d{2})(?:T([01]\d|2[0-3]):[0-5]\d:[0-5]\d(?:\.\d+)?(?:Z|[+-](?:[01]\d|2[0-3]):[0-5]\d)?)?$/;
 
 export default {
+  buildConferenceData({
+    url, name,
+  }) {
+    const host = url.hostname.toLowerCase();
+    const provider = constants.CONFERENCE_NAMES_BY_DOMAIN.find(
+      ({ domain }) => host === domain || host.endsWith(`.${domain}`),
+    );
+    return {
+      conferenceSolution: {
+        key: {
+          type: constants.CONFERENCE_SOLUTION_TYPE_ADD_ON,
+        },
+        name: name?.trim()
+          || provider?.name
+          || constants.DEFAULT_CONFERENCE_NAME,
+      },
+      entryPoints: [
+        {
+          entryPointType: constants.CONFERENCE_ENTRY_POINT_TYPE_VIDEO,
+          uri: url.href,
+        },
+      ],
+    };
+  },
   isPositiveInteger(value) {
     const number = Number(value);
     return Number.isInteger(number) && number > 0;
