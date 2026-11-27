@@ -1,0 +1,20 @@
+{
+  "name": "@pipedream/mailkite",
+  "version": "0.0.1",
+  "description": "Pipedream MailKite Components",
+  "main": "mailkite.app.mjs",
+  "type": "module",
+  "keywords": [
+    "pipedream",
+    "mailkite",
+    "email"
+  ],
+  "homepage": "https://pipedream.com/apps/mailkite",
+  "author": "MailKite (https://mailkite.dev)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.3"
+  }
+}
