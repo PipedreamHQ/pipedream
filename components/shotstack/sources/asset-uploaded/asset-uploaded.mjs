@@ -6,7 +6,7 @@ export default {
   name: "Asset Uploaded",
   description: "Trigger when a new media asset has been uploaded to the Shotstack API. [See the documentation here](https://shotstack.io/docs/api/?shell#list-sources).",
   type: "source",
-  version: "0.0.1",
+  version: "0.0.2",
   dedupe: "unique",
   methods: {
     ...common.methods,
