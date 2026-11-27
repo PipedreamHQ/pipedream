@@ -19,6 +19,7 @@ Airtable
 Aj
 AJ
 ajwzI
+Algenta
 Alchemer
 Algolia
 Algorithmia
