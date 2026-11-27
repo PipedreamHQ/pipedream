@@ -1,16 +1,18 @@
 import addToCalendarPro from "../../add_to_calendar_pro.app.mjs";
+import { omitUndefined } from "../../common/utils.mjs";
 
 export default {
   key: "add_to_calendar_pro-update-event-group",
   name: "Update Event Group",
   description: "Update an event group. [See the documentation](https://docs.add-to-calendar-pro.com/api/groups#update-a-group)",
-  version: "0.0.4",
+  version: "0.0.5",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     addToCalendarPro,
     groupProKey: {
@@ -32,12 +34,29 @@ export default {
         "internalNote",
       ],
     },
+    subscription: {
+      propDefinition: [
+        addToCalendarPro,
+        "subscription",
+      ],
+      options: [
+        "no",
+        "children",
+      ],
+      description: "Existing no and children groups can switch between those modes. External groups cannot change mode.",
+    },
+    publicEventOverview: {
+      propDefinition: [
+        addToCalendarPro,
+        "publicEventOverview",
+      ],
+    },
     subscriptionCalUrl: {
       propDefinition: [
         addToCalendarPro,
         "subscriptionCalUrl",
       ],
-      description: "URL to an external calendar. Needs to start with \"http\"! Usually ends with \".ics\". Note: You can only change the subscription setting as long as there are no events linked to the group",
+      description: "URL to an external calendar. Needs to start with \"http\"! Usually ends with \".ics\". You can only change the subscription setting as long as there are no events linked to the group.",
     },
     cta: {
       propDefinition: [
@@ -60,20 +79,26 @@ export default {
     },
   },
   async run({ $ }) {
+    const subscription = this.subscription ?? (this.subscriptionCalUrl === undefined
+      ? undefined
+      : this.subscriptionCalUrl
+        ? "external"
+        : "no");
     const response = await this.addToCalendarPro.updateGroup({
       $,
       groupProKey: this.groupProKey,
-      data: {
+      data: omitUndefined({
         name: this.eventGroupName,
         internal_note: this.internalNote,
-        subscription: this.subscriptionCalUrl
-          ? "external"
-          : "no",
-        subscription_cal_url: this.subscriptionCalUrl,
+        subscription,
+        public_event_overview: this.publicEventOverview,
+        subscription_cal_url: subscription === "children"
+          ? undefined
+          : this.subscriptionCalUrl,
         cta: this.cta,
         layout: this.styleId,
         landingpage: this.landingPageTemplateId,
-      },
+      }),
     });
     $.export("$summary", "Successfully updated event group.");
     return response;
