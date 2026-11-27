@@ -1,11 +1,14 @@
 import { DEFAULT_POLLING_SOURCE_TIMER_INTERVAL } from "@pipedream/platform";
+import {
+  hashId, toLegacyProductId,
+} from "../../common/utils.mjs";
 import googleMerchantCenter from "../../google_merchant_center.app.mjs";
 
 export default {
   key: "google_merchant_center-new-product-added",
   name: "New Product Added",
-  description: "Emit new event when a new product is added",
-  version: "0.0.1",
+  description: "Emit new event when a new product is added. [See the documentation](https://developers.google.com/merchant/api/reference/rest/products_v1/accounts.products/list)",
+  version: "1.0.0",
   type: "source",
   dedupe: "unique",
   props: {
@@ -26,31 +29,40 @@ export default {
       this.db.set("savedIds", value);
     },
     async getResources() {
-      return this.googleMerchantCenter.listProducts();
+      const products = [];
+      for await (const product of this.googleMerchantCenter.paginateProducts()) {
+        products.push(product);
+      }
+      return products;
     },
   },
   hooks: {
     async deploy() {
       const products = await this.getResources();
-      this._setSavedIds(products?.map?.(({ id }) => id) ?? []);
+      this._setSavedIds(products.map(({ name }) => name));
     },
   },
   async run() {
     const products = await this.getResources();
-    const savedIds = this._getSavedIds();
+    const savedIds = new Set(this._getSavedIds());
+
+    // Migrate IDs saved by the Content API version of this source
+    products
+      .filter((product) => savedIds.has(toLegacyProductId(product)))
+      .forEach(({ name }) => savedIds.add(name));
 
     products
-      ?.filter?.(({ id }) => !savedIds.includes(id))
+      .filter(({ name }) => !savedIds.has(name))
       .forEach((product) => {
-        const { id } = product;
+        const { name } = product;
         this.$emit(product, {
-          id,
-          summary: `New Product: "${product.title ?? id}"`,
-          ts: Date.now(),
+          id: hashId(name),
+          summary: `New Product: "${product.productAttributes?.title ?? product.offerId}"`,
+          ts: Date.parse(product.productStatus?.creationDate) || Date.now(),
         });
-        savedIds.push(id);
+        savedIds.add(name);
       });
 
-    this._setSavedIds(savedIds);
+    this._setSavedIds(products.map(({ name }) => name));
   },
 };

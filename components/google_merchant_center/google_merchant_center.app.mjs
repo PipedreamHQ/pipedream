@@ -1,4 +1,15 @@
 import { axios } from "@pipedream/platform";
+import {
+  API_DATA_SOURCE_INPUT,
+  BASE_URL,
+  DATASOURCES_API_VERSION,
+  DEFAULT_PAGE_SIZE,
+  MAX_PAGE_SIZE,
+  PRODUCTS_API_VERSION,
+} from "./common/constants.mjs";
+import {
+  encodeProductId, toDataSourceName, toProductOption,
+} from "./common/utils.mjs";
 
 export default {
   type: "app",
@@ -7,29 +18,41 @@ export default {
     productId: {
       type: "string",
       label: "Product ID",
-      description: "The ID of the product",
-      async options() {
-        const products = await this.listProducts();
-        return products?.map?.((product) => ({
-          label: product.title,
-          value: product.id,
-        }));
+      description: "The product identifier in the format `contentLanguage~feedLabel~offerId`, e.g. `en~US~sku123`. Use **List Product ID Options** to find valid values.",
+      async options({ prevContext }) {
+        if (prevContext?.pageToken === null) {
+          return [];
+        }
+        const {
+          products = [], nextPageToken,
+        } = await this.listProducts({
+          params: {
+            pageSize: DEFAULT_PAGE_SIZE,
+            pageToken: prevContext?.pageToken,
+          },
+        });
+        return {
+          options: products.map(toProductOption),
+          context: {
+            pageToken: nextPageToken ?? null,
+          },
+        };
       },
+    },
+    dataSourceId: {
+      type: "string",
+      label: "Data Source ID",
+      description: "The ID or full resource name of an API product data source, e.g. `104628` or `accounts/123456/dataSources/104628`. Use **List Data Sources** to find valid values.",
     },
   },
   methods: {
-    _baseUrl() {
-      return "https://shoppingcontent.googleapis.com/content/v2.1";
-    },
     _merchantId() {
       return this.$auth.merchant_id;
     },
-    _getHeaders() {
-      return {
-        Authorization: `Bearer ${this.$auth.oauth_access_token}`,
-      };
+    _accountPath() {
+      return `accounts/${this._merchantId()}`;
     },
-    async _makeRequest({
+    _makeRequest({
       $ = this,
       path,
       headers,
@@ -37,42 +60,102 @@ export default {
     }) {
       return axios($, {
         ...otherOpts,
-        url: this._baseUrl() + path,
+        url: `${BASE_URL}/${path}`,
         headers: {
           ...headers,
-          ...this._getHeaders(),
+          Authorization: `Bearer ${this.$auth.oauth_access_token}`,
         },
       });
     },
-    async listProducts() {
-      const { resources } = await this._makeRequest({
-        path: `/${this._merchantId()}/products`,
+    dataSourceName(dataSourceId) {
+      return toDataSourceName(dataSourceId, this._merchantId());
+    },
+    listProducts(opts = {}) {
+      return this._makeRequest({
+        path: `${PRODUCTS_API_VERSION}/${this._accountPath()}/products`,
+        ...opts,
+      });
+    },
+    async *paginateProducts(opts = {}) {
+      let pageToken;
+      do {
+        const {
+          products = [], nextPageToken,
+        } = await this.listProducts({
+          ...opts,
+          params: {
+            ...opts.params,
+            pageSize: MAX_PAGE_SIZE,
+            pageToken,
+          },
+        });
+        for (const product of products) {
+          yield product;
+        }
+        pageToken = nextPageToken;
+      } while (pageToken);
+    },
+    getProduct({
+      productId, ...opts
+    }) {
+      return this._makeRequest({
+        path: `${PRODUCTS_API_VERSION}/${this._accountPath()}/products/${encodeProductId(productId)}`,
+        ...opts,
+      });
+    },
+    listDataSources(opts = {}) {
+      return this._makeRequest({
+        path: `${DATASOURCES_API_VERSION}/${this._accountPath()}/dataSources`,
+        ...opts,
+      });
+    },
+    async listAllDataSources(opts = {}) {
+      const dataSources = [];
+      let pageToken;
+      do {
+        const {
+          dataSources: page = [], nextPageToken,
+        } = await this.listDataSources({
+          ...opts,
+          params: {
+            ...opts.params,
+            pageToken,
+          },
+        });
+        dataSources.push(...page);
+        pageToken = nextPageToken;
+      } while (pageToken);
+      return dataSources;
+    },
+    async listApiPrimaryDataSources(opts = {}) {
+      const dataSources = await this.listAllDataSources(opts);
+      return dataSources.filter(({
+        input, primaryProductDataSource,
+      }) => input === API_DATA_SOURCE_INPUT && primaryProductDataSource);
+    },
+    createProduct({
+      dataSource, ...opts
+    }) {
+      return this._makeRequest({
+        method: "POST",
+        path: `${PRODUCTS_API_VERSION}/${this._accountPath()}/productInputs:insert`,
         params: {
-          maxResults: 250,
+          dataSource,
         },
+        ...opts,
       });
-      return resources;
     },
-    async updateProduct({
-      productId, updateMask, ...args
+    updateProduct({
+      productId, dataSource, updateMask, ...opts
     }) {
       return this._makeRequest({
         method: "PATCH",
-        path: `/${this._merchantId()}/products/${productId}`,
+        path: `${PRODUCTS_API_VERSION}/${this._accountPath()}/productInputs/${encodeProductId(productId)}`,
         params: {
+          dataSource,
           updateMask,
         },
-        ...args,
-      });
-    },
-    async createProduct(args) {
-      return this._makeRequest({
-        method: "POST",
-        path: `/${this._merchantId()}/products`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        ...args,
+        ...opts,
       });
     },
   },
