@@ -6,6 +6,7 @@ export default {
   description: "Size a US private company market for free ($0.00) and inspect 5 sample companies before unlocking paid Records. [See the documentation](https://app.dealport.com/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

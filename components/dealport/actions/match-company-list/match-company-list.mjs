@@ -7,6 +7,7 @@ export default {
   description: "Match a CSV text or structured company list against 28M+ US private company Records for free ($0.00). [See the documentation](https://app.dealport.com/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -17,13 +18,13 @@ export default {
     csv: {
       type: "string",
       label: "CSV Text",
-      description: "Raw CSV string with header row (`name,domain,city,state`). Provide either **CSV Text** or **Items JSON**.",
+      description: "Raw CSV string with header row (`name,domain,city,state`), e.g. `name,domain,city,state\\nAcme LLC,acme.com,Columbus,OH`. Provide either **CSV Text** or **Items JSON**.",
       optional: true,
     },
     itemsJson: {
       type: "string",
       label: "Items JSON",
-      description: "JSON array of up to 250 company objects (`[{\"name\":\"Acme LLC\",\"domain\":\"acme.com\",\"state\":\"OH\"}]`).",
+      description: "JSON array of up to 250 company objects, e.g. `[{\"name\":\"Acme LLC\",\"domain\":\"acme.com\",\"state\":\"OH\"}]`.",
       optional: true,
     },
   },

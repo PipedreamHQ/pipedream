@@ -2,10 +2,11 @@ import app from "../../dealport.app.mjs";
 
 export default {
   key: "dealport-find-contact",
-  name: "Find Contact by Role",
-  description: "Find verified principal phones, emails, and professional profile for a Dealport company Record ($0.09 per verified hit, $0.00 miss). [See the documentation](https://app.dealport.com/llms.txt)",
+  name: "Find Principal Contact",
+  description: "Find verified phones, emails, and professional profile for a company owner or named principal on a Dealport company Record ($0.09 per verified hit, $0.00 miss). [See the documentation](https://app.dealport.com/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -34,7 +35,7 @@ export default {
         person: this.person,
       },
     });
-    $.export("$summary", `Completed verified contact lookup for company ${this.companyId}`);
+    $.export("$summary", `Completed verified principal contact lookup for company ${this.companyId}`);
     return response;
   },
 };

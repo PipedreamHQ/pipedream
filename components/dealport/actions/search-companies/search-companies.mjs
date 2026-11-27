@@ -6,6 +6,7 @@ export default {
   description: "Search 28M+ US private companies across cited public filings ($0.01 per new Record, $0.00 repeat within 30 days). [See the documentation](https://app.dealport.com/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -6,6 +6,7 @@ export default {
   description: "Search NYC multifamily and mixed-use commercial buildings across property, mortgage, and regulatory filings ($0.01 per new Record). [See the documentation](https://app.dealport.com/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -16,7 +17,7 @@ export default {
     borough: {
       type: "string",
       label: "NYC Borough",
-      description: "NYC borough code (`MN`, `BK`, `QN`, `BX`, or `SI`).",
+      description: "NYC borough code (`MN`, `BK`, `QN`, `BX`, or `SI`), e.g. `MN`.",
       options: [
         "MN",
         "BK",
@@ -28,26 +29,26 @@ export default {
     minUnits: {
       type: "integer",
       label: "Minimum Residential Units",
-      description: "Minimum residential unit count (default `10`).",
+      description: "Minimum residential unit count (default `10`), e.g. `20`.",
       optional: true,
       default: 10,
     },
     q: {
       type: "string",
       label: "Address or Owner Query",
-      description: "Optional street address or owner-of-record substring match.",
+      description: "Optional street address or owner-of-record substring match, e.g. `120 Broadway`.",
       optional: true,
     },
     loanDueBy: {
       type: "integer",
       label: "Loan Maturity Year Ceiling",
-      description: "Estimated mortgage maturity year ceiling (for example `2027`).",
+      description: "Estimated mortgage maturity year ceiling, e.g. `2027`.",
       optional: true,
     },
     loanHolder: {
       type: "string",
       label: "Loan Holder Type",
-      description: "Filter by current mortgage holder category.",
+      description: "Filter by current mortgage holder category, e.g. `bank`.",
       optional: true,
       options: [
         "agency",
@@ -58,7 +59,7 @@ export default {
     signal: {
       type: "string",
       label: "Building Signal",
-      description: "Filter by regulatory, distress, or assisted-housing signal.",
+      description: "Filter by regulatory, distress, or assisted-housing signal, e.g. `tax_lien`.",
       optional: true,
       options: [
         "rent_stabilized",

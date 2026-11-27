@@ -6,6 +6,7 @@ export default {
   description: "Resolve the verified human owner, direct phones, emails, and professional profile for a Dealport company Record ($0.09 per verified hit, $0.00 miss). [See the documentation](https://app.dealport.com/llms.txt)",
   version: "0.0.1",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
