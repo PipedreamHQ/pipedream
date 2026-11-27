@@ -163,7 +163,7 @@ export default {
     requestedFor: {
       type: "string",
       label: "Requested For",
-      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it. ServiceNow only applies it when the connected user is allowed to request for others (instance properties `glide.sc.req_for.roles` and `glide.sc.req_for.roles.default`); otherwise the item is requested for the connected user.",
+      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it. ServiceNow only applies it when the connected user is allowed to request for others (instance properties `glide.sc.req_for.roles` and `glide.sc.req_for.roles.default`); otherwise the item is requested for the connected user. Example: `62826bf03710200044e0bfc8bcbe5df1`.",
       optional: true,
     },
     skipMandatoryValidation: {
@@ -232,7 +232,7 @@ export default {
     },
     async _makeRequest({ ...args }) {
       const response = await this._makeRawRequest(args);
-      return response.result;
+      return response?.result;
     },
     async createTableRecord({
       table, ...args
@@ -384,6 +384,15 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
+        ...args,
+      });
+    },
+    async checkDelegatedItemAccess({
+      catalogItemSysId, userSysId, ...args
+    }) {
+      return this._makeRequest({
+        baseURL: `${this._instanceBaseUrl()}${SERVICE_CATALOG_BASE_PATH}`,
+        url: `/items/${catalogItemSysId}/delegation/${userSysId}`,
         ...args,
       });
     },
