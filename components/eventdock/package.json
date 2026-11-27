@@ -1,0 +1,21 @@
+{
+  "name": "@pipedream/eventdock",
+  "version": "0.0.1",
+  "description": "Pipedream components for EventDock — reliable, retried, de-duplicated webhook delivery",
+  "main": "eventdock.app.mjs",
+  "keywords": [
+    "pipedream",
+    "eventdock",
+    "webhook",
+    "webhooks",
+    "reliability"
+  ],
+  "homepage": "https://pipedream.com/apps/eventdock",
+  "author": "EventDock <support@eventdock.app> (https://eventdock.app)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.0.0"
+  }
+}
