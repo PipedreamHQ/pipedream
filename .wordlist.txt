@@ -827,6 +827,8 @@ subfolder
 subfolders
 Subprocessing
 Subprocessors
+supabird
+SupaBird
 SuperSaaS
 superset
 SwagUp
