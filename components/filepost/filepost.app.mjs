@@ -48,10 +48,16 @@ export default {
         ...opts,
       });
     },
-    async uploadFile(opts = {}) {
+    async uploadFile({
+      headers, ...opts
+    } = {}) {
       return this._makeRequest({
         method: "POST",
         url: "/upload",
+        headers: {
+          ...headers,
+          "X-FilePost-Integration": "pipedream",
+        },
         ...opts,
       });
     },
