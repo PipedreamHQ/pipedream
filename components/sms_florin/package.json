@@ -1,0 +1,18 @@
+{
+  "name": "@pipedream/sms_florin",
+  "version": "0.0.1",
+  "description": "Pipedream sms-florin Components",
+  "main": "sms_florin.app.mjs",
+  "keywords": [
+    "pipedream",
+    "sms_florin"
+  ],
+  "homepage": "https://pipedream.com/apps/sms_florin",
+  "author": "Pipedream <support@pipedream.com> (https://pipedream.com/)",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@pipedream/platform": "^3.1.0"
+  }
+}
