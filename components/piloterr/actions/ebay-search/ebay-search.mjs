@@ -1,0 +1,41 @@
+import piloterr from "../../piloterr.app.mjs";
+
+export default {
+  key: "piloterr-ebay-search",
+  name: "eBay Search",
+  description: "Search eBay listings by keyword and return their price, condition, buying format, shipping and seller. Use **Get eBay Listing** with a returned `url` for the full listing: the URL keeps the listing's eBay site, while a bare `item_id` is loaded on www.ebay.com. [See the documentation](https://docs.piloterr.com/v2/api-reference/ebay/search)",
+  version: "0.0.1",
+  annotations: {
+    destructiveHint: false,
+    openWorldHint: true,
+    readOnlyHint: true,
+  },
+  type: "action",
+  ai: "optimized",
+  props: {
+    piloterr,
+    query: {
+      type: "string",
+      label: "Query",
+      description: "Keyword on ebay.com, or a search URL on a supported eBay site, e.g. `laptop`.",
+    },
+    page: {
+      propDefinition: [
+        piloterr,
+        "page",
+      ],
+      description: "Page of results to return, starting at 1, e.g. `2`. A keyword search defaults to page `1`. With a search URL, an empty value keeps the page already in the URL (`_pgn`) and a value here replaces it.",
+    },
+  },
+  async run({ $ }) {
+    const response = await this.piloterr.searchEbay({
+      $,
+      params: {
+        query: this.query,
+        page: this.page,
+      },
+    });
+    $.export("$summary", `Found ${response.results?.length ?? 0} eBay listings for "${this.query}"`);
+    return response;
+  },
+};

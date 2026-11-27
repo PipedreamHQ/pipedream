@@ -3,10 +3,23 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "piloterr",
-  propDefinitions: {},
+  propDefinitions: {
+    page: {
+      type: "integer",
+      label: "Page",
+      description: "Page of results to return, starting at 1, e.g. `2`. Defaults to `1`.",
+      min: 1,
+      optional: true,
+    },
+    domain: {
+      type: "string",
+      label: "Website Domain",
+      description: "The company's website domain, e.g. `piloterr.com`.",
+    },
+  },
   methods: {
     _baseUrl() {
-      return "https://piloterr.com/api/v2";
+      return "https://api.piloterr.com/v2";
     },
     _headers() {
       return {
@@ -40,6 +53,60 @@ export default {
     scrapeWebsite(opts = {}) {
       return this._makeRequest({
         path: "/website/crawler",
+        ...opts,
+      });
+    },
+    renderWebsite(opts = {}) {
+      return this._makeRequest({
+        path: "/website/rendering",
+        ...opts,
+      });
+    },
+    searchGoogle(opts = {}) {
+      return this._makeRequest({
+        path: "/google/search",
+        ...opts,
+      });
+    },
+    searchAmazon(opts = {}) {
+      return this._makeRequest({
+        path: "/amazon/search",
+        ...opts,
+      });
+    },
+    searchEbay(opts = {}) {
+      return this._makeRequest({
+        path: "/ebay/search",
+        ...opts,
+      });
+    },
+    getEbayListing(opts = {}) {
+      return this._makeRequest({
+        path: "/ebay/product",
+        ...opts,
+      });
+    },
+    getLinkedinCompany(opts = {}) {
+      return this._makeRequest({
+        path: "/linkedin/company/info",
+        ...opts,
+      });
+    },
+    getCrunchbaseCompany(opts = {}) {
+      return this._makeRequest({
+        path: "/crunchbase/company/info",
+        ...opts,
+      });
+    },
+    searchZillow(opts = {}) {
+      return this._makeRequest({
+        path: "/zillow/search",
+        ...opts,
+      });
+    },
+    getZillowProperty(opts = {}) {
+      return this._makeRequest({
+        path: "/zillow/property",
         ...opts,
       });
     },
