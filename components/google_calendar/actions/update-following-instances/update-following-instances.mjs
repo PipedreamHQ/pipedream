@@ -89,28 +89,28 @@ export default {
       description: "Optionally change the repeat frequency for following instances",
       optional: true,
       options: Object.keys(constants.REPEAT_FREQUENCIES),
-      reloadProps: true,
     },
     repeatInterval: {
-      type: "integer",
-      label: "Repeat Interval",
-      description: "Repeat interval (e.g., 1 for every day, 2 for every other day)",
-      optional: true,
-      hidden: true,
+      propDefinition: [
+        googleCalendar,
+        "repeatInterval",
+      ],
+      description: "Enter 1 to repeat every period of `New Repeat Frequency` (e.g. every week), 2 to repeat every other period, etc. Defaults to 1. Requires `New Repeat Frequency`.",
     },
     repeatUntil: {
-      type: "string",
-      label: "Repeat Until",
-      description: "The event will repeat only until this date (format: yyyy-mm-dd)",
-      optional: true,
-      hidden: true,
+      propDefinition: [
+        googleCalendar,
+        "repeatUntil",
+      ],
+      description: "The new series will repeat only until this date, e.g. `2026-12-31`. Requires `New Repeat Frequency`; only one of `Repeat Until` or `Number of Occurrences` may be entered.",
     },
     repeatTimes: {
-      type: "integer",
+      propDefinition: [
+        googleCalendar,
+        "repeatTimes",
+      ],
       label: "Number of Occurrences",
-      description: "Limit the number of times this event will occur",
-      optional: true,
-      hidden: true,
+      description: "Limit the number of times the new series will occur, e.g. `5`. Requires `New Repeat Frequency`; only one of `Repeat Until` or `Number of Occurrences` may be entered.",
     },
     colorId: {
       propDefinition: [
@@ -139,16 +139,6 @@ export default {
         "sendUpdates",
       ],
     },
-  },
-  async additionalProps(props) {
-    if (this.repeatFrequency) {
-      const frequency = constants.REPEAT_FREQUENCIES[this.repeatFrequency];
-      props.repeatInterval.description = `Enter 1 to "repeat every ${frequency}", enter 2 to "repeat every other ${frequency}", etc. Defaults to 1.`;
-    }
-    props.repeatInterval.hidden = !this.repeatFrequency;
-    props.repeatUntil.hidden = !this.repeatFrequency;
-    props.repeatTimes.hidden = !this.repeatFrequency;
-    return {};
   },
   methods: {
     ...createEventCommon.methods,
@@ -268,6 +258,24 @@ export default {
   async run({ $ }) {
     this.validateDateInput("Event Start Date", this.eventStartDate);
     this.validateDateInput("Event End Date", this.eventEndDate);
+    if (this.repeatInterval !== undefined && !utils.isPositiveInteger(this.repeatInterval)) {
+      throw new ConfigurationError("`Repeat Interval` must be a positive integer.");
+    }
+    if (this.repeatTimes !== undefined && !utils.isPositiveInteger(this.repeatTimes)) {
+      throw new ConfigurationError("`Number of Occurrences` must be a positive integer.");
+    }
+    if (!this.repeatFrequency && (this.repeatInterval || this.repeatUntil || this.repeatTimes)) {
+      throw new ConfigurationError("`New Repeat Frequency` is required when `Repeat Interval`, `Repeat Until` or `Number of Occurrences` is entered.");
+    }
+    if (this.repeatUntil && this.repeatTimes) {
+      throw new ConfigurationError("Only one of `Repeat Until` or `Number of Occurrences` may be entered.");
+    }
+    const customRecurrence = this.formatRecurrence({
+      repeatFrequency: this.repeatFrequency,
+      repeatInterval: this.repeatInterval,
+      repeatTimes: this.repeatTimes,
+      repeatUntil: this.repeatUntil,
+    });
     const conferenceUrl = this.getConferenceUrl();
 
     const originalEvent = await this.googleCalendar.getEvent({
@@ -303,15 +311,8 @@ export default {
     );
     const timeZone = await this.getTimeZone(this.timeZone || targetInstance.start.timeZone);
 
-    let newRecurrence;
-    if (this.repeatFrequency) {
-      newRecurrence = this.formatRecurrence({
-        repeatFrequency: this.repeatFrequency,
-        repeatInterval: this.repeatInterval,
-        repeatTimes: this.repeatTimes,
-        repeatUntil: this.repeatUntil,
-      });
-    } else {
+    let newRecurrence = customRecurrence;
+    if (!customRecurrence) {
       // Carry over only the occurrences the original COUNT had left
       const originalCount = this.getRecurrenceCount(originalEvent.recurrence);
       const remainingCount = originalCount
