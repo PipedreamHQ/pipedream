@@ -1,0 +1,46 @@
+export const DEFAULT_ISSUE_FIELDS = [
+  "shortId",
+  "title",
+  "culprit",
+  "level",
+  "status",
+  "substatus",
+  "count",
+  "userCount",
+  "firstSeen",
+  "lastSeen",
+  "permalink",
+  "project",
+  "assignedTo",
+  "metadata",
+  "activity",
+  "seenBy",
+  "participants",
+  "firstRelease",
+  "lastRelease",
+];
+
+export const DEFAULT_PROJECT_FIELDS = [
+  "slug",
+  "name",
+  "platform",
+  "dateCreated",
+  "status",
+  "isBookmarked",
+  "isMember",
+  "features",
+  "teams",
+  "organization",
+  "firstEvent",
+  "hasAccess",
+];
+
+export const DEFAULT_PROJECT_LIST_FIELDS = [
+  "slug",
+  "name",
+  "platform",
+  "dateCreated",
+  "isBookmarked",
+  "team",
+  "teams",
+];
