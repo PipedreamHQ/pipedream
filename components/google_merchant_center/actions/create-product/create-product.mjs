@@ -8,13 +8,14 @@ import googleMerchant from "../../google_merchant_center.app.mjs";
 export default {
   key: "google_merchant_center-create-product",
   name: "Create Product",
-  description: "Creates a product in your Google Merchant Center account. If a product with the same Offer ID, Content Language and Feed Label already exists in the data source, it is replaced. [See the documentation](https://developers.google.com/merchant/api/reference/rest/products_v1/accounts.productInputs/insert)",
+  description: "Creates a product in your Google Merchant Center account. If a product with the same Offer ID, Content Language and Feed Label already exists in the data source, it is replaced. Use **List Data Sources** to find the Data Source ID when the account has more than one API data source. Returns the created product input. [See the documentation](https://developers.google.com/merchant/api/reference/rest/products_v1/accounts.productInputs/insert)",
   version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
+  ai: "optimized",
   type: "action",
   props: {
     googleMerchant,

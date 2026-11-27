@@ -10,6 +10,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
+  ai: "optimized",
   type: "action",
   props: {
     googleMerchant,

@@ -6,13 +6,14 @@ import googleMerchant from "../../google_merchant_center.app.mjs";
 export default {
   key: "google_merchant_center-update-product",
   name: "Update Product",
-  description: "Updates an existing product in your Google Merchant Center account. It may take several minutes before the change is reflected in the processed product. [See the documentation](https://developers.google.com/merchant/api/reference/rest/products_v1/accounts.productInputs/patch)",
+  description: "Updates an existing product in your Google Merchant Center account. Use **List Product ID Options** to find the Product ID and **List Data Sources** to find the Data Source ID. Returns the updated product input; it may take several minutes before the change is reflected in the processed product. [See the documentation](https://developers.google.com/merchant/api/reference/rest/products_v1/accounts.productInputs/patch)",
   version: "1.0.0",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,
     readOnlyHint: false,
   },
+  ai: "optimized",
   type: "action",
   props: {
     googleMerchant,
