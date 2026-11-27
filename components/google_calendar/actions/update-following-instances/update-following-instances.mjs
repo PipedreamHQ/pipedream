@@ -7,8 +7,8 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "google_calendar-update-following-instances",
   name: "Update Following Event Instances",
-  description: "Split a recurring event you organize so all occurrences from a selected one onward get your changes. This deletes the selected occurrence, ends the original series before it, and creates a new series starting from it that you organize, inviting the original guests (or `Attendees`, if set). Fields left empty (including `Show As`), plus the meeting link, reminders, visibility and guest permissions, are copied from the original series; guest responses are carried over where Google allows, so some guests may need to respond again. Fails without making changes if you don't organize the event: to change your own color or `Show As`, use **Update Event** for the whole series or **Update Event Instance** for one occurrence; to accept or decline, use **Respond to Event**. Returns the deleted occurrence, the trimmed series, the new event and the invited guests. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
-  version: "0.2.0",
+  description: "Split a recurring event you organize so all occurrences from a selected one onward get your changes. This deletes the selected occurrence, ends the original series before it, and creates a new series starting from it that you organize, inviting the original guests (or `Attendees`, if set). Fields left empty (including `Show As`), plus the meeting link (unless `Conference URL` or `Remove Conference` is set), reminders, visibility and guest permissions, are copied from the original series; guest responses are carried over where Google allows, so some guests may need to respond again. Fails without making changes if you don't organize the event: to change your own color or `Show As`, use **Update Event** for the whole series or **Update Event Instance** for one occurrence; to accept or decline, use **Respond to Event**. Returns the deleted occurrence, the trimmed series, the new event and the invited guests. [See the documentation](https://developers.google.com/calendar/api/guides/recurringevents#modifying_all_following_instances)",
+  version: "0.3.0",
   ai: "optimized",
   type: "action",
   annotations: {
@@ -124,6 +124,9 @@ export default {
         "transparency",
       ],
     },
+    ...createEventCommon.conferenceProps({
+      isUpdate: true,
+    }),
     timeZone: {
       propDefinition: [
         googleCalendar,
@@ -273,6 +276,7 @@ export default {
       repeatTimes: this.repeatTimes,
       repeatUntil: this.repeatUntil,
     });
+    const conferenceUrl = this.getConferenceUrl();
 
     const originalEvent = await this.googleCalendar.getEvent({
       calendarId: this.calendarId,
@@ -347,6 +351,10 @@ export default {
       colorId: this.colorId || originalEvent.colorId,
       transparency: this.transparency || originalEvent.transparency,
     };
+    const conferenceDataVersion = this.applyConferenceChange(newEventResource, conferenceUrl)
+      || (newEventResource.conferenceData
+        ? constants.CONFERENCE_DATA_VERSION
+        : undefined);
 
     // Delete before trimming: once UNTIL excludes the instance, Google rejects
     // the delete with a 400, and an undeleted exception would linger as a duplicate
@@ -373,9 +381,7 @@ export default {
       const newEvent = await this.googleCalendar.createEvent({
         calendarId: this.calendarId,
         sendUpdates: this.sendUpdates || undefined,
-        conferenceDataVersion: carriedFields.conferenceData
-          ? constants.CONFERENCE_DATA_VERSION
-          : undefined,
+        conferenceDataVersion,
         resource: newEventResource,
       });
 

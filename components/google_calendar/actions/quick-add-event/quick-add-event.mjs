@@ -5,8 +5,8 @@ import { ConfigurationError } from "@pipedream/platform";
 export default {
   key: "google_calendar-quick-add-event",
   name: "Add Quick Event",
-  description: "Create a quick event to the Google Calendar. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#quickAdd)",
-  version: "0.1.18",
+  description: "Create a quick event to the Google Calendar. Can't attach a video conference: to add a Zoom or Google Meet link, use **Create Event**. [See the documentation](https://googleapis.dev/nodejs/googleapis/latest/calendar/classes/Resource$Events.html#quickAdd)",
+  version: "0.1.19",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

@@ -76,7 +76,68 @@ export default {
       },
     }
   ),
+  conferenceProps: ({ isUpdate }) => ({
+    conferenceUrl: {
+      propDefinition: [
+        googleCalendar,
+        "conferenceUrl",
+      ],
+      description: `${googleCalendar.propDefinitions.conferenceUrl.description}${isUpdate
+        ? " Replaces the event's current conference, including a Google Meet link."
+        : " Not used with `Create Meet Room`."}`,
+    },
+    conferenceName: {
+      propDefinition: [
+        googleCalendar,
+        "conferenceName",
+      ],
+    },
+    ...(isUpdate && {
+      removeConference: {
+        propDefinition: [
+          googleCalendar,
+          "removeConference",
+        ],
+      },
+    }),
+  }),
   methods: {
+    getConferenceUrl() {
+      const value = this.conferenceUrl?.trim();
+      if (!value) {
+        return;
+      }
+      const url = URL.canParse(value)
+        ? new URL(value)
+        : null;
+      if (![
+        "http:",
+        "https:",
+      ].includes(url?.protocol)) {
+        throw new ConfigurationError(`\`Conference URL\` must be an http(s) URL, got \`${value}\``);
+      }
+      if (this.createMeetRoom || this.removeConference) {
+        throw new ConfigurationError("`Conference URL` can't be combined with `Create Meet Room` or `Remove Conference`: set only one.");
+      }
+      return url;
+    },
+    buildConferenceData(url) {
+      return utils.buildConferenceData({
+        url,
+        name: this.conferenceName,
+      });
+    },
+    applyConferenceChange(resource, conferenceUrl) {
+      if (conferenceUrl) {
+        resource.conferenceData = this.buildConferenceData(conferenceUrl);
+        return constants.CONFERENCE_DATA_VERSION;
+      }
+      if (this.removeConference) {
+        delete resource.conferenceData;
+        delete resource.hangoutLink;
+        return constants.CONFERENCE_DATA_VERSION;
+      }
+    },
     hasSharedFieldInput() {
       return [
         this.summary,
@@ -91,6 +152,8 @@ export default {
         this.repeatUntil,
         this.repeatSpecificDays?.length,
         this.timeZone,
+        this.conferenceUrl?.trim(),
+        this.removeConference,
       ].some(Boolean);
     },
     isPersonalFieldsOnlyUpdate() {

@@ -159,6 +159,32 @@ const WRITABLE_ATTENDEE_FIELDS = [
 // https://developers.google.com/workspace/calendar/api/v3/reference/events/insert#parameters
 const CONFERENCE_DATA_VERSION = 1;
 
+// https://developers.google.com/workspace/calendar/api/v3/reference/events#conferenceData
+const CONFERENCE_SOLUTION_TYPE_ADD_ON = "addOn";
+
+const CONFERENCE_ENTRY_POINT_TYPE_VIDEO = "video";
+
+const CONFERENCE_NAMES_BY_DOMAIN = [
+  {
+    domain: "zoom.us",
+    name: "Zoom Meeting",
+  },
+  {
+    domain: "teams.microsoft.com",
+    name: "Microsoft Teams Meeting",
+  },
+  {
+    domain: "teams.live.com",
+    name: "Microsoft Teams Meeting",
+  },
+  {
+    domain: "webex.com",
+    name: "Webex Meeting",
+  },
+];
+
+const DEFAULT_CONFERENCE_NAME = "Video Meeting";
+
 const SEND_UPDATES_NONE = "none";
 
 // https://developers.google.com/workspace/calendar/api/v3/reference/events/instances#parameters
@@ -173,6 +199,10 @@ export default {
   SPLIT_CARRIED_EVENT_FIELDS,
   WRITABLE_ATTENDEE_FIELDS,
   CONFERENCE_DATA_VERSION,
+  CONFERENCE_SOLUTION_TYPE_ADD_ON,
+  CONFERENCE_ENTRY_POINT_TYPE_VIDEO,
+  CONFERENCE_NAMES_BY_DOMAIN,
+  DEFAULT_CONFERENCE_NAME,
   SEND_UPDATES_NONE,
   INSTANCES_MAX_RESULTS,
 };

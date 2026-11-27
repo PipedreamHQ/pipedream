@@ -6,8 +6,8 @@ import constants from "../../common/constants.mjs";
 export default {
   key: "google_calendar-create-event",
   name: "Create Event",
-  description: "Create a new event on a Google Calendar — a single or recurring appointment at a specific date/time (optionally with attendees, location, and description). Use this whenever the user wants to add something to their calendar. This creates calendar EVENTS only: it cannot configure calendar settings, working hours, availability, or default preferences, and it cannot create a new calendar. Do not represent any of those requests as an event — creating an event named after the request does not fulfill it. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
-  version: "1.2.2",
+  description: "Create a new event on a Google Calendar — a single or recurring appointment at a specific date/time (optionally with attendees, location, and description). Use this whenever the user wants to add something to their calendar. This creates calendar EVENTS only: it cannot configure calendar settings, working hours, availability, or default preferences, and it cannot create a new calendar. Do not represent any of those requests as an event — creating an event named after the request does not fulfill it. To use Zoom or another provider instead of Google Meet, create the meeting first (e.g. with **Zoom > Create Meeting**) and pass its join URL as `Conference URL`. [See the documentation](https://developers.google.com/calendar/api/v3/reference/events/insert)",
+  version: "1.3.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -84,9 +84,12 @@ export default {
     createMeetRoom: {
       type: "boolean",
       label: "Create Meet Room",
-      description: "Whether to create a Google Meet room for this event.",
+      description: "Whether to create a Google Meet room for this event. For Zoom or another provider, use `Conference URL` instead.",
       optional: true,
     },
+    ...createEventCommon.conferenceProps({
+      isUpdate: false,
+    }),
     visibility: {
       type: "string",
       label: "Visibility",
@@ -142,6 +145,7 @@ export default {
     ...createEventCommon.methods,
   },
   async run({ $ }) {
+    const conferenceUrl = this.getConferenceUrl();
     const timeZone = await this.getTimeZone(this.timeZone);
     const attendees = this.formatAttendees(this.attendees);
 
@@ -206,7 +210,7 @@ export default {
     };
 
     if (this.createMeetRoom) {
-      data.conferenceDataVersion = 1;
+      data.conferenceDataVersion = constants.CONFERENCE_DATA_VERSION;
       data.resource.conferenceData = {
         createRequest: {
           requestId: uuidv4(),
@@ -215,6 +219,11 @@ export default {
           },
         },
       };
+    }
+
+    if (conferenceUrl) {
+      data.conferenceDataVersion = constants.CONFERENCE_DATA_VERSION;
+      data.resource.conferenceData = this.buildConferenceData(conferenceUrl);
     }
 
     const response = await this.googleCalendar.createEvent(data);
