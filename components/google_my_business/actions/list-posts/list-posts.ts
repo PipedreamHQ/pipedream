@@ -14,7 +14,7 @@ export default defineAction({
     + " run the action again with that token in `Page Token` to continue."
     + " To publish a post, use **Create Post**."
     + ` [See the documentation](${DOCS_LINK})`,
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

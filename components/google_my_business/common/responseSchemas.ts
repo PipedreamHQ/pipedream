@@ -43,3 +43,11 @@ export interface PaginatedResult<T> {
   nextPageToken?: string;
   firstPage?: Record<string, unknown>;
 }
+
+export interface SearchKeywordCount {
+  searchKeyword: string;
+  insightsValue?: {
+    value?: string;
+    threshold?: string;
+  };
+}

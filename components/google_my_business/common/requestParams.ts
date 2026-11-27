@@ -92,3 +92,13 @@ export interface BatchGetReviewsParams extends PdAxiosRequest {
     ignoreRatingOnlyReviews?: boolean;
   };
 }
+
+export interface PerformanceParams extends PdAxiosRequest {
+  locationId: string;
+  params?: Record<string, string | number | undefined>;
+}
+
+export interface ListKeywordImpressionsParams extends PdAxiosRequest, PaginationParams {
+  locationId: string;
+  params?: Record<string, string | number | undefined>;
+}

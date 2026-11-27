@@ -14,7 +14,7 @@ export default defineAction({
     + " To continue, run the action again with that token in `Page Token`."
     + " To read several locations in one call, use **Get Reviews from Multiple Locations** instead."
     + ` [See the documentation](${DOCS_LINK})`,
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

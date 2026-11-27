@@ -8,7 +8,7 @@ export default defineAction({
   key: "google_my_business-create-update-reply-to-review",
   name: "Create or Update Reply to Review",
   description: `Create or update a reply to the specified review. [See the documentation](${DOCS_LINK})`,
-  version: "0.0.7",
+  version: "0.0.8",
   annotations: {
     destructiveHint: true,
     openWorldHint: true,

@@ -3,14 +3,16 @@ import { axios } from "@pipedream/platform";
 import {
   CreatePostParams,
   HttpRequestParams, ListPostsParams, ListReviewsParams, PaginatedRequestParams,
-  UpdateReplyParams, GetReviewParams, BatchGetReviewsParams,
+  UpdateReplyParams, GetReviewParams, BatchGetReviewsParams, PerformanceParams,
+  ListKeywordImpressionsParams,
 } from "../common/requestParams";
 import {
   Account, BatchGetReviewsResponse, ListReviewsResponse, LocalPost, Location,
-  PaginatedResult, Review,
+  PaginatedResult, Review, SearchKeywordCount,
 } from "../common/responseSchemas";
 import {
-  POSTS_PAGE_SIZE, REVIEWS_PAGE_SIZE, REVIEW_ORDER_BY_OPTIONS,
+  KEYWORDS_PAGE_SIZE, PERFORMANCE_API_URL, POSTS_PAGE_SIZE, REVIEWS_PAGE_SIZE,
+  REVIEW_ORDER_BY_OPTIONS,
 } from "../common/constants";
 
 export default defineApp({
@@ -133,6 +135,21 @@ export default defineApp({
       optional: true,
       options: REVIEW_ORDER_BY_OPTIONS,
     },
+    performanceLocationId: {
+      type: "string",
+      label: "Location ID",
+      description: "The ID of the location, e.g. `1234567890123456789`. It is the number after `locations/` in the `name` returned by **List Locations**. A full `locations/1234567890123456789` is also accepted.",
+    },
+    performanceStartDate: {
+      type: "string",
+      label: "Start Date",
+      description: "First day of the range, inclusive, as `YYYY-MM-DD`, e.g. `2026-01-01`. Work out relative ranges such as \"last 30 days\" from today's date.",
+    },
+    performanceEndDate: {
+      type: "string",
+      label: "End Date",
+      description: "Last day of the range, inclusive, as `YYYY-MM-DD`, e.g. `2026-01-31`. Must not be before `Start Date`.",
+    },
     pageToken: {
       type: "string",
       label: "Page Token",
@@ -221,6 +238,51 @@ export default defineApp({
     }: Record<string, string> & { args: object }): Promise<unknown> {
       return this._httpRequest({
         url: `https://mybusinessbusinessinformation.googleapis.com/v1/accounts/${this.getCleanName(account)}/locations`,
+        ...args,
+      });
+    },
+    // One request to the Performance API. `location` is `locations/{id}`; `suffix` is
+    // `:getDailyMetricsTimeSeries`, `/searchkeywords/impressions/monthly`, etc.
+    // `repeated` params (dailyMetrics) are appended by hand because axios would send
+    // an array as `dailyMetrics[]=…`, which Google doesn't bind.
+    _performanceUrl(locationId: string, suffix: string, repeated: Record<string, string[]> = {}) {
+      const query = new URLSearchParams();
+      Object.entries(repeated).forEach(([
+        key,
+        values,
+      ]) => values.forEach((value) => query.append(key, value)));
+      const qs = query.toString();
+      return `${PERFORMANCE_API_URL}/locations/${this.getCleanName(locationId)}${suffix}${qs
+        ? `?${qs}`
+        : ""}`;
+    },
+    getDailyMetricsTimeSeries({
+      locationId, params, ...args
+    }: PerformanceParams): Promise<object> {
+      return this._httpRequest({
+        url: this._performanceUrl(locationId, ":getDailyMetricsTimeSeries"),
+        params,
+        ...args,
+      });
+    },
+    fetchMultiDailyMetricsTimeSeries({
+      locationId, dailyMetrics, params, ...args
+    }: PerformanceParams & { dailyMetrics: string[] }): Promise<object> {
+      return this._httpRequest({
+        url: this._performanceUrl(locationId, ":fetchMultiDailyMetricsTimeSeries", {
+          dailyMetrics,
+        }),
+        params,
+        ...args,
+      });
+    },
+    listKeywordImpressions({
+      locationId, ...args
+    }: ListKeywordImpressionsParams): Promise<PaginatedResult<SearchKeywordCount>> {
+      return this._paginatedRequest({
+        resourceName: "searchKeywordsCounts",
+        url: this._performanceUrl(locationId, "/searchkeywords/impressions/monthly"),
+        maxPerPage: KEYWORDS_PAGE_SIZE,
         ...args,
       });
     },

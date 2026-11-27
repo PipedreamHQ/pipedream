@@ -14,7 +14,7 @@ export default defineAction({
     + " Each item in `locationReviews` carries the location `name` and the `review`."
     + " To page through a single location's full history, use **List All Reviews** instead."
     + ` [See the documentation](${DOCS_LINK})`,
-  version: "0.1.0",
+  version: "0.1.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
