@@ -61,11 +61,11 @@ export default {
       return `${this.$auth.url}/api${path}`;
     },
     getHeaders(headers) {
-      const { apiKey } = this.$auth;
+      const { api_key } = this.$auth;
       return {
         ...headers,
-        ...(apiKey && {
-          Authorization: `Bearer ${apiKey}`,
+        ...(api_key && {
+          Authorization: `Bearer ${api_key}`,
         }),
       };
     },
