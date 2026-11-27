@@ -1,0 +1,12 @@
+{
+  "name": "@pipedream/brewpage",
+  "version": "0.0.1",
+  "description": "Publish HTML and Markdown reports to temporary BrewPage reader links",
+  "type": "module",
+  "main": "brewpage.app.mjs",
+  "license": "MIT",
+  "dependencies": {
+    "@pipedream/platform": "3.4.0",
+    "axios": "1.15.2"
+  }
+}
