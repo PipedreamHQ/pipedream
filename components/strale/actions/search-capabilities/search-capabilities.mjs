@@ -2,9 +2,9 @@ import strale from "../../strale.app.mjs";
 
 export default {
   name: "Search Capabilities",
-  version: "0.0.1",
+  version: "0.0.2",
   key: "strale-search-capabilities",
-  description: "Search Strale's catalog of 290+ data capabilities using natural language. Returns matching capabilities with prices and quality scores. [See the documentation](https://strale.dev/docs)",
+  description: "Search Strale's catalog of pay-per-call tools using natural language. Returns matching capabilities with their price per call. [See the documentation](https://strale.dev/docs)",
   type: "action",
   annotations: {
     readOnlyHint: true,

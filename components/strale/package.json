@@ -1,6 +1,6 @@
 {
   "name": "@pipedream/strale",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Pipedream Strale Components",
   "main": "strale.app.mjs",
   "keywords": [

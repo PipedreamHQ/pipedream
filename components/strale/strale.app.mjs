@@ -3,7 +3,7 @@ import { axios } from "@pipedream/platform";
 export default {
   type: "app",
   app: "strale",
-  description: "Strale is the data layer for AI agents — 290+ quality-tested data capabilities including company verification, sanctions screening, VAT validation, invoice extraction, and more. [See the documentation](https://strale.dev/docs)",
+  description: "Strale is a library of pay-per-call tools for AI agents — company records, compliance screening, VAT and identifier validation, document extraction and web reading. Call a tool by slug, or describe the job and let Strale match one. [See the documentation](https://strale.dev/docs)",
   propDefinitions: {
     task: {
       type: "string",
@@ -106,14 +106,6 @@ export default {
     listCapabilities(args = {}) {
       return this._makeRequest({
         path: "/v1/capabilities",
-        ...args,
-      });
-    },
-    getQuality({
-      slug, ...args
-    } = {}) {
-      return this._makeRequest({
-        path: `/v1/quality/${slug}`,
         ...args,
       });
     },
