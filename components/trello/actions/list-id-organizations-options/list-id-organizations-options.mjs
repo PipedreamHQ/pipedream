@@ -4,7 +4,7 @@ export default {
   key: "trello-list-id-organizations-options",
   name: "List Organization IDs Options",
   description: "Retrieves available options for the Organization IDs field.",
-  version: "0.0.3",
+  version: "0.0.4",
   type: "action",
   annotations: {
     destructiveHint: false,
