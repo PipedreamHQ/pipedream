@@ -5,7 +5,7 @@ export default {
   key: "dealcloud-create-record",
   name: "Create Record",
   description: "Creates a new record (entry) in DealCloud. [See the documentation](https://api.docs.dealcloud.com/docs/data/cells/postput)",
-  version: "0.0.1",
+  version: "0.1.0",
   type: "action",
   annotations: {
     destructiveHint: false,
@@ -13,26 +13,15 @@ export default {
     readOnlyHint: false,
   },
   async run({ $ }) {
-    /* eslint-disable no-unused-vars */
-    const {
-      dealcloud,
-      entryTypeId,
-      ignoreNearDups,
-      convertFieldsToProps,
-      isUpdate,
-      getEntryId,
-      getRequestData,
-      ...props
-    } = this;
-    /* eslint-enable no-unused-vars */
+    const data = await this.buildRequestData();
 
-    const response = await dealcloud.createEntry({
+    const response = await this.dealcloud.createEntry({
       $,
-      entryTypeId,
-      data: this.getRequestData(props),
+      entryTypeId: this.entryTypeId,
+      data,
     });
 
-    $.export("$summary", "Successfully created record");
+    $.export("$summary", `Successfully created record in object ${this.entryTypeId}`);
     // add id to summary when we know the response schema
     return response;
   },
