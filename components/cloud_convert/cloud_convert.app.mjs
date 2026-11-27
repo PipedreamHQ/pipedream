@@ -46,6 +46,24 @@ export default {
         return data.map(mapper);
       },
     },
+    jobId: {
+      type: "string",
+      label: "Job ID",
+      description: "The ID of the job, e.g. `c677ccf7-8876-4f48-bb6f-566fe0ca0a4a`. Use the `data.id` returned by **Create Job** or **Create Merge Files To PDF Job**.",
+      async options({ page }) {
+        const { data } = await this.listJobs({
+          params: {
+            page: page + 1,
+          },
+        });
+        return data.map(({
+          id: value, tag, status,
+        }) => ({
+          value,
+          label: `${tag || value} (${status})`,
+        }));
+      },
+    },
     include: {
       type: "string[]",
       label: "Include",
@@ -66,8 +84,8 @@ export default {
     },
   },
   methods: {
-    getUrl(path) {
-      return `${constants.BASE_URL}${constants.VERSION_PATH}${path}`;
+    getUrl(path, baseUrl = constants.BASE_URL) {
+      return `${baseUrl}${constants.VERSION_PATH}${path}`;
     },
     getHeaders(headers) {
       return {
@@ -77,11 +95,11 @@ export default {
       };
     },
     _makeRequest({
-      $ = this, path, headers, ...args
+      $ = this, path, baseUrl, headers, ...args
     } = {}) {
       return axios($, {
         ...args,
-        url: this.getUrl(path),
+        url: this.getUrl(path, baseUrl),
         headers: this.getHeaders(headers),
       });
     },
@@ -100,6 +118,39 @@ export default {
     createJob(args = {}) {
       return this.post({
         path: "/jobs",
+        ...args,
+      });
+    },
+    listJobs(args = {}) {
+      return this._makeRequest({
+        path: "/jobs",
+        ...args,
+      });
+    },
+    getJob({
+      jobId, ...args
+    } = {}) {
+      return this._makeRequest({
+        path: `/jobs/${jobId}`,
+        ...args,
+      });
+    },
+    // Synchronous endpoints block until the job/task is finished or has failed.
+    waitForJob({
+      jobId, ...args
+    } = {}) {
+      return this._makeRequest({
+        baseUrl: constants.SYNC_BASE_URL,
+        path: `/jobs/${jobId}`,
+        ...args,
+      });
+    },
+    waitForTask({
+      taskId, ...args
+    } = {}) {
+      return this._makeRequest({
+        baseUrl: constants.SYNC_BASE_URL,
+        path: `/tasks/${taskId}`,
         ...args,
       });
     },
