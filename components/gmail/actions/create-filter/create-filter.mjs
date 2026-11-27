@@ -12,7 +12,7 @@ export default {
     + " Label IDs must be IDs, not names — use **List Labels** to resolve a label name to its ID (system labels like `INBOX`, `STARRED`, `UNREAD`, `TRASH` can be used directly)."
     + " Use **List Filters** first to avoid creating duplicates."
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings.filters/create).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

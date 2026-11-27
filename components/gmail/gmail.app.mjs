@@ -166,6 +166,16 @@ export default {
         }
       },
     },
+    attachmentMessageId: {
+      type: "string",
+      label: "Message ID",
+      description: "The `id` of the message containing the attachment, e.g. `19a2b3c4d5e6f789`. Obtain this from **Find Emails** or **Get Thread**.",
+    },
+    attachmentPartId: {
+      type: "string",
+      label: "Part ID",
+      description: "The attachment's `partId` from the message's `attachments` list, e.g. `1` or `0.2`. Get it from **Find Emails** with `fields: [\"subject\", \"attachments\"]`, or from **Get Thread**.",
+    },
     threadId: {
       type: "string",
       label: "Thread ID",

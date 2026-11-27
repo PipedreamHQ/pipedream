@@ -50,7 +50,7 @@ export default {
     + " Responses are capped. Over the cap: if you named `fields`, whole messages are dropped rather than your chosen fields being removed, and the note says how many of how many are shown — narrow `q` and retry. If you named none, messages are compacted instead so counts stay accurate. `bodyText` shrinks toward a floor before anything is dropped, flagging each cut message with `bodyTruncated: true`."
     + " For the search syntax, see [Gmail search operators](https://support.google.com/mail/answer/7190)."
     + " [See the documentation](https://developers.google.com/gmail/api/reference/rest/v1/users.messages/list).",
-  version: "0.5.0",
+  version: "0.5.1",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,

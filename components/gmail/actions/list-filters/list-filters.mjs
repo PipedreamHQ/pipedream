@@ -8,7 +8,7 @@ export default {
     + " Call this before **Delete Filter** to find the `id` of the filter to remove, or before **Create Filter** to check whether an equivalent filter already exists."
     + " Returns an empty `filter` list (or no `filter` key) when the user has no filters."
     + " [See the documentation](https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings.filters/list).",
-  version: "0.0.1",
+  version: "0.0.2",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
