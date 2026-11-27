@@ -1,0 +1,18 @@
+export default {
+  "profile_username": "my_profile",
+  "platform": "instagram",
+  "media_type": "video",
+  "upload_timestamp": "2026-09-04T10:22:33.123Z",
+  "success": true,
+  "platform_post_id": "1789654321",
+  "post_url": "https://instagram.com/p/abc123",
+  "media_size_bytes": 12345678,
+  "post_title": "Title",
+  "post_caption": "Description",
+  "is_async": false,
+  "job_id": null,
+  "request_id": "req_123",
+  "external_id": "cms-post-8841",
+  "request_total_platforms": 3,
+  "error_message": null,
+};
