@@ -11,18 +11,30 @@ export default {
         intervalSeconds: DEFAULT_POLLING_SOURCE_TIMER_INTERVAL,
       },
     },
+    driveId: {
+      propDefinition: [
+        common.props.microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         common.props.microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         common.props.microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -30,8 +42,11 @@ export default {
       propDefinition: [
         common.props.microsoftExcel,
         "worksheet",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },

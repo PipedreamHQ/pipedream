@@ -4,27 +4,40 @@ export default {
   key: "microsoft_excel-get-table-rows",
   name: "Get Table Rows",
   description: "Retrieve rows from a specified table in an Excel worksheet. [See the documentation](https://learn.microsoft.com/en-us/graph/api/tablerow-list?view=graph-rest-1.0&tabs=http)",
-  version: "0.0.6",
+  version: "0.1.0",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     microsoftExcel,
+    driveId: {
+      propDefinition: [
+        microsoftExcel,
+        "driveId",
+      ],
+    },
     folderId: {
       propDefinition: [
         microsoftExcel,
         "folderId",
+        ({ driveId }) => ({
+          driveId,
+        }),
       ],
     },
     sheetId: {
       propDefinition: [
         microsoftExcel,
         "sheetId",
-        ({ folderId }) => ({
+        ({
+          folderId, driveId,
+        }) => ({
           folderId,
+          driveId,
         }),
       ],
     },
@@ -32,8 +45,11 @@ export default {
       propDefinition: [
         microsoftExcel,
         "tableId",
-        ({ sheetId }) => ({
+        ({
+          sheetId, driveId,
+        }) => ({
           sheetId,
+          driveId,
         }),
       ],
     },
@@ -41,6 +57,7 @@ export default {
   async run({ $ }) {
     const { value } = await this.microsoftExcel.listTableRows({
       $,
+      driveId: this.driveId,
       sheetId: this.sheetId,
       tableId: this.tableId,
     });
