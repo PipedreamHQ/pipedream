@@ -7,7 +7,7 @@ import {
 export default {
   key: "acedatacloud-chat-with-model",
   name: "Chat With Model",
-  description: "Send a text prompt to a published chat model through Ace Data Cloud using its native protocol and return the response with usage. [See the documentation](https://platform.acedata.cloud/models)",
+  description: "Send a text prompt to a published chat model through Ace Data Cloud using its native protocol and return the response with usage. [See the documentation](https://platform.acedata.cloud/models?utm_source=pipedream&utm_medium=referral&utm_campaign=evergreen)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
