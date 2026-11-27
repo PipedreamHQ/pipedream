@@ -1,12 +1,11 @@
-import { ConfigurationError } from "@pipedream/platform";
 import { parseObject } from "../../common/utils.mjs";
 import lusha from "../../lusha.app.mjs";
 
 export default {
   key: "lusha-get-company-recommendations",
   name: "Get Company Recommendations",
-  description: "Get company recommendations based on other companies. Use requestId to get more results from a previous search. [See the documentation](https://docs.lusha.com/apis/openapi/company-recommendations/getcompanyrecommendations)",
-  version: "0.0.2",
+  description: "Get company recommendations based on other companies. Use requestId to get more results from a previous search. [See the documentation](https://docs.lusha.com/tutorials/recommendations)",
+  version: "0.0.3",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -25,12 +24,12 @@ export default {
     companies: {
       type: "string[]",
       label: "Companies",
-      description: "List of company objects to retrieve recommendations for. Example: [{ \"companyId\": \"123321\" }]. [See the documentation](https://docs.lusha.com/apis/openapi/company-recommendations/getcompanyrecommendations) for more information.",
+      description: "List of company objects to retrieve recommendations for. Example: [{ \"companyId\": \"123321\" }]. [See the documentation](https://docs.lusha.com/tutorials/recommendations) for more information.",
     },
     exclude: {
       type: "string[]",
       label: "Exclude",
-      description: "List of company objects to exclude from the recommendations. Example: [{ \"companyId\": \"123321\" }]. [See the documentation](https://docs.lusha.com/apis/openapi/company-recommendations/getcompanyrecommendations) for more information.",
+      description: "List of company objects to exclude from the recommendations. Example: [{ \"companyId\": \"123321\" }]. [See the documentation](https://docs.lusha.com/tutorials/recommendations) for more information.",
     },
     limit: {
       type: "integer",
@@ -42,21 +41,20 @@ export default {
     },
   },
   async run({ $ }) {
-    try {
-      const response = await this.lusha.getCompanyRecommendations({
-        $,
-        params: {
-          companies: parseObject(this.companies),
-          exclude: parseObject(this.exclude),
-          limit: this.limit,
-          requestId: this.requestId,
-        },
-      });
-      $.export("$summary", `Successfully retrieved ${response.count} company recommendations`);
-
-      return response;
-    } catch ({ response }) {
-      throw new ConfigurationError(response?.data?.message);
-    }
+    const response = await this.lusha.getCompanyRecommendations({
+      $,
+      data: {
+        companies: parseObject(this.companies),
+        exclude: parseObject(this.exclude),
+        limit: this.limit,
+        requestId: this.requestId,
+      },
+    });
+    $.export("$summary", response.count === undefined
+      ? "Retrieved company recommendations"
+      : `Retrieved ${response.count} company recommendation${response.count === 1
+        ? ""
+        : "s"}`);
+    return response;
   },
 };

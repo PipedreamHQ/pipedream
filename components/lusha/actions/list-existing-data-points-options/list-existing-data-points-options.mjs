@@ -3,9 +3,10 @@ import lusha from "../../lusha.app.mjs";
 export default {
   key: "lusha-list-existing-data-points-options",
   name: "List Existing Data Points Options",
-  description: "Retrieves available options for the Existing Data Points field.",
-  version: "0.0.1",
+  description: "List the data points Lusha accepts in the `Existing Data Points` filter of **Search Contacts** and **Search and Enrich Contacts**, used to return only contacts that have that data (e.g. `work_email`). Does not use credits. [See the documentation](https://docs.lusha.com/api-reference/prospecting/prospecting-contacts)",
+  version: "0.0.2",
   type: "action",
+  ai: "optimized",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -15,7 +16,9 @@ export default {
     lusha,
   },
   async run({ $ }) {
-    const options = await lusha.propDefinitions.existingDataPoints.options.call(this.lusha);
+    const options = await this.lusha.listExistingDataPointOptions({
+      $,
+    });
     $.export("$summary", `Successfully retrieved ${options.length} option${options.length === 1
       ? ""
       : "s"}`);
