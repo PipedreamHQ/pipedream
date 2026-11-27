@@ -1,0 +1,25 @@
+export default {
+  "id": 45061,
+  "event": "email.sent",
+  "mailbox": "support@yourdomain.com",
+  "message_id": "<9f2c1b7a-4d31@nevtan.com>",
+  "thread_id": "thread-8f31c2a4",
+  "from": "support@yourdomain.com",
+  "from_name": "Support Team",
+  "to": [
+    "ap@acme.com",
+  ],
+  "cc": [
+    "billing@yourdomain.com",
+  ],
+  "subject": "Re: Invoice 88 — PO number query",
+  "snippet": "Thanks for flagging this. Invoice 88 was raised against PO-20418. I have asked billing to reissue it with the correct reference.",
+  "body_text": "Thanks for flagging this.\n\nInvoice 88 was raised against PO-20418. I have asked billing to reissue it with the correct reference.",
+  "body_html": null,
+  "received_at": null,
+  "sent_at": "2026-11-10T08:41:00Z",
+  "has_attachments": false,
+  "attachment_count": 0,
+  "is_read": true,
+  "direction": "outbound",
+};

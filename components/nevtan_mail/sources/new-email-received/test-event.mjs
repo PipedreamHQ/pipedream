@@ -1,0 +1,23 @@
+export default {
+  "id": 45060,
+  "event": "email.received",
+  "mailbox": "support@yourdomain.com",
+  "message_id": "<CAF9n2mQ8cJ1k@mail.acme.com>",
+  "thread_id": "thread-8f31c2a4",
+  "from": "ap@acme.com",
+  "from_name": "Alex Prentice",
+  "to": [
+    "support@yourdomain.com",
+  ],
+  "cc": [],
+  "subject": "Invoice 88 — PO number query",
+  "snippet": "Hi, we received invoice 88 but the PO number does not match ours. Could you confirm which PO this was raised against? Thanks, Alex",
+  "body_text": "Hi,\n\nWe received invoice 88 but the PO number does not match ours.\n\nCould you confirm which PO this was raised against?\n\nThanks,\nAlex",
+  "body_html": "<p>Hi,</p><p>We received invoice 88 but the PO number does not match ours.</p><p>Could you confirm which PO this was raised against?</p><p>Thanks,<br>Alex</p>",
+  "received_at": "2026-11-10T08:14:00Z",
+  "sent_at": null,
+  "has_attachments": true,
+  "attachment_count": 1,
+  "is_read": false,
+  "direction": "inbound",
+};
