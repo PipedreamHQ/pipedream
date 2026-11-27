@@ -10,7 +10,7 @@ export default {
     Creates a new table to your account.
     [See docs](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-dynamodb/classes/createtablecommand.html)
   `),
-  version: "0.2.3",
+  version: "0.2.4",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
@@ -23,7 +23,7 @@ export default {
     tableName: {
       type: common.props.tableName.type,
       label: common.props.tableName.label,
-      description: common.props.tableName.description,
+      description: "The name for the new table, e.g. `Orders`. It must not already exist in this region, and can be 3 to 255 characters of letters, numbers, underscores, hyphens and dots.",
     },
     keyPrimaryAttributeName: common.props.keyPrimaryAttributeName,
     keyPrimaryAttributeType: common.props.keyPrimaryAttributeType,

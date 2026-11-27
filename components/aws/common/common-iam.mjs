@@ -18,19 +18,12 @@ export default {
         aws,
         "region",
       ],
-      description: "The AWS region tied to your Lambda, e.g `us-east-1` or `us-west-2`",
+      description: "The AWS region used to reach IAM, e.g. `us-east-1`. IAM is a global service, so every region returns the same roles. Run **List AWS Region Options** to see the available regions.",
     },
     role: {
       type: "string",
       label: "Role",
-      description: "An IAM Role ARN, e.g., `arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role`. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
-      async options() {
-        const response = await this.listRoles();
-        return response.Roles.map((role) => ({
-          label: role.RoleName,
-          value: role.Arn,
-        }));
-      },
+      description: "An IAM Role ARN, e.g., `arn:aws:iam::650138640062:role/v3-lambda-tutorial-lambda-role`. Run **IAM - List Roles** to find role ARNs. [See docs](https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html)",
     },
   },
   methods: {
@@ -146,8 +139,8 @@ export default {
         RoleName: roleName,
       }));
     },
-    async listRoles() {
-      return this._clientIam().send(new ListRolesCommand({}));
+    async listRoles(params = {}) {
+      return this._clientIam().send(new ListRolesCommand(params));
     },
   },
 };

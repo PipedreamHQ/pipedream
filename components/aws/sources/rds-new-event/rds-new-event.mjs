@@ -17,7 +17,7 @@ export default {
   key: "aws-rds-new-event",
   name: "New Update to AWS RDS Database (Instant)",
   description: "Emit new event when there is an update to an AWS RDS Database.",
-  version: "0.0.2",
+  version: "0.0.3",
   type: "source",
   dedupe: "unique",
   props: {

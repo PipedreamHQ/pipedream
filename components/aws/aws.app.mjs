@@ -3,10 +3,6 @@ import {
   DescribeRegionsCommand,
 } from "@aws-sdk/client-ec2";
 import {
-  S3Client,
-  ListObjectsV2Command,
-} from "@aws-sdk/client-s3";
-import {
   RedshiftServerlessClient,
   ListWorkgroupsCommand,
 } from "@aws-sdk/client-redshift-serverless";
@@ -20,6 +16,7 @@ import {
   ListTablesCommand,
   DescribeTableCommand,
 } from "@aws-sdk/client-redshift-data";
+import constants from "./common/constants.mjs";
 import {
   regions,
   defaultRegion,
@@ -32,25 +29,16 @@ export default {
     region: {
       type: "string",
       label: "AWS Region",
-      description: "The AWS region",
+      description: "The AWS region, e.g. `us-east-1`. Run **List AWS Region Options** to see the regions available to this account.",
       default: defaultRegion,
       async options() {
-        try {
-          const { Regions } = await this.ec2ListRegions();
-          return Regions.map((regionInfo) => regionInfo.RegionName).sort();
-        } catch (error) {
-          // Retrieval of available regions can fail if the registered account
-          // does not have enough permissions to call the EC2 `DescribeRegions`
-          // API. In that case, we default to the static list of regions.
-          console.log(`Could not retrieve available regions from AWS. ${error}, falling back to default regions`);
-          return regions;
-        }
+        return this.listRegionNames();
       },
     },
     workgroupName: {
       type: "string",
       label: "Workgroup Name",
-      description: "The name of the serverless workgroup. Required if Cluster Identifier is not provided.",
+      description: "The name of the serverless workgroup, e.g. `default-workgroup`. Required if Cluster Identifier is not provided. Run **Redshift - List Workgroups** to find workgroup names.",
       async options({ region }) {
         const { workgroups } = await this.listWorkgroups(region);
         return workgroups.map((workgroup) => workgroup.workgroupName);
@@ -59,7 +47,7 @@ export default {
     database: {
       type: "string",
       label: "Database Name",
-      description: "The name of the database to connect to.",
+      description: "The name of the database to connect to, e.g. `dev`. Run **Redshift - List Databases** to find database names.",
       async options({
         region,
         database = "dev",
@@ -79,7 +67,7 @@ export default {
     schema: {
       type: "string",
       label: "Schema",
-      description: "The schema to perform the action on.",
+      description: "The schema to perform the action on, e.g. `public`. Run **Redshift - List Schemas** to find schema names.",
       async options({
         region,
         database = "dev",
@@ -99,7 +87,7 @@ export default {
     table: {
       type: "string",
       label: "Table",
-      description: "The table to perform the action on.",
+      description: "The table to perform the action on, e.g. `orders`. Run **Redshift - List Tables** to find table names.",
       async options({
         region,
         workgroupName,
@@ -119,6 +107,27 @@ export default {
           .filter((table) => table.type === "TABLE" && table.schema === schema)
           .map(({ name }) => name);
       },
+    },
+    maxItems: {
+      type: "integer",
+      label: "Max Items",
+      description: `Return at least this many items if they exist, e.g. \`100\` (1-${constants.listPaging.MAX_ITEMS}). Defaults to ${constants.listPaging.DEFAULT_MAX_ITEMS}. Whole pages are returned, so slightly more can come back. When more remain, \`truncated\` is \`true\` and \`nextToken\` is set.`,
+      optional: true,
+      default: constants.listPaging.DEFAULT_MAX_ITEMS,
+      min: 1,
+      max: constants.listPaging.MAX_ITEMS,
+    },
+    nextToken: {
+      type: "string",
+      label: "Next Token",
+      description: "The `nextToken` from the previous result, to read the next page. It is an opaque string, e.g. `AAEAAdZ3c2FtcGxl`: copy it unchanged from the previous result. Leave empty to start from the beginning.",
+      optional: true,
+    },
+    schemaPattern: {
+      type: "string",
+      label: "Schema Pattern",
+      description: "Only list schemas matching this name or SQL `LIKE` pattern, e.g. `public` or `sales%`. Leave empty to list all schemas.",
+      optional: true,
     },
     uniqueColumn: {
       type: "string",
@@ -153,27 +162,6 @@ export default {
       description: "A JSON object that will be sent as an event",
       optional: true,
     },
-    objectKey: {
-      type: "string",
-      label: "Key",
-      description: "The key of the object to download.",
-      async options({
-        region, bucket,
-      }) {
-        if (!bucket) {
-          return [];
-        }
-        const { Contents: resources } = await this.listObjects({
-          region,
-          params: {
-            Bucket: bucket,
-          },
-        });
-        return resources
-          .filter(({ Key: key }) => !key.endsWith("/"))
-          .map(({ Key: key }) => key);
-      },
-    },
     sqlParameters: {
       type: "object",
       label: "Parameters For WHERE Clause",
@@ -188,41 +176,35 @@ export default {
     },
   },
   methods: {
-    getAWSClient(clientType, region = defaultRegion) {
+    getAWSClient(clientType, region = defaultRegion, config = {}) {
       return new clientType({
         credentials: {
           accessKeyId: this.$auth.accessKeyId,
           secretAccessKey: this.$auth.secretAccessKey,
         },
         region,
+        ...config,
       });
+    },
+    async listRegionNames() {
+      try {
+        const { Regions } = await this.ec2ListRegions();
+        return Regions.map((regionInfo) => regionInfo.RegionName).sort();
+      } catch (error) {
+        // Retrieval of available regions can fail if the registered account
+        // does not have enough permissions to call the EC2 `DescribeRegions`
+        // API. In that case, we default to the static list of regions.
+        console.log(`Could not retrieve available regions from AWS. ${error}, falling back to default regions`);
+        return regions;
+      }
     },
     async ec2ListRegions() {
       const client = this.getAWSClient(EC2Client);
       return client.send(new DescribeRegionsCommand({}));
     },
-    listObjects({
-      params, region,
-    }) {
-      const client = this.getAWSClient(S3Client, region);
-      return client.send(new ListObjectsV2Command(params));
-    },
-    async pagination(fn, params, nextTokenAttr, lastTokenAttr = null) {
-      let response;
-      const results = [];
-      do {
-        response = await fn(params);
-        results.push(...response.Items);
-        params[nextTokenAttr] = lastTokenAttr
-          ? response[lastTokenAttr]
-          : response[nextTokenAttr];
-      } while (params[nextTokenAttr]);
-      response.Items = results;
-      return response;
-    },
-    listWorkgroups(region) {
+    listWorkgroups(region, params = {}) {
       const client = this.getAWSClient(RedshiftServerlessClient, region);
-      const command = new ListWorkgroupsCommand({});
+      const command = new ListWorkgroupsCommand(params);
       return client.send(command);
     },
     listDatabases({
@@ -259,7 +241,7 @@ export default {
       return client.send(command);
     },
     async executeStatement({
-      region, workgroupName, database, sql, parameters,
+      region, workgroupName, database, sql, parameters, allPages = false, maxRows = 1000,
     } = {}) {
       const client = this.getAWSClient(RedshiftDataClient, region);
 
@@ -305,7 +287,33 @@ export default {
           }),
         );
 
-        return getStatementResultResponse;
+        if (!allPages) {
+          return getStatementResultResponse;
+        }
+
+        // Redshift returns a large result a page at a time. Follow the pages up to
+        // `maxRows` and say so when rows were left out, so a partial result is
+        // never mistaken for the whole table.
+        const records = [
+          ...(getStatementResultResponse.Records ?? []),
+        ];
+        let nextToken = getStatementResultResponse.NextToken;
+        while (nextToken && records.length < maxRows) {
+          const page = await client.send(
+            new GetStatementResultCommand({
+              Id: executeStatementResponse.Id,
+              NextToken: nextToken,
+            }),
+          );
+          records.push(...(page.Records ?? []));
+          nextToken = page.NextToken;
+        }
+        return {
+          ...getStatementResultResponse,
+          NextToken: undefined,
+          Records: records.slice(0, maxRows),
+          truncated: Boolean(nextToken) || records.length > maxRows,
+        };
       }
     },
   },

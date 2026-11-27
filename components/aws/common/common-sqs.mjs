@@ -13,23 +13,12 @@ export default {
         aws,
         "region",
       ],
-      description: "The AWS region tied to your SQS queue, e.g `us-east-1` or `us-west-2`",
+      description: "The AWS region tied to your SQS queue, e.g. `us-east-1` or `us-west-2`. Run **List AWS Region Options** to see the available regions.",
     },
     queueUrl: {
       type: "string",
       label: "SQS Queue URL",
-      description: "The URL of the SQS Queue",
-      async options({ prevContext }) {
-        const response = await this.sqsListQueues({
-          NextToken: prevContext.nextToken,
-        });
-        return {
-          options: response.QueueUrls,
-          context: {
-            nextToken: response.NextToken,
-          },
-        };
-      },
+      description: "The URL of the SQS Queue, e.g. `https://sqs.us-east-1.amazonaws.com/123456789012/my-queue`. Run **SQS - List Queues** to find queue URLs.",
     },
   },
   methods: {
