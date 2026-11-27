@@ -6,13 +6,14 @@ export default {
   key: "notion-complete-file-upload",
   name: "Complete File Upload",
   description: "Use this action to finalize a `mode=multi_part` file upload after all of the parts have been sent successfully. [See the documentation](https://developers.notion.com/reference/complete-a-file-upload)",
-  version: "0.0.13",
+  version: "0.0.14",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     fileUploadId: {

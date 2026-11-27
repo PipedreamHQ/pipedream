@@ -4,13 +4,14 @@ export default {
   key: "notion-retrieve-page-property-item",
   name: "Retrieve Page Property Item",
   description: "Get a Property Item object for a selected page and property. [See the documentation](https://developers.notion.com/reference/retrieve-a-page-property)",
-  version: "0.0.15",
+  version: "0.0.16",
   annotations: {
     destructiveHint: false,
     openWorldHint: true,
     readOnlyHint: true,
   },
   type: "action",
+  ai: "optimized",
   props: {
     notion,
     pageId: {
