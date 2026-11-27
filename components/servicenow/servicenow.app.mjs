@@ -163,7 +163,7 @@ export default {
     requestedFor: {
       type: "string",
       label: "Requested For",
-      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it. ServiceNow only applies it when the connected user is allowed to request for others (instance properties `glide.sc.req_for.roles` and `glide.sc.req_for.roles.default`); otherwise the item is requested for the connected user. ServiceNow does not check the item's Available For and Not Available For criteria for this person: run **Check Delegated Item Access** first and order only items whose `can_request` is `true`. Example: `62826bf03710200044e0bfc8bcbe5df1`.",
+      description: "Optional `sys_id` of the user this item is requested for (maps to `sysparm_requested_for`). Run **Find Users** to find it. ServiceNow only applies it when the connected user is allowed to request for others (instance properties `glide.sc.req_for.roles` and `glide.sc.req_for.roles.default`); otherwise the item is requested for the connected user. Example: `62826bf03710200044e0bfc8bcbe5df1`.",
       optional: true,
     },
     skipMandatoryValidation: {
