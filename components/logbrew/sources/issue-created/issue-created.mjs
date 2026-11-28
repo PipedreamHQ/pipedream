@@ -12,31 +12,67 @@ export default {
   dedupe: "unique",
   methods: {
     ...common.methods,
-    async getItems(cursor) {
+    _getState() {
+      return this.db.get("issueState");
+    },
+    _setState(state) {
+      this.db.set("issueState", state);
+    },
+    // Reads every issue with an event at or after `since`, newest `last_seen_at` first, and
+    // returns the newest `last_seen_at` of the first page. The first run reads one page.
+    async readIssues(since) {
       const issues = [];
+      let head;
       let next;
       do {
         const page = await this.logbrew.listIssues({
           params: {
             project_id: this.projectId,
-            since: cursor,
+            since,
             limit: 500,
             pagination: "cursor",
             cursor_time: next?.time,
             cursor_id: next?.id,
           },
         });
+        head ??= page.issues[0]?.last_seen_at;
         issues.push(...page.issues);
-        // The first run reads one page: its issues are history, not new events.
-        next = cursor
+        const following = since
           ? page.next_cursor
           : null;
+        if (following && following.time === next?.time && following.id === next?.id) {
+          throw new Error("LogBrew returned the same issue page cursor twice");
+        }
+        next = following;
       } while (next);
       const dashboardUrl = this.logbrew.getDashboardUrl();
-      return issues.map((issue) => utils.withIssueUrl(issue, dashboardUrl));
+      return {
+        head,
+        issues: issues.map((issue) => utils.withIssueUrl(issue, dashboardUrl)),
+      };
     },
-    getTimestamp(issue) {
-      return issue.first_seen_at;
+    // An issue that recurs while a poll pages moves to the head of the list, where that poll
+    // already read. So the creation cutoff stays one poll behind the read point: the next poll
+    // reads the issue again, and `dedupe: "unique"` drops issues already emitted.
+    async emitNew({ max } = {}) {
+      const state = this._getState();
+      const { head, issues } = await this.readIssues(state?.since);
+      const cutoff = state
+        ? Date.parse(state.cutoff)
+        : 0;
+      const fresh = issues
+        .filter((issue) => Date.parse(issue.first_seen_at) > cutoff)
+        .sort((a, b) => Date.parse(a.first_seen_at) - Date.parse(b.first_seen_at));
+      for (const issue of max
+        ? fresh.slice(-max)
+        : fresh) {
+        this.$emit(issue, this.generateMeta(issue));
+      }
+      const readPoint = head ?? state?.since ?? new Date().toISOString();
+      this._setState({
+        since: readPoint,
+        cutoff: state?.since ?? readPoint,
+      });
     },
     generateMeta(issue) {
       return {
