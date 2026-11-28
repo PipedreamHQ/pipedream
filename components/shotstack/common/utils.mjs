@@ -60,9 +60,9 @@ function asTemplateType(value, templateValue) {
 }
 
 // A merge list replaces the template's own list, so a field left out would render as a raw
-// placeholder. Sends every template field, with the given value where there is one, plus any
-// extra given fields. Takes name → value or Shotstack's own [{find, replace}] list; a name
-// written as {{ TITLE }} counts as TITLE.
+// placeholder. Sends every template field, with the given value where there is one (even "",
+// which clears it; null counts as left out), plus any extra given fields. Takes name → value
+// or Shotstack's own [{find, replace}] list; a name written as {{ TITLE }} counts as TITLE.
 function mergeOverTemplate(templateMerge, fields) {
   const pairs = Array.isArray(fields)
     ? fields.map((f) => [
@@ -78,16 +78,13 @@ function mergeOverTemplate(templateMerge, fields) {
       .trim(),
     value,
   ]));
-  const isBlank = (v) => v === undefined || v === null || (typeof v === "string" && v.trim() === "");
   const merge = (templateMerge || [])
     .filter((f) => typeof f?.find === "string" && f.find !== "")
     .map(({
       find, replace,
     }) => ({
       find,
-      replace: isBlank(given.get(find))
-        ? replace
-        : asTemplateType(given.get(find), replace),
+      replace: asTemplateType(given.get(find) ?? replace, replace),
     }));
   const known = new Set(merge.map((f) => f.find));
   return [
@@ -132,10 +129,17 @@ function generationBody({
   };
 }
 
+// Shotstack omits `available` when it can't tell; its docs say to treat that as unknown,
+// not as available.
 function usableModels(models, assetType) {
   return (models || []).filter((m) => m?.model
-    && m.available !== false
+    && m.available === true
     && (!assetType || m.type === assetType));
+}
+
+// A generation can read done a moment before its url is written, so done counts only with a url.
+function isGenerationFinal(job) {
+  return job.status === "failed" || (job.status === "done" && !!job.url);
 }
 
 function statusSummary(noun, {
@@ -171,6 +175,7 @@ export default {
   mergeOverTemplate,
   generationBody,
   usableModels,
+  isGenerationFinal,
   statusSummary,
   poll,
 };

@@ -5,7 +5,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "shotstack-render-from-json",
   name: "Render From JSON",
-  description: "Render a video, image or audio file from a full Shotstack edit (timeline plus output settings). Each call starts and bills a new render. Rendering is asynchronous: use **Get Render Status** with the returned ID (and `waitSeconds`) to get the file URL, or set a Callback URL. Use **Render Template** for a template saved in the account. [See the documentation](https://shotstack.io/docs/api/#render-asset).",
+  description: "Render a video, image or audio file from a full Shotstack edit (timeline plus output settings). Each call starts a new render (Production renders use credits). Rendering is asynchronous: use **Get Render Status** with the returned ID (and `waitSeconds`) to get the file URL, or set a Callback URL. Use **Render Template** for a template saved in the account. Prefer this over **Start Render**, which takes the timeline and output settings as separate fields. [See the documentation](https://shotstack.io/docs/api/#render-asset)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",

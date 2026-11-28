@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "shotstack-get-generation-status",
   name: "Get Generation Status",
-  description: "Get the status of a **Generate Asset** job (`done`, `failed`, or in progress such as `queued` or `processing`) and, once it is `done`, the asset's `url`. Set `waitSeconds` (e.g. `30`) to keep checking inside one call; if it is still in progress, call again. [See the documentation](https://shotstack.io/docs/api/#get-generation-status).",
+  description: "Get the status of a **Generate Asset** job (`done`, `failed`, or in progress such as `queued` or `processing`) and, once it is `done`, the asset's `url`. Set `waitSeconds` (e.g. `30`) to keep checking inside one call; if it is still in progress, call again. [See the documentation](https://shotstack.io/docs/api/#get-generation-status)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
@@ -31,14 +31,16 @@ export default {
     const generationId = this.generationId.trim();
     const job = await utils.poll({
       seconds: this.waitSeconds,
-      // A job can read done a moment before its url is written.
-      isFinal: (j) => j.status === "failed" || (j.status === "done" && !!j.url),
+      isFinal: utils.isGenerationFinal,
       check: () => this.app.getGeneration({
         $,
         generationId,
       }),
     });
-    $.export("$summary", utils.statusSummary("Generation", job));
+    const summary = utils.statusSummary("Generation", job);
+    $.export("$summary", utils.isGenerationFinal(job)
+      ? summary
+      : `${summary}. Call again to get the URL.`);
     return job;
   },
 };

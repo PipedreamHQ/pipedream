@@ -4,7 +4,7 @@ import utils from "../../common/utils.mjs";
 export default {
   key: "shotstack-list-generation-models",
   name: "List Generation Models",
-  description: "List the AI models this account can generate with, each with its `model` ID, `type` (`image`, `video` or `audio`), `name` and the JSON Schema of the `options` it accepts. Call it before **Generate Asset** or **Quote Generation** so the model and its options exist. [See the documentation](https://shotstack.io/docs/api/#list-generation-models).",
+  description: "List the AI models this account can generate with, each with its `model` ID, `type` (`image`, `video` or `audio`), `name` and the JSON Schema of the `options` it accepts. Call it before **Generate Asset** or **Quote Generation** so the model and its options exist. [See the documentation](https://shotstack.io/docs/api/#list-generation-models)",
   version: "0.0.1",
   type: "action",
   ai: "optimized",
