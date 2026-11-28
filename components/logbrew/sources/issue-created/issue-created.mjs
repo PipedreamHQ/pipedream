@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import utils from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -12,14 +13,27 @@ export default {
   methods: {
     ...common.methods,
     async getItems(cursor) {
-      const issues = await this.logbrew.listIssues({
-        params: {
-          project_id: this.projectId,
-          since: cursor,
-          limit: 500,
-        },
-      });
-      return issues.map((issue) => this.logbrew.withUrl(issue));
+      const issues = [];
+      let next;
+      do {
+        const page = await this.logbrew.listIssues({
+          params: {
+            project_id: this.projectId,
+            since: cursor,
+            limit: 500,
+            pagination: "cursor",
+            cursor_time: next?.time,
+            cursor_id: next?.id,
+          },
+        });
+        issues.push(...page.issues);
+        // The first run reads one page: its issues are history, not new events.
+        next = cursor
+          ? page.next_cursor
+          : null;
+      } while (next);
+      const dashboardUrl = this.logbrew.getDashboardUrl();
+      return issues.map((issue) => utils.withIssueUrl(issue, dashboardUrl));
     },
     getTimestamp(issue) {
       return issue.first_seen_at;

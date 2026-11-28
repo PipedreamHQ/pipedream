@@ -1,4 +1,5 @@
 import common from "../common/base.mjs";
+import utils from "../../common/utils.mjs";
 import sampleEmit from "./test-event.mjs";
 
 export default {
@@ -22,7 +23,7 @@ export default {
     },
     generateMeta(rule) {
       return {
-        id: `${rule.id}-${rule.last_fired_at}`,
+        id: utils.hashId(rule.id, Date.parse(rule.last_fired_at)),
         summary: `Alert fired: ${rule.name}`,
         ts: Date.parse(rule.last_fired_at),
       };

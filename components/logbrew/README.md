@@ -1,6 +1,6 @@
 # Overview
 
-[LogBrew](https://logbrew.co) is error tracking and log management for your apps, with a free tier. LogBrew groups errors into issues, keeps your logs and traces, and fires alerts when something breaks. With the LogBrew components in Pipedream you can start a workflow when a new issue shows up or an alert fires, send logs from any workflow, and resolve issues when a fix ships.
+[LogBrew](https://logbrew.co) is error tracking and log management for your apps, with a free tier. LogBrew groups errors into issues, keeps your logs and traces, and fires alerts when something breaks. With the LogBrew components in Pipedream you can start a workflow when a new issue shows up or an alert fires, send logs from any workflow, look up projects and issues, and resolve issues when a fix ships.
 
 # Example Use Cases
 
@@ -8,6 +8,7 @@
 - **Open a ticket when an alert fires.** Use the New Alert source to create a Linear or Jira ticket for the on-call engineer.
 - **Log workflow results.** Add the Send Log action at the end of a workflow to keep a record of each run in LogBrew, with your own attributes such as an order ID.
 - **Resolve issues on deploy.** Run the Resolve Issue action from a deploy webhook when a release fixes a known issue.
+- **Find IDs for other steps.** Use List Projects and List Issues to get the project and issue IDs that the other actions take.
 
 # Getting Started
 

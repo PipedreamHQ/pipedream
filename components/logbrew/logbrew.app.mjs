@@ -9,7 +9,7 @@ export default {
     projectId: {
       type: "string",
       label: "Project",
-      description: "The LogBrew project to watch or write to",
+      description: "The LogBrew project ID, e.g. `11111111-1111-4111-8111-111111111111`. Use **List Projects** to find it (the `id` field).",
       async options() {
         const projects = await this.listProjects();
         return projects
@@ -25,7 +25,7 @@ export default {
     issueId: {
       type: "string",
       label: "Issue",
-      description: "The issue to change. Pick an unresolved issue from the list, or pass an issue ID from a LogBrew trigger.",
+      description: "The LogBrew issue ID, e.g. `0b9f7c4e-2f2a-4a8e-9a65-2d2a7e8f1c11`. Use **List Issues** to find it (the `id` field), or pass the `id` of a **New Issue** event.",
       async options({ projectId }) {
         const issues = await this.listIssues({
           params: {
@@ -47,7 +47,7 @@ export default {
     _apiUrl() {
       return (this.$auth.api_url || "https://api.logbrew.co").replace(/\/+$/, "");
     },
-    _dashboardUrl() {
+    getDashboardUrl() {
       const url = new URL(this._apiUrl());
       const host = url.host.startsWith("api.")
         ? url.host.slice("api.".length)
@@ -66,17 +66,6 @@ export default {
       });
     },
     /**
-     * Adds the LogBrew dashboard link to an issue
-     * @param {object} issue - An issue from the LogBrew API
-     * @returns {object} The issue with a `url` field
-     */
-    withUrl(issue) {
-      return {
-        ...issue,
-        url: `${this._dashboardUrl()}/dashboard/issues/${encodeURIComponent(issue.id)}`,
-      };
-    },
-    /**
      * Lists the projects the API token can read
      * @param {object} opts - Request options
      * @returns {Promise<object[]>} Projects with `id`, `name`, and `is_active`
@@ -90,8 +79,9 @@ export default {
     /**
      * Lists grouped issues, most recently seen first
      * @param {object} opts - Request options, with `params` such as `project_id`,
-     *   `status`, `since`, and `limit` (1 to 500)
-     * @returns {Promise<object[]>} Issues
+     *   `status`, `since`, `limit` (1 to 500), and `pagination: "cursor"`
+     * @returns {Promise<object[]|object>} Issues, or with `pagination: "cursor"` a page
+     *   of `issues` and `next_cursor`
      */
     listIssues(opts = {}) {
       return this._makeRequest({

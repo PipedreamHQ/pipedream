@@ -12,6 +12,7 @@ export default {
     readOnlyHint: false,
   },
   type: "action",
+  ai: "optimized",
   props: {
     logbrew,
     projectId: {
@@ -19,17 +20,17 @@ export default {
         logbrew,
         "projectId",
       ],
-      description: "The project that receives the log. Use the project of your ingest key.",
+      description: "The ID of the project that receives the log, e.g. `11111111-1111-4111-8111-111111111111`. Use the project of your ingest key. Use **List Projects** to find it (the `id` field).",
     },
     message: {
       type: "string",
       label: "Message",
-      description: "The log message, such as `Order sync failed for order A-1001`",
+      description: "The log message, e.g. `Order sync failed for order A-1001`",
     },
     level: {
       type: "string",
       label: "Level",
-      description: "The log level",
+      description: "The log level, e.g. `info`",
       options: [
         "debug",
         "info",
@@ -42,26 +43,26 @@ export default {
     serviceName: {
       type: "string",
       label: "Service Name",
-      description: "The service that LogBrew groups this log under",
+      description: "The service that LogBrew groups this log under, e.g. `order-worker`",
       default: "pipedream",
     },
     release: {
       type: "string",
       label: "Release",
-      description: "The release, version, or commit of the service",
+      description: "The release, version, or commit of the service, e.g. `v1.2.3`",
       default: "workflow",
     },
     environment: {
       type: "string",
       label: "Environment",
-      description: "The deployment environment, such as `production` or `staging`",
+      description: "The deployment environment, e.g. `production` or `staging`",
       default: "production",
       optional: true,
     },
     attributes: {
       type: "object",
       label: "Attributes",
-      description: "Extra fields to store with the log, such as `{ \"order_id\": \"A-1001\" }`",
+      description: "Extra fields to store with the log, e.g. `{ \"order_id\": \"A-1001\" }`",
       optional: true,
     },
   },
