@@ -43,31 +43,90 @@ export default {
       table,
       rowValues,
     } = this;
+
+    if (!schema || !table) {
+      throw new Error("Schema and table are required");
+    }
+
+    if (!rowValues) {
+      throw new Error("Row values are required");
+    }
+
     const results = [];
-    const parsedRowValues = parseRowValues(rowValues);
+    let parsedRowValues;
+    
+    try {
+      parsedRowValues = parseRowValues(rowValues);
+    } catch (error) {
+      throw new Error(`Invalid row values format: ${error.message}`);
+    }
+
+    if (!parsedRowValues) {
+      throw new Error("Parsed row values cannot be null or undefined");
+    }
+
     const parsedRowValuesArray = Array.isArray(parsedRowValues)
       ? parsedRowValues
-      : [
-        parsedRowValues,
-      ];
+      : [parsedRowValues];
+
+    if (parsedRowValuesArray.length === 0) {
+      throw new Error("No valid rows to insert");
+    }
 
     const errorMsg = "New row(s) not inserted due to an error. ";
 
-    for (const row of parsedRowValuesArray) {
-      const columns = Object.keys(row);
-      const values = Object.values(row);
-      const res = await this.postgresql.insertRow(
-        schema,
-        table,
-        columns,
-        values,
-        errorMsg,
-      );
-      results.push(res);
+
+    for (let i = 0; i < parsedRowValuesArray.length; i++) {
+      const row = parsedRowValuesArray[i];
+      
+      try {
+   
+        if (!row || typeof row !== 'object') {
+          throw new Error(`Row ${i + 1} is not a valid object`);
+        }
+
+        const columns = Object.keys(row);
+        const values = Object.values(row);
+
+        if (columns.length === 0) {
+          throw new Error(`Row ${i + 1} cannot be empty`);
+        }
+
+        console.log(`Inserting row ${i + 1}:`, { 
+          schema, 
+          table, 
+          columns, 
+          values: values.map(v => typeof v === 'string' && v.length > 100 ? `${v.substring(0, 100)}...` : v)
+        });
+
+        const res = await this.postgresql.insertRow(
+          schema,
+          table,
+          columns,
+          values,
+          errorMsg,
+        );
+        
+        results.push(res);
+        console.log(`Successfully inserted row ${i + 1}`);
+        
+      } catch (error) {
+        console.error(`Failed to insert row ${i + 1}:`, {
+          row,
+          error: error.message,
+          stack: error.stack
+        });
+        
+
+        throw new Error(`${errorMsg}Row ${i + 1}: ${error.message}`);
+      }
     }
-    $.export("$summary", `Successfully inserted ${results.length} row${results.length === 1
-      ? ""
-      : "s"}`);
+
+    const summary = `Successfully inserted ${results.length} row${results.length === 1 ? "" : "s"}`;
+    console.log(summary);
+    $.export("$summary", summary);
+    
     return results;
   },
 };
+
