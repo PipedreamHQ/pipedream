@@ -1,4 +1,4 @@
-import app from "../../shotstack.app.mjs";
+import generateAsset from "../generate-asset/generate-asset.mjs";
 import utils from "../../common/utils.mjs";
 
 export default {
@@ -13,42 +13,7 @@ export default {
     openWorldHint: true,
     readOnlyHint: true,
   },
-  props: {
-    app,
-    assetType: {
-      propDefinition: [
-        app,
-        "assetType",
-      ],
-    },
-    prompt: {
-      propDefinition: [
-        app,
-        "prompt",
-      ],
-    },
-    model: {
-      propDefinition: [
-        app,
-        "model",
-        (c) => ({
-          assetType: c.assetType,
-        }),
-      ],
-    },
-    modelOptions: {
-      propDefinition: [
-        app,
-        "modelOptions",
-      ],
-    },
-    length: {
-      propDefinition: [
-        app,
-        "length",
-      ],
-    },
-  },
+  props: generateAsset.props,
   async run({ $ }) {
     const quote = await this.app.quoteGeneration({
       $,
