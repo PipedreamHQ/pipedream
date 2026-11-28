@@ -1,0 +1,22 @@
+export default {
+  "id": "0b9f7c4e-2f2a-4a8e-9a65-2d2a7e8f1c11",
+  "project_id": "11111111-1111-4111-8111-111111111111",
+  "title": "PaymentError: card authorization timed out",
+  "message": "card authorization timed out after 3 attempts",
+  "severity": "error",
+  "triage": {
+    "effective_severity": "error",
+    "ignored": false,
+    "rule_applied": false,
+  },
+  "status": "unresolved",
+  "priority": "high",
+  "environment": "production",
+  "release": "api@1.2.3",
+  "service_name": "checkout-api",
+  "trace_id": "4bf92f3577b34da6a3ce929d0e0e4736",
+  "occurrence_count": 1,
+  "first_seen_at": "2026-11-25T12:00:00Z",
+  "last_seen_at": "2026-11-25T12:00:00Z",
+  "url": "https://logbrew.co/dashboard/issues/0b9f7c4e-2f2a-4a8e-9a65-2d2a7e8f1c11",
+};
