@@ -56,19 +56,22 @@ export default {
     // reads the issue again, and `dedupe: "unique"` drops issues already emitted.
     async emitNew({ max } = {}) {
       const state = this._getState();
-      const { head, issues } = await this.readIssues(state?.since);
+      const requestedAt = new Date().toISOString();
+      const {
+        head, issues,
+      } = await this.readIssues(state?.since);
       const cutoff = state
         ? Date.parse(state.cutoff)
         : 0;
       const fresh = issues
-        .filter((issue) => Date.parse(issue.first_seen_at) > cutoff)
+        .filter((issue) => Date.parse(issue.first_seen_at) >= cutoff)
         .sort((a, b) => Date.parse(a.first_seen_at) - Date.parse(b.first_seen_at));
       for (const issue of max
         ? fresh.slice(-max)
         : fresh) {
         this.$emit(issue, this.generateMeta(issue));
       }
-      const readPoint = head ?? state?.since ?? new Date().toISOString();
+      const readPoint = head ?? state?.since ?? requestedAt;
       this._setState({
         since: readPoint,
         cutoff: state?.since ?? readPoint,
